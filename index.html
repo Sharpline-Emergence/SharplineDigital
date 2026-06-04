@@ -8,30 +8,172 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+    .section    { padding: 5rem 0; }
+
+    .section-label { font-size: 0.72rem; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+    .section-title { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--text-dark); letter-spacing: -0.5px; margin-bottom: 0.6rem; line-height: 1.15; }
+    .section-title.light { color: var(--white); }
+    .section-sub { font-size: 1rem; color: var(--text-mid); max-width: 540px; line-height: 1.75; }
+    .section-sub.light { color: var(--muted); }
+
+    /* NAV */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; background: var(--navy); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); font-size: 0.88rem; text-decoration: none; font-weight: 400; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-cta { background: var(--teal); color: var(--navy); border: none; padding: 0.5rem 1.3rem; border-radius: 4px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 500; text-decoration: none; cursor: pointer; transition: background 0.2s; }
+    .nav-cta:hover { background: var(--teal-dark); }
+    .nav-toggle { display: none; background: none; border: none; color: var(--white); font-size: 1.5rem; cursor: pointer; padding: 0.2rem 0.4rem; }
+
+    /* HERO */
+    .hero { background: var(--navy); padding: 5rem 2.5rem 4.5rem; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5rem; align-items: center; max-width: 960px; margin: 0 auto; }
+    .eyebrow { font-size: 0.75rem; font-weight: 500; color: var(--teal); letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800; color: var(--white); line-height: 1.08; margin-bottom: 1.3rem; letter-spacing: -1.5px; }
+    .hero h1 em { color: var(--teal); font-style: normal; }
+    .hero-sub { font-size: 1rem; color: var(--muted); line-height: 1.75; margin-bottom: 2.2rem; font-weight: 300; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--teal); color: var(--navy); padding: 0.8rem 1.8rem; border-radius: 4px; font-size: 0.92rem; font-weight: 500; text-decoration: none; transition: background 0.2s; display: inline-block; }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-outline { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.25); padding: 0.8rem 1.8rem; border-radius: 4px; font-size: 0.92rem; font-weight: 400; text-decoration: none; transition: border-color 0.2s; display: inline-block; }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.55); }
+    .hero-card { background: rgba(46,196,169,0.08); border: 1px solid rgba(46,196,169,0.22); border-radius: 10px; padding: 2rem; }
+    .hero-stat { margin-bottom: 1.3rem; }
+    .hero-stat:last-child { margin-bottom: 0; }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 2.1rem; font-weight: 800; color: var(--teal); line-height: 1; }
+    .stat-label { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; line-height: 1.5; }
+    .stat-divider { border: none; border-top: 1px solid rgba(46,196,169,0.15); margin: 1.2rem 0; }
+
+    /* TRUST BAR */
+    .trust-bar { background: var(--teal-light); padding: 1.3rem 2.5rem; display: flex; align-items: center; justify-content: center; gap: 2.5rem; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #0f6e56; font-weight: 500; }
+    .trust-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); flex-shrink: 0; }
+
+    /* VALUE PROP */
+    .vp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.3rem; margin-top: 3rem; }
+    .vp-card { border: 1px solid var(--border); border-radius: 8px; padding: 1.6rem; transition: border-color 0.2s, transform 0.2s; }
+    .vp-card:hover { border-color: var(--teal); transform: translateY(-2px); }
+    .vp-icon { font-size: 1.4rem; margin-bottom: 1rem; width: 40px; height: 40px; background: var(--teal-light); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+    .vp-card h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .vp-card p { font-size: 0.85rem; color: var(--text-mid); line-height: 1.65; }
+
+    /* PACKAGES */
+    .packages-section { background: var(--navy); padding: 5rem 2.5rem; }
+    .pkg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.3rem; margin-top: 3rem; }
+    .pkg-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 2rem; position: relative; transition: border-color 0.2s; }
+    .pkg-card:hover { border-color: rgba(46,196,169,0.4); }
+    .pkg-card.featured { border-color: var(--teal); background: rgba(46,196,169,0.07); }
+    .pkg-badge { position: absolute; top: -12px; left: 1.5rem; background: var(--teal); color: var(--navy); font-size: 0.7rem; font-weight: 600; padding: 3px 12px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+    .pkg-name { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; color: var(--white); margin-bottom: 0.4rem; }
+    .pkg-price { font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800; color: var(--teal); margin: 0.7rem 0; line-height: 1; }
+    .pkg-price span { font-size: 0.85rem; font-weight: 400; color: var(--muted); }
+    .pkg-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.3rem; }
+    .pkg-features { list-style: none; }
+    .pkg-features li { font-size: 0.83rem; color: #c8dae6; padding: 0.28rem 0; display: flex; align-items: flex-start; gap: 0.5rem; }
+    .pkg-check { color: var(--teal); font-weight: 700; flex-shrink: 0; }
+
+    /* ADD-ONS */
+    .addons-section { background: var(--off-white); padding: 5rem 0; }
+    .addons-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .addon-item { background: var(--white); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; }
+    .addon-item h4 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.4rem; }
+    .addon-item p { font-size: 0.83rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 0.8rem; }
+    .addon-price { font-size: 0.85rem; color: var(--teal-dark); font-weight: 600; }
+
+    /* PROCESS */
+    .process-section { background: var(--off-white); padding: 5rem 0; border-top: 1px solid var(--border); }
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .step { text-align: center; padding: 1.5rem 1rem; }
+    .step-num { width: 44px; height: 44px; background: var(--navy); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 800; color: var(--teal); margin: 0 auto 1.2rem; }
+    .step h4 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .step p { font-size: 0.83rem; color: var(--text-mid); line-height: 1.65; }
+
+    /* CTA */
+    .cta-section { background: var(--teal); padding: 4.5rem 2.5rem; text-align: center; }
+    .cta-section h2 { font-family: 'Syne', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--navy); margin-bottom: 0.8rem; letter-spacing: -0.5px; }
+    .cta-section p { color: #085041; font-size: 1rem; margin-bottom: 2rem; }
+    .cta-btn { background: var(--navy); color: var(--white); padding: 0.9rem 2.4rem; border-radius: 4px; font-size: 0.95rem; font-weight: 500; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .cta-btn:hover { background: var(--navy-mid); }
+
+    /* FOOTER */
+    .footer { background: var(--navy-deep); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--teal); }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: #4a6075; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: var(--navy); padding: 1rem 2rem 1.5rem; gap: 1rem; }
+      .hero { padding: 3rem 1.5rem; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .vp-grid { grid-template-columns: 1fr 1fr; }
+      .pkg-grid { grid-template-columns: 1fr; }
+      .addons-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+      .trust-bar { gap: 1.2rem; padding: 1rem 1.5rem; }
+      .footer { flex-direction: column; text-align: center; }
+      .packages-section { padding: 4rem 1.5rem; }
+      .section-title { font-size: 1.7rem; }
+    }
+    @media (max-width: 480px) {
+      .vp-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.9rem; }
+    }
+  </style>
 </head>
 <body>
 
   <!-- NAV -->
   <nav class="nav">
     <div class="nav-logo">Sharpline<span>Digital</span></div>
-    <ul class="nav-links">
+    <ul class="nav-links" id="navLinks">
       <li><a href="#services">Services</a></li>
       <li><a href="#packages">Packages</a></li>
       <li><a href="#process">Process</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Get a Quote</a>
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-content">
-        <div class="eyebrow">Fraser Valley · British Columbia</div>
+        <div class="eyebrow">Fraser Valley &middot; British Columbia</div>
         <h1>Your website.<br><em>Your code.</em><br>No lock-in.</h1>
-        <p class="hero-sub">Custom-built websites for BC small businesses. Clean code, GitHub delivery — you own everything outright. Flexible packages from one-time builds to fully managed monthly support.</p>
+        <p class="hero-sub">Custom-built websites for BC small businesses. Clean code, GitHub delivery &mdash; you own everything outright. Flexible packages from one-time builds to fully managed monthly support.</p>
         <div class="hero-btns">
           <a href="#packages" class="btn-primary">See Our Packages</a>
           <a href="#contact" class="btn-outline">Get a Free Quote</a>
@@ -40,17 +182,17 @@
       <div class="hero-card">
         <div class="hero-stat">
           <div class="stat-num">5-page</div>
-          <div class="stat-label">Base builds — Home, About, Services, Contact + 1 more</div>
+          <div class="stat-label">Base builds &mdash; Home, About, Services, Contact + 1 more</div>
         </div>
         <hr class="stat-divider">
         <div class="hero-stat">
           <div class="stat-num">$200/mo</div>
-          <div class="stat-label">Fully managed maintenance — cancel anytime, 30 days notice</div>
+          <div class="stat-label">Fully managed maintenance &mdash; cancel anytime, 30 days notice</div>
         </div>
         <hr class="stat-divider">
         <div class="hero-stat">
           <div class="stat-num">100%</div>
-          <div class="stat-label">Code ownership — your GitHub repo, your asset, forever</div>
+          <div class="stat-label">Code ownership &mdash; your GitHub repo, your asset, forever</div>
         </div>
       </div>
     </div>
@@ -65,7 +207,7 @@
     <div class="trust-item"><span class="trust-dot"></span>E-commerce &amp; lead capture available</div>
   </div>
 
-  <!-- VALUE PROPOSITION -->
+  <!-- VALUE PROP -->
   <section class="section" id="services">
     <div class="container">
       <div class="section-label">Why Sharpline</div>
@@ -75,12 +217,12 @@
         <div class="vp-card">
           <div class="vp-icon">&#128279;</div>
           <h3>You own your code</h3>
-          <p>Every site is delivered via GitHub. Your repo, your asset. No platform dependency — ever.</p>
+          <p>Every site is delivered via GitHub. Your repo, your asset. No platform dependency &mdash; ever.</p>
         </div>
         <div class="vp-card">
           <div class="vp-icon">&#128188;</div>
           <h3>Real business experience</h3>
-          <p>We understand what drives small businesses — not just how to make things look pretty online.</p>
+          <p>We understand what drives small businesses &mdash; not just how to make things look pretty online.</p>
         </div>
         <div class="vp-card">
           <div class="vp-icon">&#128205;</div>
@@ -90,7 +232,7 @@
         <div class="vp-card">
           <div class="vp-icon">&#128241;</div>
           <h3>Mobile-first builds</h3>
-          <p>Every site is built for the phone first — because that's how your customers find you.</p>
+          <p>Every site is built for the phone first &mdash; because that&rsquo;s how your customers find you.</p>
         </div>
         <div class="vp-card">
           <div class="vp-icon">&#128722;</div>
@@ -100,7 +242,7 @@
         <div class="vp-card">
           <div class="vp-icon">&#9881;</div>
           <h3>Flexible packages</h3>
-          <p>From a clean one-time build to fully managed monthly support — you choose the level.</p>
+          <p>From a clean one-time build to fully managed monthly support &mdash; you choose the level.</p>
         </div>
       </div>
     </div>
@@ -117,12 +259,12 @@
         <div class="pkg-card">
           <div class="pkg-name">Build &amp; Go</div>
           <div class="pkg-price">From $2,500 <span>one-time</span></div>
-          <p class="pkg-desc">We build it, hand it off, you're done. Full GitHub repo delivered — take it anywhere.</p>
+          <p class="pkg-desc">We build it, hand it off, you&rsquo;re done. Full GitHub repo delivered &mdash; take it anywhere.</p>
           <ul class="pkg-features">
-            <li>&#10003; 5-page custom website</li>
-            <li>&#10003; GitHub repo — you own it</li>
-            <li>&#10003; Mobile-first responsive design</li>
-            <li>&#10003; 30-day post-launch support</li>
+            <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
+            <li><span class="pkg-check">&#10003;</span> GitHub repo &mdash; you own it</li>
+            <li><span class="pkg-check">&#10003;</span> Mobile-first responsive design</li>
+            <li><span class="pkg-check">&#10003;</span> 30-day post-launch support</li>
           </ul>
         </div>
 
@@ -132,22 +274,22 @@
           <div class="pkg-price">From $3,200 <span>one-time</span></div>
           <p class="pkg-desc">Build + hosting for year one + minor revisions for 6 months as your business settles in.</p>
           <ul class="pkg-features">
-            <li>&#10003; Everything in Build &amp; Go</li>
-            <li>&#10003; Year 1 hosting included</li>
-            <li>&#10003; Revisions under 1hr for 6 months</li>
-            <li>&#10003; Perfect for new businesses</li>
+            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
+            <li><span class="pkg-check">&#10003;</span> Year 1 hosting included</li>
+            <li><span class="pkg-check">&#10003;</span> Revisions under 1hr for 6 months</li>
+            <li><span class="pkg-check">&#10003;</span> Perfect for new businesses</li>
           </ul>
         </div>
 
         <div class="pkg-card">
           <div class="pkg-name">Build &amp; Host</div>
           <div class="pkg-price">From $2,750 <span>one-time</span></div>
-          <p class="pkg-desc">Custom build plus we handle hosting for year one — no server setup headaches.</p>
+          <p class="pkg-desc">Custom build plus we handle hosting for year one &mdash; no server setup headaches.</p>
           <ul class="pkg-features">
-            <li>&#10003; Everything in Build &amp; Go</li>
-            <li>&#10003; Year 1 hosting managed for you</li>
-            <li>&#10003; Domain setup assistance</li>
-            <li>&#10003; SSL certificate included</li>
+            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
+            <li><span class="pkg-check">&#10003;</span> Year 1 hosting managed for you</li>
+            <li><span class="pkg-check">&#10003;</span> Domain setup assistance</li>
+            <li><span class="pkg-check">&#10003;</span> SSL certificate included</li>
           </ul>
         </div>
 
@@ -155,12 +297,12 @@
           <div class="pkg-badge">Best Value Long-Term</div>
           <div class="pkg-name">Build &amp; Maintain</div>
           <div class="pkg-price">$200 <span>/ month</span></div>
-          <p class="pkg-desc">We handle everything ongoing. Up to 3hrs/mo of updates. Cancel with 30 days notice — no contracts.</p>
+          <p class="pkg-desc">We handle everything ongoing. Up to 3hrs/mo of updates. Cancel with 30 days notice &mdash; no contracts.</p>
           <ul class="pkg-features">
-            <li>&#10003; Up to 3 hours of updates per month</li>
-            <li>&#10003; Security &amp; backups managed</li>
-            <li>&#10003; Priority support response</li>
-            <li>&#10003; Cancel anytime — 30 days notice</li>
+            <li><span class="pkg-check">&#10003;</span> Up to 3 hours of updates per month</li>
+            <li><span class="pkg-check">&#10003;</span> Security &amp; backups managed</li>
+            <li><span class="pkg-check">&#10003;</span> Priority support response</li>
+            <li><span class="pkg-check">&#10003;</span> Cancel anytime &mdash; 30 days notice</li>
           </ul>
         </div>
 
@@ -169,15 +311,15 @@
   </section>
 
   <!-- ADD-ONS -->
-  <section class="section addons-section">
+  <section class="addons-section">
     <div class="container">
       <div class="section-label">Add-Ons</div>
-      <h2 class="section-title">Need more? We've got it.</h2>
+      <h2 class="section-title">Need more? We&rsquo;ve got it.</h2>
       <div class="addons-grid">
         <div class="addon-item">
           <h4>Additional pages</h4>
-          <p>Beyond your base 5 — blog, gallery, team, FAQ, anything you need.</p>
-          <div class="addon-price">$200–$250 per page</div>
+          <p>Beyond your base 5 &mdash; blog, gallery, team, FAQ, anything you need.</p>
+          <div class="addon-price">$200&ndash;$250 per page</div>
         </div>
         <div class="addon-item">
           <h4>E-commerce store</h4>
@@ -207,12 +349,12 @@
         <div class="step">
           <div class="step-num">2</div>
           <h4>You send content</h4>
-          <p>Provide your copy and photography — we handle everything else.</p>
+          <p>Provide your copy and photography &mdash; we handle everything else.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <h4>We build &amp; review</h4>
-          <p>Clean custom build, your feedback, revisions until it's right.</p>
+          <p>Clean custom build, your feedback, revisions until it&rsquo;s right.</p>
         </div>
         <div class="step">
           <div class="step-num">4</div>
@@ -233,7 +375,7 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p>Fraser Valley, British Columbia &nbsp;·&nbsp; hello@sharplinedigital.ca</p>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.ca</p>
     <div class="footer-links">
       <a href="#services">Services</a>
       <a href="#packages">Packages</a>
@@ -241,6 +383,45 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script>
+    // Mobile nav toggle
+    const toggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('open'));
+      });
+    }
+
+    // Smooth scroll with offset for sticky nav
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          const top = target.getBoundingClientRect().top + window.scrollY - 72;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // Fade-in on scroll
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.vp-card, .pkg-card, .addon-item, .step').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      observer.observe(el);
+    });
+  </script>
 </body>
 </html>
