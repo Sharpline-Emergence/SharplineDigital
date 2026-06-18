@@ -176,7 +176,13 @@
     .success-card h2 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.6rem; }
     .success-card p { color: var(--text-mid); font-size: 0.92rem; line-height: 1.7; }
 
-    /* ERROR */
+    /* ADDON CHECKBOXES — native input driven */
+    .addon-label input[type="checkbox"] { display: none; }
+    .addon-label input[type="checkbox"]:checked ~ .option-check {
+      background: var(--teal); border-color: var(--teal);
+    }
+    .addon-label input[type="checkbox"]:checked ~ .option-check::after { content: '✓'; }
+    .addon-label:has(input:checked) { border-color: var(--teal); background: var(--teal-light); }
     .error-msg { font-size: 0.78rem; color: var(--error); margin-top: 0.3rem; display: none; }
 
     /* FOOTER */
@@ -350,22 +356,22 @@
       <div style="margin-top:1.5rem;">
         <p class="step-sub" style="margin-bottom:0.8rem;">Any add-ons you&rsquo;re interested in? <em style="font-style:normal;color:var(--text-mid)">(optional, check all that apply)</em></p>
         <div class="options-grid">
-          <label class="option-label" onclick="toggleCheck(this)">
+          <label class="option-label addon-label">
             <input type="checkbox" name="addons" value="ecommerce">
             <span class="option-check"></span>
             &#128722; E-commerce store
           </label>
-          <label class="option-label" onclick="toggleCheck(this)">
+          <label class="option-label addon-label">
             <input type="checkbox" name="addons" value="forms">
             <span class="option-check"></span>
             &#128203; Lead capture forms
           </label>
-          <label class="option-label" onclick="toggleCheck(this)">
+          <label class="option-label addon-label">
             <input type="checkbox" name="addons" value="extra-pages">
             <span class="option-check"></span>
             &#128196; Extra pages
           </label>
-          <label class="option-label" onclick="toggleCheck(this)">
+          <label class="option-label addon-label">
             <input type="checkbox" name="addons" value="unsure">
             <span class="option-check"></span>
             &#129300; Not sure yet
