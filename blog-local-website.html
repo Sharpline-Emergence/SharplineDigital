@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Why Fraser Valley small businesses need a fast, custom-coded local website alongside their social media presence in 2026 and beyond.">
+  <title>Why Your BC Business Needs More Than Social Media | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/index.html" class="nav-back">&#8592; Back to home</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">June 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">7 min read</span>
+      </div>
+      <h1>Why Your BC Business Needs More Than<br><em>Social Media</em></h1>
+      <p class="hero-byline">By <strong>Peter Beal</strong> &mdash; 26 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>AI search tools like Google's AI Overviews and ChatGPT pull answers from real websites — not Instagram posts</li>
+        <li>Social platforms control your reach; your website is the one digital asset you own outright</li>
+        <li>A local, professional website builds trust with Fraser Valley customers in ways a Facebook page simply can't</li>
+        <li>Page speed is a Google ranking factor — custom-coded sites consistently outperform page builders</li>
+        <li>Blog content and website copy compound over time; social posts disappear in 24–48 hours</li>
+        <li>The winning formula: a fast, clean website as your foundation, social media as the traffic driver</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        If you run a small business in the Fraser Valley, you've probably heard the advice: "just get on Instagram," or "a Facebook page is all you need." And there's truth in it — social media reaches people where they spend their time. But in 2026, relying on social platforms alone leaves your business on shaky ground. Here's why a fast, custom-coded local website isn't optional anymore — it's the foundation everything else should be built on.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> AI Search Has Changed the Rules</h2>
+      <p>
+        Google's AI Overviews — the AI-generated summaries now appearing at the top of search results — pull information directly from websites with clear, structured, authoritative content. Tools like ChatGPT, Perplexity, and Microsoft Copilot do the same when users ask business-related questions. <strong>These AI systems cannot read your Instagram feed or your Facebook posts.</strong> They index web pages.
+      </p>
+      <p>
+        A small business with a well-written, fast-loading website is far more likely to be cited in an AI-generated answer than a business with only a social presence. As AI-powered search becomes the norm — and it is becoming the norm rapidly — your website is your entry point into that conversation. Without one, you're invisible to an increasingly large slice of how people find local businesses.
+      </p>
+
+      <div class="pull-quote">
+        <p>"AI search tools can't read your Instagram feed. They index web pages. Without a website, you're invisible to the fastest-growing search channel."</p>
+      </div>
+
+      <h2><span class="h2-num">02 /</span> You Don't Own Your Social Media Presence</h2>
+      <p>
+        This is the one most business owners don't think about until it's too late. Every follower you've built on Instagram, every post you've published on Facebook, every video on TikTok — none of it belongs to you. It belongs to the platform.
+      </p>
+      <p>
+        Algorithms change without warning and organic reach gets throttled. Platforms introduce paid promotion requirements to reach your own audience. Accounts get suspended, sometimes for reasons that are never clearly explained. And in the most extreme cases, entire platforms disappear or get blocked — something the TikTok situation in the United States made very real for millions of business owners in early 2025 — a warning sign that remains relevant today.<sup>1</sup>
+      </p>
+      <p>
+        <strong>Your website is different.</strong> You own the domain. You own the code. You own the content. No algorithm decides who sees it, and no platform can take it away. Social media should drive traffic to your website — not replace it.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">68%</div>
+          <div class="stat-label">of online experiences begin with a search engine<sup>2</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">46%</div>
+          <div class="stat-label">of all Google searches have local intent<sup>3</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">75%</div>
+          <div class="stat-label">of users never scroll past the first page of results<sup>4</sup></div>
+        </div>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> Local Trust Is Built on a Professional Web Presence</h2>
+      <p>
+        When a Fraser Valley homeowner is looking for a plumber, a physiotherapist, or a landscaper, they don't just want to find you — they want to feel confident hiring you. A professional, well-designed local website does something a Facebook page simply cannot: it signals permanence, credibility, and investment in your own business.
+      </p>
+      <p>
+        Research consistently shows that <strong>75% of consumers judge a business's credibility based on its website design.</strong><sup>5</sup> A dated or absent web presence creates doubt, even when your actual work is excellent. Pair a clean website with a verified Google Business Profile and you have the local trust combination that converts searchers into customers.
+      </p>
+      <p>
+        There's also a practical difference in what a website can communicate. Your hours, your service area, your process, your pricing structure, customer testimonials, before-and-after photography — all of this lives on your website in a form that's easy to find and easy to reference. Social posts get buried. Website pages stay put.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> Page Speed Is a Ranking Factor — and Page Builders Are Slow</h2>
+      <p>
+        Google has officially incorporated Core Web Vitals — measurements of how fast and stable a page loads — into its search ranking algorithm.<sup>6</sup> This matters directly for local businesses trying to appear in search results.
+      </p>
+      <p>
+        The problem with popular website platforms like Wix, Squarespace, and WordPress with visual page builders is that they generate bloated, heavy code to power their drag-and-drop interfaces. That overhead slows your site down — and slow sites rank lower, and lose visitors. Studies show that <strong>a one-second delay in page load time can reduce conversions by 7%.</strong><sup>7</sup>
+      </p>
+      <p>
+        A custom-coded website, built with clean HTML, CSS, and JavaScript and hosted on a fast platform, loads significantly faster by default. There's no page builder overhead, no unnecessary plugins, no excess JavaScript. The result is a measurable advantage in both search rankings and user experience — particularly on mobile, where the majority of local searches now happen.
+      </p>
+
+      <h2><span class="h2-num">05 /</span> Website Content Compounds. Social Posts Don't.</h2>
+      <p>
+        A post on Instagram has an average lifespan of roughly 48 hours in feeds before it's essentially gone.<sup>8</sup> A well-written page on your website — a service description, a blog article, a FAQ — can rank in search results and drive traffic for years.
+      </p>
+      <p>
+        This compounding effect is one of the most underappreciated advantages of investing in a proper website. Every piece of content you add increases the total surface area search engines can index and rank. Over time, a website with genuine, useful content builds authority that social media simply cannot replicate.
+      </p>
+      <p>
+        Think of your website as the asset and social media as the amplifier. Write a useful article on your website, then share it across your social channels. The social post drives immediate traffic; the web page keeps working quietly in the background for months and years afterward.
+      </p>
+
+      <div class="pull-quote">
+        <p>"Your website is the asset. Social media is the amplifier. One compounds over time — the other disappears in 48 hours."</p>
+      </div>
+
+      <h2><span class="h2-num">06 /</span> The Winning Formula for Fraser Valley Businesses</h2>
+      <p>
+        None of this is an argument against social media. Instagram, Facebook, and LinkedIn remain valuable tools for visibility, community building, and staying top-of-mind with existing customers. The point is the relationship between the two.
+      </p>
+      <p>
+        <strong>Your website is your home base.</strong> It's where you control the message, own the content, and make the sale. Social media is the network of roads that lead people there. A business that builds roads without having a destination isn't going to grow.
+      </p>
+      <p>
+        For BC small businesses specifically, the local search opportunity is significant. "Near me" searches have grown dramatically year over year, and Google continues to prioritize local results for users searching with geographic intent. A fast, properly structured local website — one that clearly identifies your service area, your business name, and your offerings — is the most reliable way to capture that traffic.
+      </p>
+      <p>
+        The businesses that will win local search over the next five years are the ones building real digital foundations now: a clean, fast, custom-coded website they own outright, paired with an active social presence that drives people to it. The good news is that for most Fraser Valley small businesses, that foundation is still well within reach — and the competition that has it is still relatively thin.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>BBC News. (2025, January — referenced 2026). <em>TikTok ban: What happened and what comes next.</em> <a href="https://www.bbc.com/news/technology" target="_blank" rel="noopener">bbc.com/news/technology</a></li>
+          <li>BrightEdge Research. (2024). <em>Organic search drives 68% of online experiences.</em> <a href="https://www.brightedge.com" target="_blank" rel="noopener">brightedge.com</a></li>
+          <li>Google. (2024). <em>Think with Google: Local search statistics.</em> <a href="https://www.thinkwithgoogle.com" target="_blank" rel="noopener">thinkwithgoogle.com</a></li>
+          <li>Chitika Insights. (2023). <em>The value of Google result positioning.</em></li>
+          <li>Stanford Web Credibility Research. (2023). <em>How people evaluate a website's credibility.</em> <a href="https://credibility.stanford.edu" target="_blank" rel="noopener">credibility.stanford.edu</a></li>
+          <li>Google Search Central. (2024). <em>Understanding Core Web Vitals and Google Search.</em> <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" target="_blank" rel="noopener">developers.google.com</a></li>
+          <li>Akamai Technologies. (2023). <em>The impact of web performance on conversions.</em> <a href="https://www.akamai.com" target="_blank" rel="noopener">akamai.com</a></li>
+          <li>Hootsuite / We Are Social. (2024). <em>Digital 2024 Global Overview Report.</em> <a href="https://wearesocial.com/uk/blog/2024/01/digital-2024/" target="_blank" rel="noopener">wearesocial.com</a></li>
+        </ol>
+      </div>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">Peter Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio">Peter brings 26 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Ready to build your digital foundation?</h3>
+        <p>A fast, custom-coded website built for your BC business — you own the code, outright, forever.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
