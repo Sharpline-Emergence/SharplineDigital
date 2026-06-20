@@ -10,216 +10,105 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --teal:       #2ec4a9;
-      --teal-dark:  #1a9e87;
-      --teal-light: #e1f7f3;
-      --navy:       #0a1628;
-      --navy-mid:   #152238;
-      --navy-deep:  #06101e;
-      --white:      #ffffff;
-      --off-white:  #f7fafc;
-      --muted:      #a8c0d6;
-      --text-dark:  #0a1628;
-      --text-mid:   #5a7a8a;
-      --border:     #dde8f0;
-      --error:      #c0392b;
+      --teal:#2ec4a9;--teal-dark:#1a9e87;--teal-light:#e1f7f3;
+      --navy:#0a1628;--navy-mid:#152238;--navy-deep:#06101e;
+      --white:#ffffff;--off-white:#f7fafc;--muted:#a8c0d6;
+      --text-dark:#0a1628;--text-mid:#5a7a8a;--border:#dde8f0;--error:#c0392b;
     }
-
-    html { scroll-behavior: smooth; }
-    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--off-white); line-height: 1.6; }
-
-    /* NAV */
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; background: var(--navy); }
-    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
-    .nav-logo span { color: var(--white); }
-    .nav-back { color: var(--muted); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
-    .nav-back:hover { color: var(--teal); }
-
-    /* HERO STRIP */
-    .hero-strip { background: var(--navy); padding: 2.5rem 2.5rem 3rem; text-align: center; }
-    .hero-strip .eyebrow { font-size: 0.72rem; font-weight: 500; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
-    .hero-strip h1 { font-family: 'Outfit', sans-serif; font-size: 2.2rem; font-weight: 800; color: var(--white); letter-spacing: -0.5px; margin-bottom: 0.5rem; }
-    .hero-strip p { color: var(--muted); font-size: 0.95rem; font-weight: 300; }
-
-    /* FORM CONTAINER */
-    .form-wrap { max-width: 680px; margin: -1.5rem auto 4rem; padding: 0 1.5rem; }
-
-    /* STEP CARD */
-    .step-card {
-      background: var(--white);
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      padding: 2rem 2.2rem;
-      margin-bottom: 1.2rem;
-      display: none;
-    }
-    .step-card.active { display: block; }
-
-    .step-badge {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      background: var(--teal-light); color: #0f6e56;
-      font-size: 0.7rem; font-weight: 600; letter-spacing: 1.5px;
-      text-transform: uppercase; padding: 4px 10px; border-radius: 20px;
-      margin-bottom: 1rem;
-    }
-    .step-card h2 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.3rem; }
-    .step-card .step-sub { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 1.5rem; }
-
-    /* PROGRESS BAR */
-    .progress-wrap { margin-bottom: 1.5rem; }
-    .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-mid); margin-bottom: 0.4rem; }
-    .progress-track { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--teal); border-radius: 4px; transition: width 0.4s ease; }
-
-    /* OPTION CARDS (checkbox style) */
-    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.7rem; }
-    .options-grid.single { grid-template-columns: 1fr; }
-    .options-grid.three { grid-template-columns: 1fr 1fr 1fr; }
-
-    .option-label {
-      display: flex; align-items: center; gap: 0.75rem;
-      border: 1.5px solid var(--border); border-radius: 8px;
-      padding: 0.85rem 1rem; cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      font-size: 0.9rem; font-weight: 400; color: var(--text-dark);
-      user-select: none;
-    }
-    .option-label:hover { border-color: var(--teal); background: var(--teal-light); }
-    .option-label input[type="checkbox"],
-    .option-label input[type="radio"] { display: none; }
-    .option-check {
-      width: 18px; height: 18px; border-radius: 4px;
-      border: 1.5px solid var(--border); background: var(--white);
-      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-      transition: border-color 0.2s, background 0.2s;
-      font-size: 11px; color: var(--white);
-    }
-    .option-label.radio .option-check { border-radius: 50%; }
-    .option-label input:checked ~ .option-check,
-    .option-label.selected .option-check {
-      background: var(--teal); border-color: var(--teal);
-    }
-    .option-label input:checked ~ .option-check::after,
-    .option-label.selected .option-check::after { content: '✓'; }
-    .option-label.selected { border-color: var(--teal); background: var(--teal-light); }
-
-    /* TEXT INPUTS */
-    .field { margin-bottom: 1.1rem; }
-    .field label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-dark); margin-bottom: 0.4rem; }
-    .field input[type="text"],
-    .field input[type="email"],
-    .field input[type="tel"],
-    .field textarea,
-    .field select {
-      width: 100%; padding: 0.7rem 1rem;
-      border: 1.5px solid var(--border); border-radius: 6px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.9rem; color: var(--text-dark);
-      background: var(--white); transition: border-color 0.2s;
-      outline: none;
-    }
-    .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--teal); }
-    .field textarea { resize: vertical; min-height: 90px; }
-    .field .hint { font-size: 0.78rem; color: var(--text-mid); margin-top: 0.3rem; }
-
-    /* CONTACT METHOD SECTION */
-    .contact-methods { display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 1.2rem; }
-    .contact-method-row { border: 1.5px solid var(--border); border-radius: 8px; padding: 0.85rem 1rem; transition: border-color 0.2s; }
-    .contact-method-row.active { border-color: var(--teal); background: var(--teal-light); }
-    .contact-method-toggle { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; }
-    .contact-method-toggle input[type="checkbox"] { display: none; }
-    .method-check {
-      width: 18px; height: 18px; border-radius: 4px;
-      border: 1.5px solid var(--border); background: var(--white);
-      flex-shrink: 0; display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: var(--white); transition: all 0.2s;
-    }
-    .method-check.checked { background: var(--teal); border-color: var(--teal); }
-    .method-check.checked::after { content: '✓'; }
-    .method-label { font-size: 0.9rem; font-weight: 500; color: var(--text-dark); }
-    .method-detail { margin-top: 0.8rem; display: none; }
-    .method-detail.show { display: block; }
-    .method-detail input { width: 100%; padding: 0.6rem 0.9rem; border: 1.5px solid var(--border); border-radius: 6px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; outline: none; }
-    .method-detail input:focus { border-color: var(--teal); }
-
-    /* BUTTONS */
-    .btn-row { display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.8rem; }
-    .btn-next {
-      background: var(--teal); color: var(--navy); border: none;
-      padding: 0.75rem 2rem; border-radius: 6px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 500;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .btn-next:hover { background: var(--teal-dark); }
-    .btn-back {
-      background: transparent; color: var(--text-mid); border: 1.5px solid var(--border);
-      padding: 0.75rem 1.5rem; border-radius: 6px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.92rem;
-      cursor: pointer; transition: border-color 0.2s;
-    }
-    .btn-back:hover { border-color: var(--text-mid); }
-    .btn-submit {
-      background: var(--navy); color: var(--white); border: none;
-      padding: 0.75rem 2rem; border-radius: 6px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.92rem; font-weight: 500;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .btn-submit:hover { background: var(--navy-mid); }
-
-    /* SUCCESS */
-    .success-card {
-      background: var(--white); border-radius: 10px; border: 1px solid var(--border);
-      padding: 3rem 2.5rem; text-align: center; display: none;
-    }
-    .success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-    .success-card h2 { font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--text-dark); margin-bottom: 0.6rem; }
-    .success-card p { color: var(--text-mid); font-size: 0.92rem; line-height: 1.7; }
-
-    /* ADDON CHECKBOXES — native input driven */
-    .addon-label input[type="checkbox"] { display: none; }
-    .addon-label input[type="checkbox"]:checked ~ .option-check {
-      background: var(--teal); border-color: var(--teal);
-    }
-    .addon-label input[type="checkbox"]:checked ~ .option-check::after { content: '✓'; }
-    .addon-label:has(input:checked) { border-color: var(--teal); background: var(--teal-light); }
-    .error-msg { font-size: 0.78rem; color: var(--error); margin-top: 0.3rem; display: none; }
-
-    /* FOOTER */
-    .footer { background: var(--navy-deep); padding: 1.5rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-    .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1rem; color: var(--teal); }
-    .footer-logo span { color: var(--white); }
-    .footer p { font-size: 0.75rem; color: #4a6075; }
-
-    @media (max-width: 600px) {
-      .options-grid { grid-template-columns: 1fr; }
-      .options-grid.three { grid-template-columns: 1fr 1fr; }
-      .hero-strip h1 { font-size: 1.7rem; }
-      .nav { padding: 1rem 1.2rem; }
-      .form-wrap { padding: 0 1rem; }
-      .step-card { padding: 1.5rem 1.3rem; }
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;color:var(--text-dark);background:var(--off-white);line-height:1.6;}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;background:var(--navy);}
+    .nav-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.3rem;color:var(--teal);letter-spacing:-0.5px;text-decoration:none;}
+    .nav-logo span{color:var(--white);}
+    .nav-back{color:var(--muted);font-size:0.85rem;text-decoration:none;display:flex;align-items:center;gap:0.4rem;transition:color 0.2s;}
+    .nav-back:hover{color:var(--teal);}
+    .hero-strip{background:var(--navy);padding:2.5rem 2.5rem 3rem;text-align:center;}
+    .hero-strip .eyebrow{font-size:0.72rem;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:var(--teal);margin-bottom:0.6rem;}
+    .hero-strip h1{font-family:'Outfit',sans-serif;font-size:2.2rem;font-weight:800;color:var(--white);letter-spacing:-0.5px;margin-bottom:0.5rem;}
+    .hero-strip p{color:var(--muted);font-size:0.95rem;font-weight:300;}
+    .form-wrap{max-width:680px;margin:-1.5rem auto 4rem;padding:0 1.5rem;}
+    .step-card{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:2rem 2.2rem;margin-bottom:1.2rem;display:none;}
+    .step-card.active{display:block;}
+    .step-badge{display:inline-flex;align-items:center;gap:0.4rem;background:var(--teal-light);color:#0f6e56;font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:20px;margin-bottom:1rem;}
+    .step-card h2{font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text-dark);margin-bottom:0.3rem;}
+    .step-card .step-sub{font-size:0.85rem;color:var(--text-mid);margin-bottom:1.5rem;}
+    .progress-wrap{margin-bottom:1.5rem;}
+    .progress-label{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--text-mid);margin-bottom:0.4rem;}
+    .progress-track{height:4px;background:var(--border);border-radius:4px;overflow:hidden;}
+    .progress-fill{height:100%;background:var(--teal);border-radius:4px;transition:width 0.4s ease;}
+    .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;}
+    .options-grid.single{grid-template-columns:1fr;}
+    .option-label{display:flex;align-items:center;gap:0.75rem;border:1.5px solid var(--border);border-radius:8px;padding:0.85rem 1rem;cursor:pointer;transition:border-color 0.2s,background 0.2s;font-size:0.9rem;font-weight:400;color:var(--text-dark);user-select:none;}
+    .option-label:hover{border-color:var(--teal);background:var(--teal-light);}
+    .option-label input[type="checkbox"],.option-label input[type="radio"]{display:none;}
+    .option-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);background:var(--white);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:border-color 0.2s,background 0.2s;font-size:11px;color:var(--white);}
+    .option-label.radio .option-check{border-radius:50%;}
+    .option-label input:checked~.option-check,.option-label.selected .option-check{background:var(--teal);border-color:var(--teal);}
+    .option-label input:checked~.option-check::after,.option-label.selected .option-check::after{content:'✓';}
+    .option-label.selected{border-color:var(--teal);background:var(--teal-light);}
+    .addon-label input[type="checkbox"]{display:none;}
+    .addon-label input[type="checkbox"]:checked~.option-check{background:var(--teal);border-color:var(--teal);}
+    .addon-label input[type="checkbox"]:checked~.option-check::after{content:'✓';}
+    .addon-label:has(input:checked){border-color:var(--teal);background:var(--teal-light);}
+    .field{margin-bottom:1.1rem;}
+    .field label{display:block;font-size:0.85rem;font-weight:500;color:var(--text-dark);margin-bottom:0.4rem;}
+    .field input[type="text"],.field input[type="email"],.field input[type="tel"],.field textarea{width:100%;padding:0.7rem 1rem;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.9rem;color:var(--text-dark);background:var(--white);transition:border-color 0.2s;outline:none;}
+    .field input:focus,.field textarea:focus{border-color:var(--teal);}
+    .field textarea{resize:vertical;min-height:90px;}
+    .contact-methods{display:flex;flex-direction:column;gap:0.7rem;margin-bottom:1.2rem;}
+    .contact-method-row{border:1.5px solid var(--border);border-radius:8px;padding:0.85rem 1rem;transition:border-color 0.2s;}
+    .contact-method-row.active{border-color:var(--teal);background:var(--teal-light);}
+    .contact-method-toggle{display:flex;align-items:center;gap:0.75rem;cursor:pointer;}
+    .method-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border);background:var(--white);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--white);transition:all 0.2s;}
+    .method-check.checked{background:var(--teal);border-color:var(--teal);}
+    .method-check.checked::after{content:'✓';}
+    .method-label{font-size:0.9rem;font-weight:500;color:var(--text-dark);}
+    .method-detail{margin-top:0.8rem;display:none;}
+    .method-detail.show{display:block;}
+    .method-detail input{width:100%;padding:0.6rem 0.9rem;border:1.5px solid var(--border);border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.88rem;outline:none;}
+    .method-detail input:focus{border-color:var(--teal);}
+    .btn-row{display:flex;gap:1rem;justify-content:flex-end;margin-top:1.8rem;}
+    .btn-next{background:var(--teal);color:var(--navy);border:none;padding:0.75rem 2rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:500;cursor:pointer;transition:background 0.2s;}
+    .btn-next:hover{background:var(--teal-dark);}
+    .btn-back{background:transparent;color:var(--text-mid);border:1.5px solid var(--border);padding:0.75rem 1.5rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.92rem;cursor:pointer;transition:border-color 0.2s;}
+    .btn-back:hover{border-color:var(--text-mid);}
+    .btn-submit{background:var(--navy);color:var(--white);border:none;padding:0.75rem 2rem;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:500;cursor:pointer;transition:background 0.2s;}
+    .btn-submit:hover{background:var(--navy-mid);}
+    .btn-submit:disabled{opacity:0.6;cursor:not-allowed;}
+    .success-card{background:var(--white);border-radius:10px;border:1px solid var(--border);padding:3rem 2.5rem;text-align:center;display:none;}
+    .success-icon{font-size:2.5rem;margin-bottom:1rem;}
+    .success-card h2{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem;}
+    .success-card p{color:var(--text-mid);font-size:0.92rem;line-height:1.7;}
+    .error-msg{font-size:0.78rem;color:var(--error);margin-top:0.3rem;display:none;}
+    .footer{background:var(--navy-deep);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+    .footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:var(--teal);}
+    .footer-logo span{color:var(--white);}
+    .footer p{font-size:0.75rem;color:#4a6075;}
+    @media(max-width:600px){
+      .options-grid{grid-template-columns:1fr;}
+      .hero-strip h1{font-size:1.7rem;}
+      .nav{padding:1rem 1.2rem;}
+      .form-wrap{padding:0 1rem;}
+      .step-card{padding:1.5rem 1.3rem;}
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav class="nav">
     <div class="nav-logo">Sharpline<span>Digital</span></div>
     <a href="/index.html" class="nav-back">&#8592; Back to home</a>
   </nav>
 
-  <!-- HERO STRIP -->
   <div class="hero-strip">
     <div class="eyebrow">Free &mdash; No obligation</div>
     <h1>Get a Website Quote</h1>
     <p>Answer a few quick questions and we&rsquo;ll be in touch within one business day.</p>
   </div>
 
-  <!-- FORM -->
   <div class="form-wrap">
 
-    <!-- PROGRESS -->
     <div class="progress-wrap" id="progressWrap">
       <div class="progress-label">
         <span id="stepLabel">Step 1 of 5</span>
@@ -228,85 +117,51 @@
       <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
     </div>
 
-    <!-- STEP 1: Business Status -->
+    <!-- STEP 1 -->
     <div class="step-card active" id="step1">
       <div class="step-badge">Step 1</div>
       <h2>Tell us about your business</h2>
       <p class="step-sub">Select all that apply.</p>
       <div class="options-grid">
         <label class="option-label radio" onclick="selectRadio(this,'bizStatus','new')">
-          <input type="radio" name="bizStatus" value="new">
-          <span class="option-check"></span>
-          &#127995; New business
+          <input type="radio" name="bizStatus" value="new"><span class="option-check"></span>&#127995; New business
         </label>
         <label class="option-label radio" onclick="selectRadio(this,'bizStatus','existing')">
-          <input type="radio" name="bizStatus" value="existing">
-          <span class="option-check"></span>
-          &#128200; Existing business
+          <input type="radio" name="bizStatus" value="existing"><span class="option-check"></span>&#128200; Existing business
         </label>
       </div>
       <div id="bizStatusError" class="error-msg">Please select one option.</div>
-
       <div style="margin-top:1.5rem;">
         <p class="step-sub" style="margin-bottom:0.8rem;">Do you already have a website?</p>
         <div class="options-grid">
           <label class="option-label radio" onclick="selectRadio(this,'hasWebsite','yes')">
-            <input type="radio" name="hasWebsite" value="yes">
-            <span class="option-check"></span>
-            &#10003;&nbsp; Yes, I have one
+            <input type="radio" name="hasWebsite" value="yes"><span class="option-check"></span>&#10003;&nbsp; Yes, I have one
           </label>
           <label class="option-label radio" onclick="selectRadio(this,'hasWebsite','no')">
-            <input type="radio" name="hasWebsite" value="no">
-            <span class="option-check"></span>
-            &#10007;&nbsp; No website yet
+            <input type="radio" name="hasWebsite" value="no"><span class="option-check"></span>&#10007;&nbsp; No website yet
           </label>
         </div>
         <div id="hasWebsiteError" class="error-msg">Please select one option.</div>
       </div>
-
-      <div class="field" id="currentUrlField" style="margin-top:1.2rem; display:none;">
+      <div class="field" id="currentUrlField" style="margin-top:1.2rem;display:none;">
         <label>Current website URL</label>
         <input type="text" id="currentUrl" placeholder="https://yoursite.com">
       </div>
       <div class="btn-row"><button class="btn-next" onclick="goNext(1)">Next &rarr;</button></div>
     </div>
 
-    <!-- STEP 2: Business Category -->
+    <!-- STEP 2 -->
     <div class="step-card" id="step2">
       <div class="step-badge">Step 2</div>
       <h2>What type of business are you in?</h2>
       <p class="step-sub">Choose the closest match.</p>
       <div class="options-grid">
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','trades')">
-          <input type="radio" name="bizCat" value="trades">
-          <span class="option-check"></span>
-          &#128295; Trades &amp; contractors
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','health')">
-          <input type="radio" name="bizCat" value="health">
-          <span class="option-check"></span>
-          &#129657; Health &amp; wellness
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','restaurant')">
-          <input type="radio" name="bizCat" value="restaurant">
-          <span class="option-check"></span>
-          &#127869; Restaurant &amp; food
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','retail')">
-          <input type="radio" name="bizCat" value="retail">
-          <span class="option-check"></span>
-          &#128717; Retail &amp; e-commerce
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','professional')">
-          <input type="radio" name="bizCat" value="professional">
-          <span class="option-check"></span>
-          &#128084; Professional services
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'bizCat','other')">
-          <input type="radio" name="bizCat" value="other">
-          <span class="option-check"></span>
-          &#128218; Other
-        </label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','trades')"><input type="radio" name="bizCat" value="trades"><span class="option-check"></span>&#128295; Trades &amp; contractors</label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','health')"><input type="radio" name="bizCat" value="health"><span class="option-check"></span>&#129657; Health &amp; wellness</label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','restaurant')"><input type="radio" name="bizCat" value="restaurant"><span class="option-check"></span>&#127869; Restaurant &amp; food</label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','retail')"><input type="radio" name="bizCat" value="retail"><span class="option-check"></span>&#128717; Retail &amp; e-commerce</label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','professional')"><input type="radio" name="bizCat" value="professional"><span class="option-check"></span>&#128084; Professional services</label>
+        <label class="option-label radio" onclick="selectRadio(this,'bizCat','other')"><input type="radio" name="bizCat" value="other"><span class="option-check"></span>&#128218; Other</label>
       </div>
       <div id="bizCatError" class="error-msg">Please select your business category.</div>
       <div class="field" id="bizCatOtherField" style="margin-top:1rem;display:none;">
@@ -319,63 +174,26 @@
       </div>
     </div>
 
-    <!-- STEP 3: Package Interest -->
+    <!-- STEP 3 -->
     <div class="step-card" id="step3">
       <div class="step-badge">Step 3</div>
       <h2>Which package interests you?</h2>
       <p class="step-sub">Not sure? Pick your best guess — we can discuss during our call.</p>
       <div class="options-grid single">
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-go')">
-          <input type="radio" name="package" value="build-go">
-          <span class="option-check"></span>
-          <div><strong>Build &amp; Go</strong> &mdash; One-time build, from $2,500<sup style="font-size:0.75em;vertical-align:super;">+GST</sup></div>
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-host')">
-          <input type="radio" name="package" value="build-host">
-          <span class="option-check"></span>
-          <div><strong>Build &amp; Host</strong> &mdash; Build + year 1 hosting, from $2,750<sup style="font-size:0.75em;vertical-align:super;">+GST</sup></div>
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-relax')">
-          <input type="radio" name="package" value="build-relax">
-          <span class="option-check"></span>
-          <div><strong>Build &amp; Relax</strong> &mdash; Build + hosting + 6 months revisions, from $3,200<sup style="font-size:0.75em;vertical-align:super;">+GST</sup></div>
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-maintain')">
-          <input type="radio" name="package" value="build-maintain">
-          <span class="option-check"></span>
-          <div><strong>Build &amp; Maintain</strong> &mdash; Fully managed, $200<sup style="font-size:0.75em;vertical-align:super;">+GST</sup>/month</div>
-        </label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','unsure')">
-          <input type="radio" name="package" value="unsure">
-          <span class="option-check"></span>
-          <div><strong>Not sure yet</strong> &mdash; I&rsquo;d like advice</div>
-        </label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-go')"><input type="radio" name="package" value="build-go"><span class="option-check"></span><div><strong>Build &amp; Go</strong> &mdash; One-time build, from $2,500<sup>+GST</sup></div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-host')"><input type="radio" name="package" value="build-host"><span class="option-check"></span><div><strong>Build &amp; Host</strong> &mdash; Build + year 1 hosting, from $2,750<sup>+GST</sup></div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-relax')"><input type="radio" name="package" value="build-relax"><span class="option-check"></span><div><strong>Build &amp; Relax</strong> &mdash; Build + hosting + 6 months revisions, from $3,200<sup>+GST</sup></div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-maintain')"><input type="radio" name="package" value="build-maintain"><span class="option-check"></span><div><strong>Build &amp; Maintain</strong> &mdash; Fully managed, $200<sup>+GST</sup>/month</div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','unsure')"><input type="radio" name="package" value="unsure"><span class="option-check"></span><div><strong>Not sure yet</strong> &mdash; I&rsquo;d like advice</div></label>
       </div>
       <div id="packageError" class="error-msg">Please select a package option.</div>
-
       <div style="margin-top:1.5rem;">
-        <p class="step-sub" style="margin-bottom:0.8rem;">Any add-ons you&rsquo;re interested in? <em style="font-style:normal;color:var(--text-mid)">(optional, check all that apply)</em></p>
+        <p class="step-sub" style="margin-bottom:0.8rem;">Any add-ons? <em style="font-style:normal;color:var(--text-mid)">(optional)</em></p>
         <div class="options-grid">
-          <label class="option-label addon-label">
-            <input type="checkbox" name="addons" value="ecommerce">
-            <span class="option-check"></span>
-            &#128722; E-commerce store
-          </label>
-          <label class="option-label addon-label">
-            <input type="checkbox" name="addons" value="forms">
-            <span class="option-check"></span>
-            &#128203; Lead capture forms
-          </label>
-          <label class="option-label addon-label">
-            <input type="checkbox" name="addons" value="extra-pages">
-            <span class="option-check"></span>
-            &#128196; Extra pages
-          </label>
-          <label class="option-label addon-label">
-            <input type="checkbox" name="addons" value="unsure">
-            <span class="option-check"></span>
-            &#129300; Not sure yet
-          </label>
+          <label class="option-label addon-label"><input type="checkbox" name="addons" value="ecommerce"><span class="option-check"></span>&#128722; E-commerce store</label>
+          <label class="option-label addon-label"><input type="checkbox" name="addons" value="forms"><span class="option-check"></span>&#128203; Lead capture forms</label>
+          <label class="option-label addon-label"><input type="checkbox" name="addons" value="extra-pages"><span class="option-check"></span>&#128196; Extra pages</label>
+          <label class="option-label addon-label"><input type="checkbox" name="addons" value="unsure"><span class="option-check"></span>&#129300; Not sure yet</label>
         </div>
       </div>
       <div class="btn-row">
@@ -384,48 +202,33 @@
       </div>
     </div>
 
-    <!-- STEP 4: Design Inspiration -->
+    <!-- STEP 4 -->
     <div class="step-card" id="step4">
       <div class="step-badge">Step 4</div>
       <h2>Design inspiration</h2>
-      <p class="step-sub">Share a couple of websites whose look you admire. Any industry is fine &mdash; we just want to understand your style. <em style="font-style:normal;color:var(--text-mid)">(optional but helpful)</em></p>
-      <div class="field">
-        <label>Website you like #1</label>
-        <input type="text" id="inspo1" placeholder="https://example.com">
-      </div>
-      <div class="field">
-        <label>Website you like #2</label>
-        <input type="text" id="inspo2" placeholder="https://example.com">
-      </div>
-      <div class="field">
-        <label>Anything else about your style or vision?</label>
-        <textarea id="styleNotes" placeholder="e.g. Clean and modern, earthy tones, very minimal, bold and colourful..."></textarea>
-      </div>
+      <p class="step-sub">Share websites whose look you admire. <em style="font-style:normal;color:var(--text-mid)">(optional but helpful)</em></p>
+      <div class="field"><label>Website you like #1</label><input type="text" id="inspo1" placeholder="https://example.com"></div>
+      <div class="field"><label>Website you like #2</label><input type="text" id="inspo2" placeholder="https://example.com"></div>
+      <div class="field"><label>Anything else about your style or vision?</label><textarea id="styleNotes" placeholder="e.g. Clean and modern, earthy tones, very minimal..."></textarea></div>
       <div class="btn-row">
         <button class="btn-back" onclick="goBack(4)">&#8592; Back</button>
         <button class="btn-next" onclick="goNext(4)">Next &rarr;</button>
       </div>
     </div>
 
-    <!-- STEP 5: Contact Details -->
+    <!-- STEP 5 -->
     <div class="step-card" id="step5">
       <div class="step-badge">Step 5</div>
       <h2>How should we reach you?</h2>
       <p class="step-sub">Check your preferred contact method(s) and fill in your details.</p>
-
       <div class="field">
         <label>Your name <span style="color:var(--error)">*</span></label>
         <input type="text" id="contactName" placeholder="Jane Smith">
         <div class="error-msg" id="nameError">Please enter your name.</div>
       </div>
-      <div class="field">
-        <label>Business name</label>
-        <input type="text" id="businessName" placeholder="Smith Plumbing Ltd.">
-      </div>
-
+      <div class="field"><label>Business name</label><input type="text" id="businessName" placeholder="Smith Plumbing Ltd."></div>
       <p style="font-size:0.85rem;font-weight:500;color:var(--text-dark);margin-bottom:0.8rem;">Preferred contact method(s) <span style="color:var(--error)">*</span></p>
       <div class="contact-methods">
-
         <div class="contact-method-row" id="methodPhone">
           <div class="contact-method-toggle" onclick="toggleMethod('phone')">
             <div class="method-check" id="checkPhone"></div>
@@ -433,10 +236,9 @@
           </div>
           <div class="method-detail" id="detailPhone">
             <input type="tel" id="phoneNum" placeholder="Your phone number">
-            <input type="text" id="phoneTime" placeholder="Best time to call (e.g. weekdays after 5pm)" style="margin-top:0.5rem;">
+            <input type="text" id="phoneTime" placeholder="Best time to call" style="margin-top:0.5rem;">
           </div>
         </div>
-
         <div class="contact-method-row" id="methodEmail">
           <div class="contact-method-toggle" onclick="toggleMethod('email')">
             <div class="method-check" id="checkEmail"></div>
@@ -446,7 +248,6 @@
             <input type="email" id="emailAddr" placeholder="your@email.com">
           </div>
         </div>
-
         <div class="contact-method-row" id="methodText">
           <div class="contact-method-toggle" onclick="toggleMethod('text')">
             <div class="method-check" id="checkText"></div>
@@ -456,19 +257,16 @@
             <input type="tel" id="textNum" placeholder="Your mobile number">
           </div>
         </div>
-
       </div>
       <div class="error-msg" id="methodError">Please select at least one contact method.</div>
-      <div class="error-msg" id="contactDetailError">Please fill in your contact details for the selected method(s).</div>
-
+      <div class="error-msg" id="contactDetailError">Please fill in your contact details.</div>
       <div class="field" style="margin-top:0.5rem;">
-        <label>Anything else you&rsquo;d like us to know? <em style="font-style:normal;font-weight:400;color:var(--text-mid)">(optional)</em></label>
-        <textarea id="extraNotes" placeholder="Timeline, budget range, specific features you need..."></textarea>
+        <label>Anything else? <em style="font-style:normal;font-weight:400;color:var(--text-mid)">(optional)</em></label>
+        <textarea id="extraNotes" placeholder="Timeline, budget range, specific features..."></textarea>
       </div>
-
       <div class="btn-row">
         <button class="btn-back" onclick="goBack(5)">&#8592; Back</button>
-        <button class="btn-submit" onclick="submitForm()">Send My Quote Request &#10003;</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">Send My Quote Request &#10003;</button>
       </div>
     </div>
 
@@ -482,7 +280,6 @@
 
   </div>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">Sharpline<span>Digital</span></div>
     <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
@@ -508,51 +305,31 @@
     }
 
     function selectRadio(el, name, value) {
-      document.querySelectorAll('[name="' + name + '"]').forEach(r => {
-        r.closest('.option-label').classList.remove('selected');
-      });
+      document.querySelectorAll('[name="' + name + '"]').forEach(r => r.closest('.option-label').classList.remove('selected'));
       el.classList.add('selected');
       el.querySelector('input').checked = true;
       formData[name] = value;
-      if (name === 'hasWebsite') {
-        document.getElementById('currentUrlField').style.display = value === 'yes' ? 'block' : 'none';
-      }
-      if (name === 'bizCat') {
-        document.getElementById('bizCatOtherField').style.display = value === 'other' ? 'block' : 'none';
-      }
+      if (name === 'hasWebsite') document.getElementById('currentUrlField').style.display = value === 'yes' ? 'block' : 'none';
+      if (name === 'bizCat') document.getElementById('bizCatOtherField').style.display = value === 'other' ? 'block' : 'none';
       hideError(name + 'Error');
-    }
-
-    function toggleCheck(el) {
-      el.classList.toggle('selected');
-      el.querySelector('input').checked = el.classList.contains('selected');
     }
 
     function toggleMethod(method) {
       activeMethods[method] = !activeMethods[method];
-      const check = document.getElementById('check' + method.charAt(0).toUpperCase() + method.slice(1));
-      const detail = document.getElementById('detail' + method.charAt(0).toUpperCase() + method.slice(1));
-      const row = document.getElementById('method' + method.charAt(0).toUpperCase() + method.slice(1));
+      const cap = method.charAt(0).toUpperCase() + method.slice(1);
+      const check = document.getElementById('check' + cap);
+      const detail = document.getElementById('detail' + cap);
+      const row = document.getElementById('method' + cap);
       if (activeMethods[method]) {
-        check.classList.add('checked');
-        detail.classList.add('show');
-        row.classList.add('active');
+        check.classList.add('checked'); detail.classList.add('show'); row.classList.add('active');
       } else {
-        check.classList.remove('checked');
-        detail.classList.remove('show');
-        row.classList.remove('active');
+        check.classList.remove('checked'); detail.classList.remove('show'); row.classList.remove('active');
       }
       hideError('methodError');
     }
 
-    function hideError(id) {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    }
-    function showError(id) {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'block';
-    }
+    function hideError(id) { const el = document.getElementById(id); if (el) el.style.display = 'none'; }
+    function showError(id) { const el = document.getElementById(id); if (el) el.style.display = 'block'; }
 
     function goNext(step) {
       if (step === 1) {
@@ -584,68 +361,71 @@
       let ok = true;
       const name = document.getElementById('contactName').value.trim();
       if (!name) { showError('nameError'); ok = false; }
-
       const anyMethod = Object.values(activeMethods).some(v => v);
       if (!anyMethod) { showError('methodError'); ok = false; }
-
       if (!ok) return;
 
-      // Validate contact details
       let detailOk = true;
       if (activeMethods.phone && !document.getElementById('phoneNum').value.trim()) detailOk = false;
       if (activeMethods.email && !document.getElementById('emailAddr').value.trim()) detailOk = false;
       if (activeMethods.text && !document.getElementById('textNum').value.trim()) detailOk = false;
       if (!detailOk) { showError('contactDetailError'); return; }
 
-      // Gather all data
-      formData.contactName    = name;
-      formData.businessName   = document.getElementById('businessName').value;
-      formData.phone          = activeMethods.phone ? document.getElementById('phoneNum').value + (document.getElementById('phoneTime').value ? ' (best time: ' + document.getElementById('phoneTime').value + ')' : '') : '';
-      formData.email          = activeMethods.email ? document.getElementById('emailAddr').value : '';
-      formData.text           = activeMethods.text  ? document.getElementById('textNum').value : '';
-      formData.extraNotes     = document.getElementById('extraNotes').value;
+      formData.contactName  = name;
+      formData.businessName = document.getElementById('businessName').value;
+      formData.phone        = activeMethods.phone ? document.getElementById('phoneNum').value + (document.getElementById('phoneTime').value ? ' (best time: ' + document.getElementById('phoneTime').value + ')' : '') : '';
+      formData.email        = activeMethods.email ? document.getElementById('emailAddr').value : '';
+      formData.text         = activeMethods.text  ? document.getElementById('textNum').value : '';
+      formData.extraNotes   = document.getElementById('extraNotes').value;
 
-      // Build mailto body
-      const body = [
-        '=== SHARPLINE DIGITAL — QUOTE REQUEST ===',
-        '',
-        'CONTACT',
-        'Name: '           + formData.contactName,
-        'Business: '       + (formData.businessName || 'Not provided'),
-        'Phone: '          + (formData.phone  || 'Not requested'),
-        'Email: '          + (formData.email  || 'Not requested'),
-        'Text: '           + (formData.text   || 'Not requested'),
-        '',
-        'BUSINESS',
-        'Status: '         + formData.bizStatus,
-        'Has website: '    + formData.hasWebsite,
-        'Current URL: '    + (formData.currentUrl || 'N/A'),
-        'Category: '       + formData.bizCat + (formData.bizCatOther ? ' (' + formData.bizCatOther + ')' : ''),
-        '',
-        'PROJECT',
-        'Package interest: ' + formData.package,
-        'Add-ons: '          + (formData.addons || 'None selected'),
-        '',
-        'DESIGN INSPIRATION',
-        'Site 1: '         + (formData.inspo1 || 'Not provided'),
-        'Site 2: '         + (formData.inspo2 || 'Not provided'),
-        'Style notes: '    + (formData.styleNotes || 'Not provided'),
-        '',
-        'ADDITIONAL NOTES',
-        formData.extraNotes || 'None',
-      ].join('\n');
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
 
-      const subject = 'Website Quote Request — ' + formData.contactName + (formData.businessName ? ' / ' + formData.businessName : '');
-      window.location.href = 'mailto:hello@sharplinedigital.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      const payload = {
+        _subject:      'Quote Request — ' + formData.contactName + (formData.businessName ? ' / ' + formData.businessName : ''),
+        name:          formData.contactName,
+        business:      formData.businessName      || 'Not provided',
+        phone:         formData.phone             || 'Not requested',
+        email:         formData.email             || 'Not requested',
+        text:          formData.text              || 'Not requested',
+        biz_status:    formData.bizStatus,
+        has_website:   formData.hasWebsite,
+        current_url:   formData.currentUrl        || 'N/A',
+        biz_category:  formData.bizCat + (formData.bizCatOther ? ' (' + formData.bizCatOther + ')' : ''),
+        package:       formData.package,
+        addons:        formData.addons            || 'None selected',
+        inspo_1:       formData.inspo1            || 'Not provided',
+        inspo_2:       formData.inspo2            || 'Not provided',
+        style_notes:   formData.styleNotes        || 'Not provided',
+        extra_notes:   formData.extraNotes        || 'None'
+      };
 
-      // Show success
-      document.getElementById('progressWrap').style.display = 'none';
-      document.getElementById('step5').classList.remove('active');
-      document.getElementById('successCard').style.display = 'block';
+      fetch('https://formspree.io/f/mqevzkgo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(res => {
+        if (res.ok) {
+          document.getElementById('progressWrap').style.display = 'none';
+          document.getElementById('step5').classList.remove('active');
+          document.getElementById('successCard').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Send My Quote Request ✓';
+          alert('Something went wrong. Please email us at hello@sharplinedigital.com');
+        }
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.textContent = 'Send My Quote Request ✓';
+        alert('Network error. Please email us at hello@sharplinedigital.com');
+      });
     }
 
     updateProgress(1);
   </script>
-
 </body>
 </html>
