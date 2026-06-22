@@ -81,6 +81,7 @@
     .success-card h2{font-family:'Outfit',sans-serif;font-size:1.5rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem;}
     .success-card p{color:var(--text-mid);font-size:0.92rem;line-height:1.7;}
     .error-msg{font-size:0.78rem;color:var(--error);margin-top:0.3rem;display:none;}
+    .submit-error{background:#fdecea;border-left:3px solid var(--error);padding:0.8rem 1rem;border-radius:0 4px 4px 0;font-size:0.82rem;color:var(--error);margin-top:1rem;display:none;}
     .footer{background:var(--navy-deep);padding:1.5rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
     .footer-logo{font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;color:var(--teal);}
     .footer-logo span{color:var(--white);}
@@ -264,6 +265,9 @@
         <label>Anything else? <em style="font-style:normal;font-weight:400;color:var(--text-mid)">(optional)</em></label>
         <textarea id="extraNotes" placeholder="Timeline, budget range, specific features..."></textarea>
       </div>
+      <div class="submit-error" id="submitError">
+        ⚠️ Something went wrong submitting your request. Please try again or use the Back button to check your details.
+      </div>
       <div class="btn-row">
         <button class="btn-back" onclick="goBack(5)">&#8592; Back</button>
         <button class="btn-submit" id="submitBtn" onclick="submitForm()">Send My Quote Request &#10003;</button>
@@ -282,7 +286,7 @@
 
   <footer class="footer">
     <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; <a href="/quote.html" style="color:#4a6075;text-decoration:none;">Get in touch &rarr;</a></p>
   </footer>
 
   <script>
@@ -381,6 +385,7 @@
       const btn = document.getElementById('submitBtn');
       btn.disabled = true;
       btn.textContent = 'Sending...';
+      hideError('submitError');
 
       const payload = {
         _subject:      'Quote Request — ' + formData.contactName + (formData.businessName ? ' / ' + formData.businessName : ''),
@@ -401,7 +406,7 @@
         extra_notes:   formData.extraNotes        || 'None'
       };
 
-      fetch('https://formspree.io/f/mqevzkgo', {
+      fetch('https://formspree.io/f/xkolnkyg', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body: JSON.stringify(payload)
@@ -415,13 +420,13 @@
         } else {
           btn.disabled = false;
           btn.textContent = 'Send My Quote Request ✓';
-          alert('Something went wrong. Please email us at hello@sharplinedigital.com');
+          showError('submitError');
         }
       })
       .catch(() => {
         btn.disabled = false;
         btn.textContent = 'Send My Quote Request ✓';
-        alert('Network error. Please email us at hello@sharplinedigital.com');
+        showError('submitError');
       });
     }
 
