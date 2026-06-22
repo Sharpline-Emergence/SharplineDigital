@@ -104,7 +104,6 @@
       background-position: center;
     }
 
-    /* Dark overlay — keep this in place when you swap in the photo */
     .hero::before {
       content: '';
       position: absolute;
@@ -118,7 +117,6 @@
       z-index: 1;
     }
 
-    /* Subtle teal horizon glow — atmospheric, ties to brand */
     .hero::after {
       content: '';
       position: absolute;
@@ -218,7 +216,6 @@
     }
     .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
 
-    /* Scroll hint */
     .scroll-hint {
       position: absolute;
       bottom: 2.2rem;
@@ -503,7 +500,6 @@
       margin-top: 3.5rem;
       position: relative;
     }
-    /* Connecting line between steps */
     .steps-grid::before {
       content: '';
       position: absolute;
@@ -690,13 +686,6 @@
   </nav>
 
   <!-- HERO -->
-  <!--
-    TO SWAP IN YOUR PHOTO:
-    1. Add your image file to the same folder (e.g. images/hero.jpg)
-    2. In the .hero CSS rule above, replace the background-image gradient with:
-       background-image: url('images/hero.jpg');
-    3. The dark overlay (.hero::before) stays in place — adjust its opacity if needed.
-  -->
   <section class="hero">
     <div class="hero-content">
       <div class="hero-eyebrow">Fraser Valley &middot; British Columbia</div>
@@ -915,16 +904,16 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; <a href="/quote.html" style="color:#4a6075;text-decoration:none;">Get in touch &rarr;</a></p>
     <div class="footer-links">
       <a href="#services">Why Sharpline</a>
       <a href="#packages">Packages</a>
       <a href="#contact">Contact</a>
+      <a href="/privacy.html">Privacy Policy</a>
     </div>
   </footer>
 
   <script>
-    // Nav: becomes opaque on scroll
     const nav = document.getElementById('mainNav');
     window.addEventListener('scroll', () => {
       if (window.scrollY > 60) {
@@ -937,7 +926,6 @@
       }
     }, { passive: true });
 
-    // Mobile nav toggle
     const toggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     if (toggle && navLinks) {
@@ -947,7 +935,6 @@
       });
     }
 
-    // Smooth scroll with nav offset
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const target = document.querySelector(this.getAttribute('href'));
@@ -959,7 +946,6 @@
       });
     });
 
-    // Fade-up on scroll
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
