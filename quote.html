@@ -249,15 +249,7 @@
             <input type="email" id="emailAddr" placeholder="your@email.com">
           </div>
         </div>
-        <div class="contact-method-row" id="methodText">
-          <div class="contact-method-toggle" onclick="toggleMethod('text')">
-            <div class="method-check" id="checkText"></div>
-            <span class="method-label">&#128172;&nbsp; Text message</span>
-          </div>
-          <div class="method-detail" id="detailText">
-            <input type="tel" id="textNum" placeholder="Your mobile number">
-          </div>
-        </div>
+
       </div>
       <div class="error-msg" id="methodError">Please select at least one contact method.</div>
       <div class="error-msg" id="contactDetailError">Please fill in your contact details.</div>
@@ -372,14 +364,12 @@
       let detailOk = true;
       if (activeMethods.phone && !document.getElementById('phoneNum').value.trim()) detailOk = false;
       if (activeMethods.email && !document.getElementById('emailAddr').value.trim()) detailOk = false;
-      if (activeMethods.text && !document.getElementById('textNum').value.trim()) detailOk = false;
       if (!detailOk) { showError('contactDetailError'); return; }
 
       formData.contactName  = name;
       formData.businessName = document.getElementById('businessName').value;
       formData.phone        = activeMethods.phone ? document.getElementById('phoneNum').value + (document.getElementById('phoneTime').value ? ' (best time: ' + document.getElementById('phoneTime').value + ')' : '') : '';
       formData.email        = activeMethods.email ? document.getElementById('emailAddr').value : '';
-      formData.text         = activeMethods.text  ? document.getElementById('textNum').value : '';
       formData.extraNotes   = document.getElementById('extraNotes').value;
 
       const btn = document.getElementById('submitBtn');
@@ -393,7 +383,6 @@
         business:      formData.businessName      || 'Not provided',
         phone:         formData.phone             || 'Not requested',
         email:         formData.email             || 'Not requested',
-        text:          formData.text              || 'Not requested',
         biz_status:    formData.bizStatus,
         has_website:   formData.hasWebsite,
         current_url:   formData.currentUrl        || 'N/A',
