@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Why a cheap website costs BC small businesses far more than they saved — hidden costs of page builders, poor SEO, slow load times, and platform lock-in.">
+  <title>Why a $500 Website Costs BC Businesses Thousands | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
+
+    /* ─── NAV ─── */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; background: var(--navy); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
+    .nav-logo span { color: var(--white); }
+    .nav-back { color: var(--muted); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip { background: var(--navy); padding: 3.5rem 2.5rem 4rem; }
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .meta-tag { background: rgba(46,196,169,0.15); color: var(--teal); font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+    .meta-date { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+    .meta-read { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
+    .hero-strip h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--white); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1.2rem; }
+    .hero-strip h1 em { color: var(--teal); font-style: normal; font-weight: 300; }
+    .hero-byline { font-size: 0.88rem; color: var(--muted); font-weight: 300; }
+    .hero-byline strong { color: rgba(255,255,255,0.75); font-weight: 400; }
+
+    /* ─── SUMMARY ─── */
+    .summary-wrap { max-width: 760px; margin: 0 auto; padding: 0 2rem; transform: translateY(-1.5rem); }
+    .summary-card { background: var(--teal-light); border: 1px solid rgba(46,196,169,0.3); border-left: 4px solid var(--teal); border-radius: 8px; padding: 1.8rem 2rem; }
+    .summary-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .summary-label::before { content: '⚡'; font-size: 0.85rem; }
+    .summary-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .summary-points li { font-size: 0.9rem; color: #0a4035; padding-left: 1.2rem; position: relative; line-height: 1.5; font-weight: 400; }
+    .summary-points li::before { content: '→'; position: absolute; left: 0; color: var(--teal-dark); font-weight: 600; }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap { max-width: 760px; margin: 0 auto; padding: 1rem 2rem 5rem; }
+    .article-body h2 { font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 700; color: var(--text-dark); letter-spacing: -0.3px; margin: 3rem 0 1rem; line-height: 1.25; }
+    .article-body h2 .h2-num { color: var(--teal); font-weight: 300; margin-right: 0.4rem; }
+    .article-body p { font-size: 1rem; color: #2a3a4a; line-height: 1.85; margin-bottom: 1.3rem; font-weight: 300; }
+    .article-body p strong { color: var(--text-dark); font-weight: 500; }
+    .article-body .intro-p { font-size: 1.08rem; color: var(--text-dark); font-weight: 400; line-height: 1.8; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+
+    /* Pull quote */
+    .pull-quote { border-left: 3px solid var(--teal); margin: 2.5rem 0; padding: 0.5rem 0 0.5rem 1.8rem; }
+    .pull-quote p { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--navy); line-height: 1.5; margin-bottom: 0 !important; font-style: italic; }
+
+    /* Stat callout */
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
+    .stat-box { background: var(--off-white); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 1.2rem; text-align: center; }
+    .stat-box .stat-num { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; color: var(--teal-dark); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-box .stat-label { font-size: 0.78rem; color: var(--text-mid); line-height: 1.4; font-weight: 300; }
+
+    /* Cost table */
+    .cost-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.88rem; }
+    .cost-table th { background: var(--navy); color: var(--white); padding: 0.75rem 1rem; text-align: left; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.5px; }
+    .cost-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: #2a3a4a; font-weight: 300; line-height: 1.5; }
+    .cost-table tr:last-child td { border-bottom: none; font-weight: 500; color: var(--text-dark); background: var(--teal-light); }
+    .cost-table tr:nth-child(even) td { background: var(--off-white); }
+    .cost-table tr:last-child td { background: var(--teal-light); }
+    .cost-bad { color: #c0392b; font-weight: 500; }
+    .cost-good { color: var(--teal-dark); font-weight: 500; }
+
+    /* Section rule */
+    .section-rule { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0 0; }
+
+    /* References */
+    .references { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .references h3 { font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 1rem; }
+    .references ol { padding-left: 1.2rem; }
+    .references li { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 0.4rem; font-weight: 300; }
+    .references a { color: var(--teal-dark); text-decoration: none; }
+    .references a:hover { text-decoration: underline; }
+
+    /* Also read */
+    .also-read { background: var(--navy-mid); border: 1px solid rgba(46,196,169,0.2); border-radius: 10px; padding: 1.6rem 2rem; margin-top: 3rem; display: flex; align-items: center; gap: 1.5rem; }
+    .also-read-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+    .also-read-title { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; line-height: 1.3; }
+    .also-read-desc { font-size: 0.82rem; color: #c8dae6; font-weight: 300; line-height: 1.5; }
+    .also-read a { text-decoration: none; flex: 1; }
+    .also-read-arrow { font-size: 1.4rem; color: var(--teal); flex-shrink: 0; }
+
+    /* Author card */
+    .author-card { background: var(--navy-mid); border: 1px solid rgba(46,196,169,0.2); border-radius: 10px; padding: 1.8rem 2rem; margin-top: 2rem; display: flex; align-items: flex-start; gap: 1.5rem; }
+    .author-icon { width: 48px; height: 48px; background: rgba(46,196,169,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .author-name { font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; }
+
+    /* CTA */
+    .article-cta { background: var(--teal-light); border: 1px solid rgba(46,196,169,0.3); border-radius: 10px; padding: 2rem; margin-top: 2rem; text-align: center; }
+    .article-cta h3 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .article-cta p { font-size: 0.88rem; color: #0a4035; margin-bottom: 1.2rem; font-weight: 300; }
+    .article-cta a { background: var(--navy); color: var(--white); padding: 0.75rem 2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* ─── FOOTER ─── */
+    .footer { background: var(--navy-deep); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--teal); }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: #4a6075; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .also-read { flex-direction: column; gap: 0.8rem; }
+      .cost-table { font-size: 0.78rem; }
+      .cost-table th, .cost-table td { padding: 0.6rem 0.7rem; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/index.html" class="nav-back">&#8592; Back to home</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">July 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">8 min read</span>
+      </div>
+      <h1>Why a $500 Website Costs BC Businesses <em>Thousands</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 26 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>A cheap website has a visible price tag — but its real costs are hidden in lost customers, poor search rankings, and platform lock-in</li>
+        <li>Page builder platforms charge recurring fees that add up to more than a custom build within 3–4 years</li>
+        <li>Slow, bloated websites built on drag-and-drop platforms consistently rank lower in Google search results</li>
+        <li>When you leave a page builder platform, you often can't take your website with you — you start from zero</li>
+        <li>A poorly designed website actively loses customers — 75% of people judge your credibility by your site alone</li>
+        <li>The real question isn't what a website costs to build — it's what a bad one costs you every month it's live</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        The pitch is hard to resist: a professional-looking website for a few hundred dollars, ready in a weekend, no technical knowledge required. Page builder platforms have made this possible for millions of small businesses — and for some, it works just fine. But for many BC small business owners, that initial saving quietly becomes one of the more expensive decisions they make. Here's an honest breakdown of what cheap websites actually cost.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> The Price Tag You See vs. The One You Don't</h2>
+      <p>
+        A $500 website — whether it's a template from a freelancer or a DIY build on Wix or Squarespace — has an obvious upfront cost. What it doesn't show you is the ongoing cost structure underneath it.
+      </p>
+      <p>
+        Most page builder platforms charge monthly or annual subscription fees that increase over time. Wix's business plans run $35–$60 per month.<sup>1</sup> Squarespace Business sits at $36 per month.<sup>2</sup> Add a premium theme, a booking plugin, a form tool, an email marketing integration — costs that would be built into a custom site — and you're routinely looking at $600–$1,200 per year, every year, with no end date and no asset to show for it.
+      </p>
+      <p>
+        <strong>A custom-coded website is a one-time build you own outright.</strong> After year one, your only ongoing cost is hosting — typically $100–$200 per year. Over a five-year period, the math is rarely as close as the upfront numbers suggest.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">$4,800</div>
+          <div class="stat-label">Typical 5-year cost of a mid-tier page builder subscription<sup>3</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">38%</div>
+          <div class="stat-label">of users leave a website if the layout is unattractive or unprofessional<sup>4</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">3 sec</div>
+          <div class="stat-label">Maximum load time before 53% of mobile users abandon a page<sup>5</sup></div>
+        </div>
+      </div>
+
+      <h2><span class="h2-num">02 /</span> The Hidden Cost: You Don't Own Anything</h2>
+      <p>
+        This is the part most people don't think about until it's too late. When you build a website on Wix, Squarespace, or most template-based platforms, the website lives entirely within their system. The design, the structure, the content layout — none of it is portable.
+      </p>
+      <p>
+        If you decide to leave the platform — because the price increases, because the company changes its terms, because you want a developer to take over — <strong>you can't take your website with you.</strong> You can export your text and images, but the site itself has to be rebuilt from scratch. Every dollar you spent on customization, every hour you invested in getting it right, is gone.
+      </p>
+      <p>
+        A custom-coded website is different in every respect. The files are yours. The code is yours. It can be hosted anywhere, handed to any developer, moved to any server. It's an asset in the true sense of the word — something that retains value and can be transferred.
+      </p>
+
+      <div class="pull-quote">
+        <p>"You can spend years building a website on someone else's platform. When you leave, you leave empty-handed."</p>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> Slow Websites Lose Customers and Search Rankings</h2>
+      <p>
+        Page builder platforms generate heavy, bloated code to power their visual editing tools. Every drag-and-drop feature, every built-in animation, every theme element that you didn't use but came with the template anyway — it all adds weight to your pages. That weight slows your site down.
+      </p>
+      <p>
+        Google has made page speed an explicit ranking factor through its Core Web Vitals program.<sup>6</sup> A slow site doesn't just frustrate visitors — it ranks lower in search results, meaning fewer people find you in the first place. And the visitors who do find you don't wait: <strong>53% of mobile users abandon a page that takes more than three seconds to load.</strong><sup>5</sup>
+      </p>
+      <p>
+        Custom-coded websites, built with clean HTML and CSS and hosted on modern infrastructure, load significantly faster by default. There's no platform overhead, no unused JavaScript, no template bloat. For local Fraser Valley businesses competing for the same search terms, that speed advantage translates directly into better rankings and more customers.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> A Bad Website Actively Loses You Business</h2>
+      <p>
+        There's a tendency to think of a cheap website as neutral — something is better than nothing, and you can upgrade later. In practice, a poorly designed or slow website isn't neutral. It works against you.
+      </p>
+      <p>
+        Research from Stanford's Web Credibility Project found that <strong>75% of people judge a business's credibility based on its website design.</strong><sup>7</sup> A site that looks dated, loads slowly, or doesn't work properly on mobile doesn't just fail to convert visitors — it actively creates doubt about your business. For a trades contractor, a health practitioner, or a professional services firm in the Fraser Valley, that lost credibility has a direct dollar value.
+      </p>
+      <p>
+        Consider a conservative example: a local business that gets 200 website visitors per month. If a poor website causes even 10% of those visitors to leave without making contact — visitors who would have converted on a professional site — that's 20 lost leads per month. At an average job value of $500, that's $10,000 in lost revenue per month. The cheap website isn't saving money. It's costing it.
+      </p>
+
+      <div class="pull-quote">
+        <p>"The right question isn't what a website costs to build. It's what a bad one costs you every month it's live."</p>
+      </div>
+
+      <h2><span class="h2-num">05 /</span> The Real 5-Year Cost Comparison</h2>
+      <p>
+        Let's put actual numbers to it. This comparison uses conservative, realistic figures for a typical Fraser Valley small business website.
+      </p>
+
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Cost Item</th>
+            <th>Page Builder (5 yrs)</th>
+            <th>Custom Build (5 yrs)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Initial build / setup</td>
+            <td>$500 (template/freelancer)</td>
+            <td>$2,500–$3,200 (custom)</td>
+          </tr>
+          <tr>
+            <td>Platform subscription</td>
+            <td class="cost-bad">$2,400–$4,800</td>
+            <td class="cost-good">$0</td>
+          </tr>
+          <tr>
+            <td>Hosting</td>
+            <td>Included in subscription</td>
+            <td>$500–$1,000 (5 yrs)</td>
+          </tr>
+          <tr>
+            <td>Plugin / add-on fees</td>
+            <td class="cost-bad">$300–$1,000+</td>
+            <td class="cost-good">Usually $0</td>
+          </tr>
+          <tr>
+            <td>Rebuild cost (platform exit)</td>
+            <td class="cost-bad">$2,500+ (you start over)</td>
+            <td class="cost-good">$0 (you own the code)</td>
+          </tr>
+          <tr>
+            <td><strong>Total 5-year cost</strong></td>
+            <td><strong>$5,700 – $10,300+</strong></td>
+            <td><strong>$3,000 – $4,200</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        The numbers above don't include the cost of lost business from poor search rankings, slow load times, or a design that fails to convert visitors. They don't include the time you spend managing a platform that wasn't built for your specific needs. And they don't include the value of owning an asset versus renting one indefinitely.
+      </p>
+
+      <h2><span class="h2-num">06 /</span> What to Look for in a Website Investment</h2>
+      <p>
+        None of this means every small business needs to spend the maximum on a website. What it means is that the decision should be made with full information — including the costs that don't appear on the invoice.
+      </p>
+      <p>
+        When evaluating any website project, ask these questions: <strong>Do I own the code?</strong> Can I take it to another developer or host it anywhere? Will it load fast on mobile? Is it built to rank in search, or just to look good in a preview? What are the ongoing costs, and do they increase over time?
+      </p>
+      <p>
+        A well-built website is one of the few marketing investments that compounds over time — getting better search rankings, building domain authority, and working for your business around the clock without additional spend. A cheap website that needs to be rebuilt in three years isn't a saving. It's a delay.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>Wix. (2026). <em>Wix pricing plans.</em> <a href="https://www.wix.com/upgrade/website" target="_blank" rel="noopener">wix.com</a></li>
+          <li>Squarespace. (2026). <em>Squarespace pricing.</em> <a href="https://www.squarespace.com/pricing" target="_blank" rel="noopener">squarespace.com</a></li>
+          <li>Based on average mid-tier page builder subscription of $40/month over 60 months.</li>
+          <li>Adobe. (2023). <em>State of Content Report: Consumer content preferences.</em> <a href="https://www.adobe.com" target="_blank" rel="noopener">adobe.com</a></li>
+          <li>Google / SOASTA Research. (2017, updated 2023). <em>The need for mobile speed.</em> <a href="https://www.thinkwithgoogle.com" target="_blank" rel="noopener">thinkwithgoogle.com</a></li>
+          <li>Google Search Central. (2024). <em>Understanding Core Web Vitals and Google Search.</em> <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" target="_blank" rel="noopener">developers.google.com</a></li>
+          <li>Stanford Web Credibility Research. (2023). <em>How people evaluate a website's credibility.</em> <a href="https://credibility.stanford.edu" target="_blank" rel="noopener">credibility.stanford.edu</a></li>
+        </ol>
+      </div>
+
+      <!-- ALSO READ -->
+      <a href="/blog-local-website.html" style="text-decoration:none;">
+        <div class="also-read">
+          <div style="flex:1;">
+            <div class="also-read-label">Also from Sharpline Digital</div>
+            <div class="also-read-title">Why Your BC Business Needs More Than Social Media</div>
+            <div class="also-read-desc">How AI search is changing local discovery — and why your website is the only digital asset you truly own.</div>
+          </div>
+          <div class="also-read-arrow">&#8594;</div>
+        </div>
+      </a>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p style="font-size:0.83rem;color:#ffffff;line-height:1.6;font-weight:300;">P. Beal brings 26 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Ready to build something you actually own?</h3>
+        <p>A fast, custom-coded website for your BC business — one-time build, no platform fees, yours forever.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/blog-local-website.html">Insights</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
