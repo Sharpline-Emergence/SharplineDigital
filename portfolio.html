@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sharpline Digital — Recent work. Custom-built websites for BC small businesses and our own product network.">
+  <title>Our Work | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:        #2ec4a9;
+      --teal-dark:   #1a9e87;
+      --teal-light:  #e1f7f3;
+      --teal-dim:    rgba(46,196,169,0.12);
+      --navy:        #0a1628;
+      --navy-mid:    #152238;
+      --navy-deep:   #06101e;
+      --white:       #ffffff;
+      --off-white:   #f7fafc;
+      --muted:       #a8c0d6;
+      --text-dark:   #0a1628;
+      --text-mid:    #5a7a8a;
+      --border:      #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ─── NAV (same as homepage, solid on this page since there's no hero photo) ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a.active { color: var(--teal); }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header {
+      background: var(--navy);
+      padding: 4.5rem 2.5rem 5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center top, rgba(46,196,169,0.1) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      position: relative;
+    }
+    .hero-eyebrow::before, .hero-eyebrow::after {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--teal);
+      opacity: 0.7;
+    }
+    .page-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+    .page-header h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .page-header p {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.8;
+      font-weight: 300;
+      position: relative;
+    }
+
+    /* ─── PORTFOLIO GRID ─── */
+    .work-section {
+      padding: 5.5rem 0 6rem;
+      background: var(--off-white);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+      margin-top: 1rem;
+    }
+
+    .work-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
+    }
+    .work-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 10px 30px rgba(46,196,169,0.1);
+      transform: translateY(-3px);
+    }
+
+    /* Thumbnail frame — swap the background-image url below for each site */
+    .work-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--navy-mid);
+      background-size: cover;
+      background-position: top center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+    /* Placeholder state — remove/override once a real screenshot is added */
+    .work-thumb.placeholder {
+      background-image:
+        linear-gradient(rgba(6,16,30,0.55), rgba(6,16,30,0.55)),
+        repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 10px, transparent 10px 20px);
+    }
+    .thumb-placeholder-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 1px;
+      text-align: center;
+      padding: 0 1rem;
+      font-weight: 500;
+    }
+    .thumb-placeholder-label small {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 0.5rem;
+      letter-spacing: 0.3px;
+    }
+
+    .work-body { padding: 1.6rem 1.7rem 1.9rem; }
+    .work-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      background: var(--teal-dim);
+      padding: 0.3rem 0.7rem;
+      border-radius: 3px;
+      margin-bottom: 0.9rem;
+    }
+    .work-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.3px;
+    }
+    .work-card p {
+      font-size: 0.87rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .work-link {
+      font-size: 0.85rem;
+      color: var(--teal-dark);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.2s;
+    }
+    .work-link:hover { gap: 0.6rem; }
+
+    /* ─── NOTE STRIP for the dev (you), styled to blend but easy to strip ─── */
+    .dev-note {
+      max-width: 960px;
+      margin: 3rem auto 0;
+      padding: 0 2rem;
+    }
+    .dev-note-inner {
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 1.2rem 1.4rem;
+      font-size: 0.8rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      background: var(--white);
+    }
+    .dev-note-inner strong { color: var(--text-dark); font-weight: 500; }
+    .dev-note-inner code {
+      background: var(--teal-dim);
+      color: var(--teal-dark);
+      padding: 0.1rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.78rem;
+    }
+
+    /* ─── CTA (reuse homepage style) ─── */
+    .cta-section {
+      background: var(--navy);
+      padding: 5rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    .cta-section p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.2rem;
+      font-weight: 300;
+      position: relative;
+    }
+    .cta-btn {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 0.9rem 2.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .cta-btn:hover { background: var(--teal-dark); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── FADE IN ─── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .page-header { padding: 3.5rem 1.5rem 4rem; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-section { padding: 3.5rem 0 4rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .fade-up { opacity: 1; transform: none; transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/#services">Why Sharpline</a></li>
+      <li><a href="/#packages">Packages</a></li>
+      <li><a href="/#process">How It Works</a></li>
+      <li><a href="/portfolio.html" class="active">Our Work</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <a href="/quote.html" class="nav-cta">Let's talk</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+
+  <!-- PAGE HEADER -->
+  <section class="page-header">
+    <div class="hero-eyebrow">Our Work</div>
+    <h1>Sites we've <em>built and run.</em></h1>
+    <p>A mix of client projects and our own products &mdash; built the same way every time: clean code, no lock-in, no shortcuts.</p>
+  </section>
+
+  <!-- PORTFOLIO GRID -->
+  <section class="work-section">
+    <div class="container">
+      <div class="work-grid">
+
+        <!-- 503020.ca -->
+        <div class="work-card fade-up">
+          <a href="https://www.503020.ca" target="_blank" rel="noopener">
+            <div class="work-thumb placeholder" style="background-image: url('images/thumb-503020.jpg'), linear-gradient(rgba(6,16,30,0.55), rgba(6,16,30,0.55)), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 10px, transparent 10px 20px);">
+              <div class="thumb-placeholder-label">503020.ca
+                <small>Replace images/thumb-503020.jpg with a real screenshot</small>
+              </div>
+            </div>
+          </a>
+          <div class="work-body">
+            <span class="work-tag">In-house product</span>
+            <h3>503020.ca</h3>
+            <p>The flagship of our personal finance calculator network &mdash; a free budgeting tool built around the 50/30/20 rule, with a full article library and FAQ hub.</p>
+            <a href="https://www.503020.ca" target="_blank" rel="noopener" class="work-link">Visit site &rarr;</a>
+          </div>
+        </div>
+
+        <!-- mortgagemasher.com -->
+        <div class="work-card fade-up">
+          <a href="https://www.mortgagemasher.com" target="_blank" rel="noopener">
+            <div class="work-thumb placeholder" style="background-image: url('images/thumb-mortgagemasher.jpg'), linear-gradient(rgba(6,16,30,0.55), rgba(6,16,30,0.55)), repeating-linear-gradient(45deg, rgba(255,255,255,0.03) 0 10px, transparent 10px 20px);">
+              <div class="thumb-placeholder-label">MortgageMasher.com
+                <small>Replace images/thumb-mortgagemasher.jpg with a real screenshot</small>
+              </div>
+            </div>
+          </a>
+          <div class="work-body">
+            <span class="work-tag">In-house product</span>
+            <h3>Mortgage Masher</h3>
+            <p>A mortgage payment and amortization calculator with a companion guide article, built for Canadian homeowners comparing rates and terms.</p>
+            <a href="https://www.mortgagemasher.com" target="_blank" rel="noopener" class="work-link">Visit site &rarr;</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Dev note — delete this block once thumbnails are in place -->
+      <div class="dev-note">
+        <div class="dev-note-inner">
+          <strong>Setup note:</strong> Both thumbnails above are placeholders (dashed pattern + label). To finish this page: take a screenshot of each site's homepage (roughly 1280&times;800, cropped to the top fold looks best), save as <code>images/thumb-503020.jpg</code> and <code>images/thumb-mortgagemasher.jpg</code> in the same folder as this file, and the placeholder background/label will be covered automatically since the real image sits on top in the CSS stack. Delete this note block when done.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Want something built this clean?</h2>
+    <p>No pressure, no pitch deck. Just a conversation about what your business needs.</p>
+    <a href="/quote.html" class="cta-btn">Let's talk</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/#services">Why Sharpline</a>
+      <a href="/#packages">Packages</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('open'));
+      });
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
