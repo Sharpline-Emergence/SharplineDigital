@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Web design in Mission, BC. Sharpline Digital builds custom-coded, mobile-first websites for Mission small businesses — you own the code, no platform lock-in.">
+  <title>Web Design Mission BC | Sharpline Digital</title>
+  <link rel="canonical" href="https://sharplinedigital.com/web-design-mission.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:        #2ec4a9;
+      --teal-dark:   #1a9e87;
+      --teal-light:  #e1f7f3;
+      --navy:        #0a1628;
+      --navy-mid:    #152238;
+      --navy-deep:   #06101e;
+      --white:       #ffffff;
+      --off-white:   #f7fafc;
+      --muted:       #a8c0d6;
+      --text-dark:   #0a1628;
+      --text-mid:    #5a7a8a;
+      --border:      #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--navy);
+      padding: 5rem 2.5rem 5.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--teal);
+      opacity: 0.7;
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.12;
+      letter-spacing: -1px;
+      margin-bottom: 1.4rem;
+      max-width: 720px;
+    }
+    .hero h1 em { color: var(--teal); font-style: normal; font-weight: 300; }
+    .hero-body {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: 2.4rem;
+      font-weight: 300;
+    }
+    .hero-body strong { color: rgba(255,255,255,0.9); font-weight: 400; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ─── INTRO ─── */
+    .section { padding: 5rem 0; }
+    .section.alt { background: var(--off-white); }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .prose p {
+      font-size: 0.98rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+      max-width: 680px;
+    }
+    .prose strong { color: var(--text-dark); font-weight: 500; }
+
+    /* ─── FEATURE GRID ─── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+    .feat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 1.6rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .feat-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(46,196,169,0.08);
+    }
+    .feat-icon {
+      font-size: 1.3rem;
+      width: 40px;
+      height: 40px;
+      background: var(--teal-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+    }
+    .feat-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .feat-card p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ─── LOCAL LIST ─── */
+    .local-list { list-style: none; margin-top: 1.5rem; max-width: 680px; }
+    .local-list li {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      padding: 0.6rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      line-height: 1.7;
+    }
+    .local-list .check { color: var(--teal); flex-shrink: 0; font-weight: 700; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: var(--navy);
+      padding: 5rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    .cta-section p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.2rem;
+      font-weight: 300;
+      position: relative;
+    }
+    .cta-btn {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 0.9rem 2.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .cta-btn:hover { background: var(--teal-dark); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .hero { padding: 3.5rem 1.5rem 4rem; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 1.6rem; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="mainNav">
+    <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="/#services">Why Sharpline</a></li>
+      <li><a href="/#packages">Packages</a></li>
+      <li><a href="/#process">How It Works</a></li>
+      <li><a href="/portfolio.html">Our Work</a></li>
+      <li><a href="/blog-cheap-websites.html">Insights</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <a href="/quote.html" class="nav-cta">Let's talk</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Mission &middot; British Columbia</div>
+      <h1>Web design in Mission,<br><em>built to be owned by you.</em></h1>
+      <p class="hero-body">
+        Sharpline Digital builds custom-coded, mobile-first websites for Mission small businesses.
+        <strong>No page builders, no rented platforms, no monthly ransom</strong> &mdash; just a clean,
+        fast site you own outright, delivered via GitHub.
+      </p>
+      <div class="hero-btns">
+        <a href="/quote.html" class="btn-primary">Book a free consultation</a>
+        <a href="/#packages" class="btn-ghost">See packages</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section class="section">
+    <div class="container prose">
+      <div class="section-label">Local to the Fraser Valley</div>
+      <h2 class="section-title">A Mission web designer who actually understands business.</h2>
+      <p>
+        I'm P. Beal, founder of Sharpline Digital. I've spent 28 years in banking, financial planning,
+        and consulting &mdash; and 19 years owning and operating small businesses of my own. I'm not a
+        tech person who learned business. I'm a business person who learned to build websites.
+      </p>
+      <p>
+        That matters when you're a Mission business owner spending real money. Mission businesses compete with bigger neighbours like Abbotsford for the same customers. A sharp, locally-optimized website levels the playing field. Every website I build
+        has to earn its keep: show up when someone Googles you, load instantly on a phone, and turn
+        visitors into phone calls. <strong>No jargon, no bloat, no dollar spent that doesn't make sense.</strong>
+      </p>
+      <p>
+        And when the project's done, your GitHub repo is yours outright. Take it anywhere. You'll never
+        be held hostage by a platform or an agency that disappears after launch.
+      </p>
+    </div>
+  </section>
+
+  <!-- WHY LOCAL -->
+  <section class="section alt">
+    <div class="container">
+      <div class="section-label">Why it matters</div>
+      <h2 class="section-title">Why Mission businesses choose custom over templates.</h2>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">&#128205;</div>
+          <h3>Built to rank locally</h3>
+          <p>Optimized for "Mission" searches from day one, so customers in the Fraser Valley actually find you on Google.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128241;</div>
+          <h3>Mobile-first, always</h3>
+          <p>Most local searches happen on a phone. Your site is built for the phone first &mdash; fast, clean, easy to tap.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128279;</div>
+          <h3>You own everything</h3>
+          <p>Custom code delivered via GitHub. No WordPress plugins to maintain, no platform fees, no lock-in.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128172;</div>
+          <h3>You work with me</h3>
+          <p>Not an account manager. The person building your site is the person who answers the phone.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#9889;</div>
+          <h3>Fast turnaround</h3>
+          <p>From quote to launch in weeks, not months. Clear steps, clear expectations, no surprises.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128188;</div>
+          <h3>Real business sense</h3>
+          <p>28 years advising business owners means I build for ROI, not just aesthetics.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO WE SERVE -->
+  <section class="section">
+    <div class="container prose">
+      <div class="section-label">Who I work with</div>
+      <h2 class="section-title">Websites for Mission's small businesses.</h2>
+      <p>
+        I work with the businesses that make up the backbone of Mission and the Fraser Valley &mdash;
+        the ones where the owner answers the phone and every customer counts:
+      </p>
+      <ul class="local-list">
+        <li><span class="check">&#10003;</span> Trades &amp; contractors &mdash; roofers, electricians, plumbers, drywall, construction</li>
+        <li><span class="check">&#10003;</span> Auto &amp; repair shops</li>
+        <li><span class="check">&#10003;</span> Salons, spas, and personal care</li>
+        <li><span class="check">&#10003;</span> Professional and financial services</li>
+        <li><span class="check">&#10003;</span> Local retailers and service providers</li>
+      </ul>
+      <p style="margin-top:1.5rem;">
+        Serving Mission and the surrounding Fraser Valley &mdash; including Abbotsford, Chilliwack, and Maple Ridge.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Let's talk about your Mission business.</h2>
+    <p>No pressure, no pitch deck. Just a free conversation about what your website needs.</p>
+    <a href="/quote.html" class="cta-btn">Book a free consultation</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/">Home</a>
+      <a href="/#packages">Packages</a>
+      <a href="/quote.html">Contact</a>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+      navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => navLinks.classList.remove('open'));
+      });
+    }
+  </script>
+</body>
+</html>
