@@ -79,6 +79,17 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-phone {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: rgba(255,255,255,0.85);
+      font-size: 0.85rem;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+      transition: color 0.2s;
+    }
+    .nav-phone:hover { color: var(--teal); }
     .nav-toggle {
       display: none;
       background: none;
@@ -333,6 +344,11 @@
       .nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       .nav-toggle { display: block; }
+    }
+    @media (max-width: 480px) {
+      .nav-phone-num { display: none; }
+    }
+    @media (max-width: 768px) {
       .nav-links.open {
         display: flex;
         flex-direction: column;
@@ -365,6 +381,7 @@
       <li><a href="/blog-cheap-websites.html">Insights</a></li>
       <li><a href="/#contact">Contact</a></li>
     </ul>
+    <a href="tel:+16047965557" class="nav-phone" aria-label="Call Sharpline Digital"><span class="nav-phone-icon">&#128222;</span><span class="nav-phone-num">604-796-5557</span></a>
     <a href="/quote.html" class="nav-cta">Let's talk</a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
   </nav>
