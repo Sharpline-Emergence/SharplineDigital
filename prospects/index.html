@@ -87,7 +87,7 @@
     border-radius: 10px;
     padding: 14px 16px;
     display: grid;
-    grid-template-columns: 44px 1.4fr 1fr 1fr 0.9fr auto;
+    grid-template-columns: 44px 1.4fr 1fr 1fr 0.6fr 0.9fr auto;
     align-items: center;
     gap: 14px;
     cursor: pointer;
@@ -96,7 +96,7 @@
   .row:hover { border-color: var(--sage); }
   @media (max-width: 780px) {
     .row { grid-template-columns: 40px 1fr auto; }
-    .row .col-city, .row .col-category, .row .col-status { display: none; }
+    .row .col-city, .row .col-category, .row .col-status, .row .col-grade { display: none; }
   }
 
   .ring-wrap { position: relative; width: 40px; height: 40px; }
@@ -116,6 +116,18 @@
   .status-Follow-up { background: #fbf1de; color: #9a6b1a; }
   .status-Won { background: #e7f3e6; color: #3a7a3d; }
   .status-Not.interested { background: #f1eeee; color: #8a8783; }
+
+  .grade-pill {
+    font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .grade-A { background: var(--sage-tint); color: var(--sage-dark); }
+  .grade-B { background: #eef2f7; color: #3d5a80; }
+  .grade-C { background: #fbf1de; color: #9a6b1a; }
+  .grade-D { background: #fbe6de; color: #a54a1f; }
+  .grade-F { background: var(--danger-tint); color: var(--danger); }
+  .grade-none { color: var(--ink-soft); font-size: 12px; }
 
   .row-actions { display: flex; gap: 4px; }
 
@@ -237,7 +249,7 @@
       <div class="field"><label>Category</label>
         <select id="f_category">
           <option>General Contractors</option><option>Roofing</option><option>Electricians</option>
-          <option>Beauty Salons</option><option>Auto Repair</option><option>HVAC</option><option>Supplies</option><option>Other</option>
+          <option>Beauty Salons</option><option>Automotive</option><option>Medical</option><option>HVAC</option><option>Supplies</option><option>Other</option>
         </select>
       </div>
     </div>
@@ -247,7 +259,12 @@
       <div class="field"><label>Contact Name</label><input id="f_contactName"></div>
     </div>
     <div class="field"><label>Email</label><input id="f_email" type="email"></div>
-    <div class="field"><label>Sharpline Score (optional)</label><input id="f_score" type="number" min="0" max="100" placeholder="e.g. 63"></div>
+    <div class="field"><label>Sharpline Score (optional)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="f_score" type="number" min="0" max="100" placeholder="e.g. 63" style="flex:1;">
+        <span id="f_gradePreview" style="min-width:26px; text-align:center;"></span>
+      </div>
+    </div>
     <div class="field"><label>Opportunities</label>
       <div class="checks">
         <label class="check-row"><input type="checkbox" value="No website"> No website</label>
@@ -391,6 +408,21 @@ async function loadProspects() {
   render();
 }
 
+function letterGrade(score) {
+  if (score === null || score === undefined || score === '') return null;
+  if (score >= 90) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 55) return 'C';
+  if (score >= 35) return 'D';
+  return 'F';
+}
+
+function gradeBadge(score) {
+  const g = letterGrade(score);
+  if (!g) return `<div class="grade-none">—</div>`;
+  return `<div class="grade-pill grade-${g}">${g}</div>`;
+}
+
 function scoreColor(score) {
   if (score === null || score === undefined || score === '') return null;
   // inverted: low score (hot prospect) = red/hot, high score (skip) = sage/cool
@@ -482,6 +514,7 @@ function render() {
       </div>
       <div class="col-city">${escapeHtml(p.city || '')}</div>
       <div class="col-category">${escapeHtml(p.category || '')}</div>
+      <div class="col-grade">${gradeBadge(p.score)}</div>
       <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span></div>
       <div class="row-actions"></div>
     </div>
@@ -512,6 +545,7 @@ function openDrawer(id) {
   document.getElementById('f_contactName').value = p?.contactName || '';
   document.getElementById('f_email').value = p?.email || '';
   document.getElementById('f_score').value = p?.score ?? '';
+  updateGradePreview();
   document.getElementById('f_status').value = p?.status || 'New';
   document.getElementById('f_dateContacted').value = p?.dateContacted || '';
   document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
@@ -681,6 +715,13 @@ function exportCSV() {
 
 document.getElementById('exportBtn').addEventListener('click', exportCSV);
 document.getElementById('addBtn').addEventListener('click', () => openDrawer(null));
+
+function updateGradePreview() {
+  const raw = document.getElementById('f_score').value;
+  const score = raw === '' ? null : parseInt(raw, 10);
+  document.getElementById('f_gradePreview').innerHTML = gradeBadge(score);
+}
+document.getElementById('f_score').addEventListener('input', updateGradePreview);
 document.getElementById('cancelBtn').addEventListener('click', closeDrawer);
 document.getElementById('saveBtn').addEventListener('click', saveCurrent);
 document.getElementById('deleteBtn').addEventListener('click', deleteCurrent);
