@@ -87,7 +87,7 @@
     border-radius: 10px;
     padding: 14px 16px;
     display: grid;
-    grid-template-columns: 44px 1.4fr 1fr 1fr 0.6fr 0.9fr auto;
+    grid-template-columns: 24px 44px 1.4fr 1fr 1fr 0.6fr 0.9fr auto;
     align-items: center;
     gap: 14px;
     cursor: pointer;
@@ -95,9 +95,10 @@
   }
   .row:hover { border-color: var(--sage); }
   @media (max-width: 780px) {
-    .row { grid-template-columns: 40px 1fr auto; }
+    .row { grid-template-columns: 20px 40px 1fr auto; }
     .row .col-city, .row .col-category, .row .col-status, .row .col-grade { display: none; }
   }
+  .row-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-soft); text-align: right; }
 
   .ring-wrap { position: relative; width: 40px; height: 40px; }
   .ring-wrap svg { transform: rotate(-90deg); }
@@ -248,8 +249,8 @@
       </div>
       <div class="field"><label>Category</label>
         <select id="f_category">
-          <option>General Contractors</option><option>Roofing</option><option>Electricians</option>
-          <option>Beauty Salons</option><option>Automotive</option><option>Medical</option><option>HVAC</option><option>Supplies</option><option>Other</option>
+          <option>Automotive</option><option>Beauty Salons</option><option>Electricians</option>
+          <option>General Contractors</option><option>HVAC</option><option>Medical</option><option>Roofing</option><option>Supplies</option><option>Other</option>
         </select>
       </div>
     </div>
@@ -505,8 +506,9 @@ function render() {
     return;
   }
 
-  listArea.innerHTML = `<div class="list">` + filtered.map(p => `
+  listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
     <div class="row" data-id="${p.id}">
+      <div class="row-num">${idx + 1}</div>
       ${ringSVG(p.score)}
       <div>
         <div class="biz-name">${escapeHtml(p.businessName || 'Untitled')}</div>
