@@ -300,6 +300,7 @@
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let prospects = [];
 let editingId = null;
+let lastFiltered = [];
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
@@ -496,6 +497,8 @@ function render() {
     `${prospects.length} prospect${prospects.length === 1 ? '' : 's'} tracked` +
     (filtered.length !== prospects.length ? ` · ${filtered.length} shown` : '');
 
+  lastFiltered = filtered;
+
   const listArea = document.getElementById('listArea');
   if (prospects.length === 0) {
     listArea.innerHTML = `<div class="empty"><h2>No prospects yet</h2><p>Add your first one, or import from a CSV.</p></div>`;
@@ -689,13 +692,14 @@ function csvEscape(val) {
 
 function exportCSV() {
   if (prospects.length === 0) { showToast('No prospects to export'); return; }
+  const rowsData = lastFiltered.length > 0 ? lastFiltered : prospects;
   const headers = [
-    'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
+    '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
     'Date Added', 'Date Contacted', 'Notes'
   ];
-  const rows = prospects.map(p => [
-    p.businessName, p.city, p.category, p.website, p.phone,
+  const rows = rowsData.map((p, idx) => [
+    idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
     p.contactName, p.email, p.score ?? '', p.status,
     (p.opportunities || []).join('; '),
     p.dateAdded, p.dateContacted, p.notes
@@ -712,7 +716,7 @@ function exportCSV() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(`Exported ${prospects.length} prospect${prospects.length === 1 ? '' : 's'}`);
+  showToast(`Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`);
 }
 
 document.getElementById('exportBtn').addEventListener('click', exportCSV);
