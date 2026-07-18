@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Website Speed Test — Sharpline Digital</title>
+<meta name="description" content="Check your website's speed score in 30 seconds. Free tool from Sharpline Digital — Fraser Valley web design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #2ec4a9;
+    --teal-dark: #1f8f7a;
+    --navy: #0a1628;
+    --navy-soft: #14243d;
+    --paper: #f7f9f9;
+    --white: #ffffff;
+    --grade-a: #2ec4a9;
+    --grade-b: #4fb477;
+    --grade-c: #e0a72e;
+    --grade-d: #e07b2e;
+    --grade-f: #d64545;
+    --line: rgba(10,22,40,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--navy);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .display {
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- Header ---------- */
+  header {
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--white);
+  }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; }
+  .logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--navy);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-mark {
+    width: 26px; height: 26px;
+    border-radius: 7px;
+    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+    display: inline-flex; align-items: center; justify-content: center;
+    color: white; font-size: 0.75rem; font-weight: 800;
+  }
+  header a.home-link {
+    font-size: 0.85rem;
+    color: var(--navy);
+    opacity: 0.65;
+    text-decoration: none;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero { padding: 64px 0 40px; text-align: center; }
+  .eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal-dark);
+    background: rgba(46,196,169,0.12);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+    line-height: 1.12;
+    font-weight: 800;
+    margin: 0 0 16px;
+  }
+  .hero h1 span { color: var(--teal-dark); }
+  .hero p.sub {
+    font-size: 1.05rem;
+    line-height: 1.55;
+    color: rgba(10,22,40,0.68);
+    max-width: 520px;
+    margin: 0 auto 36px;
+  }
+
+  /* ---------- Form ---------- */
+  .check-form {
+    display: flex;
+    gap: 10px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .check-form input {
+    flex: 1;
+    padding: 15px 18px;
+    font-size: 0.98rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .check-form input:focus { border-color: var(--teal); }
+  .check-form button {
+    padding: 15px 24px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    color: white;
+    background: var(--navy);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .check-form button:hover { background: var(--navy-soft); }
+  .check-form button:active { transform: scale(0.98); }
+  .check-form button:disabled { opacity: 0.55; cursor: not-allowed; }
+  .device-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+    font-size: 0.82rem;
+  }
+  .device-toggle button {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1.5px solid var(--line);
+    background: var(--white);
+    color: rgba(10,22,40,0.6);
+    cursor: pointer;
+  }
+  .device-toggle button.active {
+    background: var(--navy);
+    border-color: var(--navy);
+    color: white;
+  }
+  .form-error {
+    max-width: 480px;
+    margin: 12px auto 0;
+    font-size: 0.85rem;
+    color: var(--grade-f);
+    display: none;
+  }
+
+  @media (max-width: 520px) {
+    .check-form { flex-direction: column; }
+  }
+
+  /* ---------- Loading ---------- */
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 56px 0 20px;
+  }
+  .loading.active { display: block; }
+  .spinner {
+    width: 44px; height: 44px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    border: 3px solid rgba(46,196,169,0.2);
+    border-top-color: var(--teal);
+    animation: spin 0.9s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading p { color: rgba(10,22,40,0.6); font-size: 0.92rem; margin: 0; }
+  .loading p.small { font-size: 0.8rem; margin-top: 6px; opacity: 0.75; }
+
+  /* ---------- Results ---------- */
+  .results {
+    display: none;
+    padding: 20px 0 80px;
+  }
+  .results.active { display: block; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+
+  .result-card {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 40px 32px;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .result-card::before {
+    content: "";
+    position: absolute;
+    top: -60%; right: -20%;
+    width: 340px; height: 340px;
+    background: radial-gradient(circle, rgba(46,196,169,0.22), transparent 70%);
+  }
+  .result-url {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 22px;
+    word-break: break-all;
+    position: relative;
+  }
+
+  /* Gauge */
+  .gauge-wrap { position: relative; width: 200px; height: 200px; margin: 0 auto 8px; }
+  .gauge-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .gauge-track { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 14; }
+  .gauge-fill { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1), stroke 0.4s; }
+  .gauge-center {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .gauge-score { font-family: 'Outfit', sans-serif; font-size: 2.6rem; font-weight: 800; line-height: 1; }
+  .gauge-grade {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    margin-top: 4px;
+    padding: 3px 12px;
+    border-radius: 100px;
+    letter-spacing: 0.03em;
+  }
+
+  .verdict {
+    max-width: 440px;
+    margin: 22px auto 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.88);
+    position: relative;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    max-width: 480px;
+    margin: 30px auto 0;
+    position: relative;
+  }
+  .metric {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 16px 10px;
+  }
+  .metric .val { font-family: 'Outfit', sans-serif; font-size: 1.25rem; font-weight: 700; }
+  .metric .lbl { font-size: 0.72rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+  .cta-block {
+    margin-top: 34px;
+    position: relative;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--teal);
+    color: var(--navy);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 15px 32px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: transform 0.12s, background 0.15s;
+  }
+  .cta-btn:hover { background: #3fd4b8; transform: translateY(-1px); }
+  .cta-sub {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.5);
+    margin-top: 12px;
+  }
+
+  .recheck {
+    display: block;
+    text-align: center;
+    margin: 22px auto 0;
+    font-size: 0.85rem;
+    color: rgba(10,22,40,0.5);
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  footer {
+    padding: 30px 0 50px;
+    text-align: center;
+    font-size: 0.78rem;
+    color: rgba(10,22,40,0.4);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a href="https://sharplinedigital.com" class="logo">
+      <span class="logo-mark">SD</span> Sharpline Digital
+    </a>
+    <a href="https://sharplinedigital.com" class="home-link">← Back to site</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <span class="eyebrow">Free tool</span>
+    <h1>Is your website losing you <span>customers</span>?</h1>
+    <p class="sub">Most visitors leave a slow site before it even finishes loading. Enter your URL below and get your Sharpline Speed Score in about 30 seconds — free, no signup.</p>
+
+    <form class="check-form" id="checkForm">
+      <input type="text" id="urlInput" placeholder="yourbusiness.com" autocomplete="off" spellcheck="false">
+      <button type="submit" id="checkBtn">Check my speed</button>
+    </form>
+    <div class="device-toggle">
+      <button type="button" class="active" data-strategy="mobile">Mobile</button>
+      <button type="button" data-strategy="desktop">Desktop</button>
+    </div>
+    <p class="form-error" id="formError">Please enter a valid website address.</p>
+  </section>
+
+  <div class="loading" id="loadingState">
+    <div class="spinner"></div>
+    <p>Loading your site and measuring performance…</p>
+    <p class="small">This takes 15–30 seconds — we're doing a full real-world check.</p>
+  </div>
+
+  <section class="results" id="resultsState">
+    <div class="result-card">
+      <div class="result-url" id="resultUrl"></div>
+
+      <div class="gauge-wrap">
+        <svg viewBox="0 0 200 200">
+          <circle class="gauge-track" cx="100" cy="100" r="86"></circle>
+          <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="86"></circle>
+        </svg>
+        <div class="gauge-center">
+          <div class="gauge-score" id="gaugeScore">0</div>
+          <div class="gauge-grade" id="gaugeGrade">—</div>
+        </div>
+      </div>
+
+      <p class="verdict" id="verdictText"></p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="val" id="metricLoad">—</div>
+          <div class="lbl">Load time</div>
+        </div>
+        <div class="metric">
+          <div class="val" id="metricFirstPaint">—</div>
+          <div class="lbl">First paint</div>
+        </div>
+        <div class="metric">
+          <div class="val" id="metricInteractive">—</div>
+          <div class="lbl">Ready to use</div>
+        </div>
+      </div>
+
+      <div class="cta-block">
+        <a href="https://sharplinedigital.com/#contact" class="cta-btn" id="ctaBtn" target="_blank" rel="noopener">Book a free 15-minute audit call</a>
+        <p class="cta-sub">We'll walk through exactly what's slowing you down and what it's costing you.</p>
+      </div>
+    </div>
+
+    <button class="recheck" id="recheckBtn">Check a different website →</button>
+  </section>
+</div>
+
+<footer>
+  Sharpline Digital · Chilliwack, BC · Powered by Google PageSpeed Insights
+</footer>
+
+<script>
+  // ---- CONFIG ----
+  // Get a free key at https://console.cloud.google.com/apis/credentials
+  // Restrict it to the PageSpeed Insights API and to your domain (HTTP referrer)
+  // before going live, so nobody else can burn your quota.
+  const PSI_API_KEY = "AIzaSyC6VccXl-81_TrGqlW0A8t-1WF3YRCyVXA";
+
+  const form = document.getElementById('checkForm');
+  const urlInput = document.getElementById('urlInput');
+  const checkBtn = document.getElementById('checkBtn');
+  const formError = document.getElementById('formError');
+  const heroSection = document.querySelector('.hero');
+  const loadingState = document.getElementById('loadingState');
+  const resultsState = document.getElementById('resultsState');
+  const recheckBtn = document.getElementById('recheckBtn');
+  const deviceButtons = document.querySelectorAll('.device-toggle button');
+
+  let strategy = 'mobile';
+
+  deviceButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      deviceButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      strategy = btn.dataset.strategy;
+    });
+  });
+
+  function normalizeUrl(raw) {
+    let val = raw.trim();
+    if (!val) return null;
+    if (!/^https?:\/\//i.test(val)) val = 'https://' + val;
+    try {
+      const u = new URL(val);
+      if (!u.hostname.includes('.')) return null;
+      return u.href;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function gradeFromScore(score) {
+    if (score >= 90) return { letter: 'A', color: 'var(--grade-a)' };
+    if (score >= 80) return { letter: 'B', color: 'var(--grade-b)' };
+    if (score >= 65) return { letter: 'C', color: 'var(--grade-c)' };
+    if (score >= 50) return { letter: 'D', color: 'var(--grade-d)' };
+    return { letter: 'F', color: 'var(--grade-f)' };
+  }
+
+  function verdictFor(score) {
+    if (score >= 90) return "Excellent — your site loads fast enough to keep almost every visitor around. Nice work.";
+    if (score >= 80) return "Good, but not great. A few tweaks could push this into top-tier territory and recover visitors you're currently losing.";
+    if (score >= 65) return "This is costing you visitors. Studies show conversion rates drop sharply for every extra second of load time — and your site has room to improve.";
+    if (score >= 50) return "This is a real problem. Slow-loading pages like this typically lose over a third of visitors before the page even finishes loading.";
+    return "This is seriously hurting your business. Most visitors will leave before your site even appears — and many won't come back.";
+  }
+
+  function setGauge(score, color) {
+    const circumference = 2 * Math.PI * 86;
+    const fill = document.getElementById('gaugeFill');
+    fill.style.stroke = color;
+    fill.style.strokeDasharray = circumference;
+    fill.style.strokeDashoffset = circumference;
+    // trigger transition
+    requestAnimationFrame(() => {
+      const offset = circumference - (score / 100) * circumference;
+      fill.style.strokeDashoffset = offset;
+    });
+  }
+
+  function animateNumber(el, target, duration = 1100) {
+    const start = performance.now();
+    function tick(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function fmtSeconds(ms) {
+    if (ms == null) return '—';
+    return (ms / 1000).toFixed(1) + 's';
+  }
+
+  async function runCheck(targetUrl) {
+    heroSection.style.display = 'none';
+    formError.style.display = 'none';
+    loadingState.classList.add('active');
+    resultsState.classList.remove('active');
+
+    try {
+      const apiUrl = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(targetUrl)}&strategy=${strategy}&category=performance&key=${PSI_API_KEY}`;
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error('API error: ' + res.status);
+      const data = await res.json();
+
+      const perfScore = Math.round((data.lighthouseResult.categories.performance.score || 0) * 100);
+      const audits = data.lighthouseResult.audits;
+      const fcp = audits['first-contentful-paint']?.numericValue;
+      const tti = audits['interactive']?.numericValue;
+      const speedIndex = audits['speed-index']?.numericValue;
+
+      const grade = gradeFromScore(perfScore);
+
+      document.getElementById('resultUrl').textContent = targetUrl.replace(/^https?:\/\//, '');
+      document.getElementById('gaugeGrade').textContent = grade.letter;
+      document.getElementById('gaugeGrade').style.background = grade.color;
+      document.getElementById('gaugeGrade').style.color = (grade.letter === 'A' || grade.letter === 'B') ? 'var(--navy)' : 'white';
+      document.getElementById('verdictText').textContent = verdictFor(perfScore);
+      document.getElementById('metricLoad').textContent = fmtSeconds(speedIndex);
+      document.getElementById('metricFirstPaint').textContent = fmtSeconds(fcp);
+      document.getElementById('metricInteractive').textContent = fmtSeconds(tti);
+
+      loadingState.classList.remove('active');
+      resultsState.classList.add('active');
+      setGauge(perfScore, grade.color);
+      animateNumber(document.getElementById('gaugeScore'), perfScore);
+
+    } catch (err) {
+      console.error(err);
+      loadingState.classList.remove('active');
+      heroSection.style.display = 'block';
+      formError.textContent = "We couldn't check that site right now. Double check the URL and try again.";
+      formError.style.display = 'block';
+    }
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const normalized = normalizeUrl(urlInput.value);
+    if (!normalized) {
+      formError.style.display = 'block';
+      return;
+    }
+    runCheck(normalized);
+  });
+
+  recheckBtn.addEventListener('click', () => {
+    resultsState.classList.remove('active');
+    heroSection.style.display = 'block';
+    urlInput.value = '';
+    urlInput.focus();
+  });
+</script>
+
+</body>
+</html>
