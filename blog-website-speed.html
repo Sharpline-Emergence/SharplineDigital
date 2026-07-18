@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Google's own research shows over half of mobile visitors abandon a site that takes more than 3 seconds to load. Here's what's actually slowing your site down — and how to check your own score for free.">
+  <title>The 3-Second Rule: Why Your Website Might Be Losing Customers | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
+
+    /* ─── NAV ─── */
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; background: var(--navy); position: sticky; top: 0; z-index: 100; }
+    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
+    .nav-logo span { color: var(--white); }
+    .nav-back { color: var(--muted); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip { background: var(--navy); padding: 3.5rem 2.5rem 4rem; }
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+    .article-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .meta-tag { background: rgba(46,196,169,0.15); color: var(--teal); font-size: 0.7rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+    .meta-date { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+    .meta-read { font-size: 0.8rem; color: var(--muted); font-weight: 300; }
+    .meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); opacity: 0.5; }
+    .hero-strip h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; color: var(--white); line-height: 1.15; letter-spacing: -0.5px; margin-bottom: 1.2rem; }
+    .hero-strip h1 em { color: var(--teal); font-style: normal; font-weight: 300; }
+    .hero-byline { font-size: 0.88rem; color: var(--muted); font-weight: 300; }
+    .hero-byline strong { color: rgba(255,255,255,0.75); font-weight: 400; }
+
+    /* ─── SUMMARY ─── */
+    .summary-wrap { max-width: 760px; margin: 0 auto; padding: 0 2rem; transform: translateY(-1.5rem); }
+    .summary-card { background: var(--teal-light); border: 1px solid rgba(46,196,169,0.3); border-left: 4px solid var(--teal); border-radius: 8px; padding: 1.8rem 2rem; }
+    .summary-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .summary-label::before { content: '⚡'; font-size: 0.85rem; }
+    .summary-points { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+    .summary-points li { font-size: 0.9rem; color: #0a4035; padding-left: 1.2rem; position: relative; line-height: 1.5; font-weight: 400; }
+    .summary-points li::before { content: '→'; position: absolute; left: 0; color: var(--teal-dark); font-weight: 600; }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap { max-width: 760px; margin: 0 auto; padding: 1rem 2rem 5rem; }
+    .article-body h2 { font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 700; color: var(--text-dark); letter-spacing: -0.3px; margin: 3rem 0 1rem; line-height: 1.25; }
+    .article-body h2 .h2-num { color: var(--teal); font-weight: 300; margin-right: 0.4rem; }
+    .article-body p { font-size: 1rem; color: #2a3a4a; line-height: 1.85; margin-bottom: 1.3rem; font-weight: 300; }
+    .article-body p strong { color: var(--text-dark); font-weight: 500; }
+    .article-body .intro-p { font-size: 1.08rem; color: var(--text-dark); font-weight: 400; line-height: 1.8; margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+
+    /* Pull quote */
+    .pull-quote { border-left: 3px solid var(--teal); margin: 2.5rem 0; padding: 0.5rem 0 0.5rem 1.8rem; }
+    .pull-quote p { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 500; color: var(--navy); line-height: 1.5; margin-bottom: 0 !important; font-style: italic; }
+
+    /* Stat callout */
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 2.5rem 0; }
+    .stat-box { background: var(--off-white); border: 1px solid var(--border); border-radius: 8px; padding: 1.4rem 1.2rem; text-align: center; }
+    .stat-box .stat-num { font-family: 'Outfit', sans-serif; font-size: 2rem; font-weight: 700; color: var(--teal-dark); line-height: 1; margin-bottom: 0.4rem; }
+    .stat-box .stat-label { font-size: 0.78rem; color: var(--text-mid); line-height: 1.4; font-weight: 300; }
+
+    /* Before/after table */
+    .cost-table { width: 100%; border-collapse: collapse; margin: 2rem 0; font-size: 0.88rem; }
+    .cost-table th { background: var(--navy); color: var(--white); padding: 0.75rem 1rem; text-align: left; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 0.82rem; letter-spacing: 0.5px; }
+    .cost-table td { padding: 0.7rem 1rem; border-bottom: 1px solid var(--border); color: #2a3a4a; font-weight: 300; line-height: 1.5; }
+    .cost-table tr:last-child td { border-bottom: none; font-weight: 500; color: var(--text-dark); background: var(--teal-light); }
+    .cost-table tr:nth-child(even) td { background: var(--off-white); }
+    .cost-table tr:last-child td { background: var(--teal-light); }
+    .cost-bad { color: #c0392b; font-weight: 500; }
+    .cost-good { color: var(--teal-dark); font-weight: 500; }
+
+    /* Section rule */
+    .section-rule { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0 0; }
+
+    /* References */
+    .references { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .references h3 { font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 1rem; }
+    .references ol { padding-left: 1.2rem; }
+    .references li { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; margin-bottom: 0.4rem; font-weight: 300; }
+    .references a { color: var(--teal-dark); text-decoration: none; }
+    .references a:hover { text-decoration: underline; }
+
+    /* Also read */
+    .also-read { background: var(--navy-mid); border: 1px solid rgba(46,196,169,0.2); border-radius: 10px; padding: 1.6rem 2rem; margin-top: 3rem; display: flex; align-items: center; gap: 1.5rem; }
+    .also-read-label { font-size: 0.68rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+    .also-read-title { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; line-height: 1.3; }
+    .also-read-desc { font-size: 0.82rem; color: #c8dae6; font-weight: 300; line-height: 1.5; }
+    .also-read a { text-decoration: none; flex: 1; }
+    .also-read-arrow { font-size: 1.4rem; color: var(--teal); flex-shrink: 0; }
+
+    /* Author card */
+    .author-card { background: var(--navy-mid); border: 1px solid rgba(46,196,169,0.2); border-radius: 10px; padding: 1.8rem 2rem; margin-top: 2rem; display: flex; align-items: flex-start; gap: 1.5rem; }
+    .author-icon { width: 48px; height: 48px; background: rgba(46,196,169,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+    .author-name { font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; }
+
+    /* CTA */
+    .article-cta { background: var(--teal-light); border: 1px solid rgba(46,196,169,0.3); border-radius: 10px; padding: 2rem; margin-top: 2rem; text-align: center; }
+    .article-cta h3 { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); margin-bottom: 0.5rem; }
+    .article-cta p { font-size: 0.88rem; color: #0a4035; margin-bottom: 1.2rem; font-weight: 300; }
+    .article-cta a { background: var(--navy); color: var(--white); padding: 0.75rem 2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 500; text-decoration: none; display: inline-block; transition: background 0.2s; }
+    .article-cta a:hover { background: var(--navy-mid); }
+    .article-cta .cta-secondary { display: block; margin-top: 0.9rem; font-size: 0.82rem; color: #0a4035; font-weight: 400; text-decoration: underline; background: none; padding: 0; }
+
+    /* ─── FOOTER ─── */
+    .footer { background: var(--navy-deep); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--teal); }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a { font-size: 0.78rem; color: #4a6075; text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .also-read { flex-direction: column; gap: 0.8rem; }
+      .cost-table { font-size: 0.78rem; }
+      .cost-table th, .cost-table td { padding: 0.6rem 0.7rem; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/index.html" class="nav-back">&#8592; Back to home</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">July 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">5 min read</span>
+      </div>
+      <h1>The 3-Second Rule: Why Your Website Might Be <em>Losing Customers</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>Google's own research found that 53% of mobile visitors abandon a page that takes more than 3 seconds to load</li>
+        <li>The odds of a visitor bouncing jump 32% just going from a 1-second to a 3-second load time</li>
+        <li>For trades and local service businesses, most visitors are on a phone with an urgent need — patience is even shorter</li>
+        <li>Slow websites almost always come down to a few fixable things: oversized images, page builder bloat, and unused fonts or scripts</li>
+        <li>We ran our own site through a speed test, found it scored a B, and fixed it with one image change</li>
+        <li>You can check your own website's speed for free, in under a minute, with the tool at the bottom of this article</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        If your website takes longer than three seconds to load, you've probably already lost more than half your visitors — and you'll never even know it. That's not a scare tactic. It's what Google found when it studied over a million mobile landing pages. Here's what that actually means for a Fraser Valley small business, and how we found out the hard way that our own site wasn't immune.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> The Three Seconds That Decide Everything</h2>
+      <p>
+        Google's research, built from real-world data across hundreds of thousands of mobile ad landing pages, found that <strong>53% of visitors abandon a mobile page that takes more than three seconds to load.</strong><sup>1</sup> The drop-off starts well before that ceiling — as load time climbs from one second to three, the probability of a visitor bouncing increases by 32%.<sup>1</sup>
+      </p>
+      <p>
+        Here's the part that should bother you as a business owner: those visitors don't leave a bad review. They don't call to complain. They just quietly go to the next result on Google — probably a competitor's site — and you never know they were there at all. No lead, no missed call, no "sorry, we went with someone else." Just silence, and a slightly higher bounce rate you might not even be watching.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">53%</div>
+          <div class="stat-label">of mobile visitors leave a page that takes over 3 seconds to load<sup>1</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">32%</div>
+          <div class="stat-label">jump in bounce probability from a 1s to a 3s load time<sup>1</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">&lt;2 sec</div>
+          <div class="stat-label">is what Google now treats as a genuinely fast page<sup>2</sup></div>
+        </div>
+      </div>
+
+      <h2><span class="h2-num">02 /</span> Why This Hits Trades and Local Service Businesses Hardest</h2>
+      <p>
+        If you're a roofer, an electrician, an HVAC contractor, or you run a landscaping crew here in the Fraser Valley, most of the people finding you online aren't browsing leisurely on a laptop with fast wifi. They're standing in a driveway with a leak, searching on their phone, on whatever cell signal Chilliwack or Abbotsford gives them that day. They have a problem right now, and three seconds is generous — they're not going to wait around and watch a spinning wheel while your homepage tries to load a five-megabyte photo of your last job site.
+      </p>
+      <p>
+        That visitor doesn't file a complaint. They just tap back and call the next name on the list.
+      </p>
+
+      <div class="pull-quote">
+        <p>"The visitors you lose to a slow site don't complain. They just don't call."</p>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> What's Actually Slowing Sites Down</h2>
+      <p>
+        In our experience auditing local business websites, it's almost never one dramatic thing. It's usually a stack of small, avoidable ones:
+      </p>
+      <p>
+        <strong>Oversized images.</strong> A photo straight off a phone can be 4&ndash;8MB. On the web, it should be a fraction of that. <strong>Page builder bloat.</strong> A lot of drag-and-drop platforms load megabytes of code you'll never use, just to render a template. <strong>Too many fonts and plugins.</strong> Every extra font weight, tracking script, or chat widget is one more thing a visitor's phone has to download before they see your headline. And most of all &mdash; <strong>no one's ever actually checked.</strong> Most business owners built their site once, years ago, and have never run it through a speed test since. It's not top of mind, until it's costing you leads.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> We Checked Our Own Site &mdash; Here's What We Found</h2>
+      <p>
+        We'll be honest: we didn't fully believe our own site was as fast as it should be until we checked it properly. When we ran sharplinedigital.com through a speed test, it came back with a B &mdash; a decent score, but not a great one, with first paint sitting right at the edge of where Google's research says people start leaving.
+      </p>
+      <p>
+        The fix wasn't a redesign. It was one oversized hero photo &mdash; a beautiful shot of a Fraser Valley lake, but four times larger than it needed to be for how it was actually displayed on screen. Compressing and properly sizing that single image took the score from an 80 to a 90, and cut over a second off the time it took the page to become fully interactive.
+      </p>
+
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Before</th>
+            <th>After</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Speed score</td>
+            <td class="cost-bad">80 (B)</td>
+            <td class="cost-good">90 (A)</td>
+          </tr>
+          <tr>
+            <td>First paint</td>
+            <td class="cost-bad">2.8s</td>
+            <td class="cost-good">2.7s</td>
+          </tr>
+          <tr>
+            <td>Ready to use</td>
+            <td class="cost-bad">4.5s</td>
+            <td class="cost-good">3.0s</td>
+          </tr>
+          <tr>
+            <td><strong>What changed</strong></td>
+            <td colspan="2"><strong>One hero image, resized and compressed</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="pull-quote">
+        <p>"We didn't redesign anything. We just stopped shipping an oversized photo."</p>
+      </div>
+
+      <p>
+        That's the frustrating thing about slow websites: the fix is often small, cheap, and boring. But almost nobody checks &mdash; until it's already cost them the customer.
+      </p>
+
+      <h2><span class="h2-num">05 /</span> How to Know Where You Stand</h2>
+      <p>
+        You don't need to guess, and you don't need to hire someone just to find out. Run your own site through a speed test and see what actually comes back. If it's a B or better, great &mdash; you're ahead of most of your competitors. If it's a C or worse, that's not a judgment on your business, it just means there's a real, fixable reason some of your visitors are leaving before they ever read a word of your site.
+      </p>
+      <p>
+        Either way, it's worth thirty seconds to find out.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>Google / SOASTA Research. (2017, updated 2023). <em>The need for mobile speed.</em> <a href="https://www.thinkwithgoogle.com" target="_blank" rel="noopener">thinkwithgoogle.com</a></li>
+          <li>Google Search Central. (2024). <em>Understanding Core Web Vitals and Google Search.</em> <a href="https://developers.google.com/search/docs/appearance/core-web-vitals" target="_blank" rel="noopener">developers.google.com</a></li>
+        </ol>
+      </div>
+
+      <!-- ALSO READ -->
+      <a href="/blog-cheap-websites.html" style="text-decoration:none;">
+        <div class="also-read">
+          <div style="flex:1;">
+            <div class="also-read-label">Also from Sharpline Digital</div>
+            <div class="also-read-title">Why a $500 Website Costs BC Businesses Thousands</div>
+            <div class="also-read-desc">The hidden costs of page builders, poor SEO, slow load times, and platform lock-in.</div>
+          </div>
+          <div class="also-read-arrow">&#8594;</div>
+        </div>
+      </a>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p style="font-size:0.83rem;color:#ffffff;line-height:1.6;font-weight:300;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses &mdash; clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>How fast is your website?</h3>
+        <p>Check your own site's speed score free, in about 30 seconds &mdash; no signup required.</p>
+        <a href="/speed-test.html">Check my speed &rarr;</a>
+        <a href="/quote.html" class="cta-secondary">Or book a free 15-minute audit call</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
