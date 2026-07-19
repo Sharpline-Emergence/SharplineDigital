@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Static vs. dynamic websites explained in plain language — what actually happens when someone visits your site, and why it matters for Fraser Valley small businesses.">
+  <title>Static vs. Dynamic Websites: What Actually Powers Your Site | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-body ol,
+    .article-body ul.steps {
+      margin: 0 0 1.3rem 1.2rem;
+    }
+    .article-body ol li,
+    .article-body ul.steps li {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0 2.5rem;
+      font-size: 0.92rem;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      background: var(--off-white);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .compare-table td {
+      color: #2a3a4a;
+      font-weight: 300;
+    }
+    .compare-table td.row-label {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .compare-table td.win {
+      color: var(--teal-dark);
+      font-weight: 500;
+    }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Also read */
+    .also-read {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin-top: 3rem;
+      transition: border-color 0.2s;
+    }
+    .also-read:hover { border-color: var(--teal); }
+    .also-read-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.3rem;
+    }
+    .also-read-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+    }
+    .also-read-desc {
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+    .also-read-arrow {
+      font-size: 1.3rem;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(46,196,169,0.2);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 0.7rem 0.6rem; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .also-read { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/insights.html" class="nav-back">&#8592; Back to Insights</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">July 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">6 min read</span>
+      </div>
+      <h1>Static vs. Dynamic Websites: <em>What Actually Powers Your Site</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>A dynamic site (like WordPress) rebuilds the page from scratch every single visit; a static site simply hands over a file that's already built</li>
+        <li>WordPress sites average 2.5 seconds to load on desktop and over 13 seconds on mobile &mdash; a well-built static site typically loads in under a second</li>
+        <li>91% of new WordPress vulnerabilities discovered in 2025 came from plugins &mdash; a static site has no database and no plugins for anyone to exploit</li>
+        <li>This isn't "better vs. worse" &mdash; it's a genuine trade-off between speed/security and easy self-editing</li>
+        <li>For businesses whose content barely changes, static wins on nearly every practical measure</li>
+        <li>For businesses updating content weekly, a CMS still earns its keep</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        If you've shopped around for a website, you've probably had "static" and "dynamic" thrown at you like everyone's supposed to already know what they mean. Most business owners nod along and move on. Here's the plain-language version &mdash; and why the difference actually shows up in your bottom line, not just your developer's vocabulary.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> How a Dynamic Site Actually Works</h2>
+      <p>
+        A dynamic site &mdash; WordPress being the most common example &mdash; builds the page fresh, on the spot, every single time someone visits. Click a link, and here's what happens behind the scenes before you see anything:
+      </p>
+      <ol>
+        <li>The server receives your request</li>
+        <li>It queries a database for the content</li>
+        <li>It runs PHP code to assemble the page</li>
+        <li>It sends the finished HTML back to your browser</li>
+      </ol>
+      <p>
+        That whole process happens in milliseconds on a good day &mdash; but it adds up fast once the server is busy, the database is slow, or there's a dozen plugins running in the background on every load. <strong>WordPress sites average 2.5 seconds to load on desktop and 13.25 seconds on mobile.</strong><sup>1</sup> In 2026, that's the difference between a visitor sticking around and a visitor hitting the back button before your page even finishes drawing.
+      </p>
+
+      <h2><span class="h2-num">02 /</span> How a Static Site Works</h2>
+      <p>
+        A static site is just pre-built files sitting on a server &mdash; HTML, CSS, and images, already assembled. Click a link, and the server does exactly one thing: <strong>send you the file.</strong> No database. No code running. No assembly required. The page was already built before you ever clicked.
+      </p>
+      <p>
+        There's no clever trick here &mdash; it's simply fewer steps. A static site does the assembly work once, at build time. A dynamic site repeats that same work on every single visit, forever.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">2.5s</div>
+          <div class="stat-label">average WordPress load time on desktop<sup>1</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">13.3s</div>
+          <div class="stat-label">average WordPress load time on mobile<sup>1</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">&lt;1s</div>
+          <div class="stat-label">typical load time for a well-built static site</div>
+        </div>
+      </div>
+
+      <div class="pull-quote">
+        <p>"A static site does the work once, at build time. A dynamic site does it all over again, every single visit."</p>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> Security: Fewer Moving Parts, Fewer Doors to Kick In</h2>
+      <p>
+        This is the part most website conversations skip entirely, and it's the one that should worry you most as a business owner. Every plugin on a WordPress site is a separate piece of software, written by a separate developer, with its own separate bugs. <strong>91% of the 11,334 new WordPress vulnerabilities discovered in 2025 were found in plugins</strong><sup>2</sup> &mdash; not in WordPress itself. Attackers routinely begin exploiting a newly disclosed vulnerability within hours of it going public.<sup>2</sup>
+      </p>
+      <p>
+        A static site removes almost the entire attack surface. There's no database to inject malicious code into, no login page to brute-force, no plugin ecosystem to patch on a rolling basis. It's not that a static site is unhackable &mdash; nothing connected to the internet is &mdash; it's that there's dramatically less for anyone to attack in the first place.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> The Honest Trade-off</h2>
+      <p>
+        None of this means WordPress is a bad platform. It's the most widely used content management system on the internet for a reason: it lets people who don't know how to code update their own content through a familiar dashboard. That's a real, legitimate convenience &mdash; and for some businesses, it's worth the cost.
+      </p>
+      <p>
+        The honest summary is this: <strong>WordPress exists because most people want to edit their own content without knowing how to code.</strong> The price of that convenience is speed, ongoing security patching, and a maintenance bill that doesn't stop once the site is launched.
+      </p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Static Site</th>
+            <th>Dynamic Site (WordPress)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Speed</td>
+            <td class="win">Extremely fast</td>
+            <td>Slower, more moving parts</td>
+          </tr>
+          <tr>
+            <td class="row-label">Security</td>
+            <td class="win">Very small attack surface</td>
+            <td>Constant plugin vulnerability patching</td>
+          </tr>
+          <tr>
+            <td class="row-label">Maintenance</td>
+            <td class="win">Minimal, mostly hands-off</td>
+            <td>Plugins, core updates, backups</td>
+          </tr>
+          <tr>
+            <td class="row-label">Self-editing</td>
+            <td>Requires a developer</td>
+            <td class="win">Easy, via CMS dashboard</td>
+          </tr>
+          <tr>
+            <td class="row-label">Hosting cost</td>
+            <td class="win">Near-zero</td>
+            <td>Hosting + plugins + maintenance</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2><span class="h2-num">05 /</span> So Which One Is Right for You?</h2>
+      <p>
+        If you're updating your site weekly &mdash; new blog posts, changing inventory, frequent promotions &mdash; a dynamic CMS earns its keep. That's a legitimate use case, and we won't pretend otherwise just to make the case for static sites look stronger than it is.
+      </p>
+      <p>
+        But for a large share of Fraser Valley small businesses &mdash; trades, home services, local shops, professional practices &mdash; the content barely changes month to month. Hours, services, a portfolio, contact information, maybe a seasonal update here and there. In that situation, you're paying an ongoing convenience tax for an editing feature you'll use a handful of times a year, while your site loads slower and carries more security risk than it needs to.
+      </p>
+      <p>
+        That's the gap Sharpline Digital builds into: custom-coded, static sites for businesses whose priority is looking sharp, loading fast, and not thinking about their website again until they actually need something changed &mdash; at which point you call us, not a plugin update screen.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>Hostinger. (2026). <em>Website load time statistics for 2026: Trends &amp; key insights.</em> <a href="https://www.hostinger.com/tutorials/website-load-time-statistics" target="_blank" rel="noopener">hostinger.com</a></li>
+          <li>Patchstack. (2026). <em>State of WordPress Security in 2026.</em> Referenced via Colorlib WordPress Hacking Statistics. <a href="https://colorlib.com/wp/wordpress-hacking-statistics/" target="_blank" rel="noopener">colorlib.com</a></li>
+        </ol>
+      </div>
+
+      <!-- ALSO READ -->
+      <a href="/blog-local-website.html" style="text-decoration:none;">
+        <div class="also-read">
+          <div style="flex:1;">
+            <div class="also-read-label">Also from Sharpline Digital</div>
+            <div class="also-read-title">Why Your BC Business Needs More Than Social Media</div>
+            <div class="also-read-desc">Why a fast, custom-coded local website is the foundation everything else should be built on.</div>
+          </div>
+          <div class="also-read-arrow">&#8594;</div>
+        </div>
+      </a>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio" style="color:#ffffff;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Not sure which one your business needs?</h3>
+        <p>We'll give you a straight answer &mdash; not a sales pitch &mdash; based on how your business actually uses its website.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
