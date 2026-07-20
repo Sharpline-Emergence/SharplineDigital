@@ -72,6 +72,8 @@
   }
   button:hover { opacity: 0.85; }
   button:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button:disabled:hover { opacity: 0.4; }
   .btn-primary { background: var(--sage); color: white; }
   .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
   .btn-danger { background: var(--danger-tint); color: var(--danger); }
@@ -138,6 +140,10 @@
     display: none; align-items: stretch; justify-content: flex-end; z-index: 50;
   }
   .overlay.open { display: flex; }
+  /* Centered variant — used by the delete-confirm modal. Defined AFTER .overlay.open
+     so it wins on source order and centers instead of docking to the right. */
+  .overlay.center { align-items: center; justify-content: center; }
+  #deleteOverlay { z-index: 60; }
   .drawer {
     width: min(460px, 100%); background: var(--cream); height: 100%;
     padding: 28px; overflow-y: auto; box-shadow: -8px 0 24px rgba(0,0,0,0.08);
@@ -153,6 +159,18 @@
   .check-row input { width: auto; }
   .drawer-actions { display: flex; gap: 8px; margin-top: 24px; justify-content: space-between; }
   .drawer-actions .right { display: flex; gap: 8px; }
+
+  /* Delete confirmation modal */
+  .confirm-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px 26px 22px; width: min(400px, 92%); box-shadow: 0 16px 44px rgba(0,0,0,0.18);
+  }
+  .confirm-card h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 20px; margin: 0 0 12px; color: var(--ink); }
+  .confirm-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px; }
+  .confirm-card p strong { color: var(--ink); }
+  .confirm-card .field { margin-bottom: 4px; }
+  .confirm-card .field input { width: 100%; }
+  .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
   .import-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
   .import-box textarea { width: 100%; min-height: 90px; font-family: 'DM Mono', monospace; font-size: 12px; }
@@ -294,6 +312,18 @@
   </div>
 </div>
 
+<!-- Delete confirmation modal: a deliberate second step guards against accidental deletion -->
+<div class="overlay center" id="deleteOverlay">
+  <div class="confirm-card">
+    <h2>Delete this prospect?</h2>
+    <p>Permanently delete <strong id="deleteBizName"></strong>? This can't be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="deleteCancelBtn">No, keep it</button>
+      <button class="btn-danger" id="deleteConfirmBtn">Yes, delete</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -301,6 +331,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let prospects = [];
 let editingId = null;
 let lastFiltered = [];
+let pendingDeleteId = null;
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
@@ -604,12 +635,28 @@ async function saveCurrent() {
   showToast(editingId ? 'Prospect updated' : 'Prospect added');
 }
 
-async function deleteCurrent() {
+// ---- Delete with type-to-confirm safety check ----
+
+function openDeleteConfirm() {
   if (!editingId) return;
-  if (!confirm('Delete this prospect? This can\'t be undone.')) return;
-  const { error } = await sb.from('prospects').delete().eq('id', editingId);
+  const p = prospects.find(x => x.id === editingId);
+  if (!p) return;
+  pendingDeleteId = editingId;
+  document.getElementById('deleteBizName').textContent = p.businessName || 'this prospect';
+  document.getElementById('deleteOverlay').classList.add('open');
+}
+
+function closeDeleteConfirm() {
+  document.getElementById('deleteOverlay').classList.remove('open');
+  pendingDeleteId = null;
+}
+
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const { error } = await sb.from('prospects').delete().eq('id', pendingDeleteId);
   if (error) { showToast('Delete failed: ' + error.message); return; }
   await loadProspects();
+  closeDeleteConfirm();
   closeDrawer();
   showToast('Prospect deleted');
 }
@@ -730,8 +777,16 @@ function updateGradePreview() {
 document.getElementById('f_score').addEventListener('input', updateGradePreview);
 document.getElementById('cancelBtn').addEventListener('click', closeDrawer);
 document.getElementById('saveBtn').addEventListener('click', saveCurrent);
-document.getElementById('deleteBtn').addEventListener('click', deleteCurrent);
+document.getElementById('deleteBtn').addEventListener('click', openDeleteConfirm);
 document.getElementById('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') closeDrawer(); });
+
+// Delete-confirm modal wiring
+document.getElementById('deleteCancelBtn').addEventListener('click', closeDeleteConfirm);
+document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+document.getElementById('deleteOverlay').addEventListener('click', (e) => { if (e.target.id === 'deleteOverlay') closeDeleteConfirm(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('deleteOverlay').classList.contains('open')) closeDeleteConfirm();
+});
 
 document.getElementById('searchInput').addEventListener('input', render);
 document.getElementById('filterCity').addEventListener('change', render);
