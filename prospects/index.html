@@ -132,7 +132,18 @@
   .grade-F { background: var(--danger-tint); color: var(--danger); }
   .grade-none { color: var(--ink-soft); font-size: 12px; }
 
-  .row-actions { display: flex; gap: 4px; }
+  .row-actions { display: flex; gap: 4px; justify-content: flex-end; }
+
+  .contacted-toggle {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface); color: var(--ink-soft);
+    padding: 0; flex-shrink: 0;
+  }
+  .contacted-toggle.is-yes { background: var(--sage-tint); color: var(--sage-dark); border-color: var(--sage); }
+  .contacted-toggle.is-no { background: var(--surface); color: var(--ink-soft); border-color: var(--border); }
 
   /* Drawer */
   .overlay {
@@ -230,7 +241,7 @@
   </header>
 
   <div class="import-box" id="importBox" style="display:none;">
-    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly.</div>
+    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly.</div>
     <textarea id="csvInput" placeholder="Paste your spreadsheet data here..."></textarea>
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-primary" id="doImport">Import Rows</button>
@@ -291,10 +302,18 @@
         <label class="check-row"><input type="checkbox" value="Outdated / non-mobile site"> Outdated / non-mobile site</label>
       </div>
     </div>
-    <div class="field"><label>Status</label>
-      <select id="f_status">
-        <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
-      </select>
+    <div class="two-col">
+      <div class="field"><label>Status</label>
+        <select id="f_status">
+          <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+        </select>
+      </div>
+      <div class="field"><label>Contacted</label>
+        <select id="f_contacted">
+          <option value="n">N</option>
+          <option value="y">Y</option>
+        </select>
+      </div>
     </div>
     <div class="two-col">
       <div class="field"><label>Date Contacted</label><input id="f_dateContacted" type="date"></div>
@@ -359,7 +378,8 @@ function dbToApp(row) {
     dateContacted: row.date_contacted || '',
     dateAdded: row.date_added,
     notes: row.notes,
-    opportunities: row.opportunities || []
+    opportunities: row.opportunities || [],
+    contacted: !!row.contacted
   };
 }
 
@@ -377,7 +397,8 @@ function appToDb(p) {
     date_contacted: p.dateContacted || null,
     date_added: p.dateAdded,
     notes: p.notes,
-    opportunities: p.opportunities
+    opportunities: p.opportunities,
+    contacted: !!p.contacted
   };
 }
 
@@ -552,13 +573,34 @@ function render() {
       <div class="col-category">${escapeHtml(p.category || '')}</div>
       <div class="col-grade">${gradeBadge(p.score)}</div>
       <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span></div>
-      <div class="row-actions"></div>
+      <div class="row-actions">
+        <button class="contacted-toggle ${p.contacted ? 'is-yes' : 'is-no'}" data-id="${p.id}" data-contacted="${p.contacted ? '1' : '0'}" title="Contacted? Click to toggle">${p.contacted ? 'Y' : 'N'}</button>
+      </div>
     </div>
   `).join('') + `</div>`;
 
   listArea.querySelectorAll('.row').forEach(row => {
     row.addEventListener('click', () => openDrawer(row.dataset.id));
   });
+
+  listArea.querySelectorAll('.contacted-toggle').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const current = btn.dataset.contacted === '1';
+      toggleContacted(id, current);
+    });
+  });
+}
+
+async function toggleContacted(id, current) {
+  const newVal = !current;
+  const { error } = await sb.from('prospects').update({ contacted: newVal }).eq('id', id);
+  if (error) { showToast('Update failed: ' + error.message); return; }
+  const p = prospects.find(x => x.id === id);
+  if (p) p.contacted = newVal;
+  render();
+  showToast(newVal ? 'Marked contacted' : 'Marked not contacted');
 }
 
 function escapeHtml(str) {
@@ -583,6 +625,7 @@ function openDrawer(id) {
   document.getElementById('f_score').value = p?.score ?? '';
   updateGradePreview();
   document.getElementById('f_status').value = p?.status || 'New';
+  document.getElementById('f_contacted').value = p?.contacted ? 'y' : 'n';
   document.getElementById('f_dateContacted').value = p?.dateContacted || '';
   document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
   document.getElementById('f_notes').value = p?.notes || '';
@@ -617,6 +660,7 @@ async function saveCurrent() {
     email: document.getElementById('f_email').value.trim(),
     score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
     status: document.getElementById('f_status').value,
+    contacted: document.getElementById('f_contacted').value === 'y',
     dateContacted: document.getElementById('f_dateContacted').value,
     dateAdded: document.getElementById('f_dateAdded').value || new Date().toISOString().slice(0,10),
     notes: document.getElementById('f_notes').value.trim(),
@@ -672,6 +716,11 @@ function matchOpportunity(token) {
   return null;
 }
 
+function parseYN(val) {
+  const t = (val || '').trim().toLowerCase();
+  return t === 'y' || t === 'yes' || t === 'true' || t === '1';
+}
+
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length < 2) return [];
@@ -694,6 +743,9 @@ function parseCSV(text) {
     const knownStatuses = ['New', 'Contacted', 'Follow-up', 'Won', 'Not interested'];
     const statusRaw = (map['status'] || '').trim();
     const status = knownStatuses.find(s => s.toLowerCase() === statusRaw.toLowerCase()) || 'New';
+
+    // Contacted: accept y/yes/true/1, default to N (false) if missing or unrecognized
+    const contacted = parseYN(map['contacted']);
 
     // Opportunities: split on ; or , and sort matches into checkboxes vs leftover notes
     const oppRaw = map['opportunities'] || '';
@@ -720,6 +772,7 @@ function parseCSV(text) {
       email: map['email'] || '',
       score,
       status,
+      contacted,
       dateContacted: map['date contacted'] || '',
       dateAdded: map['date added'] || new Date().toISOString().slice(0,10),
       notes: combinedNotes,
@@ -743,13 +796,13 @@ function exportCSV() {
   const headers = [
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
-    'Date Added', 'Date Contacted', 'Notes'
+    'Date Added', 'Date Contacted', 'Contacted', 'Notes'
   ];
   const rows = rowsData.map((p, idx) => [
     idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
     p.contactName, p.email, p.score ?? '', p.status,
     (p.opportunities || []).join('; '),
-    p.dateAdded, p.dateContacted, p.notes
+    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.notes
   ].map(csvEscape).join(','));
 
   const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
