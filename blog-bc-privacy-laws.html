@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="BC's Personal Information Protection Act (PIPA) explained in plain language — what it actually requires from a small business website, and why the contact form you already have on your site counts.">
+  <title>BC Privacy Laws and Your Website: What You're Already Required to Do | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-body ol,
+    .article-body ul.steps {
+      margin: 0 0 1.3rem 1.2rem;
+    }
+    .article-body ol li,
+    .article-body ul.steps li {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0 2.5rem;
+      font-size: 0.92rem;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      background: var(--off-white);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .compare-table td {
+      color: #2a3a4a;
+      font-weight: 300;
+    }
+    .compare-table td.row-label {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .compare-table td.win {
+      color: var(--teal-dark);
+      font-weight: 500;
+    }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Also read */
+    .also-read {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin-top: 3rem;
+      transition: border-color 0.2s;
+    }
+    .also-read:hover { border-color: var(--teal); }
+    .also-read-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.3rem;
+    }
+    .also-read-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+    }
+    .also-read-desc {
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+    .also-read-arrow {
+      font-size: 1.3rem;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(46,196,169,0.2);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 0.7rem 0.6rem; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .also-read { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/insights.html" class="nav-back">&#8592; Back to Insights</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">July 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">7 min read</span>
+      </div>
+      <h1>BC Privacy Laws and Your Website: <em>What You're Already Required to Do</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>BC's Personal Information Protection Act (PIPA) applies to almost every private business in the province &mdash; there's no minimum size or revenue to be exempt</li>
+        <li>If your website has a contact form, a quote request, or an email sign-up, you are already collecting "personal information" under the law</li>
+        <li>PIPA requires consent to collect it, a real reason for collecting it, reasonable security around it, and a way for people to ask what you have on file</li>
+        <li>You're legally required to have a privacy policy that plainly explains this &mdash; a generic copy-pasted one doesn't meet the bar</li>
+        <li>The Privacy Commissioner can fine an organization up to $100,000 for non-compliance, though enforcement usually starts with a complaint, not a raid</li>
+        <li>Unlike the federal law, BC PIPA does not (yet) require you to report a data breach &mdash; but that's expected to change</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        "Privacy law" sounds like something that happens to banks and hospitals, not a plumber's website with a "Request a Quote" button. It isn't. If your site collects a name, an email, or a phone number from a visitor &mdash; and almost every small business site does &mdash; British Columbia's privacy law already applies to you. Here's what it actually says, in plain language, and what it means for the site you're running right now.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> The Law You Didn't Know Applied to You</h2>
+      <p>
+        The law in question is the <strong>Personal Information Protection Act</strong>, or PIPA &mdash; British Columbia's private-sector privacy law, in place since 2004 and enforced by the Office of the Information and Privacy Commissioner for BC (OIPC).<sup>1</sup> It covers corporations, sole proprietors, non-profits, trade unions &mdash; essentially any private organization operating in the province that collects, uses, or discloses personal information about people.<sup>2</sup>
+      </p>
+      <p>
+        There's no small-business carve-out. A one-person landscaping company with a contact form is an "organization" under this law in exactly the same way a mid-size accounting firm is. The obligations scale with what you're doing, not with your headcount.
+      </p>
+
+      <h2><span class="h2-num">02 /</span> What Actually Counts as "Personal Information"</h2>
+      <p>
+        This is broader than most business owners assume. It's not just credit card numbers or medical records. Under PIPA, personal information is any data that can identify a specific individual<sup>3</sup> &mdash; which, on a typical small business website, includes:
+      </p>
+      <ol>
+        <li>A name, email address, or phone number submitted through a contact or quote form</li>
+        <li>An email address collected for a newsletter sign-up</li>
+        <li>A name and message left through a review or testimonial form</li>
+        <li>In many interpretations, the IP addresses collected automatically by tools like Google Analytics or the Meta Pixel</li>
+      </ol>
+      <p>
+        If any of that sounds like a normal Tuesday for your website, that's the point &mdash; this law was never really about the exotic cases. It's about the contact form that's been sitting on your site since day one.
+      </p>
+
+      <div class="pull-quote">
+        <p>"Your website doesn't need to be complicated to be covered by this law &mdash; it just needs a contact form."</p>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> What PIPA Actually Requires You to Do</h2>
+      <p>
+        Strip away the legal language and PIPA comes down to four practical obligations<sup>4</sup>:
+      </p>
+      <ol>
+        <li><strong>Get consent.</strong> You need permission to collect someone's information &mdash; usually satisfied by them voluntarily filling out your form, provided it's reasonably clear what it's for.</li>
+        <li><strong>Have a real reason.</strong> You can only use the information for the purpose you collected it for. A quote request form isn't a licence to add someone to a marketing list without telling them.</li>
+        <li><strong>Keep it reasonably secure.</strong> You're expected to take reasonable steps to protect whatever you collect from unauthorized access &mdash; this is where things like using a reputable form handler and keeping software updated actually matter legally, not just technically.</li>
+        <li><strong>Let people ask what you have.</strong> Individuals have the right to request access to, and correction of, the personal information you hold on them, and organizations generally have 30 days to respond.<sup>5</sup></li>
+      </ol>
+
+      <h2><span class="h2-num">04 /</span> Where This Shows Up on a Real Website</h2>
+      <p>
+        Translated into the actual pieces of a small business site, here's what PIPA touches:
+      </p>
+      <ol>
+        <li><strong>Contact and quote forms</strong> &mdash; the most common point of collection, and the reason every Sharpline Digital build routes form submissions through a secure handler rather than an exposed mailto link.</li>
+        <li><strong>Email newsletter sign-ups</strong> &mdash; these need to be clear about what someone's signing up for, not bundled silently into another action.</li>
+        <li><strong>Analytics and advertising tools</strong> &mdash; Google Analytics, Meta Pixel, and AdSense all collect data about visitors in the background. This doesn't mean you can't use them, but it does mean your privacy policy needs to say you do.</li>
+        <li><strong>Google Business Profile and review requests</strong> &mdash; if you're collecting names or emails to request reviews, the same consent principle applies.</li>
+      </ol>
+
+      <h2><span class="h2-num">05 /</span> BC PIPA vs. the Federal Law (PIPEDA)</h2>
+      <p>
+        This is where it gets genuinely confusing, so here's the short version. British Columbia has its own privacy law because Ottawa allows provinces to opt out of the federal law &mdash; PIPEDA &mdash; if their own law is "substantially similar."<sup>6</sup> BC PIPA qualifies, which means for business conducted entirely within BC, PIPA is the law that applies, not PIPEDA. The moment your business collects information from customers outside the province &mdash; a common reality for anyone selling online &mdash; the federal law comes back into play alongside it.
+      </p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>BC PIPA</th>
+            <th>Federal PIPEDA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Applies to</td>
+            <td class="win">Business conducted within BC</td>
+            <td>Interprovincial &amp; cross-border activity</td>
+          </tr>
+          <tr>
+            <td class="row-label">Enforced by</td>
+            <td class="win">OIPC BC</td>
+            <td>Office of the Privacy Commissioner of Canada</td>
+          </tr>
+          <tr>
+            <td class="row-label">Breach notification</td>
+            <td>Voluntary (for now)</td>
+            <td class="win">Mandatory</td>
+          </tr>
+          <tr>
+            <td class="row-label">Max organizational penalty</td>
+            <td>$100,000<sup>7</sup></td>
+            <td>$100,000 per violation<sup>8</sup></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        Worth noting on that breach notification row: the BC OIPC has publicly recommended that PIPA be amended to require mandatory breach notification, matching the federal rule and Alberta's provincial law.<sup>9</sup> It hasn't happened yet as of this writing &mdash; but treating notification as voluntary indefinitely would be a bet against where this is clearly headed.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">0</div>
+          <div class="stat-label">minimum employees or revenue to be covered by PIPA</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">$100K</div>
+          <div class="stat-label">maximum penalty for a non-compliant organization<sup>7</sup></div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">30</div>
+          <div class="stat-label">days to respond to a personal information access request<sup>5</sup></div>
+        </div>
+      </div>
+
+      <h2><span class="h2-num">06 /</span> What a Privacy Policy Actually Needs to Say</h2>
+      <p>
+        A privacy policy page isn't a box-ticking formality, and it isn't supposed to be a wall of boilerplate copied from a template site. To do its job under PIPA, it needs to plainly tell a visitor:
+      </p>
+      <ol>
+        <li>What personal information you collect (be specific &mdash; name, email, phone, whatever's actually true)</li>
+        <li>Why you're collecting it</li>
+        <li>Whether it's shared with anyone else (a form handler like Formspree counts, so does Google Analytics)</li>
+        <li>How someone can contact you to ask what you have on file or request a correction</li>
+      </ol>
+      <p>
+        That's genuinely it. It doesn't need to be ten pages of legal text &mdash; in fact, a privacy policy so dense that no one actually reads it arguably works against the spirit of the law, which is about giving people real, usable information.
+      </p>
+
+      <h2><span class="h2-num">07 /</span> The Honest Bottom Line</h2>
+      <p>
+        Realistically, the OIPC isn't going to show up at a Fraser Valley small business unannounced. Enforcement almost always starts with a complaint &mdash; a customer who felt their information was mishandled, or noticed a business had no privacy policy at all despite collecting their email. But "unlikely to get caught" isn't the same as "not required," and a visible, honest privacy page does something a lot of small business owners undervalue: it signals to a customer that you actually thought about how you're handling their information, at a moment when a lot of businesses clearly haven't.
+      </p>
+      <p>
+        It's also one of the easiest boxes to actually check. Unlike site speed or SEO, this isn't an ongoing project &mdash; it's a page you write honestly once and revisit if what you collect changes. Every site Sharpline Digital builds ships with a real, specific privacy page as a default, not an afterthought bolted on when someone asks for one.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>Office of the Information and Privacy Commissioner for BC. (2026). <em>For Private Organizations.</em> <a href="https://www.oipc.bc.ca/for-private-organizations/" target="_blank" rel="noopener">oipc.bc.ca</a></li>
+          <li>Government of British Columbia. <em>Guide to the Personal Information Protection Act.</em> <a href="https://www2.gov.bc.ca/assets/gov/business/business-management/protecting-personal-information/pipa-guide.pdf" target="_blank" rel="noopener">gov.bc.ca</a></li>
+          <li>Centraleyes. (2025). <em>Understanding British Columbia's Personal Information Protection Act (PIPA).</em> <a href="https://www.centraleyes.com/understanding-british-columbias-personal-information-protection-act-pipa/" target="_blank" rel="noopener">centraleyes.com</a></li>
+          <li>Office of the Information and Privacy Commissioner for BC. <em>Legislation.</em> <a href="https://www.oipc.bc.ca/about/legislation/" target="_blank" rel="noopener">oipc.bc.ca</a></li>
+          <li>Government of British Columbia. <em>Guide to the Personal Information Protection Act</em> &mdash; access and correction rights. <a href="https://www2.gov.bc.ca/assets/gov/business/business-management/protecting-personal-information/pipa-guide.pdf" target="_blank" rel="noopener">gov.bc.ca</a></li>
+          <li>Securiti. (2026). <em>British Columbia's Personal Information Protection Act (PIPA).</em> <a href="https://securiti.ai/solutions/british-columbia-personal-information-protection-act/" target="_blank" rel="noopener">securiti.ai</a></li>
+          <li>Clym. <em>British Columbia Personal Information Protection Act (BC PIPA).</em> <a href="https://www.clym.io/regulations/british-columbia-personal-information-protection-act-bc-pipa" target="_blank" rel="noopener">clym.io</a></li>
+          <li>Office of the Privacy Commissioner of Canada. <em>What you need to know about mandatory reporting of breaches of security safeguards.</em> <a href="https://www.priv.gc.ca/en/privacy-topics/business-privacy/breaches-and-safeguards/privacy-breaches-at-your-business/gd_pb_201810/" target="_blank" rel="noopener">priv.gc.ca</a></li>
+          <li>McMillan LLP. (2023). <em>British Columbia's Privacy Regulator Issues New Privacy Breach Guidance.</em> <a href="https://mcmillan.ca/insights/publications/british-columbias-privacy-regulator-issues-new-privacy-breach-guidance-heres-what-you-need-to-know/" target="_blank" rel="noopener">mcmillan.ca</a></li>
+        </ol>
+        <p style="font-size:0.75rem; color:var(--text-mid); margin-top:1rem; font-weight:300; line-height:1.6;">
+          This article is general information for small business owners, not legal advice. Privacy law changes, and your specific situation may differ &mdash; if you're unsure how PIPA applies to your business, a lawyer or the OIPC's own guidance is the right next step.
+        </p>
+      </div>
+
+      <!-- ALSO READ -->
+      <a href="/blog-static-vs-dynamic.html" style="text-decoration:none;">
+        <div class="also-read">
+          <div style="flex:1;">
+            <div class="also-read-label">Also from Sharpline Digital</div>
+            <div class="also-read-title">Static vs. Dynamic Websites: What Actually Powers Your Site</div>
+            <div class="also-read-desc">Why fewer moving parts often means a faster, safer, and easier-to-trust website.</div>
+          </div>
+          <div class="also-read-arrow">&#8594;</div>
+        </div>
+      </a>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio" style="color:#ffffff;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Not sure if your current site covers this?</h3>
+        <p>We'll take a straight look at what your site collects and whether your privacy page actually matches it &mdash; no sales pitch.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
