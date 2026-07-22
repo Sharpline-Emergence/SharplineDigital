@@ -344,11 +344,13 @@
       color: var(--teal);
     }
     .footer-logo span { color: var(--white); }
-    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer p { font-size: 0.78rem; color: #8aa5bd; display: flex; align-items: center; }
+    :root { --flag-red: #D52B1E; }
+    .flag-ca { width: 20px; height: 10px; vertical-align: -1px; margin-right: 0.5rem; border-radius: 1px; flex-shrink: 0; }
     .footer-links { display: flex; gap: 1.5rem; }
     .footer-links a {
       font-size: 0.78rem;
-      color: #4a6075;
+      color: #8aa5bd;
       text-decoration: none;
       transition: color 0.2s;
     }
@@ -400,6 +402,8 @@
       <li><a href="/#packages">Packages</a></li>
       <li><a href="/#process">How It Works</a></li>
       <li><a href="/portfolio.html" class="active">Our Work</a></li>
+      <li><a href="/insights.html">Insights</a></li>
+      <li><a href="/speed-test.html">Speed Test</a></li>
       <li><a href="/#contact">Contact</a></li>
     </ul>
     <a href="/quote.html" class="nav-cta">Let's talk</a>
@@ -466,13 +470,25 @@
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
     <div class="footer-links">
       <a href="/#services">Why Sharpline</a>
       <a href="/#packages">Packages</a>
       <a href="/#contact">Contact</a>
+      <a href="/privacy.html">Privacy</a>
     </div>
   </footer>
+
+  <!-- AREAS WE SERVE -->
+  <div style="background:var(--navy-deep); padding:0 2.5rem 1.8rem; text-align:center;">
+    <p style="font-size:0.78rem; color:#8aa5bd; letter-spacing:0.5px;">
+      Web Design Areas We Serve:&nbsp;
+      <a href="/web-design-chilliwack.html" style="color:#2ec4a9; text-decoration:none;">Chilliwack</a> &middot;
+      <a href="/web-design-abbotsford.html" style="color:#2ec4a9; text-decoration:none;">Abbotsford</a> &middot;
+      <a href="/web-design-mission.html" style="color:#2ec4a9; text-decoration:none;">Mission</a> &middot;
+      <a href="/web-design-hope.html" style="color:#2ec4a9; text-decoration:none;">Hope</a>
+    </p>
+  </div>
 
   <script>
     const toggle = document.getElementById('navToggle');
