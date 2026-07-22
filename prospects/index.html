@@ -1,1001 +1,822 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sharpline Digital — Custom web design for small businesses in Chilliwack, Abbotsford, and the Fraser Valley. Clean code, no lock-in, you own everything.">
-  <title>Sharpline Digital | Web Design Chilliwack & Fraser Valley BC</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="hero.webp">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharpline Prospects</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ---- FILL THESE IN AFTER YOU CREATE YOUR SUPABASE PROJECT ----
+  // Dashboard → Project Settings → API → "Project URL" and "anon public" key.
+  // The anon key is SAFE to expose here — it's meant to be public.
+  // Real protection comes from the login + Row Level Security, not from hiding this key.
+  const SUPABASE_URL = 'https://pvpmjmalwjzqehqbvinp.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_y-M5GWJJZCnAdCIOcKCMZw_EkzbqHIg';
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
 
-    :root {
-      --teal:        #2ec4a9;
-      --teal-dark:   #1a9e87;
-      --teal-light:  #e1f7f3;
-      --teal-dim:    rgba(46,196,169,0.12);
-      --navy:        #0a1628;
-      --navy-mid:    #152238;
-      --navy-deep:   #06101e;
-      --white:       #ffffff;
-      --off-white:   #f7fafc;
-      --muted:       #a8c0d6;
-      --text-dark:   #0a1628;
-      --text-mid:    #5a7a8a;
-      --border:      #dde8f0;
-    }
+  :root {
+    --cream: #faf6ec;
+    --surface: #ffffff;
+    --ink: #2b2a26;
+    --ink-soft: #6b6858;
+    --sage: #6f7f5d;
+    --sage-dark: #566349;
+    --sage-tint: #eef1e9;
+    --gold: #c9a227;
+    --border: #e6e1d3;
+    --danger: #b5533c;
+    --danger-tint: #f7e9e4;
+    --hot: #b5533c;
+    --warm: #c9a227;
+    --cool: #6f7f5d;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+  .app { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text-dark);
-      background: var(--white);
-      line-height: 1.6;
-    }
+  header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: 30px; font-weight: 400; margin: 0; color: var(--ink); }
+  .subtitle { font-size: 13px; color: var(--ink-soft); margin-top: 4px; font-family: 'DM Mono', monospace; }
 
-    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  input, select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--ink);
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+  .search { flex: 1; min-width: 180px; }
+  select { cursor: pointer; }
 
-    /* ─── NAV ─── */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 2.5rem;
-      background: transparent;
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-    }
-    .nav-logo {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      color: var(--teal);
-      letter-spacing: -0.5px;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--white); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.88rem;
-      text-decoration: none;
-      font-weight: 400;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--teal); }
-    .nav-cta {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.4);
-      padding: 0.5rem 1.3rem;
-      border-radius: 4px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 400;
-      text-decoration: none;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--white);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.2rem 0.4rem;
-    }
+  button {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  button:hover { opacity: 0.85; }
+  button:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button:disabled:hover { opacity: 0.4; }
+  .btn-primary { background: var(--sage); color: white; }
+  .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+  .btn-danger { background: var(--danger-tint); color: var(--danger); }
+  .btn-ghost { background: transparent; color: var(--ink-soft); padding: 6px 10px; }
 
-    /* ─── HERO ─── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex;
-      align-items: flex-end;
-      padding-bottom: 6rem;
-      overflow: hidden;
+  .empty { text-align: center; padding: 60px 20px; color: var(--ink-soft); }
+  .empty h2 { font-family: 'DM Serif Display', serif; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
 
-      background-image: url('hero.webp');
-      background-size: cover;
-      background-position: center;
-    }
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 24px 44px 1.4fr 1fr 1fr 0.6fr 0.9fr auto;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease;
+  }
+  .row:hover { border-color: var(--sage); }
+  @media (max-width: 780px) {
+    .row { grid-template-columns: 20px 40px 1fr auto; }
+    .row .col-city, .row .col-category, .row .col-status, .row .col-grade { display: none; }
+  }
+  .row-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-soft); text-align: right; }
 
-    /* Dark overlay — keep this in place when you swap in the photo */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(6,16,30,0.82) 0%,
-        rgba(6,16,30,0.45) 55%,
-        rgba(6,16,30,0.25) 100%
-      );
-      z-index: 1;
-    }
+  .ring-wrap { position: relative; width: 40px; height: 40px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-score { font-family: 'DM Mono', monospace; font-size: 11px; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .no-score { width: 40px; height: 40px; border-radius: 50%; border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-soft); font-family: 'DM Mono', monospace; }
 
-    /* Subtle teal horizon glow — atmospheric, ties to brand */
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(46,196,169,0.06), transparent);
-      z-index: 1;
-      pointer-events: none;
-    }
+  .biz-name { font-weight: 600; font-size: 15px; }
+  .biz-meta { font-size: 12px; color: var(--ink-soft); font-family: 'DM Mono', monospace; margin-top: 2px; }
+  .col-city, .col-category { font-size: 13px; color: var(--ink-soft); }
+  .status-pill {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
+    display: inline-block; font-family: 'Inter', sans-serif; white-space: nowrap;
+  }
+  .status-New { background: var(--sage-tint); color: var(--sage-dark); }
+  .status-Contacted { background: #eef2f7; color: #3d5a80; }
+  .status-Follow-up { background: #fbf1de; color: #9a6b1a; }
+  .status-Won { background: #e7f3e6; color: #3a7a3d; }
+  .status-Not.interested { background: #f1eeee; color: #8a8783; }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-      width: 100%;
-    }
+  .grade-pill {
+    font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .grade-A { background: var(--sage-tint); color: var(--sage-dark); }
+  .grade-B { background: #eef2f7; color: #3d5a80; }
+  .grade-C { background: #fbf1de; color: #9a6b1a; }
+  .grade-D { background: #fbe6de; color: #a54a1f; }
+  .grade-F { background: var(--danger-tint); color: var(--danger); }
+  .grade-none { color: var(--ink-soft); font-size: 12px; }
 
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--teal);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 1.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 28px;
-      height: 1px;
-      background: var(--teal);
-      opacity: 0.7;
-    }
+  .row-actions { display: flex; gap: 4px; }
 
-    .hero h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2.6rem, 6vw, 4.2rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 1.6rem;
-      max-width: 640px;
-    }
-    .hero h1 em {
-      color: var(--teal);
-      font-style: normal;
-      font-weight: 300;
-    }
+  /* Drawer */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(43,42,38,0.35);
+    display: none; align-items: stretch; justify-content: flex-end; z-index: 50;
+  }
+  .overlay.open { display: flex; }
+  /* Centered variant — used by the delete-confirm modal. Defined AFTER .overlay.open
+     so it wins on source order and centers instead of docking to the right. */
+  .overlay.center { align-items: center; justify-content: center; }
+  #deleteOverlay { z-index: 60; }
+  .drawer {
+    width: min(460px, 100%); background: var(--cream); height: 100%;
+    padding: 28px; overflow-y: auto; box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+  }
+  .drawer h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 22px; margin: 0 0 20px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .field input, .field select, .field textarea { width: 100%; }
+  .field textarea { resize: vertical; min-height: 60px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .checks { display: flex; flex-direction: column; gap: 6px; }
+  .check-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .check-row input { width: auto; }
+  .drawer-actions { display: flex; gap: 8px; margin-top: 24px; justify-content: space-between; }
+  .drawer-actions .right { display: flex; gap: 8px; }
 
-    .hero-body {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.8;
-      max-width: 520px;
-      margin-bottom: 2.8rem;
-      font-weight: 300;
-    }
+  /* Delete confirmation modal */
+  .confirm-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px 26px 22px; width: min(400px, 92%); box-shadow: 0 16px 44px rgba(0,0,0,0.18);
+  }
+  .confirm-card h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 20px; margin: 0 0 12px; color: var(--ink); }
+  .confirm-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px; }
+  .confirm-card p strong { color: var(--ink); }
+  .confirm-card .field { margin-bottom: 4px; }
+  .confirm-card .field input { width: 100%; }
+  .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
-    .hero-body strong {
-      color: rgba(255,255,255,0.9);
-      font-weight: 400;
-    }
+  .import-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+  .import-box textarea { width: 100%; min-height: 90px; font-family: 'DM Mono', monospace; font-size: 12px; }
+  .import-box .hint { font-size: 12px; color: var(--ink-soft); margin: 8px 0; }
 
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--cream); padding: 10px 20px; border-radius: 8px;
+    font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  }
+  .toast.show { opacity: 1; }
 
-    .btn-primary {
-      background: var(--teal);
-      color: var(--navy);
-      padding: 0.85rem 2rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s;
-      display: inline-block;
-      letter-spacing: 0.2px;
-    }
-    .btn-primary:hover { background: var(--teal-dark); }
-
-    .btn-ghost {
-      background: transparent;
-      color: rgba(255,255,255,0.75);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 0.85rem 2rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-      display: inline-block;
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
-
-    /* Scroll hint */
-    .scroll-hint {
-      position: absolute;
-      bottom: 2.2rem;
-      right: 2.5rem;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      opacity: 0.45;
-    }
-    .scroll-hint span {
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--white);
-      writing-mode: vertical-rl;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--teal), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 0.8; transform: scaleY(1.1); }
-    }
-
-    /* ─── INTRO STRIP ─── */
-    .intro-strip {
-      background: var(--navy);
-      padding: 4rem 2.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .intro-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .intro-headline {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.25;
-      letter-spacing: -0.5px;
-      margin-bottom: 0.4rem;
-    }
-    .intro-headline em {
-      color: var(--teal);
-      font-style: normal;
-      font-weight: 300;
-    }
-    .intro-body {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.8;
-      font-weight: 300;
-    }
-    .intro-body strong { color: rgba(255,255,255,0.85); font-weight: 400; }
-    .intro-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .intro-stat {
-      padding: 1.2rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-    }
-    .intro-stat:last-child { border-bottom: none; }
-    .stat-num {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--teal);
-      line-height: 1;
-      white-space: nowrap;
-    }
-    .stat-label {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.5;
-      font-weight: 300;
-    }
-
-    /* ─── WHY SHARPLINE ─── */
-    .why-section {
-      padding: 6rem 0;
-      background: var(--off-white);
-    }
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: var(--teal-dark);
-      margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: -0.5px;
-      margin-bottom: 0.7rem;
-      line-height: 1.2;
-    }
-    .section-sub {
-      font-size: 0.95rem;
-      color: var(--text-mid);
-      max-width: 500px;
-      line-height: 1.75;
-      font-weight: 300;
-    }
-
-    .vp-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-top: 3rem;
-    }
-    .vp-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.8rem 1.6rem;
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-    .vp-card:hover {
-      border-color: var(--teal);
-      box-shadow: 0 4px 20px rgba(46,196,169,0.08);
-    }
-    .vp-icon {
-      font-size: 1.3rem;
-      width: 40px;
-      height: 40px;
-      background: var(--teal-light);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.1rem;
-    }
-    .vp-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .vp-card p {
-      font-size: 0.84rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* ─── PACKAGES ─── */
-    .packages-section {
-      background: var(--navy);
-      padding: 6rem 2.5rem;
-    }
-    .section-title.light { color: var(--white); }
-    .section-sub.light { color: var(--muted); }
-
-    .pkg-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem;
-      margin-top: 3rem;
-    }
-    .pkg-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 2rem;
-      transition: border-color 0.25s;
-    }
-    .pkg-card:hover { border-color: rgba(46,196,169,0.35); }
-    .pkg-card.featured {
-      border-color: rgba(46,196,169,0.3);
-      background: rgba(46,196,169,0.05);
-    }
-    .pkg-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-    }
-    .pkg-price {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--teal);
-      margin: 0.6rem 0 0.3rem;
-      line-height: 1;
-    }
-    .pkg-price span {
-      font-size: 0.8rem;
-      font-weight: 300;
-      color: var(--muted);
-    }
-    .pkg-gst {
-      font-size: 0.72rem;
-      color: rgba(168,192,214,0.6);
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-    .pkg-gst em {
-      font-size: 0.68rem;
-      font-style: italic;
-      color: rgba(168,192,214,0.45);
-    }
-    .pkg-desc {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.4rem;
-      font-weight: 300;
-    }
-    .pkg-features { list-style: none; }
-    .pkg-features li {
-      font-size: 0.83rem;
-      color: #c8dae6;
-      padding: 0.3rem 0;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-weight: 300;
-    }
-    .pkg-check { color: var(--teal); flex-shrink: 0; }
-
-    /* ─── ADD-ONS ─── */
-    .addons-section {
-      background: var(--off-white);
-      padding: 5rem 0;
-    }
-    .addons-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-top: 2.5rem;
-    }
-    .addon-item {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.6rem;
-    }
-    .addon-item h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .addon-item p {
-      font-size: 0.83rem;
-      color: var(--text-mid);
-      line-height: 1.65;
-      margin-bottom: 0.9rem;
-      font-weight: 300;
-    }
-    .addon-price {
-      font-size: 0.85rem;
-      color: var(--teal-dark);
-      font-weight: 500;
-    }
-
-    /* ─── PROCESS ─── */
-    .process-section {
-      background: var(--white);
-      padding: 6rem 0;
-      border-top: 1px solid var(--border);
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      margin-top: 3.5rem;
-      position: relative;
-    }
-    /* Connecting line between steps */
-    .steps-grid::before {
-      content: '';
-      position: absolute;
-      top: 22px;
-      left: calc(12.5% + 1rem);
-      right: calc(12.5% + 1rem);
-      height: 1px;
-      background: linear-gradient(to right, var(--teal), rgba(46,196,169,0.2));
-      z-index: 0;
-    }
-    .step {
-      text-align: center;
-      padding: 0 1rem 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-    .step-num {
-      width: 44px;
-      height: 44px;
-      background: var(--white);
-      border: 1px solid var(--teal);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--teal);
-      margin: 0 auto 1.4rem;
-    }
-    .step h4 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .step p {
-      font-size: 0.82rem;
-      color: var(--text-mid);
-      line-height: 1.65;
-      font-weight: 300;
-    }
-
-    /* ─── CTA ─── */
-    .cta-section {
-      background: var(--navy);
-      padding: 5rem 2.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .cta-section h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.5px;
-      position: relative;
-    }
-    .cta-section p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2.2rem;
-      font-weight: 300;
-      position: relative;
-    }
-    .cta-btn {
-      background: var(--teal);
-      color: var(--navy);
-      padding: 0.9rem 2.4rem;
-      border-radius: 4px;
-      font-size: 0.92rem;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.2s;
-      position: relative;
-    }
-    .cta-btn:hover { background: var(--teal-dark); }
-
-    /* ─── FOOTER ─── */
-    .footer {
-      background: var(--navy-deep);
-      padding: 2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .footer-logo {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--teal);
-    }
-    .footer-logo span { color: var(--white); }
-    .footer p { font-size: 0.78rem; color: #8aa5bd; }
-
-    /* Canadian flag — inline SVG so it renders identically on every OS.
-       (The 🇨🇦 emoji does NOT render as a flag on Windows — it shows "CA".) */
-    :root { --flag-red: #D52B1E; }
-    .flag-ca {
-      width: 20px;
-      height: 10px;
-      vertical-align: -1px;
-      margin-right: 0.5rem;
-      border-radius: 1px;
-      flex-shrink: 0;
-    }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a {
-      font-size: 0.78rem;
-      color: #8aa5bd;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--teal); }
-
-    /* ─── FADE IN ─── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .nav-toggle { display: block; }
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: var(--navy-deep);
-        padding: 5rem 2rem 2rem;
-        gap: 1.5rem;
-        z-index: 99;
-      }
-      .nav-links.open a { font-size: 1.2rem; }
-      .hero { min-height: 85vh; padding-bottom: 4rem; align-items: flex-end; }
-      .hero-content { padding: 0 1.5rem; }
-      .hero h1 { font-size: 2.3rem; }
-      .intro-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .vp-grid { grid-template-columns: 1fr 1fr; }
-      .pkg-grid { grid-template-columns: 1fr; }
-      .addons-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
-      .steps-grid::before { display: none; }
-      .packages-section { padding: 4rem 1.5rem; }
-      .section-title { font-size: 1.65rem; }
-      .footer { flex-direction: column; text-align: center; }
-      .scroll-hint { display: none; }
-    }
-    @media (max-width: 480px) {
-      .vp-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2rem; letter-spacing: -1px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .fade-up { opacity: 1; transform: none; transition: none; }
-      .scroll-line { animation: none; }
-    }
-  </style>
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .login-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 36px; width: 100%; max-width: 360px;
+  }
+  .login-card h1 { text-align: center; margin-bottom: 4px; }
+  .login-card .subtitle { text-align: center; margin-bottom: 24px; }
+  .login-card .field { margin-bottom: 12px; }
+  .login-card button { width: 100%; margin-top: 6px; }
+  .login-toggle { text-align: center; margin-top: 16px; font-size: 13px; color: var(--ink-soft); }
+  .login-toggle a { color: var(--sage-dark); cursor: pointer; text-decoration: underline; }
+  .login-error { color: var(--danger); font-size: 13px; margin-top: 8px; min-height: 16px; }
+  .hidden { display: none !important; }
+</style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav" id="mainNav">
-    <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#services">Why Sharpline</a></li>
-      <li><a href="#packages">Packages</a></li>
-      <li><a href="#process">How It Works</a></li>
-      <li><a href="/portfolio.html">Our Work</a></li>
-      <li><a href="/insights.html">Insights</a></li>
-      <li><a href="/speed-test.html">Speed Test</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-    <a href="/quote.html" class="nav-cta">Let's talk</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
-  </nav>
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1 style="font-family:'DM Serif Display',serif; font-size:26px; font-weight:400;">Sharpline Prospects</h1>
+    <div class="subtitle">Sign in to your prospect list</div>
+    <div class="field"><label>Email</label><input id="loginEmail" type="email" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-primary" id="loginBtn">Sign In</button>
+    <button class="btn-secondary" id="signupBtn">Create Account</button>
+    <div class="login-toggle">First time here? Use "Create Account" once, then Sign In from now on.</div>
+  </div>
+</div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-eyebrow">Chilliwack &middot; Fraser Valley &middot; British Columbia</div>
-      <h1>Built different.<br><em>Owned by you.</em></h1>
-      <p class="hero-body">
-        Most web shops build on platforms that hold your site hostage.<br>
-        <strong>We write clean custom code for small businesses in Chilliwack, Abbotsford, and across the Fraser Valley</strong> &mdash; hand you the keys, and stay as involved as you need.
-      </p>
-      <div class="hero-btns">
-        <a href="#packages" class="btn-primary">See our packages</a>
-        <a href="/quote.html" class="btn-ghost">Let's talk</a>
-      </div>
+<div class="app hidden" id="mainApp">
+  <header>
+    <div>
+      <h1>Sharpline Prospects</h1>
+      <div class="subtitle" id="countLabel">Loading…</div>
     </div>
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
+    <div style="display:flex; gap:8px;">
+      <button class="btn-secondary" id="exportBtn">Export CSV</button>
+      <button class="btn-secondary" id="importToggle">Import CSV</button>
+      <button class="btn-primary" id="addBtn">+ Add Prospect</button>
+      <button class="btn-ghost" id="logoutBtn">Sign Out</button>
     </div>
-  </section>
+  </header>
 
-  <!-- INTRO STRIP -->
-  <section class="intro-strip">
-    <div class="intro-inner">
-      <div>
-        <h2 class="intro-headline">Your website is an asset.<br><em>Treat it like one.</em></h2>
-        <p class="intro-body">
-          We build custom websites for small businesses in Chilliwack, Abbotsford, Mission, Langley, and across the Fraser Valley &mdash; clean code, no page builders, no platform lock-in.
-          When the project's done, <strong>your GitHub repo is yours outright.</strong>
-          Take it anywhere. We stay as involved as you want.
-        </p>
-      </div>
-      <div class="intro-stats">
-        <div class="intro-stat">
-          <div class="stat-num">5-page</div>
-          <div class="stat-label">Base builds &mdash; Home, About, Services, Contact + one more of your choosing</div>
-        </div>
-        <div class="intro-stat">
-          <div class="stat-num">$200<small style="font-size:0.5em;font-weight:400">/mo +GST</small></div>
-          <div class="stat-label">Fully managed maintenance &mdash; cancel anytime, 30 days notice</div>
-        </div>
-        <div class="intro-stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Code ownership &mdash; your GitHub repo, your asset, forever</div>
-        </div>
-      </div>
+  <div class="import-box" id="importBox" style="display:none;">
+    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly.</div>
+    <textarea id="csvInput" placeholder="Paste your spreadsheet data here..."></textarea>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-primary" id="doImport">Import Rows</button>
+      <button class="btn-ghost" id="cancelImport">Cancel</button>
     </div>
-  </section>
-
-  <!-- WHY SHARPLINE -->
-  <section class="why-section" id="services">
-    <div class="container">
-      <div class="section-label">Why Sharpline</div>
-      <h2 class="section-title">No lock-in. No surprises.</h2>
-      <p class="section-sub">We understand what drives small businesses &mdash; and we build accordingly.</p>
-      <div class="vp-grid">
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128279;</div>
-          <h3>You own your code</h3>
-          <p>Every site is delivered via GitHub. Your repo, your asset. No platform dependency &mdash; ever.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128188;</div>
-          <h3>Real business experience</h3>
-          <p>We understand what drives small businesses &mdash; not just how to make things look good online.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128205;</div>
-          <h3>Local BC presence</h3>
-          <p>Based in Chilliwack, BC. We serve businesses across the Fraser Valley &mdash; Abbotsford, Mission, Langley, and beyond. Same timezone, reachable by phone, invested in your success.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128241;</div>
-          <h3>Mobile-first builds</h3>
-          <p>Built for the phone first &mdash; because that's how your customers find you.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128722;</div>
-          <h3>E-commerce ready</h3>
-          <p>Need to sell online? Full e-stores and payment gateways available as an add-on.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#9881;</div>
-          <h3>Flexible involvement</h3>
-          <p>From a clean one-time build to fully managed monthly support &mdash; you choose your level.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PACKAGES -->
-  <section class="packages-section" id="packages">
-    <div class="container">
-      <div class="section-label" style="color:var(--teal)">Packages</div>
-      <h2 class="section-title light">Choose your level of involvement</h2>
-      <p class="section-sub light">All packages include a custom 5-page site, clean code, and your GitHub repo. You provide copy and photography.</p>
-      <div class="pkg-grid">
-
-        <div class="pkg-card fade-up">
-          <div class="pkg-name">Build &amp; Go</div>
-          <div class="pkg-price">From $2,500 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project</em></div>
-          <p class="pkg-desc">We build it, hand it off, you're done. Full GitHub repo delivered &mdash; take it anywhere you like.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
-            <li><span class="pkg-check">&#10003;</span> GitHub repo &mdash; yours outright</li>
-            <li><span class="pkg-check">&#10003;</span> Mobile-first responsive design</li>
-            <li><span class="pkg-check">&#10003;</span> 30-day post-launch support</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Relax</div>
-          <div class="pkg-price">From $3,200 <span>one-time</span></div>
-          <div class="pkg-gst">+GST &mdash; our most popular choice<br><em>*or less, depending upon project</em></div>
-          <p class="pkg-desc">Build + hosting for year one + minor revisions for 6 months while your business finds its footing.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting included</li>
-            <li><span class="pkg-check">&#10003;</span> Revisions under 1hr for 6 months</li>
-            <li><span class="pkg-check">&#10003;</span> Ideal for new businesses</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card fade-up">
-          <div class="pkg-name">Build &amp; Host</div>
-          <div class="pkg-price">From $2,750 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project</em></div>
-          <p class="pkg-desc">Custom build plus we handle hosting for year one &mdash; no server setup, no headaches.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting managed for you</li>
-            <li><span class="pkg-check">&#10003;</span> Domain setup assistance</li>
-            <li><span class="pkg-check">&#10003;</span> SSL certificate included</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Maintain</div>
-          <div class="pkg-price">$200 <span>/ month</span></div>
-          <div class="pkg-gst">+GST &mdash; cancel anytime, 30 days notice</div>
-          <p class="pkg-desc">We handle everything ongoing. Up to 3 hrs/month of updates, security, and priority support.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Up to 3 hours of updates per month</li>
-            <li><span class="pkg-check">&#10003;</span> Security &amp; backups managed</li>
-            <li><span class="pkg-check">&#10003;</span> Priority support response</li>
-            <li><span class="pkg-check">&#10003;</span> No long-term contract</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ADD-ONS -->
-  <section class="addons-section">
-    <div class="container">
-      <div class="section-label">Add-Ons</div>
-      <h2 class="section-title">Need a little more?</h2>
-      <div class="addons-grid">
-        <div class="addon-item fade-up">
-          <h4>Additional pages</h4>
-          <p>Beyond your base 5 &mdash; blog, gallery, team, FAQ, anything you need.</p>
-          <div class="addon-price">$200&ndash;$250 +GST per page</div>
-        </div>
-        <div class="addon-item fade-up">
-          <h4>E-commerce store</h4>
-          <p>Full online store with cart, checkout, and payment gateway setup.</p>
-          <div class="addon-price">From $800 +GST</div>
-        </div>
-        <div class="addon-item fade-up">
-          <h4>Data capture &amp; forms</h4>
-          <p>Lead forms, quote requests, newsletter signups, CRM integration.</p>
-          <div class="addon-price">From $150 +GST</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section class="process-section" id="process">
-    <div class="container">
-      <div class="section-label">How It Works</div>
-      <h2 class="section-title">From quote to launch in weeks, not months.</h2>
-      <p class="section-sub">We keep it straightforward. Four steps, clear expectations, no surprises.</p>
-      <div class="steps-grid">
-        <div class="step fade-up">
-          <div class="step-num">1</div>
-          <h4>Discovery call</h4>
-          <p>We learn your business, your goals, and what success looks like for your website.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">2</div>
-          <h4>You send content</h4>
-          <p>Provide your copy and photography &mdash; we handle everything else from there.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">3</div>
-          <h4>We build &amp; review</h4>
-          <p>A clean custom build, your feedback, revisions until it feels exactly right.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">4</div>
-          <h4>Launch &amp; handoff</h4>
-          <p>Site goes live. Your GitHub repo is delivered. Choose your ongoing level of support.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section" id="contact">
-    <h2>Ready when you are.</h2>
-    <p>No pressure, no pitch deck. Just a conversation about what your business needs.</p>
-    <a href="/quote.html" class="cta-btn">Let's talk</a>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com &nbsp;&middot;&nbsp; 604-796-5557</p>
-    <div class="footer-links">
-      <a href="#services">Why Sharpline</a>
-      <a href="#packages">Packages</a>
-      <a href="#contact">Contact</a>
-      <a href="/privacy.html">Privacy</a>
-    </div>
-  </footer>
-
-  <!-- AREAS WE SERVE -->
-  <div style="background:var(--navy-deep); padding:0 2.5rem 1.8rem; text-align:center;">
-    <p style="font-size:0.78rem; color:#8aa5bd; letter-spacing:0.5px;">
-      Web Design Areas We Serve:&nbsp;
-      <a href="/web-design-chilliwack.html" style="color:#2ec4a9; text-decoration:none;">Chilliwack</a> &middot;
-      <a href="/web-design-abbotsford.html" style="color:#2ec4a9; text-decoration:none;">Abbotsford</a> &middot;
-      <a href="/web-design-mission.html" style="color:#2ec4a9; text-decoration:none;">Mission</a> &middot;
-      <a href="/web-design-hope.html" style="color:#2ec4a9; text-decoration:none;">Hope</a>
-    </p>
   </div>
 
-  <script>
-    // Nav: becomes opaque on scroll
-    const nav = document.getElementById('mainNav');
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 60) {
-        nav.style.background = 'rgba(10,22,40,0.97)';
-        nav.style.position = 'fixed';
-        nav.style.backdropFilter = 'blur(8px)';
-      } else {
-        nav.style.background = 'transparent';
-        nav.style.backdropFilter = 'none';
-      }
-    }, { passive: true });
+  <div class="toolbar">
+    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact...">
+    <select id="filterCity"><option value="">All cities</option></select>
+    <select id="filterCategory"><option value="">All categories</option></select>
+    <select id="filterStatus">
+      <option value="">All statuses</option>
+      <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+    </select>
+    <select id="sortBy">
+      <option value="name">Name (A–Z)</option>
+      <option value="score">Score (lowest first)</option>
+    </select>
+  </div>
 
-    // Mobile nav toggle
-    const toggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    if (toggle && navLinks) {
-      toggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => navLinks.classList.remove('open'));
-      });
+  <div id="listArea"></div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div class="drawer">
+    <h2 id="drawerTitle">Add Prospect</h2>
+    <div class="field"><label>Business Name</label><input id="f_businessName"></div>
+    <div class="two-col">
+      <div class="field"><label>City</label>
+        <select id="f_city">
+          <option>Chilliwack</option><option>Abbotsford</option><option>Langley</option><option>Mission</option><option>Other Fraser Valley</option>
+        </select>
+      </div>
+      <div class="field"><label>Category</label>
+        <select id="f_category">
+          <option>Automotive</option><option>Beauty Salons</option><option>Electricians</option>
+          <option>General Contractors</option><option>HVAC</option><option>Medical</option><option>Roofing</option><option>Supplies</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Website / URL</label><input id="f_website" placeholder="https://"></div>
+    <div class="two-col">
+      <div class="field"><label>Phone</label><input id="f_phone"></div>
+      <div class="field"><label>Contact Name</label><input id="f_contactName"></div>
+    </div>
+    <div class="field"><label>Email</label><input id="f_email" type="email"></div>
+    <div class="field"><label>Sharpline Score (optional)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="f_score" type="number" min="0" max="100" placeholder="e.g. 63" style="flex:1;">
+        <span id="f_gradePreview" style="min-width:26px; text-align:center;"></span>
+      </div>
+    </div>
+    <div class="field"><label>Opportunities</label>
+      <div class="checks">
+        <label class="check-row"><input type="checkbox" value="No website"> No website</label>
+        <label class="check-row"><input type="checkbox" value="Facebook-only presence"> Facebook-only presence</label>
+        <label class="check-row"><input type="checkbox" value="Outdated / non-mobile site"> Outdated / non-mobile site</label>
+      </div>
+    </div>
+    <div class="field"><label>Status</label>
+      <select id="f_status">
+        <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+      </select>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Date Contacted</label><input id="f_dateContacted" type="date"></div>
+      <div class="field"><label>Date Added</label><input id="f_dateAdded" type="date" disabled></div>
+    </div>
+    <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Anything else worth remembering..."></textarea></div>
+
+    <div class="drawer-actions">
+      <button class="btn-danger" id="deleteBtn" style="display:none;">Delete</button>
+      <div class="right">
+        <button class="btn-ghost" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete confirmation modal: a deliberate second step guards against accidental deletion -->
+<div class="overlay center" id="deleteOverlay">
+  <div class="confirm-card">
+    <h2>Delete this prospect?</h2>
+    <p>Permanently delete <strong id="deleteBizName"></strong>? This can't be undone.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="deleteCancelBtn">No, keep it</button>
+      <button class="btn-danger" id="deleteConfirmBtn">Yes, delete</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let prospects = [];
+let editingId = null;
+let lastFiltered = [];
+let pendingDeleteId = null;
+
+function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ---- Auth ----
+
+function dbToApp(row) {
+  return {
+    id: row.id,
+    businessName: row.business_name,
+    city: row.city,
+    category: row.category,
+    website: row.website,
+    phone: row.phone,
+    contactName: row.contact_name,
+    email: row.email,
+    score: row.score,
+    status: row.status,
+    dateContacted: row.date_contacted || '',
+    dateAdded: row.date_added,
+    notes: row.notes,
+    opportunities: row.opportunities || []
+  };
+}
+
+function appToDb(p) {
+  return {
+    business_name: p.businessName,
+    city: p.city,
+    category: p.category,
+    website: p.website,
+    phone: p.phone,
+    contact_name: p.contactName,
+    email: p.email,
+    score: p.score,
+    status: p.status,
+    date_contacted: p.dateContacted || null,
+    date_added: p.dateAdded,
+    notes: p.notes,
+    opportunities: p.opportunities
+  };
+}
+
+async function checkSession() {
+  const { data } = await sb.auth.getSession();
+  if (data.session) {
+    showApp();
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('mainApp').classList.add('hidden');
+}
+
+async function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  await loadProspects();
+}
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) { errEl.textContent = error.message; return; }
+  showApp();
+});
+
+document.getElementById('signupBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  if (!email || password.length < 6) {
+    errEl.textContent = 'Enter an email and a password of at least 6 characters.';
+    return;
+  }
+  const { error } = await sb.auth.signUp({ email, password });
+  if (error) { errEl.textContent = error.message; return; }
+  errEl.style.color = 'var(--sage-dark)';
+  errEl.textContent = 'Account created. Check your email to confirm, then sign in.';
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  prospects = [];
+  showLogin();
+});
+
+// ---- Data ----
+
+async function loadProspects() {
+  const { data, error } = await sb.from('prospects').select('*');
+  if (error) { showToast('Load failed: ' + error.message); return; }
+  prospects = (data || []).map(dbToApp);
+  render();
+}
+
+function letterGrade(score) {
+  if (score === null || score === undefined || score === '') return null;
+  if (score >= 90) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 55) return 'C';
+  if (score >= 35) return 'D';
+  return 'F';
+}
+
+function gradeBadge(score) {
+  const g = letterGrade(score);
+  if (!g) return `<div class="grade-none">—</div>`;
+  return `<div class="grade-pill grade-${g}">${g}</div>`;
+}
+
+function scoreColor(score) {
+  if (score === null || score === undefined || score === '') return null;
+  // inverted: low score (hot prospect) = red/hot, high score (skip) = sage/cool
+  if (score < 40) return getComputedStyle(document.documentElement).getPropertyValue('--hot');
+  if (score < 70) return getComputedStyle(document.documentElement).getPropertyValue('--warm');
+  return getComputedStyle(document.documentElement).getPropertyValue('--cool');
+}
+
+function ringSVG(score) {
+  if (score === null || score === undefined || score === '') {
+    return `<div class="no-score">n/a</div>`;
+  }
+  const r = 16, c = 2 * Math.PI * r;
+  const pct = Math.max(0, Math.min(100, score)) / 100;
+  const offset = c * (1 - pct);
+  const color = scoreColor(score);
+  return `
+    <div class="ring-wrap">
+      <svg width="40" height="40">
+        <circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--border)" stroke-width="4"/>
+        <circle cx="20" cy="20" r="${r}" fill="none" stroke="${color}" stroke-width="4"
+          stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"/>
+      </svg>
+      <div class="ring-score">${score}</div>
+    </div>`;
+}
+
+function populateFilters() {
+  const cities = [...new Set(prospects.map(p => p.city).filter(Boolean))].sort();
+  const categories = [...new Set(prospects.map(p => p.category).filter(Boolean))].sort();
+  const cityFilter = document.getElementById('filterCity');
+  const catFilter = document.getElementById('filterCategory');
+  const curCity = cityFilter.value, curCat = catFilter.value;
+  cityFilter.innerHTML = '<option value="">All cities</option>' + cities.map(c => `<option>${c}</option>`).join('');
+  catFilter.innerHTML = '<option value="">All categories</option>' + categories.map(c => `<option>${c}</option>`).join('');
+  cityFilter.value = curCity; catFilter.value = curCat;
+}
+
+function render() {
+  populateFilters();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cityF = document.getElementById('filterCity').value;
+  const catF = document.getElementById('filterCategory').value;
+  const statusF = document.getElementById('filterStatus').value;
+
+  let filtered = prospects.filter(p => {
+    if (cityF && p.city !== cityF) return false;
+    if (catF && p.category !== catF) return false;
+    if (statusF && p.status !== statusF) return false;
+    if (search) {
+      const hay = [p.businessName, p.city, p.category, p.contactName, p.email].join(' ').toLowerCase();
+      if (!hay.includes(search)) return false;
     }
+    return true;
+  });
 
-    // Smooth scroll with nav offset
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function(e) {
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          e.preventDefault();
-          const top = target.getBoundingClientRect().top + window.scrollY - 72;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
-      });
+  const sortBy = document.getElementById('sortBy').value;
+  if (sortBy === 'score') {
+    // lowest score first; entries with no score go last
+    filtered.sort((a, b) => {
+      const as = a.score === null || a.score === undefined ? Infinity : a.score;
+      const bs = b.score === null || b.score === undefined ? Infinity : b.score;
+      return as - bs;
+    });
+  } else {
+    filtered.sort((a, b) => (a.businessName || '').localeCompare(b.businessName || ''));
+  }
+
+  document.getElementById('countLabel').textContent =
+    `${prospects.length} prospect${prospects.length === 1 ? '' : 's'} tracked` +
+    (filtered.length !== prospects.length ? ` · ${filtered.length} shown` : '');
+
+  lastFiltered = filtered;
+
+  const listArea = document.getElementById('listArea');
+  if (prospects.length === 0) {
+    listArea.innerHTML = `<div class="empty"><h2>No prospects yet</h2><p>Add your first one, or import from a CSV.</p></div>`;
+    return;
+  }
+  if (filtered.length === 0) {
+    listArea.innerHTML = `<div class="empty"><p>Nothing matches those filters.</p></div>`;
+    return;
+  }
+
+  listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
+    <div class="row" data-id="${p.id}">
+      <div class="row-num">${idx + 1}</div>
+      ${ringSVG(p.score)}
+      <div>
+        <div class="biz-name">${escapeHtml(p.businessName || 'Untitled')}</div>
+        <div class="biz-meta">${escapeHtml(p.phone || '')}${p.phone && p.email ? ' · ' : ''}${escapeHtml(p.email || '')}</div>
+      </div>
+      <div class="col-city">${escapeHtml(p.city || '')}</div>
+      <div class="col-category">${escapeHtml(p.category || '')}</div>
+      <div class="col-grade">${gradeBadge(p.score)}</div>
+      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span></div>
+      <div class="row-actions"></div>
+    </div>
+  `).join('') + `</div>`;
+
+  listArea.querySelectorAll('.row').forEach(row => {
+    row.addEventListener('click', () => openDrawer(row.dataset.id));
+  });
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function openDrawer(id) {
+  editingId = id || null;
+  const p = id ? prospects.find(x => x.id === id) : null;
+  document.getElementById('drawerTitle').textContent = p ? 'Edit Prospect' : 'Add Prospect';
+  document.getElementById('deleteBtn').style.display = p ? 'inline-block' : 'none';
+
+  document.getElementById('f_businessName').value = p?.businessName || '';
+  document.getElementById('f_city').value = p?.city || 'Chilliwack';
+  document.getElementById('f_category').value = p?.category || 'General Contractors';
+  document.getElementById('f_website').value = p?.website || '';
+  document.getElementById('f_phone').value = p?.phone || '';
+  document.getElementById('f_contactName').value = p?.contactName || '';
+  document.getElementById('f_email').value = p?.email || '';
+  document.getElementById('f_score').value = p?.score ?? '';
+  updateGradePreview();
+  document.getElementById('f_status').value = p?.status || 'New';
+  document.getElementById('f_dateContacted').value = p?.dateContacted || '';
+  document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
+  document.getElementById('f_notes').value = p?.notes || '';
+
+  const opps = p?.opportunities || [];
+  document.querySelectorAll('.check-row input').forEach(cb => {
+    cb.checked = opps.includes(cb.value);
+  });
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('open');
+  editingId = null;
+}
+
+async function saveCurrent() {
+  const businessName = document.getElementById('f_businessName').value.trim();
+  if (!businessName) { showToast('Business name is required'); return; }
+
+  const opportunities = [...document.querySelectorAll('.check-row input:checked')].map(cb => cb.value);
+  const scoreRaw = document.getElementById('f_score').value;
+
+  const data = {
+    businessName,
+    city: document.getElementById('f_city').value,
+    category: document.getElementById('f_category').value,
+    website: document.getElementById('f_website').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    contactName: document.getElementById('f_contactName').value.trim(),
+    email: document.getElementById('f_email').value.trim(),
+    score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
+    status: document.getElementById('f_status').value,
+    dateContacted: document.getElementById('f_dateContacted').value,
+    dateAdded: document.getElementById('f_dateAdded').value || new Date().toISOString().slice(0,10),
+    notes: document.getElementById('f_notes').value.trim(),
+    opportunities
+  };
+
+  if (editingId) {
+    const { error } = await sb.from('prospects').update(appToDb(data)).eq('id', editingId);
+    if (error) { showToast('Save failed: ' + error.message); return; }
+  } else {
+    const { error } = await sb.from('prospects').insert(appToDb(data));
+    if (error) { showToast('Save failed: ' + error.message); return; }
+  }
+  await loadProspects();
+  closeDrawer();
+  showToast(editingId ? 'Prospect updated' : 'Prospect added');
+}
+
+// ---- Delete with type-to-confirm safety check ----
+
+function openDeleteConfirm() {
+  if (!editingId) return;
+  const p = prospects.find(x => x.id === editingId);
+  if (!p) return;
+  pendingDeleteId = editingId;
+  document.getElementById('deleteBizName').textContent = p.businessName || 'this prospect';
+  document.getElementById('deleteOverlay').classList.add('open');
+}
+
+function closeDeleteConfirm() {
+  document.getElementById('deleteOverlay').classList.remove('open');
+  pendingDeleteId = null;
+}
+
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const { error } = await sb.from('prospects').delete().eq('id', pendingDeleteId);
+  if (error) { showToast('Delete failed: ' + error.message); return; }
+  await loadProspects();
+  closeDeleteConfirm();
+  closeDrawer();
+  showToast('Prospect deleted');
+}
+
+const KNOWN_OPPORTUNITIES = ['No website', 'Facebook-only presence', 'Outdated / non-mobile site'];
+
+function matchOpportunity(token) {
+  const t = token.trim().toLowerCase();
+  if (!t) return null;
+  if (t.includes('no website')) return 'No website';
+  if (t.includes('facebook')) return 'Facebook-only presence';
+  if (t.includes('outdated') || t.includes('non-mobile') || t.includes('mobile')) return 'Outdated / non-mobile site';
+  return null;
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    // simple CSV split respecting quoted commas
+    const cells = lines[i].match(/(".*?"|[^,]+|(?<=,)(?=,)|^(?=,))/g) || [];
+    const cleaned = cells.map(c => c.trim().replace(/^"|"$/g, ''));
+    const map = {};
+    headers.forEach((h, idx) => map[h] = cleaned[idx] || '');
+
+    // Score: accept "Score" or "Sharpline Score", strip non-digits
+    const scoreRaw = map['score'] || map['sharpline score'] || '';
+    const scoreNum = scoreRaw.replace(/[^\d]/g, '');
+    const score = scoreNum !== '' ? Math.max(0, Math.min(100, parseInt(scoreNum, 10))) : null;
+
+    // Status: only accept known values, default to New
+    const knownStatuses = ['New', 'Contacted', 'Follow-up', 'Won', 'Not interested'];
+    const statusRaw = (map['status'] || '').trim();
+    const status = knownStatuses.find(s => s.toLowerCase() === statusRaw.toLowerCase()) || 'New';
+
+    // Opportunities: split on ; or , and sort matches into checkboxes vs leftover notes
+    const oppRaw = map['opportunities'] || '';
+    const tokens = oppRaw.split(/[;,]/).map(t => t.trim()).filter(Boolean);
+    const opportunities = [];
+    const leftoverNotes = [];
+    tokens.forEach(tok => {
+      const match = matchOpportunity(tok);
+      if (match && !opportunities.includes(match)) opportunities.push(match);
+      else if (!match) leftoverNotes.push(tok);
     });
 
-    // Fade-up on scroll
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+    const existingNotes = map['notes'] || '';
+    const combinedNotes = [existingNotes, ...leftoverNotes].filter(Boolean).join(' — ');
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  </script>
+    rows.push({
+      id: uid(),
+      businessName: map['business name'] || map['businessname'] || '',
+      city: map['city'] || '',
+      category: map['category'] || '',
+      website: map['website / url'] || map['website'] || map['url'] || '',
+      phone: map['phone'] || '',
+      contactName: map['contact name'] || '',
+      email: map['email'] || '',
+      score,
+      status,
+      dateContacted: map['date contacted'] || '',
+      dateAdded: map['date added'] || new Date().toISOString().slice(0,10),
+      notes: combinedNotes,
+      opportunities
+    });
+  }
+  return rows.filter(r => r.businessName);
+}
+
+function csvEscape(val) {
+  const s = (val ?? '').toString();
+  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+function exportCSV() {
+  if (prospects.length === 0) { showToast('No prospects to export'); return; }
+  const rowsData = lastFiltered.length > 0 ? lastFiltered : prospects;
+  const headers = [
+    '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
+    'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
+    'Date Added', 'Date Contacted', 'Notes'
+  ];
+  const rows = rowsData.map((p, idx) => [
+    idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
+    p.contactName, p.email, p.score ?? '', p.status,
+    (p.opportunities || []).join('; '),
+    p.dateAdded, p.dateContacted, p.notes
+  ].map(csvEscape).join(','));
+
+  const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const today = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `sharpline-prospects-${today}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast(`Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`);
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportCSV);
+document.getElementById('addBtn').addEventListener('click', () => openDrawer(null));
+
+function updateGradePreview() {
+  const raw = document.getElementById('f_score').value;
+  const score = raw === '' ? null : parseInt(raw, 10);
+  document.getElementById('f_gradePreview').innerHTML = gradeBadge(score);
+}
+document.getElementById('f_score').addEventListener('input', updateGradePreview);
+document.getElementById('cancelBtn').addEventListener('click', closeDrawer);
+document.getElementById('saveBtn').addEventListener('click', saveCurrent);
+document.getElementById('deleteBtn').addEventListener('click', openDeleteConfirm);
+document.getElementById('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') closeDrawer(); });
+
+// Delete-confirm modal wiring
+document.getElementById('deleteCancelBtn').addEventListener('click', closeDeleteConfirm);
+document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+document.getElementById('deleteOverlay').addEventListener('click', (e) => { if (e.target.id === 'deleteOverlay') closeDeleteConfirm(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('deleteOverlay').classList.contains('open')) closeDeleteConfirm();
+});
+
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('filterCity').addEventListener('change', render);
+document.getElementById('filterCategory').addEventListener('change', render);
+document.getElementById('filterStatus').addEventListener('change', render);
+document.getElementById('sortBy').addEventListener('change', render);
+
+document.getElementById('importToggle').addEventListener('click', () => {
+  const box = document.getElementById('importBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+});
+document.getElementById('cancelImport').addEventListener('click', () => {
+  document.getElementById('importBox').style.display = 'none';
+  document.getElementById('csvInput').value = '';
+});
+document.getElementById('doImport').addEventListener('click', async () => {
+  const text = document.getElementById('csvInput').value;
+  const rows = parseCSV(text);
+  if (rows.length === 0) { showToast('No valid rows found'); return; }
+  const { data: { user } } = await sb.auth.getUser();
+  const dbRows = rows.map(r => ({ ...appToDb(r), user_id: user.id }));
+  const { error } = await sb.from('prospects').insert(dbRows);
+  if (error) { showToast('Import failed: ' + error.message); return; }
+  await loadProspects();
+  document.getElementById('importBox').style.display = 'none';
+  document.getElementById('csvInput').value = '';
+  showToast(`Imported ${rows.length} prospect${rows.length === 1 ? '' : 's'}`);
+});
+
+checkSession();
+</script>
 </body>
 </html>
