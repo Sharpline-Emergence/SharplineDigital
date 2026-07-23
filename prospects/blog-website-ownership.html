@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="What actually happens to your website if you stop paying your web designer, builder, or agency — and the three things that determine whether you truly own your site.">
+  <title>What Happens When You Stop Paying Your Web Designer | Sharpline Digital</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .article-body ol,
+    .article-body ul.steps {
+      margin: 0 0 1.3rem 1.2rem;
+    }
+    .article-body ol li,
+    .article-body ul.steps li {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1.15;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+    /* Comparison table */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0 2.5rem;
+      font-size: 0.92rem;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 0.9rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--text-dark);
+      background: var(--off-white);
+      font-size: 0.78rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .compare-table td {
+      color: #2a3a4a;
+      font-weight: 300;
+    }
+    .compare-table td.row-label {
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+    .compare-table td.win {
+      color: var(--teal-dark);
+      font-weight: 500;
+    }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Also read */
+    .also-read {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin-top: 3rem;
+      transition: border-color 0.2s;
+    }
+    .also-read:hover { border-color: var(--teal); }
+    .also-read-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.3rem;
+    }
+    .also-read-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.2rem;
+    }
+    .also-read-desc {
+      font-size: 0.83rem;
+      color: var(--text-mid);
+      font-weight: 300;
+    }
+    .also-read-arrow {
+      font-size: 1.3rem;
+      color: var(--teal);
+      flex-shrink: 0;
+    }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(46,196,169,0.2);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #4a6075; }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #4a6075;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .nav { padding: 1rem 1.2rem; }
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 0.7rem 0.6rem; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .also-read { flex-direction: column; align-items: flex-start; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
+    <a href="/insights.html" class="nav-back">&#8592; Back to Insights</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">August 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">6 min read</span>
+      </div>
+      <h1>What Happens When You Stop Paying Your Web Designer: <em>The Question Nobody Asks Until It's Too Late</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>Most small business websites are rented, not owned &mdash; through a builder subscription, an agency retainer, or a hosting account you don't control</li>
+        <li>Stop paying, and the site can go dark, get locked, or become inaccessible until the bill is settled</li>
+        <li>Real ownership comes down to three separate things: your domain, your hosting, and your actual code &mdash; you need control of all three, not just the one you think about</li>
+        <li>A lot of business owners have never actually checked whether they hold that control, because nothing has forced the question yet</li>
+        <li>Sharpline Digital hands over the domain, the hosting setup, and the full code on every build &mdash; cancel any time, and you keep everything</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+    <div class="article-body">
+
+      <p class="intro-p">
+        Here's a question worth asking yourself right now, before you need the answer: if you stopped paying whoever built or hosts your website tomorrow, what would happen to it? For a lot of Fraser Valley business owners, the honest answer is "I don't actually know." That's not a knock on you &mdash; it's by design. Most of the industry makes money by keeping that answer vague.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> The Business Model Nobody Explains Upfront</h2>
+      <p>
+        Website builders, most agencies, and a lot of freelancers all share a quiet incentive: keep you paying, indefinitely. A one-time website sale is a single transaction. A website you can never fully leave is a subscription &mdash; and subscriptions are worth more, forever, to whoever's collecting them.
+      </p>
+      <p>
+        That's not necessarily malicious. Platform builders like Wix and Squarespace are upfront that you're renting space on their system. But a lot of agency "maintenance plans" and freelancer retainers work the same way in practice, even when it isn't stated that plainly &mdash; the site simply doesn't function without them.
+      </p>
+
+      <h2><span class="h2-num">02 /</span> Three Ways a Website Actually Gets Taken Away</h2>
+      <p>
+        This isn't hypothetical. It plays out a few common ways:
+      </p>
+      <ol>
+        <li><strong>The subscription lapses.</strong> Builder platforms like Wix, Squarespace, and Shopify require an active plan for the site to stay live. Miss a renewal, and the site typically goes offline, sometimes within days.</li>
+        <li><strong>The agency relationship ends.</strong> If your developer registered the domain or set up hosting under their own account &mdash; a common shortcut, especially early on &mdash; you may not have login access at all. Getting it back can mean a drawn-out request, or in worse cases, a standoff.</li>
+        <li><strong>The freelancer disappears.</strong> This happens more than people expect. A freelance developer who built your site on their own hosting account, then becomes unreachable, effectively takes your website with them &mdash; whether or not that was the intent.</li>
+      </ol>
+
+      <div class="pull-quote">
+        <p>"You don't find out whether you own your website until the moment you try to leave &mdash; and by then it's the wrong time to find out."</p>
+      </div>
+
+      <h2><span class="h2-num">03 /</span> What "Ownership" Actually Means Online</h2>
+      <p>
+        Ownership isn't one thing &mdash; it's three separate pieces, and missing any one of them means you don't fully control your website:
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">Domain</div>
+          <div class="stat-label">Registered in your name, in an account only you control</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Hosting</div>
+          <div class="stat-label">The account where your site's files actually live and serve from</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">Code</div>
+          <div class="stat-label">The real files &mdash; not a black-box export locked to one platform</div>
+        </div>
+      </div>
+
+      <p>
+        Most people only think about the first one. It's entirely possible to "own your domain" and still lose your working website, because the domain is just an address &mdash; it doesn't include the hosting account or the code that makes the site function.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> A Simple Way to Check Where You Actually Stand</h2>
+      <p>
+        Three questions, worth answering honestly right now:
+      </p>
+      <ol>
+        <li>Can you personally log into the account where your domain is registered &mdash; not your developer's account, yours?</li>
+        <li>Can you personally log into the hosting account where your site files live?</li>
+        <li>If you had to move to a new developer tomorrow, could you hand them actual files, or would they be starting from a blank screen?</li>
+      </ol>
+      <p>
+        If any answer is "no" or "I'm not sure," that's not a crisis today &mdash; but it's worth resolving before it becomes one. Most developers and agencies will grant access if you simply ask; the problem is usually that nobody asks until the relationship is already strained.
+      </p>
+
+      <h2><span class="h2-num">05 /</span> How This Works Differently at Sharpline Digital</h2>
+      <p>
+        Every site we build ships with all three pieces in the client's hands: the domain registered to you, hosting through GitHub Pages under an account you control, and the complete, real code &mdash; handed over, not held back. There's no maintenance retainer required for the site to keep working, and no monthly fee standing between you and your own website.
+      </p>
+      <p>
+        If you want us to keep managing it, that's a service we're glad to offer. If you want to walk away entirely, you walk away with a working website and nothing missing.
+      </p>
+
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Typical Builder / Agency</th>
+            <th>Sharpline Digital</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-label">Domain</td>
+            <td>Often under their account</td>
+            <td class="win">Registered to you</td>
+          </tr>
+          <tr>
+            <td class="row-label">Hosting</td>
+            <td>Locked to their platform</td>
+            <td class="win">Your GitHub account</td>
+          </tr>
+          <tr>
+            <td class="row-label">Code</td>
+            <td>Not accessible, or platform-locked</td>
+            <td class="win">Handed over in full</td>
+          </tr>
+          <tr>
+            <td class="row-label">If you cancel</td>
+            <td>Site typically goes down</td>
+            <td class="win">Site keeps working</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2><span class="h2-num">06 /</span> The Honest Bottom Line</h2>
+      <p>
+        Most business owners never think about this until they're already trying to switch providers, and discover the switch is harder than it should be. It doesn't have to work that way. A website is a business asset, the same as a vehicle or a piece of equipment &mdash; and like any asset, it's worth knowing whether you actually own it or you're just making payments on the right to keep using it.
+      </p>
+      <p>
+        If you're not sure where you stand on your current site, that's a five-minute conversation, not a project. Worth having before you need the answer, not after.
+      </p>
+
+      <!-- ALSO READ -->
+      <a href="/blog-static-vs-dynamic.html" style="text-decoration:none;">
+        <div class="also-read">
+          <div style="flex:1;">
+            <div class="also-read-label">Also from Sharpline Digital</div>
+            <div class="also-read-title">Static vs. Dynamic Websites: What Actually Powers Your Site</div>
+            <div class="also-read-desc">Why fewer moving parts often means a faster, safer, and easier-to-trust website.</div>
+          </div>
+          <div class="also-read-arrow">&#8594;</div>
+        </div>
+      </a>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio" style="color:#ffffff;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Not sure if you actually own your website?</h3>
+        <p>We'll take a straight look at your domain, hosting, and code setup and tell you exactly where you stand &mdash; no sales pitch.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-logo">Sharpline<span>Digital</span></div>
+    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
+    <div class="footer-links">
+      <a href="/index.html">Home</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/quote.html">Get a Quote</a>
+    </div>
+  </footer>
+
+</body>
+</html>
