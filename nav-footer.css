@@ -1,0 +1,148 @@
+/* ═══════════════════════════════════════════════════════════
+   Sharpline Digital — Shared Nav & Footer Styles
+   Loaded on every page alongside /nav.html + /footer.html via
+   /includes.js. Edit colors/spacing here once; every page updates.
+
+   Requires each page to already define these CSS variables in
+   its own :root block (all Sharpline Digital pages currently do):
+   --teal, --teal-dark, --navy, --navy-mid, --navy-deep, --white,
+   --off-white, --muted, --text-dark, --text-mid, --border
+   ═══════════════════════════════════════════════════════════ */
+
+:root { --flag-red: #D52B1E; }
+
+/* ─── NAV: default = solid, sticky (safe for every inner page) ─── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 2.5rem;
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--teal);
+  letter-spacing: -0.5px;
+  text-decoration: none;
+}
+.nav-logo span { color: var(--white); }
+.nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+.nav-links a {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.88rem;
+  text-decoration: none;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--teal); }
+.nav-cta {
+  background: transparent;
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.4);
+  padding: 0.5rem 1.3rem;
+  border-radius: 4px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.2rem 0.4rem;
+}
+
+/* ─── NAV: hero variant — transparent-over-hero, solidifies on scroll.
+   Opt in by adding class="has-hero" to <body> (homepage, city pages). ─── */
+.has-hero .nav {
+  background: transparent;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: var(--navy-deep);
+  padding: 2rem 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+.footer-logo {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--teal);
+}
+.footer-logo span { color: var(--white); }
+.footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
+
+/* Canadian flag — inline SVG so it renders identically on every OS.
+   (The 🇨🇦 emoji does NOT render as a flag on Windows — shows "CA".) */
+.flag-ca {
+  width: 20px;
+  height: 10px;
+  vertical-align: -1px;
+  margin-right: 0.5rem;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a {
+  font-size: 0.78rem;
+  color: #8aa5bd;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--teal); }
+
+/* ─── AREAS WE SERVE STRIP ─── */
+.areas-serve {
+  background: var(--navy-deep);
+  padding: 0 2.5rem 1.8rem;
+  text-align: center;
+}
+.areas-serve p {
+  font-size: 0.78rem;
+  color: #8aa5bd;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.areas-serve a {
+  color: var(--teal);
+  text-decoration: none;
+}
+.areas-serve a:hover { text-decoration: underline; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  .nav { padding: 1rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: block; }
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--navy-deep);
+    padding: 5rem 2rem 2rem;
+    gap: 1.5rem;
+    z-index: 99;
+  }
+  .nav-links.open a { font-size: 1.2rem; }
+  .footer { flex-direction: column; text-align: center; }
+}

@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/nav-footer.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -29,12 +30,7 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
 
-    /* ─── NAV ─── */
-    .nav { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 2.5rem; background: var(--navy); position: sticky; top: 0; z-index: 100; }
-    .nav-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--teal); letter-spacing: -0.5px; text-decoration: none; }
-    .nav-logo span { color: var(--white); }
-    .nav-back { color: var(--muted); font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; transition: color 0.2s; }
-    .nav-back:hover { color: var(--teal); }
+    /* Nav styles now live in /nav-footer.css (shared across the site) */
 
     /* ─── HERO ─── */
     .hero-strip { background: var(--navy); padding: 4rem 2.5rem 5rem; }
@@ -83,31 +79,19 @@
     .card-read-more { font-size: 0.85rem; font-weight: 600; color: var(--teal-dark); display: inline-flex; align-items: center; gap: 0.4rem; }
     .featured .card-read-more { color: var(--teal); }
 
-    /* ─── FOOTER ─── */
-    .footer { background: var(--navy-deep); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-    .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--teal); }
-    .footer-logo span { color: var(--white); }
-    .footer p { font-size: 0.78rem; color: #4a6075; }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a { font-size: 0.78rem; color: #4a6075; text-decoration: none; transition: color 0.2s; }
-    .footer-links a:hover { color: var(--teal); }
+    /* Footer styles now live in /nav-footer.css (shared across the site) */
 
     @media (max-width: 680px) {
-      .nav { padding: 1rem 1.2rem; }
       .hero-strip { padding: 3rem 1.5rem 4rem; }
       .list-wrap { padding: 0 1.2rem; }
       .article-card { padding: 1.6rem 1.6rem; }
-      .footer { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <a href="/index.html" class="nav-logo">Sharpline<span>Digital</span></a>
-    <a href="/index.html" class="nav-back">&#8592; Back to home</a>
-  </nav>
+  <!-- NAV (loaded from /nav.html by /includes.js) -->
+  <div id="nav-placeholder"></div>
 
   <!-- HERO -->
   <div class="hero-strip">
@@ -131,19 +115,6 @@
       </div>
       <div class="card-title">The 3-Second Rule: Why Your Website Might Be Losing Customers</div>
       <p class="card-desc">Google's own research shows over half of mobile visitors abandon a site that takes more than 3 seconds to load. Here's what's actually slowing sites down — and how we found out our own site wasn't immune.</p>
-      <span class="card-read-more">Read article &#8594;</span>
-    </a>
-
-    <a href="/blog-website-ownership.html" class="article-card">
-      <div class="card-meta">
-        <span class="card-tag">Insight</span>
-        <span class="card-dot"></span>
-        <span class="card-date">August 2026</span>
-        <span class="card-dot"></span>
-        <span class="card-date">6 min read</span>
-      </div>
-      <div class="card-title">What Happens When You Stop Paying Your Web Designer</div>
-      <p class="card-desc">Most small business websites are rented, not owned. The three things that actually determine whether you control your site — and what happens if you don't.</p>
       <span class="card-read-more">Read article &#8594;</span>
     </a>
 
@@ -197,15 +168,9 @@
 
   </div>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-logo">Sharpline<span>Digital</span></div>
-    <p>Fraser Valley, British Columbia &nbsp;&middot;&nbsp; hello@sharplinedigital.com</p>
-    <div class="footer-links">
-      <a href="/index.html">Home</a>
-      <a href="/quote.html">Get a Quote</a>
-    </div>
-  </footer>
+  <!-- FOOTER (loaded from /footer.html by /includes.js) -->
+  <div id="footer-placeholder"></div>
 
+  <script src="/includes.js"></script>
 </body>
 </html>
