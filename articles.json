@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "blog-website-speed",
+    "url": "/blog-website-speed.html",
+    "title": "The 3-Second Rule: Why Your Website Might Be Losing Customers",
+    "desc": "Google's own research shows over half of mobile visitors abandon a slow site. What's actually causing it — and how to fix it.",
+    "date": "2026-07-01",
+    "tags": ["performance", "technical", "speed"],
+    "pinnedRelated": "blog-static-vs-dynamic"
+  },
+  {
+    "slug": "blog-static-vs-dynamic",
+    "url": "/blog-static-vs-dynamic.html",
+    "title": "Static vs. Dynamic Websites: What Actually Powers Your Site",
+    "desc": "Why fewer moving parts often means a faster, safer, and easier-to-trust website.",
+    "date": "2026-07-15",
+    "tags": ["technical", "performance", "architecture"],
+    "pinnedRelated": "blog-website-speed"
+  },
+  {
+    "slug": "blog-website-ownership",
+    "url": "/blog-website-ownership.html",
+    "title": "What Happens When You Stop Paying Your Web Designer",
+    "desc": "Most small business websites are rented, not owned — the three things that actually determine control of your site.",
+    "date": "2026-08-01",
+    "tags": ["ownership", "cost", "lock-in"],
+    "pinnedRelated": "blog-cheap-websites"
+  },
+  {
+    "slug": "blog-cheap-websites",
+    "url": "/blog-cheap-websites.html",
+    "title": "Why a $500 Website Costs BC Businesses Thousands",
+    "desc": "The hidden costs of page builders, poor SEO, slow load times, and platform lock-in.",
+    "date": "2026-07-10",
+    "tags": ["cost", "lock-in", "budget"],
+    "pinnedRelated": "blog-website-ownership"
+  },
+  {
+    "slug": "blog-local-website",
+    "url": "/blog-local-website.html",
+    "title": "Why Your BC Business Needs More Than Social Media",
+    "desc": "How AI search is changing local discovery — and why your website is the only digital asset you truly own.",
+    "date": "2026-06-20",
+    "tags": ["ownership", "local-seo", "discovery"],
+    "pinnedRelated": "blog-bc-privacy-laws"
+  },
+  {
+    "slug": "blog-bc-privacy-laws",
+    "url": "/blog-bc-privacy-laws.html",
+    "title": "BC Privacy Laws and Your Website: What You're Already Required to Do",
+    "desc": "British Columbia's PIPA applies to almost every small business site — including yours.",
+    "date": "2026-07-20",
+    "tags": ["compliance", "legal", "ownership"],
+    "pinnedRelated": "blog-local-website"
+  }
+]
