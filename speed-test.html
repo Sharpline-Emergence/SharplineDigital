@@ -8,12 +8,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nav-footer.css">
 <style>
   :root {
     --teal: #2ec4a9;
     --teal-dark: #1f8f7a;
     --navy: #0a1628;
     --navy-soft: #14243d;
+    --navy-deep: #06101e;
     --paper: #f7f9f9;
     --white: #ffffff;
     --grade-a: #2ec4a9;
@@ -40,36 +42,7 @@
 
   .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
 
-  /* ---------- Header ---------- */
-  header {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line);
-    background: var(--white);
-  }
-  header .wrap { display: flex; align-items: center; justify-content: space-between; }
-  .logo {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 1.05rem;
-    color: var(--navy);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-  .logo-mark {
-    width: 26px; height: 26px;
-    border-radius: 7px;
-    background: linear-gradient(135deg, var(--teal), var(--teal-dark));
-    display: inline-flex; align-items: center; justify-content: center;
-    color: white; font-size: 0.75rem; font-weight: 800;
-  }
-  header a.home-link {
-    font-size: 0.85rem;
-    color: var(--navy);
-    opacity: 0.65;
-    text-decoration: none;
-  }
+  /* Nav & footer styles now live in /nav-footer.css (shared across the site) */
 
   /* ---------- Hero ---------- */
   .hero { padding: 64px 0 40px; text-align: center; }
@@ -301,24 +274,13 @@
     font-family: 'DM Sans', sans-serif;
   }
 
-  footer {
-    padding: 30px 0 50px;
-    text-align: center;
-    font-size: 0.78rem;
-    color: rgba(10,22,40,0.4);
-  }
+  /* Footer styles now live in /nav-footer.css (shared across the site) */
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <a href="https://sharplinedigital.com" class="logo">
-      <span class="logo-mark">SD</span> Sharpline Digital
-    </a>
-    <a href="https://sharplinedigital.com" class="home-link">← Back to site</a>
-  </div>
-</header>
+<!-- NAV (loaded from /nav.html by /includes.js) -->
+<div id="nav-placeholder"></div>
 
 <div class="wrap">
   <section class="hero">
@@ -385,9 +347,10 @@
   </section>
 </div>
 
-<footer>
-  Sharpline Digital · Chilliwack, BC · Powered by Google PageSpeed Insights
-</footer>
+<!-- FOOTER (loaded from /footer.html by /includes.js) -->
+<div id="footer-placeholder"></div>
+
+<script src="/includes.js"></script>
 
 <script>
   // ---- CONFIG ----

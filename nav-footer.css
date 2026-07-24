@@ -40,6 +40,7 @@
   transition: color 0.2s;
 }
 .nav-links a:hover { color: var(--teal); }
+.nav-links a.active { color: var(--teal); }
 .nav-cta {
   background: transparent;
   color: var(--white);
@@ -63,6 +64,20 @@
   cursor: pointer;
   padding: 0.2rem 0.4rem;
 }
+
+/* ─── NAV: minimal variant — logo + "back to home" only.
+   Used on conversion-focused pages (e.g. quote.html) where a full
+   nav would distract from the form. Opt in via nav-minimal.html. ─── */
+.nav-back {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s;
+}
+.nav-back:hover { color: var(--teal); }
 
 /* ─── NAV: hero variant — transparent-over-hero, solidifies on scroll.
    Opt in by adding class="has-hero" to <body> (homepage, city pages). ─── */

@@ -16,6 +16,12 @@
  *   Add class="has-hero" to <body>. The nav will float transparent
  *   over the hero and solidify on scroll. Every other page gets a
  *   solid, sticky nav by default — no extra markup needed.
+ * FOR CONVERSION-FOCUSED PAGES (e.g. quote.html) THAT WANT THE MINIMAL
+ * "logo + back to home" NAV INSTEAD OF THE FULL 7-LINK NAV:
+ *   <div id="nav-placeholder" data-nav="minimal"></div>
+ *
+ * Active-page highlighting: the nav link matching the current path
+ * automatically gets class="active" — no per-page markup needed.
  */
 (function () {
   function loadPartial(url, placeholderId, callback) {
@@ -35,7 +41,18 @@
       });
   }
 
+  function highlightActiveLink() {
+    var path = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+      var linkPath = link.getAttribute('href');
+      if (!linkPath) return;
+      linkPath = linkPath.replace(/\/$/, '') || '/';
+      if (linkPath === path) link.classList.add('active');
+    });
+  }
+
   function initNavBehavior() {
+    highlightActiveLink();
     var nav = document.getElementById('mainNav');
     var toggle = document.getElementById('navToggle');
     var navLinks = document.getElementById('navLinks');
@@ -82,7 +99,11 @@
   }
 
   function init() {
-    loadPartial('/nav.html', 'nav-placeholder', initNavBehavior);
+    var navPlaceholder = document.getElementById('nav-placeholder');
+    var navFile = (navPlaceholder && navPlaceholder.dataset.nav === 'minimal')
+      ? '/nav-minimal.html'
+      : '/nav.html';
+    loadPartial(navFile, 'nav-placeholder', initNavBehavior);
     loadPartial('/footer.html', 'footer-placeholder');
   }
 
