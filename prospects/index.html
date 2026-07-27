@@ -284,7 +284,8 @@
       <div class="field"><label>Category</label>
         <select id="f_category">
           <option>Automotive</option><option>Beauty Salons</option><option>Electricians</option>
-          <option>General Contractors</option><option>HVAC</option><option>Medical</option><option>Roofing</option><option>Supplies</option><option>Other</option>
+          <option>General Contractors</option><option>HVAC</option><option>Medical</option>
+          <option>Restaurant</option><option>Retail</option><option>Roofing</option><option>Supplies</option><option>Other</option>
         </select>
       </div>
     </div>
@@ -614,6 +615,23 @@ function escapeHtml(str) {
   return d.innerHTML;
 }
 
+// Keep in sync with the static markup above. "Other" always sorts last.
+const BASE_CATEGORIES = ['Automotive', 'Beauty Salons', 'Electricians', 'General Contractors', 'HVAC', 'Medical', 'Restaurant', 'Retail', 'Roofing', 'Supplies'];
+
+// Rebuilds the category dropdown fresh each time. If the prospect's stored category
+// isn't one of the known options (legacy data, CSV import with different casing, etc.),
+// it gets inserted so it displays correctly instead of silently reading back as empty
+// and getting overwritten with "General Contractors" on save.
+function populateCategorySelect(selected) {
+  const sel = document.getElementById('f_category');
+  let opts = [...BASE_CATEGORIES];
+  if (selected && !opts.includes(selected)) opts.push(selected);
+  opts.sort((a, b) => a.localeCompare(b));
+  opts.push('Other');
+  sel.innerHTML = opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  sel.value = selected || 'General Contractors';
+}
+
 function openDrawer(id) {
   editingId = id || null;
   const p = id ? prospects.find(x => x.id === id) : null;
@@ -622,7 +640,7 @@ function openDrawer(id) {
 
   document.getElementById('f_businessName').value = p?.businessName || '';
   document.getElementById('f_city').value = p?.city || 'Chilliwack';
-  document.getElementById('f_category').value = p?.category || 'General Contractors';
+  populateCategorySelect(p?.category);
   document.getElementById('f_website').value = p?.website || '';
   document.getElementById('f_phone').value = p?.phone || '';
   document.getElementById('f_contactName').value = p?.contactName || '';
