@@ -31,6 +31,8 @@
     --hot: #b5533c;
     --warm: #c9a227;
     --cool: #6f7f5d;
+    --hotlead: #2e7d32;
+    --hotlead-tint: #e6f4ea;
   }
   * { box-sizing: border-box; }
   body {
@@ -93,9 +95,11 @@
     align-items: center;
     gap: 14px;
     cursor: pointer;
-    transition: border-color 0.15s ease;
+    transition: border-color 0.15s ease, background 0.15s ease;
   }
   .row:hover { border-color: var(--sage); }
+  .row.row-hot { background: var(--hotlead-tint); border-color: var(--hotlead); }
+  .row.row-hot:hover { border-color: var(--hotlead); }
   @media (max-width: 780px) {
     .row { grid-template-columns: 20px 40px 1fr auto; }
     .row .col-city, .row .col-category, .row .col-status, .row .col-grade { display: none; }
@@ -116,6 +120,7 @@
   }
   .status-New { background: var(--sage-tint); color: var(--sage-dark); }
   .status-Contacted { background: #eef2f7; color: #3d5a80; }
+  .status-Hot { background: var(--hotlead-tint); color: var(--hotlead); font-weight: 700; }
   .status-Follow-up { background: #fbf1de; color: #9a6b1a; }
   .status-Won { background: #e7f3e6; color: #3a7a3d; }
   .status-Not.interested { background: #f1eeee; color: #8a8783; }
@@ -255,7 +260,7 @@
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterStatus">
       <option value="">All statuses</option>
-      <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+      <option>New</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
@@ -305,7 +310,7 @@
     <div class="two-col">
       <div class="field"><label>Status</label>
         <select id="f_status">
-          <option>New</option><option>Contacted</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+          <option>New</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
         </select>
       </div>
       <div class="field"><label>Contacted</label>
@@ -562,7 +567,7 @@ function render() {
   }
 
   listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
-    <div class="row" data-id="${p.id}">
+    <div class="row ${p.status === 'Hot' ? 'row-hot' : ''}" data-id="${p.id}">
       <div class="row-num">${idx + 1}</div>
       ${ringSVG(p.score)}
       <div>
@@ -740,7 +745,7 @@ function parseCSV(text) {
     const score = scoreNum !== '' ? Math.max(0, Math.min(100, parseInt(scoreNum, 10))) : null;
 
     // Status: only accept known values, default to New
-    const knownStatuses = ['New', 'Contacted', 'Follow-up', 'Won', 'Not interested'];
+    const knownStatuses = ['New', 'Contacted', 'Hot', 'Follow-up', 'Won', 'Not interested'];
     const statusRaw = (map['status'] || '').trim();
     const status = knownStatuses.find(s => s.toLowerCase() === statusRaw.toLowerCase()) || 'New';
 
