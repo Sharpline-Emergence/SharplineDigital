@@ -265,6 +265,8 @@
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
       <option value="score">Score (lowest first)</option>
+      <option value="city">City (A–Z)</option>
+      <option value="category">Category (A–Z)</option>
     </select>
   </div>
 
@@ -546,6 +548,24 @@ function render() {
       const as = a.score === null || a.score === undefined ? Infinity : a.score;
       const bs = b.score === null || b.score === undefined ? Infinity : b.score;
       return as - bs;
+    });
+  } else if (sortBy === 'city') {
+    // A-Z by city, blanks last, name as tiebreaker
+    filtered.sort((a, b) => {
+      const ac = a.city || '', bc = b.city || '';
+      if (!ac && bc) return 1;
+      if (ac && !bc) return -1;
+      const cmp = ac.localeCompare(bc);
+      return cmp !== 0 ? cmp : (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'category') {
+    // A-Z by category, blanks last, name as tiebreaker
+    filtered.sort((a, b) => {
+      const ac = a.category || '', bc = b.category || '';
+      if (!ac && bc) return 1;
+      if (ac && !bc) return -1;
+      const cmp = ac.localeCompare(bc);
+      return cmp !== 0 ? cmp : (a.businessName || '').localeCompare(b.businessName || '');
     });
   } else {
     filtered.sort((a, b) => (a.businessName || '').localeCompare(b.businessName || ''));
