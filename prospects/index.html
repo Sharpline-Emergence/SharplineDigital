@@ -267,6 +267,7 @@
       <option value="score">Score (lowest first)</option>
       <option value="city">City (A–Z)</option>
       <option value="category">Category (A–Z)</option>
+      <option value="status">Status (pipeline order)</option>
     </select>
   </div>
 
@@ -566,6 +567,14 @@ function render() {
       if (ac && !bc) return -1;
       const cmp = ac.localeCompare(bc);
       return cmp !== 0 ? cmp : (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'status') {
+    // Pipeline order: New -> Contacted -> Hot -> Follow-up -> Won -> Not interested, blanks last
+    const statusOrder = { 'New': 0, 'Contacted': 1, 'Hot': 2, 'Follow-up': 3, 'Won': 4, 'Not interested': 5 };
+    filtered.sort((a, b) => {
+      const ar = statusOrder[a.status] ?? 99;
+      const br = statusOrder[b.status] ?? 99;
+      return ar !== br ? ar - br : (a.businessName || '').localeCompare(b.businessName || '');
     });
   } else {
     filtered.sort((a, b) => (a.businessName || '').localeCompare(b.businessName || ''));
