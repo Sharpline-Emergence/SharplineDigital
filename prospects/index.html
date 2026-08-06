@@ -275,9 +275,9 @@
     </div>
     <div class="two-col">
       <div class="field"><label>Note to append</label><input id="logNote" placeholder="e-mailed #2 follow up"></div>
-      <div class="field"><label>Advance Sequence Step</label>
-        <select id="logSeqStep">
-          <option value="">Leave unchanged</option>
+      <div class="field"><label style="color:var(--danger);">Sequence Step ★ required</label>
+        <select id="logSeqStep" style="border-color:var(--danger);">
+          <option value="">— select a step —</option>
           <option value="1">Set to 1 (Email #1 sent)</option>
           <option value="2">Set to 2 (Email #2 sent)</option>
           <option value="3">Set to 3 (Email #3 sent)</option>
@@ -1090,11 +1090,17 @@ async function applyOutreachLog() {
     showLogPreview();
     return;
   }
+  const seqStepRaw = document.getElementById('logSeqStep').value;
+  if (seqStepRaw === '') {
+    document.getElementById('logPreview').innerHTML =
+      '<strong style="color:var(--danger);">⚠ Please select a Sequence Step before applying.</strong>';
+    document.getElementById('logSeqStep').focus();
+    return;
+  }
+  const seqStep = parseInt(seqStepRaw, 10);
   const date = document.getElementById('logDate').value || todayISO();
   const status = document.getElementById('logStatus').value;
   const noteText = document.getElementById('logNote').value.trim();
-  const seqStepRaw = document.getElementById('logSeqStep').value;
-  const seqStep = seqStepRaw !== '' ? parseInt(seqStepRaw, 10) : null;
 
   // Note prefix uses the same MM/DD/YY shorthand already in the Notes column.
   const [y, m, d] = date.split('-');
@@ -1139,7 +1145,12 @@ document.getElementById('logOutreachToggle').addEventListener('click', () => {
   if (!showing) {
     document.getElementById('logDate').value = todayISO();
     document.getElementById('logPreview').innerHTML = '';
+    document.getElementById('logSeqStep').value = '';
+    document.getElementById('logSeqStep').style.borderColor = 'var(--danger)';
   }
+});
+document.getElementById('logSeqStep').addEventListener('change', function() {
+  this.style.borderColor = this.value === '' ? 'var(--danger)' : 'var(--border)';
 });
 document.getElementById('cancelLog').addEventListener('click', () => {
   document.getElementById('logOutreachBox').style.display = 'none';
