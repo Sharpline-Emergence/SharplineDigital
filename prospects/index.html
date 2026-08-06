@@ -245,12 +245,34 @@
       <div class="subtitle" id="countLabel">Loading…</div>
     </div>
     <div style="display:flex; gap:8px;">
+      <button class="btn-secondary" id="logOutreachToggle">Log Outreach</button>
       <button class="btn-secondary" id="exportBtn">Export CSV</button>
       <button class="btn-secondary" id="importToggle">Import CSV</button>
       <button class="btn-primary" id="addBtn">+ Add Prospect</button>
       <button class="btn-ghost" id="logoutBtn">Sign Out</button>
     </div>
   </header>
+
+  <div class="import-box" id="logOutreachBox" style="display:none;">
+    <div class="hint">Paste the business names you just emailed, one per line. Each one gets its Date Contacted stamped and the note appended. Names must match what's in the tracker — anything that doesn't match gets listed, not silently skipped.</div>
+    <textarea id="logNamesInput" placeholder="Abbsry Tire&#10;Adventure RV Center&#10;Neels Heating &amp; Cooling"></textarea>
+    <div class="two-col" style="margin-top:10px;">
+      <div class="field"><label>Date Contacted</label><input id="logDate" type="date"></div>
+      <div class="field"><label>Set Status (optional)</label>
+        <select id="logStatus">
+          <option value="">Leave unchanged</option>
+          <option>Contacted</option><option>Follow-up</option><option>Hot</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Note to append</label><input id="logNote" placeholder="e-mailed #2 follow up"></div>
+    <div id="logPreview" class="hint" style="margin-top:10px;"></div>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-secondary" id="checkLog">Check Names</button>
+      <button class="btn-primary" id="doLog">Apply Updates</button>
+      <button class="btn-ghost" id="cancelLog">Cancel</button>
+    </div>
+  </div>
 
   <div class="import-box" id="importBox" style="display:none;">
     <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly.</div>
@@ -971,6 +993,108 @@ document.addEventListener('keydown', (e) => {
 document.getElementById('searchInput').addEventListener('input', render);
 document.getElementById('filterCity').addEventListener('change', render);
 document.getElementById('filterCategory').addEventListener('change', render);
+// ---- Bulk outreach logging ----
+// After a send batch, stamp Date Contacted and append a dated note across many
+// rows at once. Writes straight to Supabase — no CSV round-trip, so the
+// category-mismatch import bug can't bite here.
+
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+// Loose match so pasted names survive stray punctuation and case differences.
+function normName(s) {
+  return (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function matchLoggedNames() {
+  const lines = document.getElementById('logNamesInput').value
+    .split('\n').map(s => s.trim()).filter(Boolean);
+  const matched = [], unmatched = [];
+  const seen = new Set();
+  for (const line of lines) {
+    const key = normName(line);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const hit = prospects.find(p => normName(p.businessName) === key);
+    if (hit) matched.push(hit); else unmatched.push(line);
+  }
+  return { matched, unmatched };
+}
+
+function showLogPreview() {
+  const { matched, unmatched } = matchLoggedNames();
+  const box = document.getElementById('logPreview');
+  let msg = `<strong>${matched.length} matched</strong>`;
+  if (unmatched.length) {
+    msg += ` · <strong>${unmatched.length} not found:</strong> ${unmatched.map(escapeHtml).join(', ')}`;
+  }
+  if (!matched.length && !unmatched.length) msg = 'Paste some names above, then check.';
+  box.innerHTML = msg;
+  return matched;
+}
+
+async function applyOutreachLog() {
+  const { matched, unmatched } = matchLoggedNames();
+  if (!matched.length) {
+    showLogPreview();
+    return;
+  }
+  const date = document.getElementById('logDate').value || todayISO();
+  const status = document.getElementById('logStatus').value;
+  const noteText = document.getElementById('logNote').value.trim();
+
+  // Note prefix uses the same MM/DD/YY shorthand already in the Notes column.
+  const [y, m, d] = date.split('-');
+  const stamp = `${m}/${d}/${y.slice(2)}`;
+
+  const btn = document.getElementById('doLog');
+  btn.disabled = true;
+  btn.textContent = 'Updating…';
+
+  let ok = 0;
+  const failed = [];
+  for (const p of matched) {
+    const patch = { date_contacted: date, contacted: true };
+    if (status) patch.status = status;
+    if (noteText) {
+      const line = `${stamp} ${noteText}`;
+      patch.notes = p.notes ? `${p.notes}\n${line}` : line;
+    }
+    const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
+    if (error) failed.push(p.businessName); else ok++;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Apply Updates';
+
+  let msg = `<strong>Updated ${ok}.</strong>`;
+  if (failed.length) msg += ` Failed: ${failed.map(escapeHtml).join(', ')}`;
+  if (unmatched.length) msg += ` Not found: ${unmatched.map(escapeHtml).join(', ')}`;
+  document.getElementById('logPreview').innerHTML = msg;
+
+  if (ok) {
+    document.getElementById('logNamesInput').value = '';
+    await loadProspects();
+  }
+}
+
+document.getElementById('logOutreachToggle').addEventListener('click', () => {
+  const box = document.getElementById('logOutreachBox');
+  const showing = box.style.display !== 'none';
+  box.style.display = showing ? 'none' : 'block';
+  if (!showing) {
+    document.getElementById('logDate').value = todayISO();
+    document.getElementById('logPreview').innerHTML = '';
+  }
+});
+document.getElementById('cancelLog').addEventListener('click', () => {
+  document.getElementById('logOutreachBox').style.display = 'none';
+});
+document.getElementById('checkLog').addEventListener('click', showLogPreview);
+document.getElementById('doLog').addEventListener('click', applyOutreachLog);
+
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
 document.getElementById('sortBy').addEventListener('change', render);
