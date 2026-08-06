@@ -120,6 +120,14 @@
   .contact-age { font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 3px; color: var(--ink-soft); }
   .contact-age.due { color: #9a6b1a; font-weight: 500; }
   .contact-age.overdue { color: var(--danger); font-weight: 500; }
+  /* Sequence step badge — small pill beside the status */
+  .seq-badge { font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 600;
+               padding: 2px 7px; border-radius: 99px; border: 1px solid;
+               display: inline-block; vertical-align: middle; white-space: nowrap; }
+  .seq-0 { color: #a0a090; border-color: #d8d4c8; background: transparent; }
+  .seq-1 { color: #5a7a52; border-color: #b0c8a8; background: #eef4eb; }
+  .seq-2 { color: #7a6530; border-color: #d4b870; background: #faf3dc; }
+  .seq-3 { color: #8a3030; border-color: #d49898; background: #faeded; }
 
   .status-pill {
     font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
@@ -265,7 +273,17 @@
         </select>
       </div>
     </div>
-    <div class="field"><label>Note to append</label><input id="logNote" placeholder="e-mailed #2 follow up"></div>
+    <div class="two-col">
+      <div class="field"><label>Note to append</label><input id="logNote" placeholder="e-mailed #2 follow up"></div>
+      <div class="field"><label>Advance Sequence Step</label>
+        <select id="logSeqStep">
+          <option value="">Leave unchanged</option>
+          <option value="1">Set to 1 (Email #1 sent)</option>
+          <option value="2">Set to 2 (Email #2 sent)</option>
+          <option value="3">Set to 3 (Email #3 sent)</option>
+        </select>
+      </div>
+    </div>
     <div id="logPreview" class="hint" style="margin-top:10px;"></div>
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-secondary" id="checkLog">Check Names</button>
@@ -300,6 +318,13 @@
       <option value="21">Contacted 3+ weeks ago</option>
       <option value="30">Contacted 30+ days ago</option>
       <option value="60">Contacted 60+ days ago</option>
+    </select>
+    <select id="filterSeqStep">
+      <option value="">Any step</option>
+      <option value="0">Step 0 — not started</option>
+      <option value="1">Step 1 — #1 sent</option>
+      <option value="2">Step 2 — #2 sent</option>
+      <option value="3">Step 3 — #3 sent</option>
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
@@ -366,8 +391,16 @@
     </div>
     <div class="two-col">
       <div class="field"><label>Date Contacted</label><input id="f_dateContacted" type="date"></div>
-      <div class="field"><label>Date Added</label><input id="f_dateAdded" type="date" disabled></div>
+      <div class="field"><label>Sequence Step</label>
+        <select id="f_seqStep">
+          <option value="0">0 — Not started</option>
+          <option value="1">1 — Email #1 sent</option>
+          <option value="2">2 — Email #2 sent</option>
+          <option value="3">3 — Email #3 sent</option>
+        </select>
+      </div>
     </div>
+    <div class="field"><label>Date Added</label><input id="f_dateAdded" type="date" disabled></div>
     <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Anything else worth remembering..."></textarea></div>
 
     <div class="drawer-actions">
@@ -428,7 +461,8 @@ function dbToApp(row) {
     dateAdded: row.date_added,
     notes: row.notes,
     opportunities: row.opportunities || [],
-    contacted: !!row.contacted
+    contacted: !!row.contacted,
+    seqStep: row.seq_step ?? 0
   };
 }
 
@@ -447,7 +481,8 @@ function appToDb(p) {
     date_added: p.dateAdded,
     notes: p.notes,
     opportunities: p.opportunities,
-    contacted: !!p.contacted
+    contacted: !!p.contacted,
+    seq_step: p.seqStep ?? 0
   };
 }
 
@@ -574,6 +609,13 @@ function daysSinceContact(p) {
   return Math.floor((today - d) / 86400000);
 }
 
+function seqBadge(step) {
+  const s = step ?? 0;
+  const labels = ['–', '#1', '#2', '#3'];
+  const label = labels[s] || `#${s}`;
+  return `<span class="seq-badge seq-${Math.min(s,3)}" title="Sequence step ${s}">${label}</span>`;
+}
+
 function contactAgeLabel(p) {
   const days = daysSinceContact(p);
   if (days === null) {
@@ -604,6 +646,7 @@ function render() {
   const catF = document.getElementById('filterCategory').value;
   const statusF = document.getElementById('filterStatus').value;
   const ageF = document.getElementById('filterContactAge').value;
+  const seqF = document.getElementById('filterSeqStep').value;
 
   let filtered = prospects.filter(p => {
     if (cityF && p.city !== cityF) return false;
@@ -625,6 +668,9 @@ function render() {
     if (search) {
       const hay = [p.businessName, p.city, p.category, p.contactName, p.email].join(' ').toLowerCase();
       if (!hay.includes(search)) return false;
+    }
+    if (seqF !== '') {
+      if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
     }
     return true;
   });
@@ -704,7 +750,7 @@ function render() {
       <div class="col-city">${escapeHtml(p.city || '')}</div>
       <div class="col-category">${escapeHtml(p.category || '')}</div>
       <div class="col-grade">${gradeBadge(p.score)}</div>
-      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span></div>
+      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span> ${seqBadge(p.seqStep)}</div>
       <div class="row-actions">
         <button class="contacted-toggle ${p.contacted ? 'is-yes' : 'is-no'}" data-id="${p.id}" data-contacted="${p.contacted ? '1' : '0'}" title="Contacted? Click to toggle">${p.contacted ? 'Y' : 'N'}</button>
       </div>
@@ -776,6 +822,7 @@ function openDrawer(id) {
   document.getElementById('f_status').value = p?.status || 'New';
   document.getElementById('f_contacted').value = p?.contacted ? 'y' : 'n';
   document.getElementById('f_dateContacted').value = p?.dateContacted || '';
+  document.getElementById('f_seqStep').value = p?.seqStep ?? 0;
   document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
   document.getElementById('f_notes').value = p?.notes || '';
 
@@ -811,6 +858,7 @@ async function saveCurrent() {
     status: document.getElementById('f_status').value,
     contacted: document.getElementById('f_contacted').value === 'y',
     dateContacted: document.getElementById('f_dateContacted').value,
+    seqStep: parseInt(document.getElementById('f_seqStep').value, 10) || 0,
     dateAdded: document.getElementById('f_dateAdded').value || new Date().toISOString().slice(0,10),
     notes: document.getElementById('f_notes').value.trim(),
     opportunities
@@ -924,6 +972,7 @@ function parseCSV(text) {
       contacted,
       dateContacted: map['date contacted'] || '',
       dateAdded: map['date added'] || new Date().toISOString().slice(0,10),
+      seqStep: parseInt(map['sequence step'] || map['seq step'] || '0', 10) || 0,
       notes: combinedNotes,
       opportunities
     });
@@ -945,13 +994,13 @@ function exportCSV() {
   const headers = [
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
-    'Date Added', 'Date Contacted', 'Contacted', 'Notes'
+    'Date Added', 'Date Contacted', 'Contacted', 'Sequence Step', 'Notes'
   ];
   const rows = rowsData.map((p, idx) => [
     idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
     p.contactName, p.email, p.score ?? '', p.status,
     (p.opportunities || []).join('; '),
-    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.notes
+    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.seqStep ?? 0, p.notes
   ].map(csvEscape).join(','));
 
   const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
@@ -1044,6 +1093,8 @@ async function applyOutreachLog() {
   const date = document.getElementById('logDate').value || todayISO();
   const status = document.getElementById('logStatus').value;
   const noteText = document.getElementById('logNote').value.trim();
+  const seqStepRaw = document.getElementById('logSeqStep').value;
+  const seqStep = seqStepRaw !== '' ? parseInt(seqStepRaw, 10) : null;
 
   // Note prefix uses the same MM/DD/YY shorthand already in the Notes column.
   const [y, m, d] = date.split('-');
@@ -1058,6 +1109,7 @@ async function applyOutreachLog() {
   for (const p of matched) {
     const patch = { date_contacted: date, contacted: true };
     if (status) patch.status = status;
+    if (seqStep !== null) patch.seq_step = seqStep;
     if (noteText) {
       const line = `${stamp} ${noteText}`;
       patch.notes = p.notes ? `${p.notes}\n${line}` : line;
@@ -1097,6 +1149,7 @@ document.getElementById('doLog').addEventListener('click', applyOutreachLog);
 
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
+document.getElementById('filterSeqStep').addEventListener('change', render);
 document.getElementById('sortBy').addEventListener('change', render);
 
 document.getElementById('importToggle').addEventListener('click', () => {
