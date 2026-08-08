@@ -1,50 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SN2ZMHV0FJ');
+  </script>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>North Wire Beta — A tidier way to read reliable Canadian news</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>North Wire Beta | Sharpline Digital</title>
 <meta name="description" content="North Wire: a tidier way to read reliable Canadian news. Built by Sharpline Digital. Free to use during our beta — we'd love your feedback.">
-
-<!--
-  INTEGRATION NOTE FOR PETER:
-  Wrap this content with your existing nav.html / footer.html include system —
-  same pattern as every other Insights page. Open any existing article page,
-  copy the <head> links (fonts, nav-footer.css, includes.js) and the nav/footer
-  include divs from the top and bottom, and drop them around the content below.
-  Everything below is just the page's unique content and styling.
--->
-
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://sharplinedigital.com/labs/north-wire/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/nav-footer.css">
 <style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --teal: #2ec4a9;
-    --navy: #0a1628;
-    --navy-light: #12233d;
-    --paper: #f7f9f9;
-    --ink: #16211d;
-    --steel: #5c6b73;
-    --border: #e3e8e8;
+    --teal:        #2ec4a9;
+    --teal-dark:   #1a9e87;
+    --teal-light:  #e1f7f3;
+    --teal-dim:    rgba(46,196,169,0.12);
+    --navy:        #0a1628;
+    --navy-mid:    #152238;
+    --navy-deep:   #06101e;
+    --white:       #ffffff;
+    --off-white:   #f7fafc;
+    --muted:       #a8c0d6;
+    --text-dark:   #0a1628;
+    --text-mid:    #5a7a8a;
+    --border:      #dde8f0;
   }
 
-  * { box-sizing: border-box; }
-
+  html { scroll-behavior: smooth; }
   body {
-    margin: 0;
-    font-family: 'DM Sans', -apple-system, sans-serif;
-    color: var(--ink);
-    background: #fff;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-dark);
+    background: var(--white);
     line-height: 1.6;
   }
 
   h1, h2, h3 {
     font-family: 'Outfit', sans-serif;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.15;
-    margin: 0 0 16px;
     color: var(--navy);
   }
 
@@ -54,12 +61,22 @@
     padding: 0 24px;
   }
 
-  /* Hero */
+  /* ─── HERO ─── */
   .beta-hero {
     background: var(--navy);
     color: #fff;
     padding: 72px 0 64px;
+    position: relative;
+    overflow: hidden;
   }
+  .beta-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(46,196,169,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .beta-hero .wrap { position: relative; }
   .beta-hero .eyebrow {
     display: inline-block;
     font-family: 'Outfit', sans-serif;
@@ -78,12 +95,15 @@
     color: #fff;
     font-size: clamp(32px, 5vw, 46px);
     max-width: 600px;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
   }
   .beta-hero p {
     font-size: 18px;
-    color: #c7d3d9;
+    color: var(--muted);
     max-width: 520px;
     margin: 0 0 32px;
+    font-weight: 300;
   }
   .cta-btn {
     display: inline-flex;
@@ -96,26 +116,25 @@
     font-size: 16px;
     text-decoration: none;
     padding: 14px 28px;
-    border-radius: 8px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border-radius: 6px;
+    transition: background 0.2s ease;
   }
-  .cta-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(46, 196, 169, 0.35);
-  }
+  .cta-btn:hover { background: var(--teal-dark); }
   .cta-sub {
     display: block;
     margin-top: 12px;
     font-size: 13px;
-    color: #8fa1a9;
+    color: var(--muted);
   }
 
-  /* What it is */
+  /* ─── WHAT MAKES IT DIFFERENT ─── */
   .beta-features {
     padding: 64px 0;
+    background: var(--off-white);
   }
   .beta-features h2 {
     font-size: 26px;
+    margin-bottom: 8px;
   }
   .feature-grid {
     display: grid;
@@ -127,16 +146,17 @@
     .feature-grid { grid-template-columns: 1fr; }
   }
   .feature-card {
+    background: var(--white);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     padding: 20px;
   }
   .feature-card .icon {
     width: 36px;
     height: 36px;
     border-radius: 8px;
-    background: rgba(46, 196, 169, 0.12);
-    color: var(--teal);
+    background: var(--teal-dim);
+    color: var(--teal-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -150,37 +170,42 @@
   }
   .feature-card p {
     font-size: 14.5px;
-    color: var(--steel);
+    color: var(--text-mid);
     margin: 0;
+    font-weight: 300;
   }
 
-  /* Beta note */
   .beta-note {
-    background: var(--paper);
-    border-radius: 12px;
+    background: var(--white);
+    border-radius: 10px;
     padding: 24px 28px;
     margin-top: 40px;
+    border-left: 3px solid var(--teal);
+    border: 1px solid var(--border);
     border-left: 3px solid var(--teal);
   }
   .beta-note p {
     margin: 0;
     font-size: 15px;
-    color: var(--ink);
+    color: var(--text-dark);
+    font-weight: 300;
   }
-  .beta-note strong { color: var(--navy); }
+  .beta-note strong { color: var(--navy); font-weight: 500; }
 
-  /* Feedback form */
+  /* ─── FEEDBACK FORM ─── */
   .beta-feedback {
-    background: var(--paper);
     padding: 64px 0 72px;
+    background: var(--white);
   }
   .beta-feedback h2 {
     font-size: 24px;
+    margin-bottom: 8px;
   }
-  .beta-feedback > .wrap > p {
-    color: var(--steel);
+  .beta-feedback > .wrap > p.lead {
+    color: var(--text-mid);
     font-size: 15px;
     margin-bottom: 28px;
+    font-weight: 300;
   }
   form {
     display: flex;
@@ -189,7 +214,7 @@
   }
   label {
     font-family: 'Outfit', sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 13.5px;
     color: var(--navy);
     margin-bottom: 6px;
@@ -203,9 +228,9 @@
     font-size: 15px;
     padding: 11px 14px;
     border: 1px solid var(--border);
-    border-radius: 8px;
-    background: #fff;
-    color: var(--ink);
+    border-radius: 6px;
+    background: var(--off-white);
+    color: var(--text-dark);
   }
   textarea { resize: vertical; min-height: 90px; }
   input[type="email"]:focus,
@@ -217,7 +242,7 @@
   }
   .field-optional {
     font-weight: 400;
-    color: var(--steel);
+    color: var(--text-mid);
     text-transform: none;
     letter-spacing: 0;
     font-family: 'DM Sans', sans-serif;
@@ -228,116 +253,125 @@
     background: var(--navy);
     color: #fff;
     font-family: 'Outfit', sans-serif;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 15px;
     border: none;
     padding: 13px 26px;
-    border-radius: 8px;
+    border-radius: 6px;
     cursor: pointer;
     margin-top: 6px;
+    transition: background 0.2s;
   }
-  .submit-btn:hover { background: var(--navy-light); }
+  .submit-btn:hover { background: var(--navy-mid); }
 
   .form-note {
     font-size: 12.5px;
-    color: var(--steel);
+    color: var(--text-mid);
     margin-top: 8px;
+  }
+
+  @media (max-width: 680px) {
+    .beta-hero { padding: 56px 0 48px; }
+    .beta-features { padding: 48px 0; }
+    .beta-feedback { padding: 48px 0 56px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ============ YOUR NAV INCLUDE GOES HERE ============ -->
+  <!-- NAV (loaded from /nav.html by /includes.js) -->
+  <div id="nav-placeholder"></div>
 
-<section class="beta-hero">
-  <div class="wrap">
-    <span class="eyebrow">Sharpline Labs · Beta</span>
-    <h1>A tidier way to read reliable Canadian news.</h1>
-    <p>North Wire is a Canadian-curated news reader we've been building — updated daily, no duplicate stories, no ads on our end. It's live and free to use right now, and we'd love your honest take.</p>
-    <a class="cta-btn" href="https://news.sharplinedigital.com" target="_blank" rel="noopener">
-      Try North Wire →
-    </a>
-    <span class="cta-sub">Opens in a new tab · works great on iPhone, just add it to your home screen</span>
-  </div>
-</section>
+  <section class="beta-hero">
+    <div class="wrap">
+      <span class="eyebrow">Sharpline Labs · Beta</span>
+      <h1>A tidier way to read reliable Canadian news.</h1>
+      <p>North Wire is a Canadian-curated news reader we've been building — updated daily, no duplicate stories, no ads on our end. It's live and free to use right now, and we'd love your honest take.</p>
+      <a class="cta-btn" href="https://news.sharplinedigital.com" target="_blank" rel="noopener">
+        Try North Wire →
+      </a>
+      <span class="cta-sub">Opens in a new tab · works great on iPhone, just add it to your home screen</span>
+    </div>
+  </section>
 
-<section class="beta-features">
-  <div class="wrap">
-    <h2>What makes it different</h2>
-    <div class="feature-grid">
-      <div class="feature-card">
-        <div class="icon">✓</div>
-        <h3>Updated daily</h3>
-        <p>Fresh headlines pulled automatically every morning — no stale feed.</p>
+  <section class="beta-features">
+    <div class="wrap">
+      <h2>What makes it different</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="icon">✓</div>
+          <h3>Updated daily</h3>
+          <p>Fresh headlines pulled automatically every morning — no stale feed.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✓</div>
+          <h3>Reliable Canadian sources</h3>
+          <p>CBC, Global News, Financial Post, and other established outlets — not aggregator spam.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✓</div>
+          <h3>Few duplicate stories</h3>
+          <p>We filter out near-identical headlines from different outlets, so you're not reading the same story three times.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✓</div>
+          <h3>No ads on our end</h3>
+          <p>Just headlines, summaries, and a link to the original source. Nothing cluttering the feed.</p>
+        </div>
       </div>
-      <div class="feature-card">
-        <div class="icon">✓</div>
-        <h3>Reliable Canadian sources</h3>
-        <p>CBC, Global News, Financial Post, and other established outlets — not aggregator spam.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">✓</div>
-        <h3>Few duplicate stories</h3>
-        <p>We filter out near-identical headlines from different outlets, so you're not reading the same story three times.</p>
-      </div>
-      <div class="feature-card">
-        <div class="icon">✓</div>
-        <h3>No ads on our end</h3>
-        <p>Just headlines, summaries, and a link to the original source. Nothing cluttering the feed.</p>
+
+      <div class="beta-note">
+        <p><strong>Heads up — this is an active beta.</strong> You might hit the occasional rough edge as we keep improving it. It's free to use for now, and being part of the beta means you're helping shape what it becomes.</p>
       </div>
     </div>
+  </section>
 
-    <div class="beta-note">
-      <p><strong>Heads up — this is an active beta.</strong> You might hit the occasional rough edge as we keep improving it. It's free to use for now, and being part of the beta means you're helping shape what it becomes.</p>
+  <section class="beta-feedback" id="feedback">
+    <div class="wrap">
+      <h2>Tell us what you think</h2>
+      <p class="lead">Two minutes, genuinely useful to us. Thank you for trying it out.</p>
+
+      <form action="https://formspree.io/f/xvkpzvdq" method="POST">
+        <div>
+          <label for="impression">Overall, what did you think?</label>
+          <textarea id="impression" name="Overall impression" required placeholder="Anything from 'love it' to 'here's what's bugging me'..."></textarea>
+        </div>
+
+        <div>
+          <label for="favorite-category">Which category do you check most?</label>
+          <select id="favorite-category" name="Favorite category">
+            <option value="">Select one...</option>
+            <option value="World">World</option>
+            <option value="Canada">Canada</option>
+            <option value="B.C.">B.C.</option>
+            <option value="Politics">Politics</option>
+            <option value="Markets">Markets</option>
+            <option value="Technology">Technology</option>
+            <option value="Science">Science</option>
+            <option value="Medicine">Medicine</option>
+            <option value="Travel">Travel</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="missing">What's missing, or what would make you use it more often?</label>
+          <textarea id="missing" name="What's missing"></textarea>
+        </div>
+
+        <div>
+          <label for="email">Email <span class="field-optional">(optional — only if you're open to us following up)</span></label>
+          <input type="email" id="email" name="Email" placeholder="you@example.com">
+        </div>
+
+        <button type="submit" class="submit-btn">Send feedback</button>
+        <p class="form-note">We'll only use this to improve North Wire — never shared, never sold.</p>
+      </form>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="beta-feedback" id="feedback">
-  <div class="wrap">
-    <h2>Tell us what you think</h2>
-    <p>Two minutes, genuinely useful to us. Thank you for trying it out.</p>
+  <!-- FOOTER (loaded from /footer.html by /includes.js) -->
+  <div id="footer-placeholder"></div>
 
-    <!-- Replace YOUR_FORM_ID with your actual Formspree endpoint -->
-    <form action="https://formspree.io/f/xvkpzvdq" method="POST">
-      <div>
-        <label for="impression">Overall, what did you think?</label>
-        <textarea id="impression" name="Overall impression" required placeholder="Anything from 'love it' to 'here's what's bugging me'..."></textarea>
-      </div>
-
-      <div>
-        <label for="favorite-category">Which category do you check most?</label>
-        <select id="favorite-category" name="Favorite category">
-          <option value="">Select one...</option>
-          <option value="World">World</option>
-          <option value="Canada">Canada</option>
-          <option value="B.C.">B.C.</option>
-          <option value="Politics">Politics</option>
-          <option value="Markets">Markets</option>
-          <option value="Technology">Technology</option>
-          <option value="Science">Science</option>
-          <option value="Medicine">Medicine</option>
-          <option value="Travel">Travel</option>
-        </select>
-      </div>
-
-      <div>
-        <label for="missing">What's missing, or what would make you use it more often?</label>
-        <textarea id="missing" name="What's missing"></textarea>
-      </div>
-
-      <div>
-        <label for="email">Email <span class="field-optional">(optional — only if you're open to us following up)</span></label>
-        <input type="email" id="email" name="Email" placeholder="you@example.com">
-      </div>
-
-      <button type="submit" class="submit-btn">Send feedback</button>
-      <p class="form-note">We'll only use this to improve North Wire — never shared, never sold.</p>
-    </form>
-  </div>
-</section>
-
-<!-- ============ YOUR FOOTER INCLUDE GOES HERE ============ -->
-
+  <script src="/includes.js"></script>
 </body>
 </html>
