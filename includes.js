@@ -98,6 +98,18 @@
     }
   }
 
+  // Loads the chat widget as a real script tag appended to the page.
+  // (Scripts inside HTML injected via outerHTML/innerHTML never execute —
+  // this is the workaround, and it also means the widget loads once,
+  // site-wide, independent of the footer markup itself.)
+  function loadChatWidget() {
+    if (document.getElementById('sl-chat-widget-script')) return; // avoid double-loading
+    var s = document.createElement('script');
+    s.id = 'sl-chat-widget-script';
+    s.src = '/sharpline-chat-widget.js';
+    document.body.appendChild(s);
+  }
+
   function init() {
     var navPlaceholder = document.getElementById('nav-placeholder');
     var navFile = (navPlaceholder && navPlaceholder.dataset.nav === 'minimal')
@@ -105,6 +117,7 @@
       : '/nav.html';
     loadPartial(navFile, 'nav-placeholder', initNavBehavior);
     loadPartial('/footer.html', 'footer-placeholder');
+    loadChatWidget();
   }
 
   if (document.readyState === 'loading') {
