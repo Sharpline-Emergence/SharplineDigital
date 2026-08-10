@@ -31,7 +31,16 @@
   text-decoration: none;
 }
 .nav-logo span { color: var(--white); }
-.nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+.nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  row-gap: 0.6rem;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 .nav-links a {
   color: rgba(255,255,255,0.7);
   font-size: 0.88rem;
