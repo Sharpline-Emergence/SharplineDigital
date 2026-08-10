@@ -381,6 +381,39 @@
       font-weight: 300;
       color: var(--muted);
     }
+    .discount-badge {
+      display: inline-block;
+      background: #e63946;
+      color: var(--white);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 3px;
+      margin-bottom: 0.7rem;
+      text-transform: uppercase;
+    }
+    .pkg-price-old {
+      position: relative;
+      display: inline-block;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: rgba(168,192,214,0.55);
+      margin-bottom: 0.1rem;
+    }
+    .pkg-price-old::after {
+      content: '';
+      position: absolute;
+      left: -6%;
+      right: -6%;
+      top: 48%;
+      height: 2px;
+      background: #e63946;
+      transform: rotate(-9deg);
+    }
+    .pkg-price-new {
+      color: var(--teal);
+    }
     .pkg-gst {
       font-size: 0.72rem;
       color: rgba(168,192,214,0.6);
@@ -716,8 +749,10 @@
 
         <div class="pkg-card fade-up">
           <div class="pkg-name">Build &amp; Go</div>
-          <div class="pkg-price">From $2,500 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project</em></div>
+          <div class="discount-badge">40% off &mdash; book by Sept. 30, 2026</div>
+          <div class="pkg-price-old">From $2,500 <span>one-time</span></div>
+          <div class="pkg-price pkg-price-new">From $1,500 <span>one-time</span></div>
+          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if project is completed by Sept. 30, 2026</em></div>
           <p class="pkg-desc">We build it, hand it off, you're done. Full GitHub repo delivered &mdash; take it anywhere you like.</p>
           <ul class="pkg-features">
             <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
@@ -729,8 +764,10 @@
 
         <div class="pkg-card featured fade-up">
           <div class="pkg-name">Build &amp; Relax</div>
-          <div class="pkg-price">From $3,200 <span>one-time</span></div>
-          <div class="pkg-gst">+GST &mdash; our most popular choice<br><em>*or less, depending upon project</em></div>
+          <div class="discount-badge">40% off &mdash; book by Sept. 30, 2026</div>
+          <div class="pkg-price-old">From $3,200 <span>one-time</span></div>
+          <div class="pkg-price pkg-price-new">From $1,920 <span>one-time</span></div>
+          <div class="pkg-gst">+GST &mdash; our most popular choice<br><em>*or less, depending upon project &mdash; discount applies if project is completed by Sept. 30, 2026</em></div>
           <p class="pkg-desc">Build + hosting for year one + minor revisions for 6 months while your business finds its footing.</p>
           <ul class="pkg-features">
             <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
@@ -742,8 +779,10 @@
 
         <div class="pkg-card fade-up">
           <div class="pkg-name">Build &amp; Host</div>
-          <div class="pkg-price">From $2,750 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project</em></div>
+          <div class="discount-badge">40% off &mdash; book by Sept. 30, 2026</div>
+          <div class="pkg-price-old">From $2,750 <span>one-time</span></div>
+          <div class="pkg-price pkg-price-new">From $1,650 <span>one-time</span></div>
+          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if project is completed by Sept. 30, 2026</em></div>
           <p class="pkg-desc">Custom build plus we handle hosting for year one &mdash; no server setup, no headaches.</p>
           <ul class="pkg-features">
             <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
