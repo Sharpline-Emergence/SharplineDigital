@@ -270,6 +270,44 @@
     margin-top: 8px;
   }
 
+  /* ─── SHARE ─── */
+  .beta-share {
+    padding: 0 0 72px;
+    background: var(--white);
+  }
+  .share-card {
+    background: var(--off-white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .share-card h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+  }
+  .share-card p {
+    font-size: 14px;
+    color: var(--text-mid);
+    font-weight: 300;
+    margin: 0;
+  }
+  .share-link {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 14.5px;
+    color: var(--teal-dark);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+  }
+  .share-link:hover { border-color: var(--teal-dark); }
+
   @media (max-width: 680px) {
     .beta-hero { padding: 56px 0 48px; }
     .beta-features { padding: 48px 0; }
@@ -366,6 +404,18 @@
         <button type="submit" class="submit-btn">Send feedback</button>
         <p class="form-note">We'll only use this to improve North Wire — never shared, never sold.</p>
       </form>
+    </div>
+  </section>
+
+  <section class="beta-share">
+    <div class="wrap">
+      <div class="share-card">
+        <div>
+          <h3>Know someone who'd like this?</h3>
+          <p>Grab a link, logo, or ready-to-use blurb to pass it along.</p>
+        </div>
+        <a class="share-link" href="/labs/north-wire/share.html">Share North Wire →</a>
+      </div>
     </div>
   </section>
 
