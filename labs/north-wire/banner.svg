@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400">
+  <defs>
+    <style>
+      .mono { font-family: 'JetBrains Mono', 'DM Mono', monospace; }
+      .serif { font-family: 'Fraunces', Georgia, serif; }
+    </style>
+  </defs>
+  <rect width="1200" height="400" fill="#14212B"/>
+
+  <!-- faint wire lines texture -->
+  <g stroke="#22333F" stroke-width="1.5">
+    <line x1="0" y1="70" x2="1200" y2="70"/>
+    <line x1="0" y1="330" x2="1200" y2="330"/>
+  </g>
+
+  <!-- dateline eyebrow -->
+  <text x="60" y="55" class="mono" font-size="16" letter-spacing="3" fill="#B08D57">CHILLIWACK, B.C. · CANADIAN DISPATCH</text>
+
+  <!-- mark -->
+  <g transform="translate(60,140)">
+    <rect width="90" height="90" rx="14" fill="#0F1922"/>
+    <polyline points="25,66 25,24 65,66 65,24" fill="none" stroke="#F3EFE6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="65" cy="24" r="4.5" fill="#C1442D"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="175" y="200" class="serif" font-size="72" font-weight="700" fill="#F3EFE6">North Wire</text>
+  <text x="177" y="240" class="mono" font-size="20" letter-spacing="1" fill="#8B98A5">Canadian news, filed straight — no cookies, no login, no noise</text>
+
+  <!-- footer line -->
+  <text x="60" y="360" class="mono" font-size="18" letter-spacing="2" fill="#C1442D">news.sharplinedigital.com</text>
+  <text x="1140" y="360" class="mono" font-size="16" letter-spacing="1" fill="#5C6B78" text-anchor="end">BETA — FILED DAILY</text>
+</svg>
