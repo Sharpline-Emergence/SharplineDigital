@@ -152,6 +152,28 @@
 }
 .areas-serve a:hover { text-decoration: underline; }
 
+/* ─── LABS STRIP — quiet mention of side projects, sits below areas-serve ─── */
+.labs-strip {
+  background: var(--navy-deep);
+  padding: 0 2.5rem 1.8rem;
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: -0.6rem;
+  padding-top: 0.8rem;
+}
+.labs-strip p {
+  font-size: 0.72rem;
+  color: #5f7a91;
+  margin: 0;
+}
+.labs-strip a {
+  color: #5f7a91;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.labs-strip a:hover { color: var(--teal); }
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   .nav { padding: 1rem 1.5rem; }
