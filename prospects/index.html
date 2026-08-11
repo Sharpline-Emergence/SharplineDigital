@@ -293,8 +293,9 @@
   </div>
 
   <div class="import-box" id="importBox" style="display:none;">
-    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly.</div>
+    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly. Rows whose Business Name already matches an existing prospect are skipped automatically.</div>
     <textarea id="csvInput" placeholder="Paste your spreadsheet data here..."></textarea>
+    <div id="importPreview" class="hint" style="margin-top:10px;"></div>
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-primary" id="doImport">Import Rows</button>
       <button class="btn-ghost" id="cancelImport">Cancel</button>
@@ -918,6 +919,13 @@ function parseYN(val) {
   return t === 'y' || t === 'yes' || t === 'true' || t === '1';
 }
 
+// Loose name match — strips everything but letters/digits and lowercases, so
+// "Abbsry Tire", "abbsry  tire", and "ABBSRY TIRE!" all collapse to the same key.
+// Shared by both Log Outreach matching and the CSV import de-dupe check below.
+function normName(s) {
+  return (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
   if (lines.length < 2) return [];
@@ -978,6 +986,19 @@ function parseCSV(text) {
     });
   }
   return rows.filter(r => r.businessName);
+}
+
+// Splits parsed CSV rows into ones that are new vs. ones that already match an
+// existing prospect by business name (loose match via normName). Used by both
+// the Import CSV preview and the actual insert, so what you see is what happens.
+function splitImportRows(rows) {
+  const existingNames = new Set(prospects.map(p => normName(p.businessName)));
+  const fresh = [], duplicates = [];
+  rows.forEach(r => {
+    if (existingNames.has(normName(r.businessName))) duplicates.push(r);
+    else fresh.push(r);
+  });
+  return { fresh, duplicates };
 }
 
 function csvEscape(val) {
@@ -1050,11 +1071,6 @@ document.getElementById('filterCategory').addEventListener('change', render);
 function todayISO() {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-}
-
-// Loose match so pasted names survive stray punctuation and case differences.
-function normName(s) {
-  return (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 function matchLoggedNames() {
@@ -1166,29 +1182,51 @@ document.getElementById('sortBy').addEventListener('change', render);
 document.getElementById('importToggle').addEventListener('click', () => {
   const box = document.getElementById('importBox');
   box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if (box.style.display === 'block') document.getElementById('importPreview').innerHTML = '';
 });
 document.getElementById('cancelImport').addEventListener('click', () => {
   document.getElementById('importBox').style.display = 'none';
   document.getElementById('csvInput').value = '';
+  document.getElementById('importPreview').innerHTML = '';
 });
 document.getElementById('doImport').addEventListener('click', async () => {
   const text = document.getElementById('csvInput').value;
   const rows = parseCSV(text);
   if (rows.length === 0) { showToast('No valid rows found'); return; }
+
+  // Skip anything that already matches an existing prospect by business name
+  // (loose match — case/punctuation-insensitive) so re-pasting a spreadsheet
+  // you've already imported doesn't create duplicate rows.
+  const { fresh, duplicates } = splitImportRows(rows);
+
+  if (fresh.length === 0) {
+    document.getElementById('importPreview').innerHTML =
+      `<strong>All ${rows.length} row${rows.length === 1 ? '' : 's'} already exist</strong> — nothing to import. ` +
+      `Skipped: ${duplicates.map(d => escapeHtml(d.businessName)).join(', ')}`;
+    showToast('Nothing imported — all rows already exist');
+    return;
+  }
+
   const { data: { user } } = await sb.auth.getUser();
-  const dbRows = rows.map(r => ({ ...appToDb(r), user_id: user.id }));
+  const dbRows = fresh.map(r => ({ ...appToDb(r), user_id: user.id }));
   const { error } = await sb.from('prospects').insert(dbRows);
   if (error) { showToast('Import failed: ' + error.message); return; }
   await loadProspects();
   document.getElementById('importBox').style.display = 'none';
   document.getElementById('csvInput').value = '';
-  showToast(`Imported ${rows.length} prospect${rows.length === 1 ? '' : 's'}`);
+
+  let msg = `Imported ${fresh.length} prospect${fresh.length === 1 ? '' : 's'}`;
+  if (duplicates.length) msg += ` · skipped ${duplicates.length} duplicate${duplicates.length === 1 ? '' : 's'}`;
+  showToast(msg);
+  if (duplicates.length) {
+    document.getElementById('importPreview').innerHTML =
+      `Skipped as duplicates: ${duplicates.map(d => escapeHtml(d.businessName)).join(', ')}`;
+  } else {
+    document.getElementById('importPreview').innerHTML = '';
+  }
 });
 
 checkSession();
 </script>
 </body>
 </html>
-
-
- 
