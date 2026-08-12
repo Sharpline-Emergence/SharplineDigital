@@ -256,6 +256,7 @@
       <button class="btn-secondary" id="logOutreachToggle">Log Outreach</button>
       <button class="btn-secondary" id="exportBtn">Export CSV</button>
       <button class="btn-secondary" id="importToggle">Import CSV</button>
+      <button class="btn-secondary" id="mergeAuditToggle">Merge Audits</button>
       <button class="btn-primary" id="addBtn">+ Add Prospect</button>
       <button class="btn-ghost" id="logoutBtn">Sign Out</button>
     </div>
@@ -299,6 +300,17 @@
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-primary" id="doImport">Import Rows</button>
       <button class="btn-ghost" id="cancelImport">Cancel</button>
+    </div>
+  </div>
+
+  <div class="import-box" id="mergeAuditBox" style="display:none;">
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — this only ever <strong>updates</strong> a matched row, it never inserts a new one, so it can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes.</div>
+    <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
+    <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-secondary" id="checkAudits">Preview Matches</button>
+      <button class="btn-primary" id="doMergeAudits">Apply Merge</button>
+      <button class="btn-ghost" id="cancelMergeAudits">Cancel</button>
     </div>
   </div>
 
@@ -1225,6 +1237,152 @@ document.getElementById('doImport').addEventListener('click', async () => {
     document.getElementById('importPreview').innerHTML = '';
   }
 });
+
+// ---- Merge Audit Reports ----
+// Reads one or more website_audit.py .md reports and patches matching
+// prospects (matched by domain, not business name — audits are keyed by
+// URL). This only ever UPDATEs existing rows, never INSERTs, so unlike
+// CSV Import there is no duplicate-row risk here by construction.
+
+// Strips protocol, www., path, and trailing slash so
+// "https://www.broadwaychurchlife.com/contact" and "broadwaychurchlife.com"
+// both collapse to "broadwaychurchlife.com".
+function normDomain(url) {
+  return (url || '')
+    .toLowerCase()
+    .trim()
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/\/.*$/, '');
+}
+
+// Pulls the fields we care about out of one audit .md file's text.
+// Returns null if it doesn't look like a Sharpline audit report.
+function parseAuditMarkdown(text, filename) {
+  const urlMatch = text.match(/^#\s*Website Audit:\s*(\S+)/m);
+  const scoreMatch = text.match(/Sharpline Site Score:\s*(\d+)\s*\/\s*100/i);
+  if (!urlMatch && !scoreMatch) return null;
+
+  // Fallback to filename (e.g. "broadwaychurchlife.com_audit.md") if the
+  // report itself doesn't have the URL line for some reason.
+  const domain = urlMatch
+    ? normDomain(urlMatch[1])
+    : normDomain(filename.replace(/_audit\.(md|txt)$/i, ''));
+
+  const score = scoreMatch ? Math.max(0, Math.min(100, parseInt(scoreMatch[1], 10))) : null;
+
+  const emailMatch = text.match(/Email\(s\):\s*(.+)/i);
+  const phoneMatch = text.match(/Phone\(s\):\s*(.+)/i);
+  const email = emailMatch && !/none found/i.test(emailMatch[1]) ? emailMatch[1].split(/[|,]/)[0].trim() : '';
+  const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? phoneMatch[1].split(/[|,]/)[0].trim() : '';
+
+  // "## Issues Found" bullets, up to 5, stripped of the ⚠️ marker — used to
+  // build a compact one-line Notes summary rather than dumping the whole report.
+  const issuesBlock = text.match(/## Issues Found\s*([\s\S]*?)(\n##|\n---|\s*$)/);
+  const issues = issuesBlock
+    ? issuesBlock[1].split('\n').map(l => l.replace(/^-\s*⚠️?\s*/, '').trim()).filter(Boolean).slice(0, 5)
+    : [];
+
+  return { domain, score, email, phone, issues, filename };
+}
+
+async function readAuditFiles() {
+  const input = document.getElementById('auditFiles');
+  const files = Array.from(input.files || []);
+  const parsed = [];
+  for (const file of files) {
+    const text = await file.text();
+    const audit = parseAuditMarkdown(text, file.name);
+    if (audit) parsed.push(audit);
+  }
+  return parsed;
+}
+
+function matchAudits(audits) {
+  const matched = [], unmatched = [];
+  for (const a of audits) {
+    const hit = prospects.find(p => p.website && normDomain(p.website) === a.domain);
+    if (hit) matched.push({ prospect: hit, audit: a }); else unmatched.push(a);
+  }
+  return { matched, unmatched };
+}
+
+async function showAuditPreview() {
+  const box = document.getElementById('auditPreview');
+  const audits = await readAuditFiles();
+  if (!audits.length) { box.innerHTML = 'Select audit .md files above, then preview.'; return null; }
+  const { matched, unmatched } = matchAudits(audits);
+
+  let msg = `<strong>${matched.length} matched</strong>`;
+  if (matched.length) {
+    msg += '<ul style="margin:6px 0 0 18px; padding:0;">' + matched.map(m =>
+      `<li>${escapeHtml(m.prospect.businessName)} — score ${m.prospect.score ?? 'n/a'} → ${m.audit.score ?? 'n/a'}</li>`
+    ).join('') + '</ul>';
+  }
+  if (unmatched.length) {
+    msg += `<div style="margin-top:8px;"><strong>${unmatched.length} unmatched</strong> (no prospect's Website / URL matches this domain — check the row exists and its URL is filled in): ${unmatched.map(a => escapeHtml(a.domain)).join(', ')}</div>`;
+  }
+  box.innerHTML = msg;
+  return { matched, unmatched };
+}
+
+async function applyAuditMerge() {
+  const result = await showAuditPreview();
+  if (!result || !result.matched.length) return;
+  const { matched, unmatched } = result;
+
+  const btn = document.getElementById('doMergeAudits');
+  btn.disabled = true;
+  btn.textContent = 'Merging…';
+
+  const stamp = (() => {
+    const d = new Date();
+    return `${String(d.getMonth() + 1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`;
+  })();
+
+  let ok = 0;
+  const failed = [];
+  for (const { prospect: p, audit: a } of matched) {
+    const patch = {};
+    if (a.score !== null) patch.score = a.score;               // audit is the source of truth for Score — always refresh
+    if (a.email && !p.email) patch.email = a.email;             // augment only — never overwrite a value that's already there
+    if (a.phone && !p.phone) patch.phone = a.phone;
+    if (a.issues.length) {
+      const line = `${stamp} Audit: ${a.issues.join('; ')}`;
+      patch.notes = p.notes ? `${p.notes}\n${line}` : line;
+    }
+    if (Object.keys(patch).length === 0) { ok++; continue; }    // nothing to add, not a failure
+    const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
+    if (error) failed.push(p.businessName); else ok++;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Apply Merge';
+
+  let msg = `<strong>Merged ${ok}.</strong>`;
+  if (failed.length) msg += ` Failed: ${failed.map(escapeHtml).join(', ')}`;
+  if (unmatched.length) msg += ` Unmatched: ${unmatched.map(a => escapeHtml(a.domain)).join(', ')}`;
+  document.getElementById('auditPreview').innerHTML = msg;
+
+  if (ok) {
+    document.getElementById('auditFiles').value = '';
+    await loadProspects();
+  }
+}
+
+document.getElementById('mergeAuditToggle').addEventListener('click', () => {
+  const box = document.getElementById('mergeAuditBox');
+  const showing = box.style.display !== 'none';
+  box.style.display = showing ? 'none' : 'block';
+  if (!showing) document.getElementById('auditPreview').innerHTML = '';
+});
+document.getElementById('cancelMergeAudits').addEventListener('click', () => {
+  document.getElementById('mergeAuditBox').style.display = 'none';
+  document.getElementById('auditFiles').value = '';
+  document.getElementById('auditPreview').innerHTML = '';
+});
+document.getElementById('checkAudits').addEventListener('click', showAuditPreview);
+document.getElementById('doMergeAudits').addEventListener('click', applyAuditMerge);
 
 checkSession();
 </script>
