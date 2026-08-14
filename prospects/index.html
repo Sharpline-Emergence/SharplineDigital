@@ -304,7 +304,7 @@
   </div>
 
   <div class="import-box" id="mergeAuditBox" style="display:none;">
-    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — audits don't carry a business name, so fill that in (and City/Category) before adding; duplicates are still blocked by business name.</div>
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name is pre-filled from the audit's guess (og:site_name or page title) when available, otherwise from the domain, so check it before adding along with City/Category; duplicates are still blocked by business name.</div>
     <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
     <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
     <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
@@ -1278,6 +1278,12 @@ function parseAuditMarkdown(text, filename) {
   const email = emailMatch && !/none found/i.test(emailMatch[1]) ? emailMatch[1].split(/[|,]/)[0].trim() : '';
   const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? phoneMatch[1].split(/[|,]/)[0].trim() : '';
 
+  // Added by website_audit.py (og:site_name, falling back to the <title> tag)
+  // — still just a guess for review, so treat "(not found ...)" as no guess
+  // at all rather than literal text to display.
+  const nameMatch = text.match(/Business Name \(guess\):\s*(.+)/i);
+  const businessNameGuess = nameMatch && !/not found/i.test(nameMatch[1]) ? nameMatch[1].trim() : '';
+
   // "## Issues Found" bullets, up to 5, stripped of the ⚠️ marker — used to
   // build a compact one-line Notes summary rather than dumping the whole report.
   const issuesBlock = text.match(/## Issues Found\s*([\s\S]*?)(\n##|\n---|\s*$)/);
@@ -1285,7 +1291,7 @@ function parseAuditMarkdown(text, filename) {
     ? issuesBlock[1].split('\n').map(l => l.replace(/^-\s*⚠️?\s*/, '').trim()).filter(Boolean).slice(0, 5)
     : [];
 
-  return { domain, score, email, phone, issues, filename };
+  return { domain, score, email, phone, issues, filename, businessNameGuess };
 }
 
 async function readAuditFiles() {
@@ -1309,11 +1315,11 @@ function matchAudits(audits) {
   return { matched, unmatched };
 }
 
-// Crude first-guess at a business name from a bare domain, e.g.
-// "broadwaychurchlife.com" -> "Broadwaychurchlife". Audits never carry a real
-// business name (they're keyed by URL, not by who owns it), so this is only
-// ever a starting point — the field stays editable and Peter is expected to
-// fix it before adding.
+// Fallback-of-last-resort: a crude guess at a business name from a bare
+// domain, e.g. "broadwaychurchlife.com" -> "Broadwaychurchlife". Only used
+// when the audit report has no "Business Name (guess)" line at all (i.e. an
+// older report from before website_audit.py added that field). The field
+// stays editable either way — this is always a starting point, not a result.
 function guessNameFromDomain(domain) {
   const base = (domain || '').split('.')[0] || '';
   return base ? base.charAt(0).toUpperCase() + base.slice(1) : '';
@@ -1326,7 +1332,7 @@ function renderUnmatchedAuditRows(unmatched) {
 
   wrap.innerHTML = unmatched.map((a, i) => `
     <div class="row" style="grid-template-columns: 1fr 1fr 1fr auto; margin-bottom:6px;" data-domain="${escapeHtml(a.domain)}">
-      <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(guessNameFromDomain(a.domain))}">
+      <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(a.businessNameGuess || guessNameFromDomain(a.domain))}">
       <input type="text" id="ua_city_${i}" placeholder="City">
       <input type="text" id="ua_category_${i}" placeholder="Category">
       <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft);">
