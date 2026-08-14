@@ -366,9 +366,11 @@
       </div>
       <div class="field"><label>Category</label>
         <select id="f_category">
-          <option>Automotive</option><option>Beauty Salons</option><option>Electricians</option>
+          <option value="">Select a category…</option>
+          <option>Automotive</option><option>Bakery / Restaurant</option><option>Beauty Salons</option>
+          <option>Church / Religious Org</option><option>Education</option><option>Electricians</option>
           <option>General Contractors</option><option>HVAC</option><option>Medical</option>
-          <option>Restaurant</option><option>Retail</option><option>Roofing</option><option>Supplies</option><option>Other</option>
+          <option>Non-profit</option><option>Retail</option><option>Roofing</option><option>Supplies</option><option>Other</option>
         </select>
       </div>
     </div>
@@ -646,11 +648,17 @@ function contactAgeLabel(p) {
 function populateFilters() {
   const cities = [...new Set(prospects.map(p => p.city).filter(Boolean))].sort();
   const categories = [...new Set(prospects.map(p => p.category).filter(Boolean))].sort();
+  const blankCatCount = prospects.filter(p => !p.category).length;
   const cityFilter = document.getElementById('filterCity');
   const catFilter = document.getElementById('filterCategory');
   const curCity = cityFilter.value, curCat = catFilter.value;
   cityFilter.innerHTML = '<option value="">All cities</option>' + cities.map(c => `<option>${c}</option>`).join('');
-  catFilter.innerHTML = '<option value="">All categories</option>' + categories.map(c => `<option>${c}</option>`).join('');
+  // "__blank__" is a sentinel that can't collide with a real category name —
+  // used to filter down to rows with no Category set at all (pre-this-change
+  // saves, CSV imports missing the column, etc.) so they're easy to find and fix.
+  catFilter.innerHTML = '<option value="">All categories</option>' +
+    (blankCatCount ? `<option value="__blank__">No category (${blankCatCount})</option>` : '') +
+    categories.map(c => `<option>${c}</option>`).join('');
   cityFilter.value = curCity; catFilter.value = curCat;
 }
 
@@ -665,7 +673,8 @@ function render() {
 
   let filtered = prospects.filter(p => {
     if (cityF && p.city !== cityF) return false;
-    if (catF && p.category !== catF) return false;
+    if (catF === '__blank__') { if (p.category) return false; }
+    else if (catF && p.category !== catF) return false;
     if (statusF && p.status !== statusF) return false;
     if (ageF) {
       const days = daysSinceContact(p);
@@ -803,20 +812,27 @@ function escapeHtml(str) {
 }
 
 // Keep in sync with the static markup above. "Other" always sorts last.
-const BASE_CATEGORIES = ['Automotive', 'Beauty Salons', 'Electricians', 'General Contractors', 'HVAC', 'Medical', 'Restaurant', 'Retail', 'Roofing', 'Supplies'];
+// Renamed "Restaurant" -> "Bakery / Restaurant" per Peter's category list;
+// legacy rows already saved as "Restaurant" still display fine (see the
+// insert-if-unknown logic below), they just won't match this option going
+// forward — re-save them from the drawer to move them onto the new name.
+const BASE_CATEGORIES = ['Automotive', 'Bakery / Restaurant', 'Beauty Salons', 'Church / Religious Org', 'Education', 'Electricians', 'General Contractors', 'HVAC', 'Medical', 'Non-profit', 'Retail', 'Roofing', 'Supplies'];
 
 // Rebuilds the category dropdown fresh each time. If the prospect's stored category
 // isn't one of the known options (legacy data, CSV import with different casing, etc.),
-// it gets inserted so it displays correctly instead of silently reading back as empty
-// and getting overwritten with "General Contractors" on save.
+// it gets inserted so it displays correctly instead of silently reading back as empty.
+// No default is selected when there's no existing value — Category is a required
+// field (see saveCurrent), so leaving it blank forces an actual choice instead of
+// everything silently landing in one category.
 function populateCategorySelect(selected) {
   const sel = document.getElementById('f_category');
   let opts = [...BASE_CATEGORIES];
   if (selected && !opts.includes(selected)) opts.push(selected);
   opts.sort((a, b) => a.localeCompare(b));
   opts.push('Other');
-  sel.innerHTML = opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
-  sel.value = selected || 'General Contractors';
+  sel.innerHTML = '<option value="">Select a category…</option>' +
+    opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  sel.value = selected || '';
 }
 
 function openDrawer(id) {
@@ -858,13 +874,16 @@ async function saveCurrent() {
   const businessName = document.getElementById('f_businessName').value.trim();
   if (!businessName) { showToast('Business name is required'); return; }
 
+  const category = document.getElementById('f_category').value;
+  if (!category) { showToast('Pick a category before saving'); return; }
+
   const opportunities = [...document.querySelectorAll('.check-row input:checked')].map(cb => cb.value);
   const scoreRaw = document.getElementById('f_score').value;
 
   const data = {
     businessName,
     city: document.getElementById('f_city').value,
-    category: document.getElementById('f_category').value,
+    category,
     website: document.getElementById('f_website').value.trim(),
     phone: document.getElementById('f_phone').value.trim(),
     contactName: document.getElementById('f_contactName').value.trim(),
@@ -1325,6 +1344,17 @@ function guessNameFromDomain(domain) {
   return base ? base.charAt(0).toUpperCase() + base.slice(1) : '';
 }
 
+// Same options as the Add/Edit Prospect drawer's Category dropdown (kept in
+// sync with BASE_CATEGORIES manually since this renders as a plain string,
+// not through populateCategorySelect) — Category is required here too, same
+// as the drawer, so a row with no category picked gets skipped on add.
+function categoryOptionsHtml() {
+  const opts = [...BASE_CATEGORIES].sort((a, b) => a.localeCompare(b));
+  opts.push('Other');
+  return '<option value="">Select a category…</option>' +
+    opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+}
+
 function renderUnmatchedAuditRows(unmatched) {
   const wrap = document.getElementById('unmatchedAuditRows');
   const addBtn = document.getElementById('doAddUnmatched');
@@ -1334,7 +1364,7 @@ function renderUnmatchedAuditRows(unmatched) {
     <div class="row" style="grid-template-columns: 1fr 1fr 1fr auto; margin-bottom:6px;" data-domain="${escapeHtml(a.domain)}">
       <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(a.businessNameGuess || guessNameFromDomain(a.domain))}">
       <input type="text" id="ua_city_${i}" placeholder="City">
-      <input type="text" id="ua_category_${i}" placeholder="Category">
+      <select id="ua_category_${i}">${categoryOptionsHtml()}</select>
       <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft);">
         <input type="checkbox" id="ua_include_${i}" checked> ${escapeHtml(a.domain)} · score ${a.score ?? 'n/a'}
       </label>
@@ -1370,23 +1400,27 @@ async function showAuditPreview() {
 
 // Builds new-prospect rows from the unmatched audits using whatever's
 // currently in the editable Business Name / City / Category boxes, then
-// inserts — skipping any row left unchecked, blank-named, or that already
-// matches an existing prospect by business name (same loose match CSV
-// Import uses, so this can't create a duplicate that way either).
+// inserts — skipping any row left unchecked, blank-named, missing a
+// category (required, same as the drawer), or that already matches an
+// existing prospect by business name (same loose match CSV Import uses,
+// so this can't create a duplicate that way either).
 async function addUnmatchedAudits(unmatched) {
   if (!unmatched || !unmatched.length) return;
 
   const candidates = [];
+  const skippedNoCategory = [];
   unmatched.forEach((a, i) => {
     const include = document.getElementById(`ua_include_${i}`);
     if (!include || !include.checked) return;
     const businessName = (document.getElementById(`ua_name_${i}`).value || '').trim();
     if (!businessName) return;
+    const category = document.getElementById(`ua_category_${i}`).value;
+    if (!category) { skippedNoCategory.push(businessName); return; }
     candidates.push({
       id: uid(),
       businessName,
       city: (document.getElementById(`ua_city_${i}`).value || '').trim(),
-      category: (document.getElementById(`ua_category_${i}`).value || '').trim(),
+      category,
       website: a.domain,
       phone: a.phone || '',
       contactName: '',
@@ -1402,7 +1436,14 @@ async function addUnmatchedAudits(unmatched) {
     });
   });
 
-  if (!candidates.length) { showToast('Nothing to add — check names are filled in and boxes are checked'); return; }
+  if (!candidates.length) {
+    if (skippedNoCategory.length) {
+      showToast(`Pick a category for: ${skippedNoCategory.join(', ')}`);
+    } else {
+      showToast('Nothing to add — check names are filled in and boxes are checked');
+    }
+    return;
+  }
 
   const { fresh, duplicates } = splitImportRows(candidates);
   if (!fresh.length) {
@@ -1426,6 +1467,7 @@ async function addUnmatchedAudits(unmatched) {
   await loadProspects();
   let msg = `Added ${fresh.length} new prospect${fresh.length === 1 ? '' : 's'}`;
   if (duplicates.length) msg += ` · skipped ${duplicates.length} already-existing`;
+  if (skippedNoCategory.length) msg += ` · ${skippedNoCategory.length} left out (no category picked) — re-run merge to retry them`;
   showToast(msg);
   document.getElementById('auditFiles').value = '';
   document.getElementById('auditPreview').innerHTML = '';
