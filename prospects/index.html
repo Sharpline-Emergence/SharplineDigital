@@ -304,12 +304,14 @@
   </div>
 
   <div class="import-box" id="mergeAuditBox" style="display:none;">
-    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — this only ever <strong>updates</strong> a matched row, it never inserts a new one, so it can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes.</div>
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — audits don't carry a business name, so fill that in (and City/Category) before adding; duplicates are still blocked by business name.</div>
     <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
     <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
+    <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-secondary" id="checkAudits">Preview Matches</button>
       <button class="btn-primary" id="doMergeAudits">Apply Merge</button>
+      <button class="btn-primary" id="doAddUnmatched" style="display:none;">Add Unmatched as New Prospects</button>
       <button class="btn-ghost" id="cancelMergeAudits">Cancel</button>
     </div>
   </div>
@@ -1307,10 +1309,43 @@ function matchAudits(audits) {
   return { matched, unmatched };
 }
 
+// Crude first-guess at a business name from a bare domain, e.g.
+// "broadwaychurchlife.com" -> "Broadwaychurchlife". Audits never carry a real
+// business name (they're keyed by URL, not by who owns it), so this is only
+// ever a starting point — the field stays editable and Peter is expected to
+// fix it before adding.
+function guessNameFromDomain(domain) {
+  const base = (domain || '').split('.')[0] || '';
+  return base ? base.charAt(0).toUpperCase() + base.slice(1) : '';
+}
+
+function renderUnmatchedAuditRows(unmatched) {
+  const wrap = document.getElementById('unmatchedAuditRows');
+  const addBtn = document.getElementById('doAddUnmatched');
+  if (!unmatched.length) { wrap.innerHTML = ''; addBtn.style.display = 'none'; return; }
+
+  wrap.innerHTML = unmatched.map((a, i) => `
+    <div class="row" style="grid-template-columns: 1fr 1fr 1fr auto; margin-bottom:6px;" data-domain="${escapeHtml(a.domain)}">
+      <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(guessNameFromDomain(a.domain))}">
+      <input type="text" id="ua_city_${i}" placeholder="City">
+      <input type="text" id="ua_category_${i}" placeholder="Category">
+      <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft);">
+        <input type="checkbox" id="ua_include_${i}" checked> ${escapeHtml(a.domain)} · score ${a.score ?? 'n/a'}
+      </label>
+    </div>
+  `).join('');
+  addBtn.style.display = 'inline-block';
+}
+
 async function showAuditPreview() {
   const box = document.getElementById('auditPreview');
   const audits = await readAuditFiles();
-  if (!audits.length) { box.innerHTML = 'Select audit .md files above, then preview.'; return null; }
+  if (!audits.length) {
+    box.innerHTML = 'Select audit .md files above, then preview.';
+    document.getElementById('unmatchedAuditRows').innerHTML = '';
+    document.getElementById('doAddUnmatched').style.display = 'none';
+    return null;
+  }
   const { matched, unmatched } = matchAudits(audits);
 
   let msg = `<strong>${matched.length} matched</strong>`;
@@ -1320,10 +1355,76 @@ async function showAuditPreview() {
     ).join('') + '</ul>';
   }
   if (unmatched.length) {
-    msg += `<div style="margin-top:8px;"><strong>${unmatched.length} unmatched</strong> (no prospect's Website / URL matches this domain — check the row exists and its URL is filled in): ${unmatched.map(a => escapeHtml(a.domain)).join(', ')}</div>`;
+    msg += `<div style="margin-top:8px;"><strong>${unmatched.length} unmatched</strong> — no prospect's Website / URL matches these domains. Fill in a name below and add them as new prospects, or add the matching row first and re-run the merge.</div>`;
   }
   box.innerHTML = msg;
+  renderUnmatchedAuditRows(unmatched);
   return { matched, unmatched };
+}
+
+// Builds new-prospect rows from the unmatched audits using whatever's
+// currently in the editable Business Name / City / Category boxes, then
+// inserts — skipping any row left unchecked, blank-named, or that already
+// matches an existing prospect by business name (same loose match CSV
+// Import uses, so this can't create a duplicate that way either).
+async function addUnmatchedAudits(unmatched) {
+  if (!unmatched || !unmatched.length) return;
+
+  const candidates = [];
+  unmatched.forEach((a, i) => {
+    const include = document.getElementById(`ua_include_${i}`);
+    if (!include || !include.checked) return;
+    const businessName = (document.getElementById(`ua_name_${i}`).value || '').trim();
+    if (!businessName) return;
+    candidates.push({
+      id: uid(),
+      businessName,
+      city: (document.getElementById(`ua_city_${i}`).value || '').trim(),
+      category: (document.getElementById(`ua_category_${i}`).value || '').trim(),
+      website: a.domain,
+      phone: a.phone || '',
+      contactName: '',
+      email: a.email || '',
+      score: a.score,
+      status: 'New',
+      contacted: false,
+      dateContacted: '',
+      dateAdded: new Date().toISOString().slice(0, 10),
+      seqStep: 0,
+      notes: a.issues.length ? `Audit: ${a.issues.join('; ')}` : '',
+      opportunities: []
+    });
+  });
+
+  if (!candidates.length) { showToast('Nothing to add — check names are filled in and boxes are checked'); return; }
+
+  const { fresh, duplicates } = splitImportRows(candidates);
+  if (!fresh.length) {
+    showToast('All of those already exist as prospects — nothing added');
+    return;
+  }
+
+  const btn = document.getElementById('doAddUnmatched');
+  btn.disabled = true;
+  btn.textContent = 'Adding…';
+
+  const { data: { user } } = await sb.auth.getUser();
+  const dbRows = fresh.map(r => ({ ...appToDb(r), user_id: user.id }));
+  const { error } = await sb.from('prospects').insert(dbRows);
+
+  btn.disabled = false;
+  btn.textContent = 'Add Unmatched as New Prospects';
+
+  if (error) { showToast('Add failed: ' + error.message); return; }
+
+  await loadProspects();
+  let msg = `Added ${fresh.length} new prospect${fresh.length === 1 ? '' : 's'}`;
+  if (duplicates.length) msg += ` · skipped ${duplicates.length} already-existing`;
+  showToast(msg);
+  document.getElementById('auditFiles').value = '';
+  document.getElementById('auditPreview').innerHTML = '';
+  document.getElementById('unmatchedAuditRows').innerHTML = '';
+  document.getElementById('doAddUnmatched').style.display = 'none';
 }
 
 async function applyAuditMerge() {
@@ -1374,15 +1475,26 @@ document.getElementById('mergeAuditToggle').addEventListener('click', () => {
   const box = document.getElementById('mergeAuditBox');
   const showing = box.style.display !== 'none';
   box.style.display = showing ? 'none' : 'block';
-  if (!showing) document.getElementById('auditPreview').innerHTML = '';
+  if (!showing) {
+    document.getElementById('auditPreview').innerHTML = '';
+    document.getElementById('unmatchedAuditRows').innerHTML = '';
+    document.getElementById('doAddUnmatched').style.display = 'none';
+  }
 });
 document.getElementById('cancelMergeAudits').addEventListener('click', () => {
   document.getElementById('mergeAuditBox').style.display = 'none';
   document.getElementById('auditFiles').value = '';
   document.getElementById('auditPreview').innerHTML = '';
+  document.getElementById('unmatchedAuditRows').innerHTML = '';
+  document.getElementById('doAddUnmatched').style.display = 'none';
 });
 document.getElementById('checkAudits').addEventListener('click', showAuditPreview);
 document.getElementById('doMergeAudits').addEventListener('click', applyAuditMerge);
+document.getElementById('doAddUnmatched').addEventListener('click', async () => {
+  const audits = await readAuditFiles();
+  const { unmatched } = matchAudits(audits);
+  await addUnmatchedAudits(unmatched);
+});
 
 checkSession();
 </script>
