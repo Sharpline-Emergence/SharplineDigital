@@ -262,6 +262,7 @@
       <button class="btn-secondary" id="exportBtn">Export CSV</button>
       <button class="btn-secondary" id="importToggle">Import CSV</button>
       <button class="btn-secondary" id="mergeAuditToggle">Merge Audits</button>
+      <button class="btn-secondary" id="trashToggle">Trash</button>
       <button class="btn-primary" id="addBtn">+ Add Prospect</button>
       <button class="btn-ghost" id="logoutBtn">Sign Out</button>
     </div>
@@ -426,7 +427,7 @@
     <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Anything else worth remembering..."></textarea></div>
 
     <div class="drawer-actions">
-      <button class="btn-danger" id="deleteBtn" style="display:none;">Delete</button>
+      <button class="btn-danger" id="deleteBtn" style="display:none;">Move to Trash</button>
       <div class="right">
         <button class="btn-ghost" id="cancelBtn">Cancel</button>
         <button class="btn-primary" id="saveBtn">Save</button>
@@ -435,14 +436,39 @@
   </div>
 </div>
 
-<!-- Delete confirmation modal: a deliberate second step guards against accidental deletion -->
+<!-- Delete confirmation modal: soft-delete only, so this is a lighter warning
+     than a true permanent-delete would need -->
 <div class="overlay center" id="deleteOverlay">
   <div class="confirm-card">
-    <h2>Delete this prospect?</h2>
-    <p>Permanently delete <strong id="deleteBizName"></strong>? This can't be undone.</p>
+    <h2>Move to Trash?</h2>
+    <p><strong id="deleteBizName"></strong> will move to Trash and disappear from the main list. It's not permanently deleted — restore it any time from Trash.</p>
     <div class="confirm-actions">
       <button class="btn-ghost" id="deleteCancelBtn">No, keep it</button>
-      <button class="btn-danger" id="deleteConfirmBtn">Yes, delete</button>
+      <button class="btn-danger" id="deleteConfirmBtn">Move to Trash</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trash panel: lists soft-deleted prospects with Restore / Delete Forever -->
+<div class="overlay center" id="trashOverlay">
+  <div class="confirm-card" style="max-width:640px; text-align:left;">
+    <h2>Trash</h2>
+    <p class="hint" style="margin:-4px 0 12px;">Moved here instead of the main list. Restore brings a prospect back exactly as it was. Delete Forever cannot be undone — there's no second trash behind this one.</p>
+    <div id="trashList" style="max-height:50vh; overflow-y:auto;"></div>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="trashCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Permanent-delete confirmation, one level below Trash -->
+<div class="overlay center" id="purgeOverlay">
+  <div class="confirm-card">
+    <h2>Delete forever?</h2>
+    <p>Permanently delete <strong id="purgeBizName"></strong>? This removes it from the database entirely and can't be undone or restored.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="purgeCancelBtn">No, keep in Trash</button>
+      <button class="btn-danger" id="purgeConfirmBtn">Yes, delete forever</button>
     </div>
   </div>
 </div>
@@ -455,6 +481,7 @@ let prospects = [];
 let editingId = null;
 let lastFiltered = [];
 let pendingDeleteId = null;
+let pendingPurgeId = null;
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
@@ -484,7 +511,8 @@ function dbToApp(row) {
     notes: row.notes,
     opportunities: row.opportunities || [],
     contacted: !!row.contacted,
-    seqStep: row.seq_step ?? 0
+    seqStep: row.seq_step ?? 0,
+    deletedAt: row.deleted_at || null
   };
 }
 
@@ -562,7 +590,10 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 // ---- Data ----
 
 async function loadProspects() {
-  const { data, error } = await sb.from('prospects').select('*');
+  // Active view only ever shows non-deleted rows. Soft-deleted rows still
+  // exist in the table (deleted_at set) and are queried separately by
+  // loadTrash() for the Trash panel.
+  const { data, error } = await sb.from('prospects').select('*').is('deleted_at', null);
   if (error) { showToast('Load failed: ' + error.message); return; }
   prospects = (data || []).map(dbToApp);
   render();
@@ -917,6 +948,8 @@ async function saveCurrent() {
 
 // ---- Delete with type-to-confirm safety check ----
 
+// ---- Delete = soft delete (moves to Trash, never removed from the table) ----
+
 function openDeleteConfirm() {
   if (!editingId) return;
   const p = prospects.find(x => x.id === editingId);
@@ -933,12 +966,70 @@ function closeDeleteConfirm() {
 
 async function confirmDelete() {
   if (!pendingDeleteId) return;
-  const { error } = await sb.from('prospects').delete().eq('id', pendingDeleteId);
-  if (error) { showToast('Delete failed: ' + error.message); return; }
+  const { error } = await sb.from('prospects').update({ deleted_at: new Date().toISOString() }).eq('id', pendingDeleteId);
+  if (error) { showToast('Move to Trash failed: ' + error.message); return; }
   await loadProspects();
   closeDeleteConfirm();
   closeDrawer();
-  showToast('Prospect deleted');
+  showToast('Moved to Trash');
+}
+
+// ---- Trash: view, restore, or permanently delete soft-deleted prospects ----
+
+async function openTrash() {
+  document.getElementById('trashOverlay').classList.add('open');
+  await loadTrash();
+}
+
+function closeTrash() {
+  document.getElementById('trashOverlay').classList.remove('open');
+}
+
+async function loadTrash() {
+  const list = document.getElementById('trashList');
+  list.innerHTML = '<p class="hint">Loading…</p>';
+  const { data, error } = await sb.from('prospects').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false });
+  if (error) { list.innerHTML = `<p class="hint">Couldn't load Trash: ${escapeHtml(error.message)}</p>`; return; }
+  const rows = (data || []).map(dbToApp);
+  if (!rows.length) { list.innerHTML = '<p class="hint">Trash is empty.</p>'; return; }
+  list.innerHTML = rows.map(p => `
+    <div class="row" style="grid-template-columns: 1fr auto auto; align-items:center; margin-bottom:6px;">
+      <div>
+        <div class="biz-name">${escapeHtml(p.businessName || 'Untitled')}</div>
+        <div class="biz-meta">Deleted ${escapeHtml(new Date(p.deletedAt).toLocaleDateString())}</div>
+      </div>
+      <button class="btn-secondary" data-restore="${p.id}">Restore</button>
+      <button class="btn-danger" data-purge="${p.id}" data-name="${escapeHtml(p.businessName || 'this prospect')}">Delete Forever</button>
+    </div>
+  `).join('');
+}
+
+async function restoreProspect(id) {
+  const { error } = await sb.from('prospects').update({ deleted_at: null }).eq('id', id);
+  if (error) { showToast('Restore failed: ' + error.message); return; }
+  await loadProspects();
+  await loadTrash();
+  showToast('Restored');
+}
+
+function openPurgeConfirm(id, name) {
+  pendingPurgeId = id;
+  document.getElementById('purgeBizName').textContent = name;
+  document.getElementById('purgeOverlay').classList.add('open');
+}
+
+function closePurgeConfirm() {
+  document.getElementById('purgeOverlay').classList.remove('open');
+  pendingPurgeId = null;
+}
+
+async function confirmPurge() {
+  if (!pendingPurgeId) return;
+  const { error } = await sb.from('prospects').delete().eq('id', pendingPurgeId);
+  if (error) { showToast('Delete failed: ' + error.message); return; }
+  closePurgeConfirm();
+  await loadTrash();
+  showToast('Deleted forever');
 }
 
 const KNOWN_OPPORTUNITIES = ['No website', 'Facebook-only presence', 'Outdated / non-mobile site'];
@@ -1094,8 +1185,26 @@ document.getElementById('overlay').addEventListener('click', (e) => { if (e.targ
 document.getElementById('deleteCancelBtn').addEventListener('click', closeDeleteConfirm);
 document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
 document.getElementById('deleteOverlay').addEventListener('click', (e) => { if (e.target.id === 'deleteOverlay') closeDeleteConfirm(); });
+
+// Trash panel wiring
+document.getElementById('trashToggle').addEventListener('click', openTrash);
+document.getElementById('trashCloseBtn').addEventListener('click', closeTrash);
+document.getElementById('trashOverlay').addEventListener('click', (e) => { if (e.target.id === 'trashOverlay') closeTrash(); });
+// Event delegation: Restore/Delete Forever buttons are rebuilt every loadTrash()
+// call, so they're bound once here on the container rather than per-row.
+document.getElementById('trashList').addEventListener('click', (e) => {
+  const restoreId = e.target.dataset.restore;
+  const purgeId = e.target.dataset.purge;
+  if (restoreId) restoreProspect(restoreId);
+  else if (purgeId) openPurgeConfirm(purgeId, e.target.dataset.name);
+});
+document.getElementById('purgeCancelBtn').addEventListener('click', closePurgeConfirm);
+document.getElementById('purgeConfirmBtn').addEventListener('click', confirmPurge);
+document.getElementById('purgeOverlay').addEventListener('click', (e) => { if (e.target.id === 'purgeOverlay') closePurgeConfirm(); });
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && document.getElementById('deleteOverlay').classList.contains('open')) closeDeleteConfirm();
+  if (e.key === 'Escape' && document.getElementById('trashOverlay').classList.contains('open')) closeTrash();
+  if (e.key === 'Escape' && document.getElementById('purgeOverlay').classList.contains('open')) closePurgeConfirm();
 });
 
 document.getElementById('searchInput').addEventListener('input', render);
