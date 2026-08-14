@@ -369,7 +369,7 @@
           <option value="">Select a category…</option>
           <option>Automotive</option><option>Bakery / Restaurant</option><option>Beauty Salons</option>
           <option>Church / Religious Org</option><option>Education</option><option>Electricians</option>
-          <option>General Contractors</option><option>HVAC</option><option>Medical</option>
+          <option>General Contractors</option><option>Gym / Fitness</option><option>HVAC</option><option>Medical</option>
           <option>Non-profit</option><option>Retail</option><option>Roofing</option><option>Supplies</option><option>Other</option>
         </select>
       </div>
@@ -816,7 +816,7 @@ function escapeHtml(str) {
 // legacy rows already saved as "Restaurant" still display fine (see the
 // insert-if-unknown logic below), they just won't match this option going
 // forward — re-save them from the drawer to move them onto the new name.
-const BASE_CATEGORIES = ['Automotive', 'Bakery / Restaurant', 'Beauty Salons', 'Church / Religious Org', 'Education', 'Electricians', 'General Contractors', 'HVAC', 'Medical', 'Non-profit', 'Retail', 'Roofing', 'Supplies'];
+const BASE_CATEGORIES = ['Automotive', 'Bakery / Restaurant', 'Beauty Salons', 'Church / Religious Org', 'Education', 'Electricians', 'General Contractors', 'Gym / Fitness', 'HVAC', 'Medical', 'Non-profit', 'Retail', 'Roofing', 'Supplies'];
 
 // Rebuilds the category dropdown fresh each time. If the prospect's stored category
 // isn't one of the known options (legacy data, CSV import with different casing, etc.),
