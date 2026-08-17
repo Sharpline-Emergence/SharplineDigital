@@ -323,7 +323,7 @@
   </div>
 
   <div class="toolbar">
-    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact...">
+    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact, email, website, phone, notes...">
     <select id="filterCity"><option value="">All cities</option></select>
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterStatus">
@@ -726,7 +726,7 @@ function render() {
       }
     }
     if (search) {
-      const hay = [p.businessName, p.city, p.category, p.contactName, p.email].join(' ').toLowerCase();
+      const hay = [p.businessName, p.city, p.category, p.contactName, p.email, p.website, p.phone, p.notes].join(' ').toLowerCase();
       if (!hay.includes(search)) return false;
     }
     if (seqF !== '') {
