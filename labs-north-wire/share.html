@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Share North Wire</title>
+  <link rel="canonical" href="https://sharplinedigital.com/labs/north-wire/share.html">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14212B;
+    --ink-2:#0F1922;
+    --paper:#F3EFE6;
+    --paper-2:#FBFAF7;
+    --steel:#5C6B78;
+    --wire-line:#22333F;
+    --wire-red:#C1442D;
+    --brass:#B08D57;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'JetBrains Mono', monospace;
+    line-height:1.6;
+  }
+  .serif{font-family:'Fraunces', Georgia, serif;}
+
+  a{color:inherit;}
+
+  /* ===== Masthead ===== */
+  header.masthead{
+    background:var(--ink);
+    color:var(--paper);
+    padding:28px 24px 20px;
+    border-bottom:6px solid var(--wire-red);
+  }
+  .masthead-inner{
+    max-width:960px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .mark{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .mark svg{width:44px;height:44px;flex-shrink:0;}
+  .mark .title{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:700;
+    font-size:26px;
+    letter-spacing:0.5px;
+  }
+  .dateline{
+    font-size:12px;
+    letter-spacing:2px;
+    color:var(--brass);
+    text-transform:uppercase;
+  }
+
+  /* ===== Ticker (signature element) ===== */
+  .ticker-wrap{
+    background:var(--ink-2);
+    overflow:hidden;
+    white-space:nowrap;
+    border-bottom:1px solid var(--wire-line);
+    padding:10px 0;
+  }
+  .ticker{
+    display:inline-block;
+    padding-left:100%;
+    animation:ticker 34s linear infinite;
+    font-size:13px;
+    letter-spacing:1px;
+    color:#9FB0BC;
+  }
+  .ticker span.sep{color:var(--wire-red); margin:0 18px;}
+  @keyframes ticker{
+    0%{ transform:translateX(0); }
+    100%{ transform:translateX(-100%); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .ticker{ animation:none; padding-left:24px; }
+  }
+
+  /* ===== Layout ===== */
+  main{
+    max-width:960px;
+    margin:0 auto;
+    padding:48px 24px 80px;
+  }
+  .intro{
+    max-width:640px;
+    margin-bottom:56px;
+  }
+  .eyebrow{
+    font-size:12px;
+    letter-spacing:3px;
+    color:var(--wire-red);
+    text-transform:uppercase;
+    margin-bottom:10px;
+    font-weight:700;
+  }
+  h1.serif{
+    font-size:40px;
+    line-height:1.15;
+    margin:0 0 18px;
+  }
+  .intro p{
+    color:var(--steel);
+    font-size:15px;
+    margin:0;
+  }
+
+  section{margin-bottom:56px;}
+  h2.serif{
+    font-size:22px;
+    margin:0 0 6px;
+    border-bottom:1px solid var(--wire-line);
+    padding-bottom:14px;
+  }
+  .section-sub{
+    color:var(--steel);
+    font-size:13px;
+    margin:8px 0 24px;
+  }
+
+  /* ===== Dispatch cards (copy blocks) ===== */
+  .dispatch{
+    background:var(--paper-2);
+    border:1px dashed #C9C0AC;
+    border-radius:2px;
+    padding:22px 22px 18px;
+    margin-bottom:18px;
+    position:relative;
+  }
+  .dispatch-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:12px;
+    font-size:11px;
+    letter-spacing:2px;
+    color:var(--brass);
+    text-transform:uppercase;
+  }
+  .dispatch p{
+    margin:0 0 16px;
+    font-size:14px;
+    color:var(--ink);
+  }
+  .copy-btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    background:var(--ink);
+    color:var(--paper);
+    border:none;
+    padding:9px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:background 0.15s ease;
+  }
+  .copy-btn:hover{ background:var(--wire-red); }
+  .copy-btn:focus-visible{ outline:2px solid var(--wire-red); outline-offset:2px; }
+  .copy-btn.copied{ background:#3F6B4E; }
+
+  /* ===== Taglines ===== */
+  .taglines{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .tagline{
+    background:var(--paper-2);
+    border:1px solid var(--wire-line);
+    border-radius:2px;
+    padding:12px 16px;
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .tagline button{
+    background:none;
+    border:none;
+    color:var(--wire-red);
+    cursor:pointer;
+    font-family:inherit;
+    font-size:12px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+  }
+
+  /* ===== Assets ===== */
+  .assets-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:20px;
+  }
+  .asset-card{
+    background:var(--ink);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--wire-line);
+  }
+  .asset-preview{
+    background:var(--ink-2);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .asset-preview.logo-preview{ padding:36px; }
+  .asset-preview img{max-width:100%; height:auto; display:block;}
+  .asset-meta{
+    padding:14px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    color:var(--paper);
+  }
+  .asset-meta .name{font-size:13px; letter-spacing:0.5px;}
+  .asset-meta .dims{font-size:11px; color:var(--steel);}
+  .asset-meta a{
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:var(--brass);
+    text-decoration:none;
+    border:1px solid var(--brass);
+    padding:6px 10px;
+    border-radius:2px;
+    white-space:nowrap;
+  }
+  .asset-meta a:hover{ background:var(--brass); color:var(--ink); }
+
+  /* ===== Embed badge ===== */
+  .embed-preview{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--ink);
+    color:var(--paper);
+    padding:10px 14px;
+    border-radius:4px;
+    font-size:12px;
+    margin-bottom:16px;
+  }
+  .embed-preview svg{width:20px;height:20px;}
+  pre.code{
+    background:var(--ink-2);
+    color:#9FB0BC;
+    padding:16px;
+    border-radius:4px;
+    overflow-x:auto;
+    font-size:12px;
+    line-height:1.6;
+    margin:0 0 14px;
+  }
+
+  footer{
+    text-align:center;
+    padding:32px 24px 48px;
+    color:var(--steel);
+    font-size:12px;
+    letter-spacing:1px;
+  }
+  footer .wire-red{color:var(--wire-red);}
+
+  @media (max-width:600px){
+    h1.serif{font-size:30px;}
+    .dispatch-head{flex-direction:column; align-items:flex-start; gap:6px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="mark">
+      <svg viewBox="0 0 200 200" aria-hidden="true">
+        <rect width="200" height="200" rx="28" fill="#0F1922"/>
+        <polyline points="56,148 56,52 144,148 144,52" fill="none" stroke="#F3EFE6" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="144" cy="52" r="9" fill="#C1442D"/>
+        <circle cx="56" cy="148" r="5" fill="#B08D57"/>
+      </svg>
+      <span class="title">North Wire</span>
+    </div>
+    <div class="dateline">Share Kit · Filed from Chilliwack, B.C.</div>
+  </div>
+</header>
+
+<div class="ticker-wrap" role="presentation" aria-hidden="true">
+  <div class="ticker">
+    NO COOKIES REQUIRED <span class="sep">//</span> NO ACCOUNT NEEDED <span class="sep">//</span> SOURCED FROM CBC · CTV · GLOBAL NEWS · FINANCIAL POST · BBC <span class="sep">//</span> ADD TO HOME SCREEN, NO APP STORE <span class="sep">//</span> NOW IN PUBLIC BETA <span class="sep">//</span> FEEDBACK WELCOMED IN-APP <span class="sep">//</span>
+  </div>
+</div>
+
+<main>
+  <div class="intro">
+    <div class="eyebrow">For anyone who wants to share</div>
+    <h1 class="serif">Help spread North Wire</h1>
+    <p>If you like North Wire, feel free to link it, mention it, or embed it — on your site, your newsletter, or your socials. Everything below is free to use, no permission needed. A credit or a link back is always appreciated.</p>
+  </div>
+
+  <section>
+    <h2 class="serif">Copy blocks</h2>
+    <p class="section-sub">Three lengths — grab whichever fits where you're putting it.</p>
+
+    <div class="dispatch">
+      <div class="dispatch-head"><span>Short · footer link, one-liner</span><span>01</span></div>
+      <p id="copy-short">North Wire — a no-tracking Canadian news reader. news.sharplinedigital.com</p>
+      <button class="copy-btn" data-target="copy-short">Copy</button>
+    </div>
+
+    <div class="dispatch">
+      <div class="dispatch-head"><span>Medium · blog mention, social post</span><span>02</span></div>
+      <p id="copy-medium">North Wire is a free Canadian news reader that pulls from trusted sources like CBC, CTV, Global News, and BBC — no account, no cookies, no tracking. Just news. news.sharplinedigital.com</p>
+      <button class="copy-btn" data-target="copy-medium">Copy</button>
+    </div>
+
+    <div class="dispatch">
+      <div class="dispatch-head"><span>Long · newsletter, full write-up</span><span>03</span></div>
+      <p id="copy-long">North Wire is a Canadian-curated news reader built to cut through the noise. It pulls headlines from trusted sources — CBC, CTV, Global News, Financial Post, BBC — with no account required, no cookie tracking, and no algorithm chasing your attention. You can add it straight to your phone's home screen from your browser, no app store needed. It's currently in public beta, with feedback welcomed right in the app. news.sharplinedigital.com</p>
+      <button class="copy-btn" data-target="copy-long">Copy</button>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="serif">Taglines</h2>
+    <p class="section-sub">For a line under a logo, banner, or badge.</p>
+    <div class="taglines">
+      <div class="tagline"><span id="tag-1">Canadian news. No noise.</span><button data-target="tag-1">Copy</button></div>
+      <div class="tagline"><span id="tag-2">Just the headlines, no tracking.</span><button data-target="tag-2">Copy</button></div>
+      <div class="tagline"><span id="tag-3">News, the way it should be.</span><button data-target="tag-3">Copy</button></div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="serif">Assets</h2>
+    <p class="section-sub">Right-click to save, or use the download link on each card.</p>
+    <div class="assets-grid">
+      <div class="asset-card">
+        <div class="asset-preview logo-preview">
+          <img src="logo.svg" alt="North Wire logo mark" width="90" height="90">
+        </div>
+        <div class="asset-meta">
+          <div><div class="name">Logo mark</div><div class="dims">SVG · square</div></div>
+          <a href="logo.svg" download>Download</a>
+        </div>
+      </div>
+      <div class="asset-card">
+        <div class="asset-preview">
+          <img src="banner.svg" alt="North Wire horizontal share banner" width="100%">
+        </div>
+        <div class="asset-meta">
+          <div><div class="name">Share banner</div><div class="dims">SVG · 1200×400</div></div>
+          <a href="banner.svg" download>Download</a>
+        </div>
+      </div>
+      <div class="asset-card">
+        <div class="asset-preview">
+          <img src="social-square.svg" alt="North Wire square social image" width="100%">
+        </div>
+        <div class="asset-meta">
+          <div><div class="name">Social square</div><div class="dims">SVG · 1080×1080</div></div>
+          <a href="social-square.svg" download>Download</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="serif">Embed a badge</h2>
+    <p class="section-sub">Drop this in a footer or sidebar to link straight to North Wire.</p>
+    <div class="embed-preview">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><rect width="200" height="200" rx="28" fill="#0F1922"/><polyline points="56,148 56,52 144,148 144,52" fill="none" stroke="#F3EFE6" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle cx="144" cy="52" r="9" fill="#C1442D"/></svg>
+      Canadian news, no noise — North Wire
+    </div>
+    <pre class="code" id="embed-code">&lt;a href="https://news.sharplinedigital.com" style="display:inline-flex;align-items:center;gap:8px;background:#14212B;color:#F3EFE6;padding:8px 12px;border-radius:4px;font-family:monospace;font-size:12px;text-decoration:none;"&gt;
+  &lt;img src="https://sharplinedigital.com/labs/north-wire/logo.svg" width="18" height="18" alt="" style="border-radius:3px;"&gt;
+  Canadian news, no noise — North Wire
+&lt;/a&gt;</pre>
+    <button class="copy-btn" data-target="embed-code">Copy embed code</button>
+  </section>
+</main>
+
+<footer>
+  <span class="wire-red">—30—</span> &nbsp; north wire is a Sharpline Labs project · <a href="https://news.sharplinedigital.com">news.sharplinedigital.com</a>
+</footer>
+
+<script>
+  document.querySelectorAll('[data-target]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = document.getElementById(btn.getAttribute('data-target'));
+      var text = target.innerText || target.textContent;
+      navigator.clipboard.writeText(text.trim()).then(function(){
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function(){
+          btn.textContent = original;
+          btn.classList.remove('copied');
+        }, 1600);
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
