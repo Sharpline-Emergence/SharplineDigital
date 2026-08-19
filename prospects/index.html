@@ -1416,7 +1416,7 @@ function parseAuditMarkdown(text, filename) {
   // — still just a guess for review, so treat "(not found ...)" as no guess
   // at all rather than literal text to display.
   const nameMatch = text.match(/Business Name \(guess\):\s*(.+)/i);
-  const businessNameGuess = nameMatch && !/not found/i.test(nameMatch[1]) ? nameMatch[1].trim() : '';
+  const businessNameGuess = nameMatch && !/not found/i.test(nameMatch[1]) ? nameMatch[1].replace(/\*/g, '').trim() : '';
 
   // "## Issues Found" bullets, up to 5, stripped of the ⚠️ marker — used to
   // build a compact one-line Notes summary rather than dumping the whole report.
