@@ -1488,6 +1488,12 @@ function renderUnmatchedAuditRows(unmatched) {
   addBtn.style.display = 'inline-block';
 }
 
+// Cache of the last Preview Matches result. Apply Merge and Add Unmatched
+// both read from this instead of re-parsing the file input, because the
+// file input gets cleared after a successful Apply Merge — re-reading it
+// at that point would silently find zero files and do nothing.
+let lastAuditPreview = null;
+
 async function showAuditPreview() {
   const box = document.getElementById('auditPreview');
   const audits = await readAuditFiles();
@@ -1495,9 +1501,11 @@ async function showAuditPreview() {
     box.innerHTML = 'Select audit .md files above, then preview.';
     document.getElementById('unmatchedAuditRows').innerHTML = '';
     document.getElementById('doAddUnmatched').style.display = 'none';
+    lastAuditPreview = null;
     return null;
   }
   const { matched, unmatched } = matchAudits(audits);
+  lastAuditPreview = { matched, unmatched };
 
   let msg = `<strong>${matched.length} matched</strong>`;
   if (matched.length) {
@@ -1510,7 +1518,7 @@ async function showAuditPreview() {
   }
   box.innerHTML = msg;
   renderUnmatchedAuditRows(unmatched);
-  return { matched, unmatched };
+  return lastAuditPreview;
 }
 
 // Builds new-prospect rows from the unmatched audits using whatever's
@@ -1588,12 +1596,16 @@ async function addUnmatchedAudits(unmatched) {
   document.getElementById('auditPreview').innerHTML = '';
   document.getElementById('unmatchedAuditRows').innerHTML = '';
   document.getElementById('doAddUnmatched').style.display = 'none';
+  lastAuditPreview = null;
 }
 
 async function applyAuditMerge() {
-  const result = await showAuditPreview();
-  if (!result || !result.matched.length) return;
-  const { matched, unmatched } = result;
+  if (!lastAuditPreview) {
+    const result = await showAuditPreview();
+    if (!result) return;
+  }
+  const { matched, unmatched } = lastAuditPreview;
+  if (!matched.length) { showToast('No matched prospects to merge'); return; }
 
   const btn = document.getElementById('doMergeAudits');
   btn.disabled = true;
@@ -1629,7 +1641,10 @@ async function applyAuditMerge() {
   document.getElementById('auditPreview').innerHTML = msg;
 
   if (ok) {
-    document.getElementById('auditFiles').value = '';
+    if (!unmatched.length) {
+      document.getElementById('auditFiles').value = '';
+      lastAuditPreview = null;
+    }
     await loadProspects();
   }
 }
@@ -1642,6 +1657,7 @@ document.getElementById('mergeAuditToggle').addEventListener('click', () => {
     document.getElementById('auditPreview').innerHTML = '';
     document.getElementById('unmatchedAuditRows').innerHTML = '';
     document.getElementById('doAddUnmatched').style.display = 'none';
+    lastAuditPreview = null;
   }
 });
 document.getElementById('cancelMergeAudits').addEventListener('click', () => {
@@ -1650,13 +1666,13 @@ document.getElementById('cancelMergeAudits').addEventListener('click', () => {
   document.getElementById('auditPreview').innerHTML = '';
   document.getElementById('unmatchedAuditRows').innerHTML = '';
   document.getElementById('doAddUnmatched').style.display = 'none';
+  lastAuditPreview = null;
 });
 document.getElementById('checkAudits').addEventListener('click', showAuditPreview);
 document.getElementById('doMergeAudits').addEventListener('click', applyAuditMerge);
 document.getElementById('doAddUnmatched').addEventListener('click', async () => {
-  const audits = await readAuditFiles();
-  const { unmatched } = matchAudits(audits);
-  await addUnmatchedAudits(unmatched);
+  if (!lastAuditPreview) { showToast('Preview Matches first'); return; }
+  await addUnmatchedAudits(lastAuditPreview.unmatched);
 });
 
 checkSession();
