@@ -1227,7 +1227,10 @@ function matchLoggedNames() {
   const matched = [], unmatched = [];
   const seen = new Set();
   for (const line of lines) {
-    const key = normName(line);
+    // Only the business name matters for matching — ignore anything after
+    // a "|" (e.g. "Business Name | email@domain.com" from email_generator.py's log files).
+    const namePart = line.split('|')[0].trim();
+    const key = normName(namePart);
     if (seen.has(key)) continue;
     seen.add(key);
     const hit = prospects.find(p => normName(p.businessName) === key);
