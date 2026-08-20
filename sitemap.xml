@@ -1,67 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
     <loc>https://sharplinedigital.com/</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
-  <url>
-    <loc>https://sharplinedigital.com/web-design-chilliwack.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://sharplinedigital.com/web-design-abbotsford.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://sharplinedigital.com/web-design-mission.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://sharplinedigital.com/web-design-hope.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://sharplinedigital.com/portfolio.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
+
   <url>
     <loc>https://sharplinedigital.com/quote.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
   </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/web-design-chilliwack.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/web-design-abbotsford.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/web-design-hope.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/portfolio.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
   <url>
     <loc>https://sharplinedigital.com/speed-test.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
+
   <url>
     <loc>https://sharplinedigital.com/insights.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
   </url>
+
   <url>
     <loc>https://sharplinedigital.com/blog-website-speed.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://sharplinedigital.com/blog-static-vs-dynamic.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
+
   <url>
     <loc>https://sharplinedigital.com/blog-website-ownership.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
-  <url>
-    <loc>https://sharplinedigital.com/blog-cheap-websites.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
-  <url>
-    <loc>https://sharplinedigital.com/blog-local-website.html</loc>
-    <lastmod>2026-07-24</lastmod>
-  </url>
+
   <url>
     <loc>https://sharplinedigital.com/blog-bc-privacy-laws.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
+
   <url>
-    <loc>https://sharplinedigital.com/privacy.html</loc>
-    <lastmod>2026-07-24</lastmod>
+    <loc>https://sharplinedigital.com/blog-cheap-websites.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
   </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/blog-local-website.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/blog-static-vs-dynamic.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!--
+    NOT INCLUDED — could not verify these exist live, add manually if they do:
+    - /web-design-mission.html   (Mission city page — Chilliwack, Abbotsford, and Hope pages confirmed live, Mission was not found)
+    - /labs/north-wire/          (North Wire beta — referenced in your memory/dev notes, but no live page turned up in search)
+    Also worth checking: does a Langley page exist? Your copy mentions Langley as served but I found no dedicated landing page.
+  -->
+
 </urlset>
