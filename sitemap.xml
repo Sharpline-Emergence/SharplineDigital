@@ -32,6 +32,12 @@
   </url>
 
   <url>
+    <loc>https://sharplinedigital.com/web-design-mission.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
     <loc>https://sharplinedigital.com/portfolio.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -87,7 +93,6 @@
 
   <!--
     NOT INCLUDED — could not verify these exist live, add manually if they do:
-    - /web-design-mission.html   (Mission city page — Chilliwack, Abbotsford, and Hope pages confirmed live, Mission was not found)
     - /labs/north-wire/          (North Wire beta — referenced in your memory/dev notes, but no live page turned up in search)
     Also worth checking: does a Langley page exist? Your copy mentions Langley as served but I found no dedicated landing page.
   -->
