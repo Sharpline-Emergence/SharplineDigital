@@ -357,6 +357,10 @@
       <option value="status">Status (pipeline order)</option>
       <option value="contactAge">Last contacted (oldest first)</option>
     </select>
+    <label style="display:flex; align-items:center; gap:6px; font-size:14px; white-space:nowrap;">
+      <input type="checkbox" id="filterHasEmail">
+      Has email
+    </label>
   </div>
 
   <div id="listArea"></div>
@@ -708,6 +712,7 @@ function render() {
   const statusF = document.getElementById('filterStatus').value;
   const ageF = document.getElementById('filterContactAge').value;
   const seqF = document.getElementById('filterSeqStep').value;
+  const hasEmailF = document.getElementById('filterHasEmail').checked;
 
   let filtered = prospects.filter(p => {
     if (cityF && p.city !== cityF) return false;
@@ -734,6 +739,7 @@ function render() {
     if (seqF !== '') {
       if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
     }
+    if (hasEmailF && !(p.email && p.email.trim())) return false;
     return true;
   });
 
@@ -1328,6 +1334,7 @@ document.getElementById('doLog').addEventListener('click', applyOutreachLog);
 
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
+document.getElementById('filterHasEmail').addEventListener('change', render);
 document.getElementById('filterSeqStep').addEventListener('change', render);
 document.getElementById('sortBy').addEventListener('change', render);
 
