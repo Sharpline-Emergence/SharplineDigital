@@ -357,10 +357,12 @@
       <option value="status">Status (pipeline order)</option>
       <option value="contactAge">Last contacted (oldest first)</option>
     </select>
-    <label style="display:flex; align-items:center; gap:6px; font-size:14px; white-space:nowrap;">
-      <input type="checkbox" id="filterHasEmail">
-      Has email
-    </label>
+    <select id="filterEmail">
+      <option value="">Any email</option>
+      <option value="has">Has email</option>
+      <option value="no">No email</option>
+    </select>
+    <button class="btn-secondary" id="clearFiltersBtn">Clear Filters</button>
   </div>
 
   <div id="listArea"></div>
@@ -712,7 +714,7 @@ function render() {
   const statusF = document.getElementById('filterStatus').value;
   const ageF = document.getElementById('filterContactAge').value;
   const seqF = document.getElementById('filterSeqStep').value;
-  const hasEmailF = document.getElementById('filterHasEmail').checked;
+  const emailF = document.getElementById('filterEmail').value;
 
   let filtered = prospects.filter(p => {
     if (cityF && p.city !== cityF) return false;
@@ -739,7 +741,9 @@ function render() {
     if (seqF !== '') {
       if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
     }
-    if (hasEmailF && !(p.email && p.email.trim())) return false;
+    const hasEmail = !!(p.email && p.email.trim());
+    if (emailF === 'has' && !hasEmail) return false;
+    if (emailF === 'no' && hasEmail) return false;
     return true;
   });
 
@@ -1334,7 +1338,17 @@ document.getElementById('doLog').addEventListener('click', applyOutreachLog);
 
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
-document.getElementById('filterHasEmail').addEventListener('change', render);
+document.getElementById('filterEmail').addEventListener('change', render);
+document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterCity').value = '';
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterContactAge').value = '';
+  document.getElementById('filterSeqStep').value = '';
+  document.getElementById('filterEmail').value = '';
+  render();
+});
 document.getElementById('filterSeqStep').addEventListener('change', render);
 document.getElementById('sortBy').addEventListener('change', render);
 
