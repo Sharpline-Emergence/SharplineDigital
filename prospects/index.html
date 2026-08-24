@@ -312,7 +312,7 @@
   </div>
 
   <div class="import-box" id="mergeAuditBox" style="display:none;">
-    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone are filled in only if currently blank. A dated summary of the issues found is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name is pre-filled from the audit's guess (og:site_name or page title) when available, otherwise from the domain, so check it before adding along with City/Category; duplicates are still blocked by business name.</div>
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. A dated summary of the outreach-safe findings (not raw technical detail) is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
     <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
     <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
     <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
@@ -1443,14 +1443,27 @@ function parseAuditMarkdown(text, filename) {
   const nameMatch = text.match(/Business Name \(guess\):\s*(.+)/i);
   const businessNameGuess = nameMatch && !/not found/i.test(nameMatch[1]) ? nameMatch[1].replace(/\*/g, '').trim() : '';
 
-  // "## Issues Found" bullets, up to 5, stripped of the ⚠️ marker — used to
-  // build a compact one-line Notes summary rather than dumping the whole report.
-  const issuesBlock = text.match(/## Issues Found\s*([\s\S]*?)(\n##|\n---|\s*$)/);
-  const issues = issuesBlock
-    ? issuesBlock[1].split('\n').map(l => l.replace(/^-\s*⚠️?\s*/, '').trim()).filter(Boolean).slice(0, 5)
+  // Same "guess, review before trusting" treatment for City and Category
+  // (added by website_audit.py alongside the business name guess). Category
+  // is pre-mapped by the audit tool to one of our own BASE_CATEGORIES
+  // values, so it can be matched exactly against the <select> options below
+  // — no fuzzy matching needed.
+  const cityMatch = text.match(/City \(guess\):\s*(.+)/i);
+  const cityGuess = cityMatch && !/not found/i.test(cityMatch[1]) ? cityMatch[1].replace(/\*/g, '').trim() : '';
+  const categoryMatch = text.match(/Category \(guess\):\s*(.+)/i);
+  const categoryGuess = categoryMatch && !/not found/i.test(categoryMatch[1]) ? categoryMatch[1].replace(/\*/g, '').trim() : '';
+
+  // "## Outreach Findings — symptom-level, safe to send" bullets, up to 5 —
+  // curated by website_audit.py to be prospect-safe (no raw numbers/jargon),
+  // unlike the "## Issues Found" section which is internal-only technical
+  // detail. This is what goes into Notes for email_generator.py to use.
+  const findingsBlock = text.match(/## Outreach Findings[^\n]*\n([\s\S]*?)(\n##|\n---|\s*$)/);
+  const issues = findingsBlock
+    ? findingsBlock[1].split('\n').map(l => l.replace(/^-\s*/, '').trim())
+        .filter(l => l && !/^_/.test(l) && !/^none generated/i.test(l)).slice(0, 5)
     : [];
 
-  return { domain, score, email, phone, issues, filename, businessNameGuess };
+  return { domain, score, email, phone, issues, filename, businessNameGuess, cityGuess, categoryGuess };
 }
 
 async function readAuditFiles() {
@@ -1488,11 +1501,11 @@ function guessNameFromDomain(domain) {
 // sync with BASE_CATEGORIES manually since this renders as a plain string,
 // not through populateCategorySelect) — Category is required here too, same
 // as the drawer, so a row with no category picked gets skipped on add.
-function categoryOptionsHtml() {
+function categoryOptionsHtml(selected = '') {
   const opts = [...BASE_CATEGORIES].sort((a, b) => a.localeCompare(b));
   opts.push('Other');
   return '<option value="">Select a category…</option>' +
-    opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+    opts.map(c => `<option value="${escapeHtml(c)}"${c === selected ? ' selected' : ''}>${escapeHtml(c)}</option>`).join('');
 }
 
 function renderUnmatchedAuditRows(unmatched) {
@@ -1503,8 +1516,8 @@ function renderUnmatchedAuditRows(unmatched) {
   wrap.innerHTML = unmatched.map((a, i) => `
     <div class="row" style="grid-template-columns: 1fr 1fr 1fr auto; margin-bottom:6px;" data-domain="${escapeHtml(a.domain)}">
       <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(a.businessNameGuess || guessNameFromDomain(a.domain))}">
-      <input type="text" id="ua_city_${i}" placeholder="City">
-      <select id="ua_category_${i}">${categoryOptionsHtml()}</select>
+      <input type="text" id="ua_city_${i}" placeholder="City" value="${escapeHtml(a.cityGuess || '')}">
+      <select id="ua_category_${i}">${categoryOptionsHtml(a.categoryGuess || '')}</select>
       <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft);">
         <input type="checkbox" id="ua_include_${i}" checked> ${escapeHtml(a.domain)} · score ${a.score ?? 'n/a'}
       </label>
@@ -1648,6 +1661,8 @@ async function applyAuditMerge() {
     if (a.score !== null) patch.score = a.score;               // audit is the source of truth for Score — always refresh
     if (a.email && !p.email) patch.email = a.email;             // augment only — never overwrite a value that's already there
     if (a.phone && !p.phone) patch.phone = a.phone;
+    if (a.cityGuess && !p.city) patch.city = a.cityGuess;
+    if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
     if (a.issues.length) {
       const line = `${stamp} Audit: ${a.issues.join('; ')}`;
       patch.notes = p.notes ? `${p.notes}\n${line}` : line;
