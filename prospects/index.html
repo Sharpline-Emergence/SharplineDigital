@@ -1606,7 +1606,26 @@ async function addUnmatchedAudits(unmatched) {
     return;
   }
 
-  const { fresh, duplicates } = splitImportRows(candidates);
+  // Re-fetch prospects right before the duplicate check rather than trusting
+  // whatever's already in memory — the in-browser `prospects` list can be
+  // stale if another tab/session added something since this page loaded,
+  // and a stale list here means a same-named row can silently slip through.
+  await loadProspects();
+
+  // Guard against two candidates in this same batch sharing a business name
+  // too — splitImportRows only checks against existing prospects, so two
+  // audit reports for the same business selected together would otherwise
+  // both sail through as "fresh."
+  const seenInBatch = new Set();
+  const batchDuplicates = [];
+  const batchUnique = candidates.filter(c => {
+    const key = normName(c.businessName);
+    if (seenInBatch.has(key)) { batchDuplicates.push(c); return false; }
+    seenInBatch.add(key);
+    return true;
+  });
+
+  const { fresh, duplicates } = splitImportRows(batchUnique);
   if (!fresh.length) {
     showToast('All of those already exist as prospects — nothing added');
     return;
@@ -1628,6 +1647,7 @@ async function addUnmatchedAudits(unmatched) {
   await loadProspects();
   let msg = `Added ${fresh.length} new prospect${fresh.length === 1 ? '' : 's'}`;
   if (duplicates.length) msg += ` · skipped ${duplicates.length} already-existing`;
+  if (batchDuplicates.length) msg += ` · skipped ${batchDuplicates.length} duplicate${batchDuplicates.length === 1 ? '' : 's'} within this batch`;
   if (skippedNoCategory.length) msg += ` · ${skippedNoCategory.length} left out (no category picked) — re-run merge to retry them`;
   showToast(msg);
   document.getElementById('auditFiles').value = '';
