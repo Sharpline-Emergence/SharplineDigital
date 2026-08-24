@@ -1662,7 +1662,17 @@ async function applyAuditMerge() {
     const result = await showAuditPreview();
     if (!result) return;
   }
-  const { matched, unmatched } = lastAuditPreview;
+
+  // Re-fetch prospects and recompute matches right before applying, rather
+  // than trusting the split from whenever Preview Matches was last clicked.
+  // If a prospect's Website/URL got added or edited since then (in this tab
+  // or another), the stale preview would still call it "unmatched" and this
+  // audit would silently apply to nothing.
+  await loadProspects();
+  const allAudits = [...lastAuditPreview.matched.map(m => m.audit), ...lastAuditPreview.unmatched];
+  const { matched, unmatched } = matchAudits(allAudits);
+  lastAuditPreview = { matched, unmatched };
+
   if (!matched.length) { showToast('No matched prospects to merge'); return; }
 
   const btn = document.getElementById('doMergeAudits');
