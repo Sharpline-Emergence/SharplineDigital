@@ -1424,6 +1424,15 @@ function parseAuditMarkdown(text, filename) {
   const scoreMatch = text.match(/Sharpline Site Score:\s*(\d+)\s*\/\s*100/i);
   if (!urlMatch && !scoreMatch) return null;
 
+  // website_audit.py refuses to guess from a bot-detection/challenge page
+  // (Cloudflare "Verifying your connection...", 429/403 rate-limit walls,
+  // etc.) and flags the whole report instead. Merge Audits must never treat
+  // a blocked report as real data — the score and every guess in it come
+  // from a challenge page, not the actual site.
+  const blocked = /SCRAPE BLOCKED/i.test(text);
+  const blockedReasonMatch = text.match(/\*\*Reason:\*\*\s*(.+)/i);
+  const blockedReason = blockedReasonMatch ? blockedReasonMatch[1].trim() : 'bot-detection page, not the real site';
+
   // Fallback to filename (e.g. "broadwaychurchlife.com_audit.md") if the
   // report itself doesn't have the URL line for some reason.
   const domain = urlMatch
@@ -1463,7 +1472,7 @@ function parseAuditMarkdown(text, filename) {
         .filter(l => l && !/^_/.test(l) && !/^none generated/i.test(l)).slice(0, 5)
     : [];
 
-  return { domain, score, email, phone, issues, filename, businessNameGuess, cityGuess, categoryGuess };
+  return { domain, score, email, phone, issues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
 }
 
 async function readAuditFiles() {
@@ -1479,12 +1488,13 @@ async function readAuditFiles() {
 }
 
 function matchAudits(audits) {
-  const matched = [], unmatched = [];
+  const matched = [], unmatched = [], blocked = [];
   for (const a of audits) {
+    if (a.blocked) { blocked.push(a); continue; }
     const hit = prospects.find(p => p.website && normDomain(p.website) === a.domain);
     if (hit) matched.push({ prospect: hit, audit: a }); else unmatched.push(a);
   }
-  return { matched, unmatched };
+  return { matched, unmatched, blocked };
 }
 
 // Fallback-of-last-resort: a crude guess at a business name from a bare
@@ -1542,8 +1552,8 @@ async function showAuditPreview() {
     lastAuditPreview = null;
     return null;
   }
-  const { matched, unmatched } = matchAudits(audits);
-  lastAuditPreview = { matched, unmatched };
+  const { matched, unmatched, blocked } = matchAudits(audits);
+  lastAuditPreview = { matched, unmatched, blocked };
 
   let msg = `<strong>${matched.length} matched</strong>`;
   if (matched.length) {
@@ -1553,6 +1563,9 @@ async function showAuditPreview() {
   }
   if (unmatched.length) {
     msg += `<div style="margin-top:8px;"><strong>${unmatched.length} unmatched</strong> — no prospect's Website / URL matches these domains. Fill in a name below and add them as new prospects, or add the matching row first and re-run the merge.</div>`;
+  }
+  if (blocked.length) {
+    msg += `<div style="margin-top:8px; color:#b33;"><strong>⚠️ ${blocked.length} blocked</strong> — these reports look like a bot-detection page, not the real site, and are excluded entirely (not matched, not addable as new). Re-run the audit for: ${blocked.map(a => escapeHtml(a.domain) + ' (' + escapeHtml(a.blockedReason) + ')').join(', ')}</div>`;
   }
   box.innerHTML = msg;
   renderUnmatchedAuditRows(unmatched);
@@ -1671,7 +1684,7 @@ async function applyAuditMerge() {
   await loadProspects();
   const allAudits = [...lastAuditPreview.matched.map(m => m.audit), ...lastAuditPreview.unmatched];
   const { matched, unmatched } = matchAudits(allAudits);
-  lastAuditPreview = { matched, unmatched };
+  lastAuditPreview = { matched, unmatched, blocked: lastAuditPreview.blocked || [] };
 
   if (!matched.length) { showToast('No matched prospects to merge'); return; }
 
