@@ -1399,6 +1399,34 @@ document.getElementById('doImport').addEventListener('click', async () => {
   }
 });
 
+// ---- Outreach finding priority sort ----
+// Mirrors the four-tier model in email_generator.py so the strongest hook
+// always leads, regardless of which audit check fired first in the .md report.
+// Lower number = higher priority. Used wherever audit issues are written to Notes.
+const OUTREACH_PRIORITY = [
+  [10, ["didn't load", "returned an error", "http 4", "http 5", "site is down"]],
+  [11, ["took ", "seconds", "slow", "loading"]],
+  [12, ["mobile", "viewport", "phone"]],
+  [13, ["broken link", "dead end"]],
+  [20, ["privacy", "pipa", "personal information"]],
+  [21, ["oversized image", "image", "slowing"]],
+  [22, ["outbound link", "external link", "no longer exist"]],
+  [30, ["page title", "title tag", "truncated", "title is"]],
+  [31, ["meta description", "google is left guessing"]],
+  [40, ["alt text", "accessibility"]],
+  [41, ["render-blocking", "async", "defer", "first paint"]],
+];
+function outreachPriority(text) {
+  const lower = (text || '').toLowerCase();
+  for (const [priority, keywords] of OUTREACH_PRIORITY) {
+    if (keywords.some(kw => lower.includes(kw))) return priority;
+  }
+  return 99;
+}
+function sortIssues(issues) {
+  return [...issues].sort((a, b) => outreachPriority(a) - outreachPriority(b));
+}
+
 // ---- Merge Audit Reports ----
 // Reads one or more website_audit.py .md reports and patches matching
 // prospects (matched by domain, not business name — audits are keyed by
@@ -1605,7 +1633,7 @@ async function addUnmatchedAudits(unmatched) {
       dateContacted: '',
       dateAdded: new Date().toISOString().slice(0, 10),
       seqStep: 0,
-      notes: a.issues.length ? `Audit: ${a.issues.join('; ')}` : '',
+      notes: a.issues.length ? `Audit: ${sortIssues(a.issues).join('; ')}` : '',
       opportunities: []
     });
   });
@@ -1707,7 +1735,7 @@ async function applyAuditMerge() {
     if (a.cityGuess && !p.city) patch.city = a.cityGuess;
     if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
     if (a.issues.length) {
-      const line = `${stamp} Audit: ${a.issues.join('; ')}`;
+      const line = `${stamp} Audit: ${sortIssues(a.issues).join('; ')}`;
       patch.notes = p.notes ? `${p.notes}\n${line}` : line;
     }
     if (Object.keys(patch).length === 0) { ok++; continue; }    // nothing to add, not a failure
