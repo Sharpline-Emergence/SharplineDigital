@@ -55,9 +55,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
   <link rel="preload" as="image" href="hero.webp">
-  <link rel="stylesheet" href="/nav-footer.css">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -87,7 +87,7 @@
 
     .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
 
-    /* Nav styles now live in /nav-footer.css (shared across the site) */
+    /* Nav styles inlined below (was /nav-footer.css) */
 
     /* ─── HERO ─── */
     .hero {
@@ -634,7 +634,7 @@
     .cta-btn:hover { background: var(--teal-dark); }
 
     /* ─── FOOTER ─── */
-    /* Footer styles now live in /nav-footer.css (shared across the site) */
+    /* Footer styles inlined below (was /nav-footer.css) */
 
     /* ─── FADE IN ─── */
     .fade-up {
@@ -649,7 +649,7 @@
 
     /* ─── RESPONSIVE ─── */
     @media (max-width: 768px) {
-      /* .nav / .nav-links / .nav-toggle responsive rules now in /nav-footer.css */
+      /* .nav / .nav-links / .nav-toggle responsive rules inlined below (was /nav-footer.css) */
       .hero { min-height: 85vh; padding-top: 5rem; padding-bottom: 4rem; align-items: flex-end; }
       .hero-content { padding: 0 1.5rem; }
       .hero h1 { font-size: 2.3rem; }
@@ -661,7 +661,7 @@
       .steps-grid::before { display: none; }
       .packages-section { padding: 4rem 1.5rem; }
       .section-title { font-size: 1.65rem; }
-      /* .footer responsive rule now in /nav-footer.css */
+      /* .footer responsive rule inlined below (was /nav-footer.css) */
       .scroll-hint { display: none; }
     }
     @media (max-width: 480px) {
@@ -672,6 +672,202 @@
     @media (prefers-reduced-motion: reduce) {
       .fade-up { opacity: 1; transform: none; transition: none; }
       .scroll-line { animation: none; }
+    }
+
+    /* ── Inlined from nav-footer.css (was a separate blocking request) ── */
+    /* ═══════════════════════════════════════════════════════════
+       Sharpline Digital — Shared Nav & Footer Styles
+       Loaded on every page alongside /nav.html + /footer.html via
+       /includes.js. Edit colors/spacing here once; every page updates.
+
+       Requires each page to already define these CSS variables in
+       its own :root block (all Sharpline Digital pages currently do):
+       --teal, --teal-dark, --navy, --navy-mid, --navy-deep, --white,
+       --off-white, --muted, --text-dark, --text-mid, --border
+       ═══════════════════════════════════════════════════════════ */
+
+    :root { --flag-red: #D52B1E; }
+
+    /* ─── NAV: default = solid, sticky (safe for every inner page) ─── */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      row-gap: 0.6rem;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ─── NAV: minimal variant — logo + "back to home" only.
+       Used on conversion-focused pages (e.g. quote.html) where a full
+       nav would distract from the form. Opt in via nav-minimal.html. ─── */
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    /* ─── NAV: hero variant — transparent-over-hero, solidifies on scroll.
+       Opt in by adding class="has-hero" to <body> (homepage, city pages). ─── */
+    .has-hero .nav {
+      background: transparent;
+      position: absolute;
+      top: 0; left: 0; right: 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
+
+    /* Canadian flag — inline SVG so it renders identically on every OS.
+       (The 🇨🇦 emoji does NOT render as a flag on Windows — shows "CA".) */
+    .flag-ca {
+      width: 20px;
+      height: 10px;
+      vertical-align: -1px;
+      margin-right: 0.5rem;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    /* ─── AREAS WE SERVE STRIP ─── */
+    .areas-serve {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+    }
+    .areas-serve p {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .areas-serve a {
+      color: var(--teal);
+      text-decoration: none;
+    }
+    .areas-serve a:hover { text-decoration: underline; }
+
+    /* ─── LABS STRIP — quiet mention of side projects, sits below areas-serve ─── */
+    .labs-strip {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: -0.6rem;
+      padding-top: 0.8rem;
+    }
+    .labs-strip p {
+      font-size: 0.72rem;
+      color: #5f7a91;
+      margin: 0;
+    }
+    .labs-strip a {
+      color: #5f7a91;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+    .labs-strip a:hover { color: var(--teal); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .footer { flex-direction: column; text-align: center; }
     }
   </style>
 </head>
