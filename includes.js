@@ -24,23 +24,6 @@
  * automatically gets class="active" — no per-page markup needed.
  */
 (function () {
-  function loadPartial(url, placeholderId, callback) {
-    var el = document.getElementById(placeholderId);
-    if (!el) { if (callback) callback(); return; }
-    fetch(url)
-      .then(function (res) {
-        if (!res.ok) throw new Error(url + ' failed: ' + res.status);
-        return res.text();
-      })
-      .then(function (html) {
-        el.outerHTML = html;
-        if (callback) callback();
-      })
-      .catch(function (err) {
-        console.error('Include failed:', err);
-      });
-  }
-
   function highlightActiveLink() {
     var path = window.location.pathname.replace(/\/$/, '') || '/';
     document.querySelectorAll('.nav-links a').forEach(function (link) {
@@ -110,13 +93,11 @@
     document.body.appendChild(s);
   }
 
+  // Nav and footer are now inlined into every page's HTML at build time
+  // (see build.py) instead of being fetched at runtime. This removes two
+  // blocking network round-trips and the nav/footer pop-in on every load.
   function init() {
-    var navPlaceholder = document.getElementById('nav-placeholder');
-    var navFile = (navPlaceholder && navPlaceholder.dataset.nav === 'minimal')
-      ? '/nav-minimal.html'
-      : '/nav.html';
-    loadPartial(navFile, 'nav-placeholder', initNavBehavior);
-    loadPartial('/footer.html', 'footer-placeholder');
+    initNavBehavior();
     loadChatWidget();
   }
 
