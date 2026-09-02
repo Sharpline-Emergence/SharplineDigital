@@ -1152,7 +1152,10 @@ function csvEscape(val) {
 
 function exportCSV() {
   if (prospects.length === 0) { showToast('No prospects to export'); return; }
-  const rowsData = lastFiltered.length > 0 ? lastFiltered : prospects;
+  const EXCLUDED_EXPORT_STATUSES = ['Won', 'Not interested'];
+  const rowsData = (lastFiltered.length > 0 ? lastFiltered : prospects)
+    .filter(p => !EXCLUDED_EXPORT_STATUSES.includes(p.status));
+  if (rowsData.length === 0) { showToast('Nothing to export — everything shown is Won or Not interested'); return; }
   const headers = [
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
@@ -1176,7 +1179,10 @@ function exportCSV() {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
-  showToast(`Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`);
+  const excludedCount = (lastFiltered.length > 0 ? lastFiltered : prospects).length - rowsData.length;
+  let msg = `Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`;
+  if (excludedCount) msg += ` (${excludedCount} Won/Not interested excluded)`;
+  showToast(msg);
 }
 
 document.getElementById('exportBtn').addEventListener('click', exportCSV);
