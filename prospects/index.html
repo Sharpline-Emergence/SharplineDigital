@@ -1429,6 +1429,14 @@ function outreachPriority(text) {
   }
   return 99;
 }
+// Shared by both Merge Audits paths (matched-update and add-as-new) so the
+// Notes prefix format can't drift between them again. email_generator.py's
+// get_findings() only parses lines matching "<token> Audit: ..." — a line
+// missing this stamp is invisible to it, findings and all.
+function auditStamp(date = new Date()) {
+  return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${String(date.getFullYear()).slice(2)}`;
+}
+
 function sortIssues(issues) {
   return [...issues].sort((a, b) => outreachPriority(a) - outreachPriority(b));
 }
@@ -1639,7 +1647,7 @@ async function addUnmatchedAudits(unmatched) {
       dateContacted: '',
       dateAdded: new Date().toISOString().slice(0, 10),
       seqStep: 0,
-      notes: a.issues.length ? `Audit: ${sortIssues(a.issues).join('; ')}` : '',
+      notes: a.issues.length ? `${auditStamp()} Audit: ${sortIssues(a.issues).join('; ')}` : '',
       opportunities: []
     });
   });
@@ -1726,10 +1734,7 @@ async function applyAuditMerge() {
   btn.disabled = true;
   btn.textContent = 'Merging…';
 
-  const stamp = (() => {
-    const d = new Date();
-    return `${String(d.getMonth() + 1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}/${String(d.getFullYear()).slice(2)}`;
-  })();
+  const stamp = auditStamp();
 
   let ok = 0;
   const failed = [];
