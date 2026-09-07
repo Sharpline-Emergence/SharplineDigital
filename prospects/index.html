@@ -351,7 +351,8 @@
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
-      <option value="score">Score (lowest first)</option>
+      <option value="score_asc">Sharpline Score (low to high)</option>
+      <option value="score_desc">Sharpline Score (high to low)</option>
       <option value="city">City (A–Z)</option>
       <option value="category">Category (A–Z)</option>
       <option value="status">Status (pipeline order)</option>
@@ -398,13 +399,6 @@
       <div style="display:flex; gap:8px; align-items:center;">
         <input id="f_score" type="number" min="0" max="100" placeholder="e.g. 63" style="flex:1;">
         <span id="f_gradePreview" style="min-width:26px; text-align:center;"></span>
-      </div>
-    </div>
-    <div class="field"><label>Opportunities</label>
-      <div class="checks">
-        <label class="check-row"><input type="checkbox" value="No website"> No website</label>
-        <label class="check-row"><input type="checkbox" value="Facebook-only presence"> Facebook-only presence</label>
-        <label class="check-row"><input type="checkbox" value="Outdated / non-mobile site"> Outdated / non-mobile site</label>
       </div>
     </div>
     <div class="two-col">
@@ -748,12 +742,16 @@ function render() {
   });
 
   const sortBy = document.getElementById('sortBy').value;
-  if (sortBy === 'score') {
-    // lowest score first; entries with no score go last
+  if (sortBy === 'score_asc' || sortBy === 'score_desc') {
+    // Entries with no score always go last, regardless of direction.
+    const dir = sortBy === 'score_asc' ? 1 : -1;
     filtered.sort((a, b) => {
-      const as = a.score === null || a.score === undefined ? Infinity : a.score;
-      const bs = b.score === null || b.score === undefined ? Infinity : b.score;
-      return as - bs;
+      const aNull = a.score === null || a.score === undefined;
+      const bNull = b.score === null || b.score === undefined;
+      if (aNull && bNull) return 0;
+      if (aNull) return 1;
+      if (bNull) return -1;
+      return (a.score - b.score) * dir;
     });
   } else if (sortBy === 'city') {
     // A-Z by city, blanks last, name as tiebreaker
