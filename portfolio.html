@@ -276,6 +276,31 @@
     }
     .cta-btn:hover { background: var(--teal-dark); }
 
+    /* ─── RETURN TO MAINPAGE ─── */
+    .return-section {
+      background: var(--off-white);
+      padding: 2.5rem 2.5rem 3.5rem;
+      text-align: center;
+    }
+    .return-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--teal-dark);
+      border: 1px solid var(--teal);
+      padding: 0.7rem 1.6rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .return-btn:hover {
+      background: var(--teal);
+      color: var(--navy);
+    }
+
     /* Footer styles now live in /nav-footer.css (shared across the site) */
 
     /* ─── FADE IN ─── */
@@ -343,19 +368,6 @@
           </div>
         </div>
 
-        <!-- mortgagemasher.com -->
-        <div class="work-card fade-up">
-          <a href="https://www.mortgagemasher.com" target="_blank" rel="noopener">
-            <div class="work-thumb" style="background-image: url('images/thumb-mortgagemasher.jpg');"></div>
-          </a>
-          <div class="work-body">
-            <span class="work-tag">In-house product</span>
-            <h3>Mortgage Masher</h3>
-            <p>A mortgage payment and amortization calculator with a companion guide article, built for Canadian homeowners comparing rates and terms.</p>
-            <a href="https://www.mortgagemasher.com" target="_blank" rel="noopener" class="work-link">Visit site &rarr;</a>
-          </div>
-        </div>
-
         <!-- North Wire -->
         <div class="work-card fade-up">
           <a href="https://news.sharplinedigital.com" target="_blank" rel="noopener">
@@ -369,6 +381,16 @@
           </div>
         </div>
 
+        <!-- Canwest Art Services -->
+        <div class="work-card fade-up">
+          <div class="work-thumb" style="background-image: url('images/thumb-canwest.png');"></div>
+          <div class="work-body">
+            <span class="work-tag">Client project</span>
+            <h3>Canwest Art Services</h3>
+            <p>A full storefront and product catalog for a Chilliwack fine art supplier &mdash; original paintings, artist oils ordering, and supplier product lines, built to grow as new brands are added.</p>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -378,6 +400,11 @@
     <h2>Want something built this clean?</h2>
     <p>No pressure, no pitch deck. Just a conversation about what your business needs.</p>
     <a href="/quote.html" class="cta-btn">Let's talk</a>
+  </section>
+
+  <!-- RETURN TO MAINPAGE -->
+  <section class="return-section">
+    <a href="/index.html" class="return-btn">&larr; Return to Mainpage</a>
   </section>
 
   <!-- FOOTER (loaded from /footer.html by /includes.js) -->
