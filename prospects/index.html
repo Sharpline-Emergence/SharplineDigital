@@ -369,9 +369,12 @@
   <div class="import-box" id="bulkActionBar" style="display:none;">
     <div class="hint" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
       <span id="bulkSelectedCount">0 selected</span>
-      <span style="display:flex; gap:8px;">
+      <span style="display:flex; gap:8px; align-items:center;">
+        <select id="bulkStatusSelect">
+          <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option selected>Inactive</option>
+        </select>
         <button class="btn-secondary" id="bulkClearSelection">Clear selection</button>
-        <button class="btn-primary" id="bulkMarkInactive">Mark as Inactive</button>
+        <button class="btn-primary" id="bulkApplyStatus">Set status</button>
       </span>
     </div>
   </div>
@@ -871,25 +874,26 @@ function updateBulkActionBar() {
   document.getElementById('bulkSelectedCount').textContent = `${count} selected`;
 }
 
-async function bulkMarkInactive() {
+async function bulkApplyStatus() {
   if (!selectedIds.size) return;
   const ids = [...selectedIds];
-  const btn = document.getElementById('bulkMarkInactive');
+  const status = document.getElementById('bulkStatusSelect').value;
+  const btn = document.getElementById('bulkApplyStatus');
   btn.disabled = true;
   btn.textContent = 'Updating…';
-  const { error } = await sb.from('prospects').update({ status: 'Inactive' }).in('id', ids);
+  const { error } = await sb.from('prospects').update({ status }).in('id', ids);
   btn.disabled = false;
-  btn.textContent = 'Mark as Inactive';
+  btn.textContent = 'Set status';
   if (error) {
     showToast(`Failed to update: ${error.message}`);
     return;
   }
-  showToast(`Marked ${ids.length} prospect${ids.length === 1 ? '' : 's'} as Inactive`);
+  showToast(`Set ${ids.length} prospect${ids.length === 1 ? '' : 's'} to "${status}"`);
   selectedIds.clear();
   await loadProspects();
 }
 
-document.getElementById('bulkMarkInactive').addEventListener('click', bulkMarkInactive);
+document.getElementById('bulkApplyStatus').addEventListener('click', bulkApplyStatus);
 document.getElementById('bulkClearSelection').addEventListener('click', () => {
   selectedIds.clear();
   render();
