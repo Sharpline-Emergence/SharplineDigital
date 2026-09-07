@@ -330,7 +330,7 @@
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterStatus">
       <option value="">All statuses</option>
-      <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+      <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option>Inactive</option>
     </select>
     <select id="filterContactAge">
       <option value="">Any contact date</option>
@@ -364,6 +364,16 @@
       <option value="no">No email</option>
     </select>
     <button class="btn-secondary" id="clearFiltersBtn">Clear Filters</button>
+  </div>
+
+  <div class="import-box" id="bulkActionBar" style="display:none;">
+    <div class="hint" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <span id="bulkSelectedCount">0 selected</span>
+      <span style="display:flex; gap:8px;">
+        <button class="btn-secondary" id="bulkClearSelection">Clear selection</button>
+        <button class="btn-primary" id="bulkMarkInactive">Mark as Inactive</button>
+      </span>
+    </div>
   </div>
 
   <div id="listArea"></div>
@@ -404,7 +414,7 @@
     <div class="two-col">
       <div class="field"><label>Status</label>
         <select id="f_status">
-          <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option>
+          <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option>Inactive</option>
         </select>
       </div>
       <div class="field"><label>Contacted</label>
@@ -484,6 +494,7 @@ let editingId = null;
 let lastFiltered = [];
 let pendingDeleteId = null;
 let pendingPurgeId = null;
+let selectedIds = new Set();
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
@@ -782,7 +793,7 @@ function render() {
     });
   } else if (sortBy === 'status') {
     // Pipeline order: New -> Not contacted -> Contacted -> Hot -> Follow-up -> Won -> Not interested, blanks last
-    const statusOrder = { 'New': 0, 'Not contacted': 1, 'Contacted': 2, 'Hot': 3, 'Follow-up': 4, 'Won': 5, 'Not interested': 6 };
+    const statusOrder = { 'New': 0, 'Not contacted': 1, 'Contacted': 2, 'Hot': 3, 'Follow-up': 4, 'Won': 5, 'Not interested': 6, 'Inactive': 7 };
     filtered.sort((a, b) => {
       const ar = statusOrder[a.status] ?? 99;
       const br = statusOrder[b.status] ?? 99;
@@ -810,6 +821,7 @@ function render() {
 
   listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
     <div class="row ${p.status === 'Hot' ? 'row-hot' : ''}" data-id="${p.id}">
+      <input type="checkbox" class="row-select" data-id="${p.id}" ${selectedIds.has(p.id) ? 'checked' : ''} style="margin-right:8px;">
       <div class="row-num">${idx + 1}</div>
       ${ringSVG(p.score)}
       <div>
@@ -831,6 +843,15 @@ function render() {
     row.addEventListener('click', () => openDrawer(row.dataset.id));
   });
 
+  listArea.querySelectorAll('.row-select').forEach(cb => {
+    cb.addEventListener('click', (e) => e.stopPropagation());
+    cb.addEventListener('change', () => {
+      const id = cb.dataset.id;
+      if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+      updateBulkActionBar();
+    });
+  });
+
   listArea.querySelectorAll('.contacted-toggle').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -839,7 +860,40 @@ function render() {
       toggleContacted(id, current);
     });
   });
+
+  updateBulkActionBar();
 }
+
+function updateBulkActionBar() {
+  const bar = document.getElementById('bulkActionBar');
+  const count = selectedIds.size;
+  bar.style.display = count > 0 ? 'block' : 'none';
+  document.getElementById('bulkSelectedCount').textContent = `${count} selected`;
+}
+
+async function bulkMarkInactive() {
+  if (!selectedIds.size) return;
+  const ids = [...selectedIds];
+  const btn = document.getElementById('bulkMarkInactive');
+  btn.disabled = true;
+  btn.textContent = 'Updating…';
+  const { error } = await sb.from('prospects').update({ status: 'Inactive' }).in('id', ids);
+  btn.disabled = false;
+  btn.textContent = 'Mark as Inactive';
+  if (error) {
+    showToast(`Failed to update: ${error.message}`);
+    return;
+  }
+  showToast(`Marked ${ids.length} prospect${ids.length === 1 ? '' : 's'} as Inactive`);
+  selectedIds.clear();
+  await loadProspects();
+}
+
+document.getElementById('bulkMarkInactive').addEventListener('click', bulkMarkInactive);
+document.getElementById('bulkClearSelection').addEventListener('click', () => {
+  selectedIds.clear();
+  render();
+});
 
 async function toggleContacted(id, current) {
   const newVal = !current;
@@ -1084,7 +1138,7 @@ function parseCSV(text) {
     const score = scoreNum !== '' ? Math.max(0, Math.min(100, parseInt(scoreNum, 10))) : null;
 
     // Status: only accept known values, default to New
-    const knownStatuses = ['New', 'Not contacted', 'Contacted', 'Hot', 'Follow-up', 'Won', 'Not interested'];
+    const knownStatuses = ['New', 'Not contacted', 'Contacted', 'Hot', 'Follow-up', 'Won', 'Not interested', 'Inactive'];
     const statusRaw = (map['status'] || '').trim();
     const status = knownStatuses.find(s => s.toLowerCase() === statusRaw.toLowerCase()) || 'New';
 
