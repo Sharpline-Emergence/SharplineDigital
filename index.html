@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -75,7 +74,7 @@
       --off-white:   #f7fafc;
       --muted:       #a8c0d6;
       --text-dark:   #0a1628;
-      --text-mid:    #5a7a8a;
+      --text-mid:    #496675;
       --border:      #dde8f0;
     }
 
@@ -331,7 +330,7 @@
       font-weight: 500;
       letter-spacing: 3px;
       text-transform: uppercase;
-      color: var(--teal-dark);
+      color: #106e5d;
       margin-bottom: 0.8rem;
     }
     .section-title {
@@ -835,9 +834,10 @@
     }
     .areas-serve a {
       color: var(--teal);
-      text-decoration: none;
+      text-decoration: underline;
+      text-underline-offset: 2px;
     }
-    .areas-serve a:hover { text-decoration: underline; }
+    .areas-serve a:hover { color: var(--white); }
 
     /* ─── LABS STRIP — quiet mention of side projects, sits below areas-serve ─── */
     .labs-strip {
@@ -898,6 +898,7 @@
   <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
 </nav>
 
+  <main>
   <!-- HERO -->
   <section class="hero">
     <div class="hero-content">
@@ -1116,7 +1117,7 @@
   <!-- SHARPLINE LABS — NORTH WIRE BETA TEASER -->
   <section style="background:#f7f9f9; padding:56px 24px; text-align:center;">
     <div style="max-width:640px; margin:0 auto;">
-      <span style="display:inline-block; font-family:'Outfit',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#2ec4a9; background:rgba(46,196,169,0.12); border:1px solid rgba(46,196,169,0.35); padding:5px 12px; border-radius:100px; margin-bottom:16px;">
+      <span style="display:inline-block; font-family:'Outfit',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#106e5d; background:rgba(46,196,169,0.12); border:1px solid rgba(46,196,169,0.35); padding:5px 12px; border-radius:100px; margin-bottom:16px;">
         Sharpline Labs
       </span>
       <h2 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:26px; color:#0a1628; margin:0 0 12px;">
@@ -1137,6 +1138,7 @@
     <p>No pressure, no pitch deck. Just a conversation about what your business needs.</p>
     <a href="/quote.html" class="cta-btn">Let's talk</a>
   </section>
+  </main>
 
   <!-- FOOTER (baked in by build.py from /footer.html — do not hand-edit here, edit footer.html and rebuild) -->
   <footer class="footer">
