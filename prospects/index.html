@@ -330,6 +330,7 @@
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterStatus">
       <option value="">All statuses</option>
+      <option value="__active__">Active (exclude Inactive / Not interested)</option>
       <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option>Inactive</option>
     </select>
     <select id="filterContactAge">
@@ -728,7 +729,8 @@ function render() {
     if (cityF && p.city !== cityF) return false;
     if (catF === '__blank__') { if (p.category) return false; }
     else if (catF && p.category !== catF) return false;
-    if (statusF && p.status !== statusF) return false;
+    if (statusF === '__active__') { if (p.status === 'Inactive' || p.status === 'Not interested') return false; }
+    else if (statusF && p.status !== statusF) return false;
     if (ageF) {
       const days = daysSinceContact(p);
       if (ageF === 'never') {
