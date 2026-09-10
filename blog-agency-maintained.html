@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A DIY website is a project. An agency-maintained website is an asset. Here's the honest case for why ongoing maintenance beats a one-time build — and what it actually protects.">
+  <title>Why an Agency-Maintained Website Beats a "Set It and Forget It" Build | Sharpline Digital</title>
+  <link rel="canonical" href="https://sharplinedigital.com/blog-agency-maintained.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/nav-footer.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; }
+
+    /* Nav/footer styles live in /nav-footer.css */
+
+    /* ─── HERO ─── */
+    .hero-strip { background: var(--navy); padding: 4rem 2.5rem 5rem; }
+    .hero-inner { max-width: 760px; margin: 0 auto; }
+    .hero-meta { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .hero-tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 11px; border-radius: 20px; background: rgba(46,196,169,0.15); color: var(--teal); }
+    .hero-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); opacity: 0.6; }
+    .hero-date { font-size: 0.78rem; color: var(--muted); font-weight: 300; }
+    .hero-strip h1 { font-family: 'Outfit', sans-serif; font-size: clamp(1.9rem, 4vw, 2.7rem); font-weight: 700; color: var(--white); line-height: 1.2; letter-spacing: -0.5px; margin-bottom: 1.2rem; }
+    .hero-strip h1 em { color: var(--teal); font-style: normal; font-weight: 300; }
+    .byline { font-size: 0.88rem; color: var(--muted); font-weight: 300; }
+    .byline strong { color: var(--white); font-weight: 500; }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap { max-width: 760px; margin: 0 auto; padding: 3rem 2rem 4rem; }
+
+    .takeaways { background: var(--teal-light); border-radius: 12px; padding: 1.8rem 2rem; margin-bottom: 2.8rem; }
+    .takeaways-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--teal-dark); margin-bottom: 1rem; }
+    .takeaways ul { list-style: none; }
+    .takeaways li { font-size: 0.94rem; color: var(--text-dark); padding-left: 1.4rem; position: relative; margin-bottom: 0.7rem; line-height: 1.6; }
+    .takeaways li:last-child { margin-bottom: 0; }
+    .takeaways li::before { content: '→'; position: absolute; left: 0; color: var(--teal-dark); font-weight: 700; }
+
+    .article-wrap p { font-size: 1rem; color: var(--text-mid); font-weight: 300; margin-bottom: 1.4rem; line-height: 1.8; }
+    .article-wrap p strong { color: var(--text-dark); font-weight: 500; }
+    .article-wrap > p:first-of-type { font-size: 1.08rem; }
+
+    .section-head { display: flex; align-items: baseline; gap: 0.8rem; margin: 2.6rem 0 1.2rem; }
+    .section-num { font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 700; color: var(--teal); }
+    .section-head h2 { font-family: 'Outfit', sans-serif; font-size: 1.35rem; font-weight: 700; color: var(--text-dark); letter-spacing: -0.3px; }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.8rem 0 2.2rem; }
+    .stat-box { background: var(--off-white); border: 1px solid var(--border); border-radius: 10px; padding: 1.4rem 1.2rem; text-align: center; }
+    .stat-num { font-family: 'Outfit', sans-serif; font-size: 1.7rem; font-weight: 800; color: var(--navy); margin-bottom: 0.3rem; }
+    .stat-label { font-size: 0.78rem; color: var(--text-mid); font-weight: 400; line-height: 1.4; }
+
+    .pull-quote { border-left: 3px solid var(--teal); padding: 0.3rem 0 0.3rem 1.5rem; margin: 2rem 0; }
+    .pull-quote p { font-family: 'Outfit', sans-serif; font-size: 1.15rem; font-weight: 500; color: var(--navy); font-style: normal; line-height: 1.5; margin-bottom: 0; }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin: 1.8rem 0 2.2rem; font-size: 0.9rem; }
+    .compare-table th { background: var(--navy); color: var(--white); font-family: 'Outfit', sans-serif; font-weight: 600; text-align: left; padding: 0.8rem 1rem; font-size: 0.82rem; }
+    .compare-table td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); color: var(--text-mid); font-weight: 300; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:first-child { color: var(--text-dark); font-weight: 500; }
+
+    .honest-note { background: var(--off-white); border-radius: 12px; padding: 1.6rem 1.8rem; margin: 2.2rem 0; border: 1px dashed var(--border); }
+    .honest-note-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-mid); margin-bottom: 0.6rem; }
+    .honest-note p { margin-bottom: 0; font-size: 0.94rem; }
+
+    .author-box { display: flex; gap: 1.2rem; align-items: flex-start; background: var(--off-white); border-radius: 12px; padding: 1.6rem 1.8rem; margin: 3rem 0 0; }
+    .author-icon { font-size: 1.6rem; }
+    .author-box p { font-size: 0.88rem; margin-bottom: 0; }
+    .author-box strong { color: var(--text-dark); }
+
+    .cta-box { background: var(--navy); border-radius: 16px; padding: 2.4rem 2.2rem; margin-top: 2.8rem; text-align: center; }
+    .cta-box h3 { font-family: 'Outfit', sans-serif; color: var(--white); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.6rem; }
+    .cta-box p { color: var(--muted); font-size: 0.92rem; margin-bottom: 1.6rem; }
+    .cta-buttons { display: flex; gap: 0.9rem; justify-content: center; flex-wrap: wrap; }
+    .cta-primary, .cta-secondary { font-size: 0.88rem; font-weight: 600; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; transition: transform 0.2s, opacity 0.2s; }
+    .cta-primary { background: var(--teal); color: var(--navy); }
+    .cta-secondary { background: transparent; color: var(--muted); border: 1px solid rgba(168,192,214,0.3); }
+    .cta-primary:hover, .cta-secondary:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    @media (max-width: 680px) {
+      .hero-strip { padding: 3rem 1.5rem 4rem; }
+      .article-wrap { padding: 2.4rem 1.4rem 3rem; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .author-box { flex-direction: column; }
+      .compare-table { font-size: 0.82rem; }
+      .compare-table th, .compare-table td { padding: 0.6rem 0.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (loaded from /nav.html by /includes.js) -->
+  <div id="nav-placeholder"></div>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="hero-meta">
+        <span class="hero-tag">Insight</span>
+        <span class="hero-dot"></span>
+        <span class="hero-date">September 2026</span>
+        <span class="hero-dot"></span>
+        <span class="hero-date">7 min read</span>
+      </div>
+      <h1>A Website Isn't a Project. <em>It's Upkeep.</em></h1>
+      <p class="byline">By <strong>P. Beal</strong> — 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+
+    <div class="takeaways">
+      <div class="takeaways-label">Quick Read — Key Takeaways</div>
+      <ul>
+        <li>A website built once and never touched again quietly degrades — in speed, security, and search rank — even if it "still works"</li>
+        <li>Agency maintenance isn't a subscription fee for nothing; it's the labour of a dozen small tasks you'd otherwise have to learn, or ignore</li>
+        <li>SEO isn't a one-time setting — it rewards sites that keep publishing, keep loading fast, and keep their technical details current</li>
+        <li>The real cost comparison isn't "$0/month vs. $X/month" — it's "$X/month vs. your own hours, plus the eventual rebuild"</li>
+        <li>This isn't the right model for every business — a genuinely static site with no growth ambitions may not need it</li>
+      </ul>
+    </div>
+
+    <p>Most small business owners think of their website the way they think of a sign out front: pay once, hang it up, done. That's true for a physical sign. It is not true for a website — and the gap between those two mental models is where a lot of Fraser Valley businesses quietly lose ground over two or three years without ever noticing why.</p>
+
+    <p>A website is closer to a vehicle than a sign. It runs fine for a while with no attention. Then one day it doesn't start, and the fix costs more than the maintenance would have.</p>
+
+    <div class="section-head">
+      <span class="section-num">01 /</span>
+      <h2>It Frees Up Time You Didn't Budget For</h2>
+    </div>
+
+    <p>When a website is "done," it isn't actually done. Plugins need updating. Hours change. A new service gets added. A photo needs replacing before a slow season turns into an embarrassing one. None of these take long individually — but they add up to a task list that never quite goes away, and it's a task list that falls on <strong>you</strong> if nobody else owns it.</p>
+
+    <p>Most owners who built their own site or had a one-off build done end up doing one of two things: they let small updates pile up until the site looks stale, or they burn an evening every few months relearning a CMS they touch four times a year. Neither is a good use of a business owner's time. An agency relationship means those tasks land on someone whose job is to already know how to do them quickly — not on the person who should be running the business.</p>
+
+    <div class="pull-quote">
+      <p>"The hours you'd spend fighting a page builder are hours you're not spending on customers."</p>
+    </div>
+
+    <div class="section-head">
+      <span class="section-num">02 /</span>
+      <h2>It's Usually Cheaper Than the Alternative — Just Not the Way You'd Assume</h2>
+    </div>
+
+    <p>This is the one worth being honest about, because the sales pitch version of this point is usually oversimplified. A flat monthly maintenance fee is not "cheaper" than $0/month in any literal sense. What it's actually being compared against is one of three things: your own unpaid time, a slow accumulation of technical debt that eventually requires a full rebuild, or the cost of downtime and lost leads when something breaks and nobody's watching.</p>
+
+    <table class="compare-table">
+      <tr>
+        <th>Scenario</th>
+        <th>What it actually costs</th>
+      </tr>
+      <tr>
+        <td>DIY, self-maintained</td>
+        <td>Your time, plus the risk of a broken edit with no one to call</td>
+      </tr>
+      <tr>
+        <td>One-time build, never revisited</td>
+        <td>Slow, gradual decline — then a full rebuild in 3–5 years</td>
+      </tr>
+      <tr>
+        <td>Agency-maintained</td>
+        <td>A predictable monthly cost, no surprise rebuild, no downtime firefighting</td>
+      </tr>
+    </table>
+
+    <p>A rebuild from scratch, after a site has been neglected for years, routinely costs several times what a few years of steady maintenance would have. The maintenance fee isn't erasing that cost — it's spreading it out and, more importantly, preventing most of it from happening in the first place.</p>
+
+    <div class="section-head">
+      <span class="section-num">03 /</span>
+      <h2>SEO Isn't a Setting. It's a Habit.</h2>
+    </div>
+
+    <p>This is the part most business owners misunderstand, so it's worth being direct about it. Search engines don't rank a website once and leave it there. Google is continuously re-evaluating sites against three broad signals: whether the content is current and relevant, whether the technical details are healthy, and whether real people are engaging with it rather than bouncing off immediately.</p>
+
+    <p>A site that hasn't been touched in two years is telling all three of those signals something. There's no new content suggesting the business is active. Broken links or outdated plugins may be dragging down technical health scores. And if load times have crept up as the internet has moved on around a static build, bounce rates rise — which search engines notice.</p>
+
+    <div class="stat-grid">
+      <div class="stat-box">
+        <div class="stat-num">Fresh</div>
+        <div class="stat-label">content signals an active, relevant business to search engines</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">Fixed</div>
+        <div class="stat-label">technical issues (broken links, missing alt text, outdated schema) stop quietly costing you rank</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">Fast</div>
+        <div class="stat-label">pages keep visitors on-site instead of bouncing back to the search results</div>
+      </div>
+    </div>
+
+    <p>Ongoing maintenance is what keeps all three of those moving in the right direction: new content added on a schedule, technical issues caught before they compound, and the page-speed monitoring covered in the next section. None of that happens by itself, and none of it happens once and stays fixed.</p>
+
+    <div class="section-head">
+      <span class="section-num">04 /</span>
+      <h2>It Keeps the Site Running at the Speed It Started At</h2>
+    </div>
+
+    <p>Every website slows down over time if nobody's watching it — not because anything dramatic breaks, but through a hundred small additions: another tracking script here, an uncompressed image there, a plugin update that adds weight without anyone noticing. We wrote about <a href="/blog-website-speed.html">the 3-second rule</a> in an earlier piece — the short version is that more than half of mobile visitors abandon a page that takes longer than three seconds to load, and that clock resets with every visit, not just the first one.</p>
+
+    <p>A site that was fast at launch isn't guaranteed to stay fast. Regular monitoring catches the slow creep — an oversized photo added last month, a script that's no longer needed — before it costs you the visitors who never complain, they just leave.</p>
+
+    <div class="section-head">
+      <span class="section-num">05 /</span>
+      <h2>Security and Backups Aren't Optional, They're Just Invisible — Until They're Not</h2>
+    </div>
+
+    <p>This one's less exciting to write about, which is exactly why it gets skipped. Outdated software is the most common way small business sites get compromised, and most owners find out only when the site is already defaced, blacklisted by Google, or simply gone. A maintained site gets patched before that becomes a story, and has a current backup so a bad day is an inconvenience instead of a catastrophe.</p>
+
+    <div class="honest-note">
+      <div class="honest-note-label">The Honest Caveat</div>
+      <p>This isn't a pitch that says every business needs ongoing maintenance. If you run a genuinely static, single-page site — a menu, an address, a phone number, nothing that changes — and you have no ambition to rank higher or add anything, a one-time build with no ongoing plan might reasonably be enough. The case for maintenance gets stronger fast the moment you care about search visibility, add content over time, or simply don't want website upkeep to become one of your jobs.</p>
+    </div>
+
+    <p>The businesses that get the most out of a website aren't the ones with the flashiest design. They're the ones treating it the way they'd treat any other piece of working equipment — checked, updated, and looked after, so it keeps doing its job instead of quietly becoming a liability nobody's tracking.</p>
+
+    <div class="author-box">
+      <div class="author-icon">💼</div>
+      <p><strong>P. Beal — Sharpline Digital</strong><br>P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds and maintains custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+    </div>
+
+    <div class="cta-box">
+      <h3>Wondering what your site actually needs?</h3>
+      <p>No sales pitch — just a straight look at what's working, what isn't, and what upkeep would realistically cost.</p>
+      <div class="cta-buttons">
+        <a href="/quote.html" class="cta-primary">Book a free 15-minute audit call</a>
+        <a href="/speed-test.html" class="cta-secondary">Check my speed score</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER (loaded from /footer.html by /includes.js) -->
+  <div id="footer-placeholder"></div>
+
+  <script src="/includes.js"></script>
+</body>
+</html>
