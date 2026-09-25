@@ -191,6 +191,7 @@
   .field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
   .field input, .field select, .field textarea { width: 100%; }
   .field textarea { resize: vertical; min-height: 60px; }
+  #f_notes { min-height: 280px; line-height: 1.45; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .checks { display: flex; flex-direction: column; gap: 6px; }
   .check-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
@@ -312,7 +313,7 @@
   </div>
 
   <div class="import-box" id="mergeAuditBox" style="display:none;">
-    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. Two dated lines are appended to Notes: the outreach-safe findings ("Audit:" — what email_generator.py uses), then the full technical list ("Internal (not for outreach):" — for your eyes only, never picked up by the generator). Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. Two dated lines replace any earlier audit lines in Notes (your other notes are kept): the outreach-safe findings ("Audit:" — what email_generator.py uses), then the full technical list ("Internal (not for outreach):" — for your eyes only, never picked up by the generator). Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
     <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
     <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
     <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
@@ -1829,7 +1830,14 @@ async function applyAuditMerge() {
     if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
     const auditNotes = auditNoteText(a, stamp);
     if (auditNotes) {
-      patch.notes = p.notes ? `${p.notes}\n${auditNotes}` : auditNotes;
+      // Replace, don't stack: drop any earlier "MM/DD/YY Audit:" and
+      // "MM/DD/YY Internal (not for outreach):" lines so Notes only ever
+      // holds the latest audit (and email_generator.py can't pick up a
+      // stale one). Every other line — Log Outreach entries, hand-typed
+      // notes — is kept exactly as it was.
+      const kept = (p.notes || '').split('\n')
+        .filter(l => !/^\d{2}\/\d{2}\/\d{2} (Audit|Internal \(not for outreach\)):/.test(l.trim()));
+      patch.notes = [...kept.filter(l => l.trim()), auditNotes].join('\n');
     }
     if (Object.keys(patch).length === 0) { ok++; continue; }    // nothing to add, not a failure
     const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
