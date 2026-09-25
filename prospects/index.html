@@ -312,7 +312,7 @@
   </div>
 
   <div class="import-box" id="mergeAuditBox" style="display:none;">
-    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. A dated summary of the outreach-safe findings (not raw technical detail) is appended to Notes. Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. Two dated lines are appended to Notes: the outreach-safe findings ("Audit:" — what email_generator.py uses), then the full technical list ("Internal (not for outreach):" — for your eyes only, never picked up by the generator). Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
     <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
     <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
     <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
@@ -933,7 +933,7 @@ const BASE_CATEGORIES = ['Automotive', 'Bakery / Restaurant', 'Beauty Salons', '
 function populateCategorySelect(selected) {
   const sel = document.getElementById('f_category');
   let opts = [...BASE_CATEGORIES];
-  if (selected && !opts.includes(selected)) opts.push(selected);
+  if (selected && selected !== 'Other' && !opts.includes(selected)) opts.push(selected);
   opts.sort((a, b) => a.localeCompare(b));
   opts.push('Other');
   sel.innerHTML = '<option value="">Select a category…</option>' +
@@ -1499,6 +1499,19 @@ function sortIssues(issues) {
   return [...issues].sort((a, b) => outreachPriority(a) - outreachPriority(b));
 }
 
+// Builds the Notes lines for one audit: the outreach-safe "Audit:" line that
+// email_generator.py reads, then the full internal list on its own line.
+// The internal line deliberately does NOT contain "Audit:" so the generator
+// can't mistake it for sendable findings. Returns '' if there's nothing.
+function auditNoteText(a, stamp) {
+  const lines = [];
+  if (a.issues.length) lines.push(`${stamp} Audit: ${sortIssues(a.issues).join('; ')}`);
+  if (a.internalIssues && a.internalIssues.length) {
+    lines.push(`${stamp} Internal (not for outreach): ${sortIssues(a.internalIssues).join('; ')}`);
+  }
+  return lines.join('\n');
+}
+
 // ---- Merge Audit Reports ----
 // Reads one or more website_audit.py .md reports and patches matching
 // prospects (matched by domain, not business name — audits are keyed by
@@ -1572,7 +1585,18 @@ function parseAuditMarkdown(text, filename) {
         .filter(l => l && !/^_/.test(l) && !/^none generated/i.test(l)).slice(0, 5)
     : [];
 
-  return { domain, score, email, phone, issues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
+  // "## Issues Found (internal ...)" bullets — the full technical list, every
+  // check that fired. Goes into Notes on its own clearly labelled line
+  // ("Internal (not for outreach):") so Peter keeps the whole picture, while
+  // email_generator.py's get_findings() — which only reads "<stamp> Audit:"
+  // lines — never picks it up for a letter.
+  const internalBlock = text.match(/## Issues Found[^\n]*\n([\s\S]*?)(\n##|\n---|\s*$)/);
+  const internalIssues = internalBlock
+    ? internalBlock[1].split('\n').map(l => l.replace(/^-\s*/, '').replace(/^⚠️\s*/, '').replace(/"/g, "'").trim())
+        .filter(l => l && !/^_/.test(l) && !/^none detected/i.test(l))
+    : [];
+
+  return { domain, score, email, phone, issues, internalIssues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
 }
 
 async function readAuditFiles() {
@@ -1705,7 +1729,7 @@ async function addUnmatchedAudits(unmatched) {
       dateContacted: '',
       dateAdded: new Date().toISOString().slice(0, 10),
       seqStep: 0,
-      notes: a.issues.length ? `${auditStamp()} Audit: ${sortIssues(a.issues).join('; ')}` : '',
+      notes: auditNoteText(a, auditStamp()),
       opportunities: []
     });
   });
@@ -1803,9 +1827,9 @@ async function applyAuditMerge() {
     if (a.phone && !p.phone) patch.phone = a.phone;
     if (a.cityGuess && !p.city) patch.city = a.cityGuess;
     if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
-    if (a.issues.length) {
-      const line = `${stamp} Audit: ${sortIssues(a.issues).join('; ')}`;
-      patch.notes = p.notes ? `${p.notes}\n${line}` : line;
+    const auditNotes = auditNoteText(a, stamp);
+    if (auditNotes) {
+      patch.notes = p.notes ? `${p.notes}\n${auditNotes}` : auditNotes;
     }
     if (Object.keys(patch).length === 0) { ok++; continue; }    // nothing to add, not a failure
     const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
