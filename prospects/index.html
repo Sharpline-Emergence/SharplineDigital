@@ -118,6 +118,7 @@
      read as an error state. inline-block so the outline hugs the text instead of
      stretching across the row. */
   .biz-name.not-interested { display: inline-block; outline: 2px solid #c0392b; outline-offset: 3px; border-radius: 4px; padding: 1px 5px; }
+  .biz-meta a { color: inherit; }
   .biz-meta { font-size: 12px; color: var(--ink-soft); font-family: 'DM Mono', monospace; margin-top: 2px; }
   .col-city, .col-category { font-size: 13px; color: var(--ink-soft); }
 
@@ -326,7 +327,7 @@
   </div>
 
   <div class="toolbar">
-    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact, email, website, phone, notes...">
+    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact, email, website, phone, sample site, notes...">
     <select id="filterCity"><option value="">All cities</option></select>
     <select id="filterCategory"><option value="">All categories</option></select>
     <select id="filterStatus">
@@ -364,6 +365,11 @@
       <option value="">Any email</option>
       <option value="has">Has email</option>
       <option value="no">No email</option>
+    </select>
+    <select id="filterSample">
+      <option value="">Any sample site</option>
+      <option value="has">Has sample site</option>
+      <option value="no">No sample site</option>
     </select>
     <button class="btn-secondary" id="clearFiltersBtn">Clear Filters</button>
   </div>
@@ -405,6 +411,12 @@
       </div>
     </div>
     <div class="field"><label>Website / URL</label><input id="f_website" placeholder="https://"></div>
+    <div class="field"><label>Sample Website (GitHub folder)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="f_sampleSite" placeholder="e.g. fehr-property" style="flex:1;">
+        <a id="f_sampleLink" href="#" target="_blank" rel="noopener" style="display:none; font-size:13px; white-space:nowrap;">Open ↗</a>
+      </div>
+    </div>
     <div class="two-col">
       <div class="field"><label>Phone</label><input id="f_phone"></div>
       <div class="field"><label>Contact Name</label><input id="f_contactName"></div>
@@ -530,6 +542,7 @@ function dbToApp(row) {
     opportunities: row.opportunities || [],
     contacted: !!row.contacted,
     seqStep: row.seq_step ?? 0,
+    sampleSite: row.sample_site || '',
     deletedAt: row.deleted_at || null
   };
 }
@@ -550,7 +563,8 @@ function appToDb(p) {
     notes: p.notes,
     opportunities: p.opportunities,
     contacted: !!p.contacted,
-    seq_step: p.seqStep ?? 0
+    seq_step: p.seqStep ?? 0,
+    sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null)
   };
 }
 
@@ -746,7 +760,7 @@ function render() {
       }
     }
     if (search) {
-      const hay = [p.businessName, p.city, p.category, p.contactName, p.email, p.website, p.phone, p.notes].join(' ').toLowerCase();
+      const hay = [p.businessName, p.city, p.category, p.contactName, p.email, p.website, p.phone, p.sampleSite, p.notes].join(' ').toLowerCase();
       if (!hay.includes(search)) return false;
     }
     if (seqF !== '') {
@@ -755,6 +769,10 @@ function render() {
     const hasEmail = !!(p.email && p.email.trim());
     if (emailF === 'has' && !hasEmail) return false;
     if (emailF === 'no' && hasEmail) return false;
+    const sampleF = document.getElementById('filterSample').value;
+    const hasSample = !!(p.sampleSite && p.sampleSite.trim());
+    if (sampleF === 'has' && !hasSample) return false;
+    if (sampleF === 'no' && hasSample) return false;
     return true;
   });
 
@@ -833,6 +851,7 @@ function render() {
       <div>
         <div class="biz-name${p.status === 'Not interested' ? ' not-interested' : ''}">${escapeHtml(p.businessName || 'Untitled')}</div>
         <div class="biz-meta">${escapeHtml(p.phone || '')}${p.phone && p.email ? ' · ' : ''}${escapeHtml(p.email || '')}</div>
+        ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a></div>` : ''}
         ${contactAgeLabel(p)}
       </div>
       <div class="col-city">${escapeHtml(p.city || '')}</div>
@@ -856,6 +875,10 @@ function render() {
       if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
       updateBulkActionBar();
     });
+  });
+
+  listArea.querySelectorAll('.sample-link').forEach(a => {
+    a.addEventListener('click', (e) => e.stopPropagation());
   });
 
   listArea.querySelectorAll('.contacted-toggle').forEach(btn => {
@@ -912,6 +935,18 @@ async function toggleContacted(id, current) {
   showToast(newVal ? 'Marked contacted' : 'Marked not contacted');
 }
 
+// Sample sites live in the Sharpline-Emergence GitHub Pages account, one folder per prospect.
+function sampleUrl(folder) {
+  return 'https://sharpline-emergence.github.io/' + encodeURIComponent(folder.trim().replace(/^\/+|\/+$/g, '')) + '/';
+}
+
+function updateSampleLink() {
+  const v = document.getElementById('f_sampleSite').value.trim();
+  const a = document.getElementById('f_sampleLink');
+  a.style.display = v ? 'inline' : 'none';
+  if (v) a.href = sampleUrl(v);
+}
+
 function escapeHtml(str) {
   const d = document.createElement('div');
   d.textContent = str;
@@ -955,6 +990,8 @@ function openDrawer(id) {
   document.getElementById('f_phone').value = p?.phone || '';
   document.getElementById('f_contactName').value = p?.contactName || '';
   document.getElementById('f_email').value = p?.email || '';
+  document.getElementById('f_sampleSite').value = p?.sampleSite || '';
+  updateSampleLink();
   document.getElementById('f_score').value = p?.score ?? '';
   updateGradePreview();
   document.getElementById('f_status').value = p?.status || 'New';
@@ -995,6 +1032,7 @@ async function saveCurrent() {
     phone: document.getElementById('f_phone').value.trim(),
     contactName: document.getElementById('f_contactName').value.trim(),
     email: document.getElementById('f_email').value.trim(),
+    sampleSite: document.getElementById('f_sampleSite').value.trim(),
     score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
     status: document.getElementById('f_status').value,
     contacted: document.getElementById('f_contacted').value === 'y',
@@ -1404,6 +1442,8 @@ document.getElementById('doLog').addEventListener('click', applyOutreachLog);
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
 document.getElementById('filterEmail').addEventListener('change', render);
+document.getElementById('filterSample').addEventListener('change', render);
+document.getElementById('f_sampleSite').addEventListener('input', updateSampleLink);
 document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('searchInput').value = '';
   document.getElementById('filterCity').value = '';
@@ -1412,6 +1452,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('filterContactAge').value = '';
   document.getElementById('filterSeqStep').value = '';
   document.getElementById('filterEmail').value = '';
+  document.getElementById('filterSample').value = '';
   render();
 });
 document.getElementById('filterSeqStep').addEventListener('change', render);
