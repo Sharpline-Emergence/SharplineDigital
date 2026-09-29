@@ -935,9 +935,9 @@ async function toggleContacted(id, current) {
   showToast(newVal ? 'Marked contacted' : 'Marked not contacted');
 }
 
-// Sample sites live in the Sharpline-Emergence GitHub Pages account, one folder per prospect.
+// Sample sites live in the sharpline-emergence/previews GitHub Pages repo, one folder per prospect.
 function sampleUrl(folder) {
-  return 'https://sharpline-emergence.github.io/' + encodeURIComponent(folder.trim().replace(/^\/+|\/+$/g, '')) + '/';
+  return 'https://sharpline-emergence.github.io/previews/' + encodeURIComponent(folder.trim().replace(/^\/+|\/+$/g, '')) + '/';
 }
 
 function updateSampleLink() {
