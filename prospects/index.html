@@ -360,6 +360,7 @@
       <option value="category">Category (A–Z)</option>
       <option value="status">Status (pipeline order)</option>
       <option value="contactAge">Last contacted (oldest first)</option>
+      <option value="sampleSite">Sample site (has one first)</option>
     </select>
     <select id="filterEmail">
       <option value="">Any email</option>
@@ -813,6 +814,14 @@ function render() {
       const av = ad === null ? -Infinity : ad;
       const bv = bd === null ? -Infinity : bd;
       if (av !== bv) return bv - av;
+      return (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'sampleSite') {
+    // Prospects with a sample site first, then alphabetical within each group
+    filtered.sort((a, b) => {
+      const aHas = !!(a.sampleSite && a.sampleSite.trim());
+      const bHas = !!(b.sampleSite && b.sampleSite.trim());
+      if (aHas !== bHas) return aHas ? -1 : 1;
       return (a.businessName || '').localeCompare(b.businessName || '');
     });
   } else if (sortBy === 'status') {
