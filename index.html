@@ -894,7 +894,11 @@
         z-index: 99;
       }
       .nav-links.open a { font-size: 1.2rem; }
-      .nav-links.open { justify-content: flex-start; }
+      .nav-links.open { justify-content: flex-start; flex-wrap: nowrap; overflow-y: auto; }
+      /* The scroll script adds a blur to the floating nav; that blur traps the
+         full-screen menu inside the short nav bar. The nav is 97% opaque, so
+         the blur isn't visible anyway — switch it off. */
+      .has-hero .nav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
       .nav-toggle { position: relative; z-index: 101; }
       .footer { flex-direction: column; text-align: center; }
     }
