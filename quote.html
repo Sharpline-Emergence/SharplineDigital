@@ -578,7 +578,6 @@
         name:          formData.contactName,
         business:      formData.businessName      || 'Not provided',
         phone:         formData.phone             || 'Not requested',
-        email:         formData.email             || 'Not requested',
         biz_status:    formData.bizStatus,
         has_website:   formData.hasWebsite,
         current_url:   formData.currentUrl        || 'N/A',
@@ -590,6 +589,10 @@
         style_notes:   formData.styleNotes        || 'Not provided',
         extra_notes:   formData.extraNotes        || 'None'
       };
+      // Formspree rejects the whole request if a field named "email" isn't a real
+      // address, so only send it when the visitor actually gave one.
+      if (formData.email) payload.email = formData.email;
+      else payload.email_contact = 'Not requested';
 
       fetch('https://formspree.io/f/xaqgygpo', {
         method: 'POST',
