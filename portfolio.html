@@ -486,6 +486,21 @@
 
     @media (max-width: 768px) {
       .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .nav-links.open { justify-content: flex-start; }
+      .nav-toggle { position: relative; z-index: 101; }
       .footer { flex-direction: column; text-align: center; }
     }
   </style>
