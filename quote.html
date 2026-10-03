@@ -598,6 +598,14 @@
       })
       .then(res => {
         if (res.ok) {
+          // GA4: record a completed quote request as a lead (only fires on a successful send)
+          if (typeof gtag === 'function') {
+            gtag('event', 'generate_lead', {
+              form_name: 'quote_request',
+              package: formData.package,
+              business_category: formData.bizCat
+            });
+          }
           document.getElementById('progressWrap').style.display = 'none';
           document.getElementById('step5').classList.remove('active');
           document.getElementById('successCard').style.display = 'block';
