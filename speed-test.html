@@ -222,6 +222,12 @@
     letter-spacing: 0.03em;
   }
 
+  .score-source {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.5);
+    position: relative;
+  }
+
   .verdict {
     max-width: 440px;
     margin: 22px auto 0;
@@ -510,6 +516,7 @@
           <div class="gauge-grade" id="gaugeGrade">—</div>
         </div>
       </div>
+      <div class="score-source" id="scoreSource">Google performance score</div>
 
       <p class="verdict" id="verdictText"></p>
 
@@ -618,7 +625,29 @@
     return { letter: 'F', color: 'var(--grade-f)' };
   }
 
-  function verdictFor(score) {
+  const GRADE_ORDER = ['A', 'B', 'C', 'D', 'F'];
+  const GRADE_COLORS = { A: 'var(--grade-a)', B: 'var(--grade-b)', C: 'var(--grade-c)', D: 'var(--grade-d)', F: 'var(--grade-f)' };
+
+  // Google's score swings several points run to run, which can flip the grade
+  // on a site sitting near a cut-off. The wait before the page is usable is
+  // far more stable in severity, so a very long wait sets a floor on the grade.
+  function gradeFromWait(readyMs) {
+    if (readyMs == null) return 'A';
+    const s = readyMs / 1000;
+    if (s > 20) return 'F';
+    if (s > 12) return 'D';
+    return 'A';
+  }
+
+  function finalGrade(score, readyMs) {
+    const a = gradeFromScore(score).letter;
+    const b = gradeFromWait(readyMs);
+    const letter = GRADE_ORDER.indexOf(a) >= GRADE_ORDER.indexOf(b) ? a : b;
+    return { letter, color: GRADE_COLORS[letter] };
+  }
+
+  function verdictFor(letter) {
+    const score = { A: 90, B: 80, C: 65, D: 50, F: 0 }[letter];
     if (score >= 90) return "Excellent — your site loads fast enough to keep almost every visitor around. Nice work.";
     if (score >= 80) return "Good, but not great. A few tweaks could push this into top-tier territory and recover visitors you're currently losing.";
     if (score >= 65) return "This is costing you visitors. Studies show conversion rates drop sharply for every extra second of load time — and your site has room to improve.";
@@ -652,7 +681,10 @@
 
   function fmtSeconds(ms) {
     if (ms == null) return '—';
-    return (ms / 1000).toFixed(1) + 's';
+    const s = ms / 1000;
+    if (s >= 30) return '30s+';
+    if (s >= 10) return Math.round(s) + 's';
+    return s.toFixed(1) + 's';
   }
 
   async function runCheck(targetUrl) {
@@ -671,16 +703,17 @@
       const audits = data.lighthouseResult.audits;
       const fcp = audits['first-contentful-paint']?.numericValue;
       const tti = audits['interactive']?.numericValue;
-      const speedIndex = audits['speed-index']?.numericValue;
+      const lcp = audits['largest-contentful-paint']?.numericValue;
 
-      const grade = gradeFromScore(perfScore);
+      const grade = finalGrade(perfScore, tti);
 
       document.getElementById('resultUrl').textContent = targetUrl.replace(/^https?:\/\//, '');
       document.getElementById('gaugeGrade').textContent = grade.letter;
       document.getElementById('gaugeGrade').style.background = grade.color;
       document.getElementById('gaugeGrade').style.color = (grade.letter === 'A' || grade.letter === 'B') ? 'var(--navy)' : 'white';
-      document.getElementById('verdictText').textContent = verdictFor(perfScore);
-      document.getElementById('metricLoad').textContent = fmtSeconds(speedIndex);
+      document.getElementById('scoreSource').textContent = `Google ${strategy} performance score`;
+      document.getElementById('verdictText').textContent = verdictFor(grade.letter);
+      document.getElementById('metricLoad').textContent = fmtSeconds(lcp);
       document.getElementById('metricFirstPaint').textContent = fmtSeconds(fcp);
       document.getElementById('metricInteractive').textContent = fmtSeconds(tti);
 
