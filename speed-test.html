@@ -237,6 +237,16 @@
     position: relative;
   }
 
+  .grade-note {
+    max-width: 440px;
+    margin: 10px auto 0;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.55);
+    position: relative;
+    display: none;
+  }
+
   .metrics {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -519,6 +529,7 @@
       <div class="score-source" id="scoreSource">Google performance score</div>
 
       <p class="verdict" id="verdictText"></p>
+      <p class="grade-note" id="gradeNote"></p>
 
       <div class="metrics">
         <div class="metric">
@@ -643,7 +654,8 @@
     const a = gradeFromScore(score).letter;
     const b = gradeFromWait(readyMs);
     const letter = GRADE_ORDER.indexOf(a) >= GRADE_ORDER.indexOf(b) ? a : b;
-    return { letter, color: GRADE_COLORS[letter] };
+    // byWait: the wait time, not Google's score, decided the grade
+    return { letter, color: GRADE_COLORS[letter], byWait: letter !== a };
   }
 
   function verdictFor(letter) {
@@ -713,6 +725,17 @@
       document.getElementById('gaugeGrade').style.color = (grade.letter === 'A' || grade.letter === 'B') ? 'var(--navy)' : 'white';
       document.getElementById('scoreSource').textContent = `Google ${strategy} performance score`;
       document.getElementById('verdictText').textContent = verdictFor(grade.letter);
+      const note = document.getElementById('gradeNote');
+      if (grade.byWait) {
+        const secs = tti / 1000;
+        const wait = secs >= 30 ? 'over 30 seconds' : `about ${Math.round(secs)} seconds`;
+        const device = strategy === 'mobile' ? 'a phone' : 'a computer';
+        note.textContent = `Graded ${grade.letter} because the page takes ${wait} to become usable on ${device}.`;
+        note.style.display = 'block';
+      } else {
+        note.textContent = '';
+        note.style.display = 'none';
+      }
       document.getElementById('metricLoad').textContent = fmtSeconds(lcp);
       document.getElementById('metricFirstPaint').textContent = fmtSeconds(fcp);
       document.getElementById('metricInteractive').textContent = fmtSeconds(tti);
