@@ -397,9 +397,10 @@
     <div class="field"><label>Business Name</label><input id="f_businessName"></div>
     <div class="two-col">
       <div class="field"><label>City</label>
-        <select id="f_city">
-          <option>Chilliwack</option><option>Abbotsford</option><option>Langley</option><option>Mission</option><option>Other Fraser Valley</option>
-        </select>
+        <!-- Free text so any town can be entered (e.g. Kelowna); the datalist
+             still suggests the usual cities plus every city already in use. -->
+        <input id="f_city" list="cityList" placeholder="e.g. Chilliwack" autocomplete="off">
+        <datalist id="cityList"></datalist>
       </div>
       <div class="field"><label>Category</label>
         <select id="f_category">
@@ -993,7 +994,10 @@ function openDrawer(id) {
   document.getElementById('deleteBtn').style.display = p ? 'inline-block' : 'none';
 
   document.getElementById('f_businessName').value = p?.businessName || '';
-  document.getElementById('f_city').value = p?.city || 'Chilliwack';
+  const baseCities = ['Abbotsford', 'Aldergrove', 'Chilliwack', 'Hope', 'Langley', 'Maple Ridge', 'Mission'];
+  const knownCities = [...new Set([...baseCities, ...prospects.map(x => x.city).filter(Boolean)])].sort();
+  document.getElementById('cityList').innerHTML = knownCities.map(c => `<option value="${escapeHtml(c)}">`).join('');
+  document.getElementById('f_city').value = p?.city || '';
   populateCategorySelect(p?.category);
   document.getElementById('f_website').value = p?.website || '';
   document.getElementById('f_phone').value = p?.phone || '';
@@ -1035,7 +1039,7 @@ async function saveCurrent() {
 
   const data = {
     businessName,
-    city: document.getElementById('f_city').value,
+    city: document.getElementById('f_city').value.trim(),
     category,
     website: document.getElementById('f_website').value.trim(),
     phone: document.getElementById('f_phone').value.trim(),
