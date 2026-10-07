@@ -1,1213 +1,1947 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharpline Prospects</title>
+<meta name="robots" content="noindex, nofollow">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // ---- FILL THESE IN AFTER YOU CREATE YOUR SUPABASE PROJECT ----
+  // Dashboard → Project Settings → API → "Project URL" and "anon public" key.
+  // The anon key is SAFE to expose here — it's meant to be public.
+  // Real protection comes from the login + Row Level Security, not from hiding this key.
+  const SUPABASE_URL = 'https://pvpmjmalwjzqehqbvinp.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_y-M5GWJJZCnAdCIOcKCMZw_EkzbqHIg';
+</script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap');
 
-    gtag('config', 'G-SN2ZMHV0FJ');
-  </script>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Sharpline Digital — Custom web design for small businesses in Chilliwack, Abbotsford, and the Fraser Valley. Clean code, no lock-in, you own everything.">
-  <title>Sharpline Digital | Web Design Chilliwack & Fraser Valley BC</title>
-  <link rel="canonical" href="https://sharplinedigital.com/">
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Sharpline Digital">
-  <meta property="og:title" content="Sharpline Digital | Web Design Chilliwack & Fraser Valley BC">
-  <meta property="og:description" content="Custom web design for small businesses in Chilliwack, Abbotsford, and the Fraser Valley. Clean code, no lock-in, you own everything.">
-  <meta property="og:url" content="https://sharplinedigital.com/">
-  <meta property="og:image" content="https://sharplinedigital.com/images/hero.webp">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta property="og:locale" content="en_CA">
-
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Sharpline Digital | Web Design Chilliwack & Fraser Valley BC">
-  <meta name="twitter:description" content="Custom web design for small businesses in Chilliwack, Abbotsford, and the Fraser Valley. Clean code, no lock-in, you own everything.">
-  <meta name="twitter:image" content="https://sharplinedigital.com/images/hero.webp">
-
-  <!-- LocalBusiness structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Sharpline Digital",
-    "image": "https://sharplinedigital.com/images/hero.webp",
-    "url": "https://sharplinedigital.com/",
-    "telephone": "+1-604-796-5557",
-    "email": "hello@sharplinedigital.com",
-    "priceRange": "$150-$3200",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Chilliwack",
-      "addressRegion": "BC",
-      "addressCountry": "CA"
-    },
-    "areaServed": [
-      { "@type": "City", "name": "Chilliwack" },
-      { "@type": "City", "name": "Abbotsford" },
-      { "@type": "City", "name": "Mission" },
-      { "@type": "City", "name": "Hope" },
-      { "@type": "City", "name": "Langley" },
-      { "@type": "City", "name": "Aldergrove" },
-      { "@type": "City", "name": "Maple Ridge" }
-    ],
-    "description": "Custom web design agency serving small businesses across the Fraser Valley, BC. Clean code, no page builders, full code ownership handed off via GitHub.",
-    "sameAs": []
+  :root {
+    --cream: #faf6ec;
+    --surface: #ffffff;
+    --ink: #2b2a26;
+    --ink-soft: #6b6858;
+    --sage: #6f7f5d;
+    --sage-dark: #566349;
+    --sage-tint: #eef1e9;
+    --gold: #c9a227;
+    --border: #e6e1d3;
+    --danger: #b5533c;
+    --danger-tint: #f7e9e4;
+    --hot: #b5533c;
+    --warm: #c9a227;
+    --cool: #6f7f5d;
+    --hotlead: #2e7d32;
+    --hotlead-tint: #e6f4ea;
   }
-  </script>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+  .app { max-width: 1100px; margin: 0 auto; padding: 32px 24px 80px; }
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet"></noscript>
-  <link rel="preload" as="image" href="images/hero-mobile.webp" media="(max-width: 768px)">
-  <link rel="preload" as="image" href="images/hero.webp" media="(min-width: 769px)">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+  h1 { font-family: 'DM Serif Display', serif; font-size: 30px; font-weight: 400; margin: 0; color: var(--ink); }
+  .subtitle { font-size: 13px; color: var(--ink-soft); margin-top: 4px; font-family: 'DM Mono', monospace; }
 
-    :root {
-      --teal:        #2ec4a9;
-      --teal-dark:   #1a9e87;
-      --teal-light:  #e1f7f3;
-      --teal-dim:    rgba(46,196,169,0.12);
-      --navy:        #0a1628;
-      --navy-mid:    #152238;
-      --navy-deep:   #06101e;
-      --white:       #ffffff;
-      --off-white:   #f7fafc;
-      --muted:       #a8c0d6;
-      --text-dark:   #0a1628;
-      --text-mid:    #496675;
-      --border:      #dde8f0;
-    }
+  .toolbar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; align-items: center; }
+  input, select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--ink);
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--sage); outline-offset: 1px; }
+  .search { flex: 1; min-width: 180px; }
+  select { cursor: pointer; }
 
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'DM Sans', sans-serif;
-      color: var(--text-dark);
-      background: var(--white);
-      line-height: 1.6;
-    }
+  button {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    padding: 9px 16px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  button:hover { opacity: 0.85; }
+  button:focus-visible { outline: 2px solid var(--sage); outline-offset: 2px; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button:disabled:hover { opacity: 0.4; }
+  .btn-primary { background: var(--sage); color: white; }
+  .btn-secondary { background: var(--surface); color: var(--ink); border: 1px solid var(--border); }
+  .btn-danger { background: var(--danger-tint); color: var(--danger); }
+  .btn-ghost { background: transparent; color: var(--ink-soft); padding: 6px 10px; }
 
-    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+  .empty { text-align: center; padding: 60px 20px; color: var(--ink-soft); }
+  .empty h2 { font-family: 'DM Serif Display', serif; font-weight: 400; color: var(--ink); margin-bottom: 8px; }
 
-    /* Nav styles inlined below (was /nav-footer.css) */
+  .list { display: flex; flex-direction: column; gap: 8px; }
+  .row {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: 24px 44px 1.4fr 1fr 1fr 0.6fr 0.9fr auto;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .row:hover { border-color: var(--sage); }
+  .row.row-hot { background: var(--hotlead-tint); border-color: var(--hotlead); }
+  .row.row-hot:hover { border-color: var(--hotlead); }
+  @media (max-width: 780px) {
+    .row { grid-template-columns: 20px 40px 1fr auto; }
+    .row .col-city, .row .col-category, .row .col-status, .row .col-grade { display: none; }
+  }
+  .row-num { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-soft); text-align: right; }
 
-    /* ─── HERO ─── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex;
-      align-items: flex-end;
-      padding-top: 6rem;
-      padding-bottom: 6rem;
-      overflow: hidden;
+  .ring-wrap { position: relative; width: 40px; height: 40px; }
+  .ring-wrap svg { transform: rotate(-90deg); }
+  .ring-score { font-family: 'DM Mono', monospace; font-size: 11px; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  .no-score { width: 40px; height: 40px; border-radius: 50%; border: 2px dashed var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--ink-soft); font-family: 'DM Mono', monospace; }
 
-      background-image: url('images/hero.webp');
-      background-size: cover;
-      background-position: center;
-    }
+  .biz-name { font-weight: 600; font-size: 15px; }
+  /* Not Interested gets a visual flag on the name itself, on top of the status
+     pill — outline only (not fill/strikethrough) so it stays legible and doesn't
+     read as an error state. inline-block so the outline hugs the text instead of
+     stretching across the row. */
+  .biz-name.not-interested { display: inline-block; outline: 2px solid #c0392b; outline-offset: 3px; border-radius: 4px; padding: 1px 5px; }
+  .biz-meta a { color: inherit; }
+  .biz-meta { font-size: 12px; color: var(--ink-soft); font-family: 'DM Mono', monospace; margin-top: 2px; }
+  .col-city, .col-category { font-size: 13px; color: var(--ink-soft); }
 
-    /* Mobile gets a portrait-cropped, lighter hero image instead of the
-       desktop landscape crop scaled sideways — see hero-mobile.webp */
-    @media (max-width: 768px) {
-      .hero {
-        background-image: url('images/hero-mobile.webp');
-      }
-    }
+  /* Days-since-last-contact line under the business name.
+     Neutral under 14 days, amber at 14+, red at 21+ — the follow-up threshold. */
+  .contact-age { font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 3px; color: var(--ink-soft); }
+  .contact-age.due { color: #9a6b1a; font-weight: 500; }
+  .contact-age.overdue { color: var(--danger); font-weight: 500; }
+  /* Sequence step badge — small pill beside the status */
+  .seq-badge { font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 600;
+               padding: 2px 7px; border-radius: 99px; border: 1px solid;
+               display: inline-block; vertical-align: middle; white-space: nowrap; }
+  .seq-0 { color: #a0a090; border-color: #d8d4c8; background: transparent; }
+  .seq-1 { color: #5a7a52; border-color: #b0c8a8; background: #eef4eb; }
+  .seq-2 { color: #7a6530; border-color: #d4b870; background: #faf3dc; }
+  .seq-3 { color: #8a3030; border-color: #d49898; background: #faeded; }
 
-    /* Dark overlay — keep this in place when you swap in the photo */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        to top,
-        rgba(6,16,30,0.82) 0%,
-        rgba(6,16,30,0.45) 55%,
-        rgba(6,16,30,0.25) 100%
-      );
-      z-index: 1;
-    }
+  .status-pill {
+    font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
+    display: inline-block; font-family: 'Inter', sans-serif; white-space: nowrap;
+  }
+  .status-New { background: var(--sage-tint); color: var(--sage-dark); }
+  .status-Not\.contacted { background: #f2ede0; color: #8a7f5f; }
+  .status-Contacted { background: #eef2f7; color: #3d5a80; }
+  .status-Hot { background: var(--hotlead-tint); color: var(--hotlead); font-weight: 700; }
+  .status-Follow-up { background: #fbf1de; color: #9a6b1a; }
+  .status-Won { background: #e7f3e6; color: #3a7a3d; }
+  .status-Not\.interested { background: #f1eeee; color: #8a8783; }
 
-    /* Subtle teal horizon glow — atmospheric, ties to brand */
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 40%;
-      background: linear-gradient(to top, rgba(46,196,169,0.06), transparent);
-      z-index: 1;
-      pointer-events: none;
-    }
+  .grade-pill {
+    font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace;
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .grade-A { background: var(--sage-tint); color: var(--sage-dark); }
+  .grade-B { background: #eef2f7; color: #3d5a80; }
+  .grade-C { background: #fbf1de; color: #9a6b1a; }
+  .grade-D { background: #fbe6de; color: #a54a1f; }
+  .grade-F { background: var(--danger-tint); color: var(--danger); }
+  .grade-none { color: var(--ink-soft); font-size: 12px; }
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-      width: 100%;
-    }
+  .row-actions { display: flex; gap: 4px; justify-content: flex-end; }
 
-    .hero-eyebrow {
-      font-size: 0.72rem;
-      font-weight: 500;
-      color: var(--teal);
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-bottom: 1.4rem;
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-    }
-    .hero-eyebrow::before {
-      content: '';
-      display: inline-block;
-      width: 28px;
-      height: 1px;
-      background: var(--teal);
-      opacity: 0.7;
-    }
+  .contacted-toggle {
+    width: 30px; height: 30px; border-radius: 50%;
+    border: 1px solid var(--border);
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--surface); color: var(--ink-soft);
+    padding: 0; flex-shrink: 0;
+  }
+  .contacted-toggle.is-yes { background: var(--sage-tint); color: var(--sage-dark); border-color: var(--sage); }
+  .contacted-toggle.is-no { background: var(--surface); color: var(--ink-soft); border-color: var(--border); }
 
-    .hero h1 {
-      font-family: 'Outfit', sans-serif;
-      font-size: clamp(2.6rem, 6vw, 4.2rem);
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 1.6rem;
-      max-width: 640px;
-    }
-    .hero h1 em {
-      color: var(--teal);
-      font-style: normal;
-      font-weight: 300;
-    }
+  /* Drawer */
+  .overlay {
+    position: fixed; inset: 0; background: rgba(43,42,38,0.35);
+    display: none; align-items: stretch; justify-content: flex-end; z-index: 50;
+  }
+  .overlay.open { display: flex; }
+  /* Centered variant — used by the delete-confirm modal. Defined AFTER .overlay.open
+     so it wins on source order and centers instead of docking to the right. */
+  .overlay.center { align-items: center; justify-content: center; }
+  #deleteOverlay { z-index: 60; }
+  .drawer {
+    width: min(460px, 100%); background: var(--cream); height: 100%;
+    padding: 28px; overflow-y: auto; box-shadow: -8px 0 24px rgba(0,0,0,0.08);
+  }
+  .drawer h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 22px; margin: 0 0 20px; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: var(--ink-soft); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .field input, .field select, .field textarea { width: 100%; }
+  .field textarea { resize: vertical; min-height: 60px; }
+  #f_notes { min-height: 280px; line-height: 1.45; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .checks { display: flex; flex-direction: column; gap: 6px; }
+  .check-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .check-row input { width: auto; }
+  .drawer-actions { display: flex; gap: 8px; margin-top: 24px; justify-content: space-between; }
+  .drawer-actions .right { display: flex; gap: 8px; }
 
-    .hero-body {
-      font-size: 1.05rem;
-      color: rgba(255,255,255,0.72);
-      line-height: 1.8;
-      max-width: 520px;
-      margin-bottom: 2.8rem;
-      font-weight: 300;
-    }
+  /* Delete confirmation modal */
+  .confirm-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 26px 26px 22px; width: min(400px, 92%); box-shadow: 0 16px 44px rgba(0,0,0,0.18);
+  }
+  .confirm-card h2 { font-family: 'DM Serif Display', serif; font-weight: 400; font-size: 20px; margin: 0 0 12px; color: var(--ink); }
+  .confirm-card p { font-size: 14px; color: var(--ink-soft); line-height: 1.55; margin: 0 0 16px; }
+  .confirm-card p strong { color: var(--ink); }
+  .confirm-card .field { margin-bottom: 4px; }
+  .confirm-card .field input { width: 100%; }
+  .confirm-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 20px; }
 
-    .hero-body strong {
-      color: rgba(255,255,255,0.9);
-      font-weight: 400;
-    }
+  .import-box { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; }
+  .import-box textarea { width: 100%; min-height: 90px; font-family: 'DM Mono', monospace; font-size: 12px; }
+  .import-box .hint { font-size: 12px; color: var(--ink-soft); margin: 8px 0; }
 
-    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--cream); padding: 10px 20px; border-radius: 8px;
+    font-size: 13px; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+  }
+  .toast.show { opacity: 1; }
 
-    .btn-primary {
-      background: var(--teal);
-      color: var(--navy);
-      padding: 0.85rem 2rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 500;
-      text-decoration: none;
-      transition: background 0.2s;
-      display: inline-block;
-      letter-spacing: 0.2px;
-    }
-    .btn-primary:hover { background: var(--teal-dark); }
-
-    .btn-ghost {
-      background: transparent;
-      color: rgba(255,255,255,0.75);
-      border: 1px solid rgba(255,255,255,0.25);
-      padding: 0.85rem 2rem;
-      border-radius: 4px;
-      font-size: 0.9rem;
-      font-weight: 400;
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-      display: inline-block;
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
-
-    /* Scroll hint */
-    .scroll-hint {
-      position: absolute;
-      bottom: 2.2rem;
-      right: 2.5rem;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.4rem;
-      opacity: 0.45;
-    }
-    .scroll-hint span {
-      font-size: 0.65rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--white);
-      writing-mode: vertical-rl;
-    }
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(to bottom, var(--teal), transparent);
-      animation: scrollPulse 2s ease-in-out infinite;
-    }
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; transform: scaleY(1); }
-      50% { opacity: 0.8; transform: scaleY(1.1); }
-    }
-
-    /* ─── INTRO STRIP ─── */
-    .intro-strip {
-      background: var(--navy);
-      padding: 4rem 2.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .intro-inner {
-      max-width: 960px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-    .intro-headline {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.75rem;
-      font-weight: 700;
-      color: var(--white);
-      line-height: 1.25;
-      letter-spacing: -0.5px;
-      margin-bottom: 0.4rem;
-    }
-    .intro-headline em {
-      color: var(--teal);
-      font-style: normal;
-      font-weight: 300;
-    }
-    .intro-body {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.8;
-      font-weight: 300;
-    }
-    .intro-body strong { color: rgba(255,255,255,0.85); font-weight: 400; }
-    .intro-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-    .intro-stat {
-      padding: 1.2rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-    }
-    .intro-stat:last-child { border-bottom: none; }
-    .stat-num {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--teal);
-      line-height: 1;
-      white-space: nowrap;
-    }
-    .stat-label {
-      font-size: 0.83rem;
-      color: var(--muted);
-      line-height: 1.5;
-      font-weight: 300;
-    }
-
-    /* ─── WHY SHARPLINE ─── */
-    .why-section {
-      padding: 6rem 0;
-      background: var(--off-white);
-    }
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      color: #106e5d;
-      margin-bottom: 0.8rem;
-    }
-    .section-title {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--text-dark);
-      letter-spacing: -0.5px;
-      margin-bottom: 0.7rem;
-      line-height: 1.2;
-    }
-    .section-sub {
-      font-size: 0.95rem;
-      color: var(--text-mid);
-      max-width: 500px;
-      line-height: 1.75;
-      font-weight: 300;
-    }
-
-    .vp-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-top: 3rem;
-    }
-    .vp-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.8rem 1.6rem;
-      transition: border-color 0.25s, box-shadow 0.25s;
-    }
-    .vp-card:hover {
-      border-color: var(--teal);
-      box-shadow: 0 4px 20px rgba(46,196,169,0.08);
-    }
-    .vp-icon {
-      font-size: 1.3rem;
-      width: 40px;
-      height: 40px;
-      background: var(--teal-light);
-      border-radius: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.1rem;
-    }
-    .vp-card h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .vp-card p {
-      font-size: 0.84rem;
-      color: var(--text-mid);
-      line-height: 1.7;
-      font-weight: 300;
-    }
-
-    /* ─── PACKAGES ─── */
-    .packages-section {
-      background: var(--navy);
-      padding: 6rem 2.5rem;
-    }
-    .section-title.light { color: var(--white); }
-    .section-sub.light { color: var(--muted); }
-
-    .pkg-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1.2rem;
-      margin-top: 3rem;
-    }
-    .pkg-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 2rem;
-      transition: border-color 0.25s;
-    }
-    .pkg-card:hover { border-color: rgba(46,196,169,0.35); }
-    .pkg-card.featured {
-      border-color: rgba(46,196,169,0.3);
-      background: rgba(46,196,169,0.05);
-    }
-    .pkg-name {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 0.3rem;
-    }
-    .pkg-price {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--teal);
-      margin: 0.6rem 0 0.3rem;
-      line-height: 1;
-    }
-    .pkg-price span {
-      font-size: 0.8rem;
-      font-weight: 300;
-      color: var(--muted);
-    }
-    .discount-badge {
-      display: inline-block;
-      background: #e63946;
-      color: var(--white);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      padding: 0.25rem 0.6rem;
-      border-radius: 3px;
-      margin-bottom: 0.7rem;
-      text-transform: uppercase;
-    }
-    .pkg-price-old {
-      position: relative;
-      display: inline-block;
-      font-size: 1.05rem;
-      font-weight: 500;
-      color: rgba(168,192,214,0.75);
-      margin-bottom: 0.1rem;
-    }
-    .pkg-price-old::after {
-      content: '';
-      position: absolute;
-      left: -6%;
-      right: -6%;
-      top: 48%;
-      height: 2px;
-      background: #e63946;
-      transform: rotate(-9deg);
-    }
-    .pkg-price-new {
-      color: var(--teal);
-    }
-    .pkg-gst {
-      font-size: 0.72rem;
-      color: rgba(168,192,214,0.75);
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
-    .pkg-gst em {
-      font-size: 0.68rem;
-      font-style: italic;
-      color: rgba(168,192,214,0.75);
-    }
-    .pkg-desc {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.4rem;
-      font-weight: 300;
-    }
-    .pkg-features { list-style: none; }
-    .pkg-features li {
-      font-size: 0.83rem;
-      color: #c8dae6;
-      padding: 0.3rem 0;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.6rem;
-      font-weight: 300;
-    }
-    .pkg-check { color: var(--teal); flex-shrink: 0; }
-
-    /* ─── ADD-ONS ─── */
-    .addons-section {
-      background: var(--off-white);
-      padding: 5rem 0;
-    }
-    .addons-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.2rem;
-      margin-top: 2.5rem;
-    }
-    .addon-item {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.6rem;
-    }
-    .addon-item h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .addon-item p {
-      font-size: 0.83rem;
-      color: var(--text-mid);
-      line-height: 1.65;
-      margin-bottom: 0.9rem;
-      font-weight: 300;
-    }
-    .addon-price {
-      font-size: 0.85rem;
-      color: var(--teal-dark);
-      font-weight: 500;
-    }
-
-    /* ─── PROCESS ─── */
-    .process-section {
-      background: var(--white);
-      padding: 6rem 0;
-      border-top: 1px solid var(--border);
-    }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      margin-top: 3.5rem;
-      position: relative;
-    }
-    /* Connecting line between steps */
-    .steps-grid::before {
-      content: '';
-      position: absolute;
-      top: 22px;
-      left: calc(12.5% + 1rem);
-      right: calc(12.5% + 1rem);
-      height: 1px;
-      background: linear-gradient(to right, var(--teal), rgba(46,196,169,0.2));
-      z-index: 0;
-    }
-    .step {
-      text-align: center;
-      padding: 0 1rem 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
-    .step-num {
-      width: 44px;
-      height: 44px;
-      background: var(--white);
-      border: 1px solid var(--teal);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--teal);
-      margin: 0 auto 1.4rem;
-    }
-    .step h3 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-dark);
-      margin-bottom: 0.5rem;
-    }
-    .step p {
-      font-size: 0.82rem;
-      color: var(--text-mid);
-      line-height: 1.65;
-      font-weight: 300;
-    }
-
-    /* ─── CTA ─── */
-    .cta-section {
-      background: var(--navy);
-      padding: 5rem 2.5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08) 0%, transparent 65%);
-      pointer-events: none;
-    }
-    .cta-section h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.5px;
-      position: relative;
-    }
-    .cta-section p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2.2rem;
-      font-weight: 300;
-      position: relative;
-    }
-    .cta-btn {
-      background: var(--teal);
-      color: var(--navy);
-      padding: 0.9rem 2.4rem;
-      border-radius: 4px;
-      font-size: 0.92rem;
-      font-weight: 500;
-      text-decoration: none;
-      display: inline-block;
-      transition: background 0.2s;
-      position: relative;
-    }
-    .cta-btn:hover { background: var(--teal-dark); }
-    .cta-remote {
-      margin: 1.8rem 0 0 !important;
-      font-size: 0.82rem !important;
-      color: #8aa5bd !important;
-    }
-
-    /* ─── FOOTER ─── */
-    /* Footer styles inlined below (was /nav-footer.css) */
-
-    /* ─── FADE IN ─── */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .fade-up.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      /* .nav / .nav-links / .nav-toggle responsive rules inlined below (was /nav-footer.css) */
-      .hero { min-height: 85vh; padding-top: 5rem; padding-bottom: 4rem; align-items: flex-end; }
-      .hero-content { padding: 0 1.5rem; }
-      .hero h1 { font-size: 2.3rem; }
-      .intro-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-      .vp-grid { grid-template-columns: 1fr 1fr; }
-      .pkg-grid { grid-template-columns: 1fr; }
-      .addons-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
-      .steps-grid::before { display: none; }
-      .packages-section { padding: 4rem 1.5rem; }
-      .section-title { font-size: 1.65rem; }
-      /* .footer responsive rule inlined below (was /nav-footer.css) */
-      .scroll-hint { display: none; }
-    }
-    @media (max-width: 480px) {
-      .vp-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr; }
-      .hero h1 { font-size: 2rem; letter-spacing: -1px; }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .fade-up { opacity: 1; transform: none; transition: none; }
-      .scroll-line { animation: none; }
-    }
-
-    /* ── Inlined from nav-footer.css (was a separate blocking request) ── */
-    /* ═══════════════════════════════════════════════════════════
-       Sharpline Digital — Shared Nav & Footer Styles
-       Loaded on every page alongside /nav.html + /footer.html via
-       /includes.js. Edit colors/spacing here once; every page updates.
-
-       Requires each page to already define these CSS variables in
-       its own :root block (all Sharpline Digital pages currently do):
-       --teal, --teal-dark, --navy, --navy-mid, --navy-deep, --white,
-       --off-white, --muted, --text-dark, --text-mid, --border
-       ═══════════════════════════════════════════════════════════ */
-
-    :root { --flag-red: #D52B1E; }
-
-    /* ─── NAV: default = solid, sticky (safe for every inner page) ─── */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.1rem 2.5rem;
-      background: var(--navy);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .nav-logo {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 1.3rem;
-      color: var(--teal);
-      letter-spacing: -0.5px;
-      text-decoration: none;
-    }
-    .nav-logo span { color: var(--white); }
-    .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-      row-gap: 0.6rem;
-      gap: 2rem;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links a {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.88rem;
-      text-decoration: none;
-      font-weight: 400;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--teal); }
-    .nav-links a.active { color: var(--teal); }
-    .nav-cta {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.4);
-      padding: 0.5rem 1.3rem;
-      border-radius: 4px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 0.85rem;
-      font-weight: 400;
-      text-decoration: none;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: var(--white);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.2rem 0.4rem;
-    }
-
-    /* ─── NAV: minimal variant — logo + "back to home" only.
-       Used on conversion-focused pages (e.g. quote.html) where a full
-       nav would distract from the form. Opt in via nav-minimal.html. ─── */
-    .nav-back {
-      color: var(--muted);
-      font-size: 0.85rem;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: color 0.2s;
-    }
-    .nav-back:hover { color: var(--teal); }
-
-    /* ─── NAV: hero variant — transparent-over-hero, solidifies on scroll.
-       Opt in by adding class="has-hero" to <body> (homepage, city pages). ─── */
-    .has-hero .nav {
-      background: transparent;
-      position: absolute;
-      top: 0; left: 0; right: 0;
-    }
-
-    /* ─── FOOTER ─── */
-    .footer {
-      background: var(--navy-deep);
-      padding: 2rem 2.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .footer-logo {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 1.1rem;
-      color: var(--teal);
-    }
-    .footer-logo span { color: var(--white); }
-    .footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
-
-    /* Canadian flag — inline SVG so it renders identically on every OS.
-       (The 🇨🇦 emoji does NOT render as a flag on Windows — shows "CA".) */
-    .flag-ca {
-      width: 20px;
-      height: 10px;
-      vertical-align: -1px;
-      margin-right: 0.5rem;
-      border-radius: 1px;
-      flex-shrink: 0;
-    }
-    .footer-links { display: flex; gap: 1.5rem; }
-    .footer-links a {
-      font-size: 0.78rem;
-      color: #8aa5bd;
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-links a:hover { color: var(--teal); }
-
-    /* ─── AREAS WE SERVE STRIP ─── */
-    .areas-serve {
-      background: var(--navy-deep);
-      padding: 0 2.5rem 1.8rem;
-      text-align: center;
-    }
-    .areas-serve p {
-      font-size: 0.78rem;
-      color: #8aa5bd;
-      letter-spacing: 0.5px;
-      margin: 0;
-    }
-    .areas-serve a {
-      color: var(--teal);
-      text-decoration: underline;
-      text-underline-offset: 2px;
-    }
-    .areas-serve a:hover { color: var(--white); }
-
-    /* ─── LABS STRIP — quiet mention of side projects, sits below areas-serve ─── */
-    .labs-strip {
-      background: var(--navy-deep);
-      padding: 0 2.5rem 1.8rem;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      margin-top: -0.6rem;
-      padding-top: 0.8rem;
-    }
-    .labs-strip p {
-      font-size: 0.72rem;
-      color: #7f9bb3;
-      margin: 0;
-    }
-    .labs-strip a {
-      color: #7f9bb3;
-      text-decoration: underline;
-      text-underline-offset: 2px;
-      transition: color 0.2s;
-    }
-    .labs-strip a:hover { color: var(--teal); }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 768px) {
-      .nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
-      .nav-toggle { display: block; }
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: fixed;
-        top: 0; left: 0; right: 0; bottom: 0;
-        background: var(--navy-deep);
-        padding: 5rem 2rem 2rem;
-        gap: 1.5rem;
-        z-index: 99;
-      }
-      .nav-links.open a { font-size: 1.2rem; }
-      .nav-links.open { justify-content: flex-start; flex-wrap: nowrap; overflow-y: auto; }
-      /* The scroll script adds a blur to the floating nav; that blur traps the
-         full-screen menu inside the short nav bar. The nav is 97% opaque, so
-         the blur isn't visible anyway — switch it off. */
-      .has-hero .nav { backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-      .nav-toggle { position: relative; z-index: 101; }
-      .footer { flex-direction: column; text-align: center; }
-    }
-  </style>
+  .login-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .login-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 36px; width: 100%; max-width: 360px;
+  }
+  .login-card h1 { text-align: center; margin-bottom: 4px; }
+  .login-card .subtitle { text-align: center; margin-bottom: 24px; }
+  .login-card .field { margin-bottom: 12px; }
+  .login-card button { width: 100%; margin-top: 6px; }
+  .login-toggle { text-align: center; margin-top: 16px; font-size: 13px; color: var(--ink-soft); }
+  .login-toggle a { color: var(--sage-dark); cursor: pointer; text-decoration: underline; }
+  .login-error { color: var(--danger); font-size: 13px; margin-top: 8px; min-height: 16px; }
+  .hidden { display: none !important; }
+</style>
 </head>
-<body class="has-hero">
+<body>
 
-  <!-- NAV (baked in by build.py from /nav.html — do not hand-edit here, edit nav.html and rebuild) -->
-  <nav class="nav" id="mainNav">
-  <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="/#services">Why Sharpline</a></li>
-    <li><a href="/#packages">Packages</a></li>
-    <li><a href="/portfolio.html">Our Work</a></li>
-    <li><a href="/insights.html">Insights</a></li>
-    <li><a href="/labs/north-wire">North Wire beta</a></li>
-    <li><a href="/#contact">Contact</a></li>
-  </ul>
-  <a href="/quote.html" class="nav-cta">Let's talk</a>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
-</nav>
-
-  <main>
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-eyebrow">Chilliwack &middot; Fraser Valley &middot; British Columbia</div>
-      <h1>Built different.<br><em>Owned by you.</em></h1>
-      <p class="hero-body">
-        Most web shops build on platforms that hold your site hostage.<br>
-        <strong>We write clean custom code for small businesses in Chilliwack, Abbotsford, and across the Fraser Valley</strong> &mdash; hand you the keys, and stay as involved as you need.
-      </p>
-      <div class="hero-btns">
-        <a href="#packages" class="btn-primary">See our packages</a>
-        <a href="/quote.html" class="btn-ghost">Let's talk</a>
-      </div>
-    </div>
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
-    </div>
-  </section>
-
-  <!-- INTRO STRIP -->
-  <section class="intro-strip">
-    <div class="intro-inner">
-      <div>
-        <h2 class="intro-headline">Your website is an asset.<br><em>Treat it like one.</em></h2>
-        <p class="intro-body">
-          We build custom websites for small businesses in Chilliwack, Abbotsford, Mission, Langley, Aldergrove, Maple Ridge, and across the Fraser Valley &mdash; clean code, no page builders, no platform lock-in.
-          When the project's done, <strong>your GitHub repo is yours outright.</strong>
-          Take it anywhere. We stay as involved as you want.
-        </p>
-      </div>
-      <div class="intro-stats">
-        <div class="intro-stat">
-          <div class="stat-num">5-page</div>
-          <div class="stat-label">Base builds &mdash; Home, About, Services, Contact + one more of your choosing</div>
-        </div>
-        <div class="intro-stat">
-          <div class="stat-num">$200<small style="font-size:0.5em;font-weight:400">/mo +GST</small></div>
-          <div class="stat-label">Fully managed maintenance &mdash; cancel anytime, 30 days notice</div>
-        </div>
-        <div class="intro-stat">
-          <div class="stat-num">100%</div>
-          <div class="stat-label">Code ownership &mdash; your GitHub repo, your asset, forever</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY SHARPLINE -->
-  <section class="why-section" id="services">
-    <div class="container">
-      <div class="section-label">Why Sharpline</div>
-      <h2 class="section-title">No lock-in. No surprises.</h2>
-      <p class="section-sub">We understand what drives small businesses &mdash; and we build accordingly.</p>
-      <div class="vp-grid">
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128279;</div>
-          <h3>You own your code</h3>
-          <p>Every site is delivered via GitHub. Your repo, your asset. No platform dependency &mdash; ever.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128188;</div>
-          <h3>Real business experience</h3>
-          <p>We understand what drives small businesses &mdash; not just how to make things look good online. That's also why we built <a href="https://503020.ca" style="color:var(--teal-dark);">a set of free Canadian budgeting tools</a>, drawing on 28 years in banking and financial planning.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128205;</div>
-          <h3>Local BC presence</h3>
-          <p>Based in Chilliwack, BC. We serve businesses across the Fraser Valley &mdash; Abbotsford, Mission, Langley, and beyond. Same timezone, reachable by phone, invested in your success.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128241;</div>
-          <h3>Mobile-first builds</h3>
-          <p>Built for the phone first &mdash; because that's how your customers find you.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#128722;</div>
-          <h3>E-commerce ready</h3>
-          <p>Need to sell online? Full e-stores and payment gateways available as an add-on.</p>
-        </div>
-        <div class="vp-card fade-up">
-          <div class="vp-icon">&#9881;</div>
-          <h3>Flexible involvement</h3>
-          <p>From a clean one-time build to fully managed monthly support &mdash; you choose your level.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PACKAGES -->
-  <section class="packages-section" id="packages">
-    <div class="container">
-      <div class="section-label" style="color:var(--teal)">Packages</div>
-      <h2 class="section-title light">Choose your level of involvement</h2>
-      <p class="section-sub light">All packages include a custom 5-page site, clean code, and your GitHub repo. You provide copy and photography.</p>
-      <div class="pkg-grid">
-
-        <div class="pkg-card fade-up">
-          <div class="pkg-name">Build &amp; Go</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $2,500 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,500 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">We build it, hand it off, you're done. Full GitHub repo delivered &mdash; take it anywhere you like.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
-            <li><span class="pkg-check">&#10003;</span> GitHub repo &mdash; yours outright</li>
-            <li><span class="pkg-check">&#10003;</span> Mobile-first responsive design</li>
-            <li><span class="pkg-check">&#10003;</span> 30-day post-launch support</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Relax</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $3,200 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,920 <span>one-time</span></div>
-          <div class="pkg-gst">+GST &mdash; our most popular choice<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">Build + hosting for year one + minor revisions for 6 months while your business finds its footing.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting included</li>
-            <li><span class="pkg-check">&#10003;</span> Revisions under 1hr for 6 months</li>
-            <li><span class="pkg-check">&#10003;</span> Ideal for new businesses</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card fade-up">
-          <div class="pkg-name">Build &amp; Host</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $2,750 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,650 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">Custom build plus we handle hosting for year one &mdash; no server setup, no headaches.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting managed for you</li>
-            <li><span class="pkg-check">&#10003;</span> Domain setup assistance</li>
-            <li><span class="pkg-check">&#10003;</span> SSL certificate included</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Maintain</div>
-          <div class="pkg-price">$200 <span>/ month</span></div>
-          <div class="pkg-gst">+GST &mdash; cancel anytime, 30 days notice</div>
-          <p class="pkg-desc">We handle everything ongoing. Up to 3 hrs/month of updates, security, and priority support.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Up to 3 hours of updates per month</li>
-            <li><span class="pkg-check">&#10003;</span> Security &amp; backups managed</li>
-            <li><span class="pkg-check">&#10003;</span> Priority support response</li>
-            <li><span class="pkg-check">&#10003;</span> No long-term contract</li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- ADD-ONS -->
-  <section class="addons-section">
-    <div class="container">
-      <div class="section-label">Add-Ons</div>
-      <h2 class="section-title">Need a little more?</h2>
-      <div class="addons-grid">
-        <div class="addon-item fade-up">
-          <h3>Additional pages</h3>
-          <p>Beyond your base 5 &mdash; blog, gallery, team, FAQ, anything you need.</p>
-          <div class="addon-price">$200&ndash;$250 +GST per page</div>
-        </div>
-        <div class="addon-item fade-up">
-          <h3>E-commerce store</h3>
-          <p>Full online store with cart, checkout, and payment gateway setup.</p>
-          <div class="addon-price">From $800 +GST</div>
-        </div>
-        <div class="addon-item fade-up">
-          <h3>Data capture &amp; forms</h3>
-          <p>Lead forms, quote requests, newsletter signups, CRM integration.</p>
-          <div class="addon-price">From $150 +GST</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PROCESS -->
-  <section class="process-section" id="process">
-    <div class="container">
-      <div class="section-label">How It Works</div>
-      <h2 class="section-title">From quote to launch in weeks, not months.</h2>
-      <p class="section-sub">We keep it straightforward. Four steps, clear expectations, no surprises.</p>
-      <div class="steps-grid">
-        <div class="step fade-up">
-          <div class="step-num">1</div>
-          <h3>Discovery call</h3>
-          <p>We learn your business, your goals, and what success looks like for your website.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">2</div>
-          <h3>You send content</h3>
-          <p>Provide your copy and photography &mdash; we handle everything else from there.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">3</div>
-          <h3>We build &amp; review</h3>
-          <p>A clean custom build, your feedback, revisions until it feels exactly right.</p>
-        </div>
-        <div class="step fade-up">
-          <div class="step-num">4</div>
-          <h3>Launch &amp; handoff</h3>
-          <p>Site goes live. Your GitHub repo is delivered. Choose your ongoing level of support.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SHARPLINE LABS — NORTH WIRE BETA TEASER -->
-  <section style="background:#f7f9f9; padding:56px 24px; text-align:center;">
-    <div style="max-width:640px; margin:0 auto;">
-      <span style="display:inline-block; font-family:'Outfit',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#106e5d; background:rgba(46,196,169,0.12); border:1px solid rgba(46,196,169,0.35); padding:5px 12px; border-radius:100px; margin-bottom:16px;">
-        Sharpline Labs
-      </span>
-      <h2 style="font-family:'Outfit',sans-serif; font-weight:800; font-size:26px; color:#0a1628; margin:0 0 12px;">
-        A tidier way to read reliable Canadian news
-      </h2>
-      <p style="font-family:'DM Sans',sans-serif; font-size:15.5px; color:#5c6b73; margin:0 0 24px; line-height:1.6;">
-        North Wire is a Canadian-curated news reader we've been developing in-house — deduplicated headlines, reliable sources, no ads. It's live and free to try during our beta.
-      </p>
-      <a href="/labs/north-wire" style="display:inline-block; background:#0a1628; color:#fff; font-family:'Outfit',sans-serif; font-weight:700; font-size:15px; text-decoration:none; padding:12px 24px; border-radius:8px;">
-        See the beta →
-      </a>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section" id="contact">
-    <h2>Ready when you are.</h2>
-    <p>No pressure, no pitch deck. Just a conversation about what your business needs.</p>
-    <a href="/quote.html" class="cta-btn">Let's talk</a>
-    <p class="cta-remote">Outside the Fraser Valley? We work remotely with small businesses across Canada.</p>
-  </section>
-  </main>
-
-  <!-- FOOTER (baked in by build.py from /footer.html — do not hand-edit here, edit footer.html and rebuild) -->
-  <footer class="footer">
-  <div class="footer-logo">Sharpline<span>Digital</span></div>
-  <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com &nbsp;&middot;&nbsp; 604-796-5557</p>
-  <div class="footer-links">
-    <a href="/#services">Why Sharpline</a>
-    <a href="/#packages">Packages</a>
-    <a href="/speed-test.html">Speed Test</a>
-    <a href="/#contact">Contact</a>
-    <a href="/privacy.html">Privacy</a>
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <h1 style="font-family:'DM Serif Display',serif; font-size:26px; font-weight:400;">Sharpline Prospects</h1>
+    <div class="subtitle">Sign in to your prospect list</div>
+    <div class="field"><label>Email</label><input id="loginEmail" type="email" autocomplete="username"></div>
+    <div class="field"><label>Password</label><input id="loginPassword" type="password" autocomplete="current-password"></div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-primary" id="loginBtn">Sign In</button>
+    <button class="btn-secondary" id="signupBtn">Create Account</button>
+    <div class="login-toggle">First time here? Use "Create Account" once, then Sign In from now on.</div>
   </div>
-</footer>
-
-<div class="areas-serve">
-  <p>
-    Web Design Areas We Serve:&nbsp;
-    <a href="/web-design-abbotsford.html">Abbotsford</a> &middot;
-    <a href="/web-design-aldergrove.html">Aldergrove</a> &middot;
-    <a href="/web-design-chilliwack.html">Chilliwack</a> &middot;
-    <a href="/web-design-hope.html">Hope</a> &middot;
-    <a href="/web-design-langley.html">Langley</a> &middot;
-    <a href="/web-design-maple-ridge.html">Maple Ridge</a> &middot;
-    <a href="/web-design-mission.html">Mission</a>
-  </p>
 </div>
 
-<div class="labs-strip">
-  <p>Also from Sharpline Labs: <a href="/labs/north-wire/">North Wire</a> — a Canadian news reader, in beta</p>
+<div class="app hidden" id="mainApp">
+  <header>
+    <div>
+      <h1>Sharpline Prospects</h1>
+      <div class="subtitle" id="countLabel">Loading…</div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="btn-secondary" id="logOutreachToggle">Log Outreach</button>
+      <button class="btn-secondary" id="exportBtn">Export CSV</button>
+      <button class="btn-secondary" id="importToggle">Import CSV</button>
+      <button class="btn-secondary" id="mergeAuditToggle">Merge Audits</button>
+      <button class="btn-secondary" id="trashToggle">Trash</button>
+      <button class="btn-primary" id="addBtn">+ Add Prospect</button>
+      <button class="btn-ghost" id="logoutBtn">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="import-box" id="logOutreachBox" style="display:none;">
+    <div class="hint">Paste the business names you just emailed, one per line. Each one gets its Date Contacted stamped and the note appended. Names must match what's in the tracker — anything that doesn't match gets listed, not silently skipped.</div>
+    <textarea id="logNamesInput" placeholder="Abbsry Tire&#10;Adventure RV Center&#10;Neels Heating &amp; Cooling"></textarea>
+    <div class="two-col" style="margin-top:10px;">
+      <div class="field"><label>Date Contacted</label><input id="logDate" type="date"></div>
+      <div class="field"><label>Set Status (optional)</label>
+        <select id="logStatus">
+          <option value="">Leave unchanged</option>
+          <option>Contacted</option><option>Follow-up</option><option>Hot</option>
+        </select>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Note to append</label><input id="logNote" placeholder="e-mailed #2 follow up"></div>
+      <div class="field"><label style="color:var(--danger);">Sequence Step ★ required</label>
+        <select id="logSeqStep" style="border-color:var(--danger);">
+          <option value="">— select a step —</option>
+          <option value="1">Set to 1 (Email #1 sent)</option>
+          <option value="2">Set to 2 (Email #2 sent)</option>
+          <option value="3">Set to 3 (Email #3 sent)</option>
+        </select>
+      </div>
+    </div>
+    <div id="logPreview" class="hint" style="margin-top:10px;"></div>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-secondary" id="checkLog">Check Names</button>
+      <button class="btn-primary" id="doLog">Apply Updates</button>
+      <button class="btn-ghost" id="cancelLog">Cancel</button>
+    </div>
+  </div>
+
+  <div class="import-box" id="importBox" style="display:none;">
+    <div class="hint">Paste CSV with headers: Business Name, City, Category, Website / URL, Phone, Contact Name, Email, Score, Status, Opportunities, Date Added, Date Contacted, Contacted, Notes. Missing columns are fine — matches your Export CSV format exactly. Rows whose Business Name already matches an existing prospect are skipped automatically.</div>
+    <textarea id="csvInput" placeholder="Paste your spreadsheet data here..."></textarea>
+    <div id="importPreview" class="hint" style="margin-top:10px;"></div>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-primary" id="doImport">Import Rows</button>
+      <button class="btn-ghost" id="cancelImport">Cancel</button>
+    </div>
+  </div>
+
+  <div class="import-box" id="mergeAuditBox" style="display:none;">
+    <div class="hint">Select one or more <code>*_audit.md</code> reports from website_audit.py. Each report's URL is matched against an existing prospect's Website / URL column (domain-only, so http/https/www differences don't matter) — matched reports only ever <strong>update</strong> that row, they never insert a new one, so matching can't create duplicates. Score is always refreshed to the latest audit. Email / Phone / City / Category are filled in only if currently blank. Two dated lines replace any earlier audit lines in Notes (your other notes are kept): the outreach-safe findings ("Audit:" — what email_generator.py uses), then the full technical list ("Internal (not for outreach):" — for your eyes only, never picked up by the generator). Reports that don't match anyone are listed below so you can add them as brand-new prospects — Business Name, City, and Category are pre-filled from the audit's guesses when available, otherwise from the domain, so check them before adding; duplicates are still blocked by business name.</div>
+    <input type="file" id="auditFiles" accept=".md,.txt" multiple style="margin-top:8px;">
+    <div id="auditPreview" class="hint" style="margin-top:10px;"></div>
+    <div id="unmatchedAuditRows" style="margin-top:10px;"></div>
+    <div style="margin-top:10px; display:flex; gap:8px;">
+      <button class="btn-secondary" id="checkAudits">Preview Matches</button>
+      <button class="btn-primary" id="doMergeAudits">Apply Merge</button>
+      <button class="btn-primary" id="doAddUnmatched" style="display:none;">Add Unmatched as New Prospects</button>
+      <button class="btn-ghost" id="cancelMergeAudits">Cancel</button>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <input class="search" type="text" id="searchInput" placeholder="Search business, city, contact, email, website, phone, sample site, notes...">
+    <select id="filterCity"><option value="">All cities</option></select>
+    <select id="filterCategory"><option value="">All categories</option></select>
+    <select id="filterStatus">
+      <option value="">All statuses</option>
+      <option value="__active__">Active (exclude Inactive / Not interested)</option>
+      <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option>Inactive</option>
+    </select>
+    <select id="filterContactAge">
+      <option value="">Any contact date</option>
+      <option value="never">Never contacted</option>
+      <option value="r7">Contacted in last 7 days</option>
+      <option value="7">Contacted 1+ week ago</option>
+      <option value="14">Contacted 2+ weeks ago</option>
+      <option value="21">Contacted 3+ weeks ago</option>
+      <option value="30">Contacted 30+ days ago</option>
+      <option value="60">Contacted 60+ days ago</option>
+    </select>
+    <select id="filterSeqStep">
+      <option value="">Any step</option>
+      <option value="0">Step 0 — not started</option>
+      <option value="1">Step 1 — #1 sent</option>
+      <option value="2">Step 2 — #2 sent</option>
+      <option value="3">Step 3 — #3 sent</option>
+    </select>
+    <select id="sortBy">
+      <option value="name">Name (A–Z)</option>
+      <option value="score_asc">Sharpline Score (low to high)</option>
+      <option value="score_desc">Sharpline Score (high to low)</option>
+      <option value="city">City (A–Z)</option>
+      <option value="category">Category (A–Z)</option>
+      <option value="status">Status (pipeline order)</option>
+      <option value="contactAge">Last contacted (oldest first)</option>
+      <option value="sampleSite">Sample site (has one first)</option>
+    </select>
+    <select id="filterEmail">
+      <option value="">Any email</option>
+      <option value="has">Has email</option>
+      <option value="no">No email</option>
+    </select>
+    <select id="filterSample">
+      <option value="">Any sample site</option>
+      <option value="has">Has sample site</option>
+      <option value="no">No sample site</option>
+    </select>
+    <button class="btn-secondary" id="clearFiltersBtn">Clear Filters</button>
+  </div>
+
+  <div class="import-box" id="bulkActionBar" style="display:none;">
+    <div class="hint" style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
+      <span id="bulkSelectedCount">0 selected</span>
+      <span style="display:flex; gap:8px; align-items:center;">
+        <select id="bulkStatusSelect">
+          <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option selected>Inactive</option>
+        </select>
+        <button class="btn-secondary" id="bulkClearSelection">Clear selection</button>
+        <button class="btn-primary" id="bulkApplyStatus">Set status</button>
+      </span>
+    </div>
+  </div>
+
+  <div id="listArea"></div>
 </div>
 
-  <script>
-    // Fade-up on scroll (homepage-specific, not part of shared nav/footer)
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
+<div class="overlay" id="overlay">
+  <div class="drawer">
+    <h2 id="drawerTitle">Add Prospect</h2>
+    <div class="field"><label>Business Name</label><input id="f_businessName"></div>
+    <div class="two-col">
+      <div class="field"><label>City</label>
+        <!-- Free text so any town can be entered (e.g. Kelowna); the datalist
+             still suggests the usual cities plus every city already in use. -->
+        <input id="f_city" list="cityList" placeholder="e.g. Chilliwack" autocomplete="off">
+        <datalist id="cityList"></datalist>
+      </div>
+      <div class="field"><label>Category</label>
+        <select id="f_category">
+          <option value="">Select a category…</option>
+          <option>Automotive</option><option>Bakery / Restaurant</option><option>Beauty Salons</option>
+          <option>Church / Religious Org</option><option>Education</option><option>Electricians</option>
+          <option>General Contractors</option><option>Gym / Fitness</option><option>HVAC</option><option>Medical</option>
+          <option>Non-profit</option><option>Retail</option><option>Roofing</option><option>Supplies</option><option>Other</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Website / URL</label><input id="f_website" placeholder="https://"></div>
+    <div class="field"><label>Sample Website (GitHub folder)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="f_sampleSite" placeholder="e.g. fehr-property" style="flex:1;">
+        <a id="f_sampleLink" href="#" target="_blank" rel="noopener" style="display:none; font-size:13px; white-space:nowrap;">Open ↗</a>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Phone</label><input id="f_phone"></div>
+      <div class="field"><label>Contact Name</label><input id="f_contactName"></div>
+    </div>
+    <div class="field"><label>Email</label><input id="f_email" type="email"></div>
+    <div class="field"><label>Sharpline Score (optional)</label>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input id="f_score" type="number" min="0" max="100" placeholder="e.g. 63" style="flex:1;">
+        <span id="f_gradePreview" style="min-width:26px; text-align:center;"></span>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Status</label>
+        <select id="f_status">
+          <option>New</option><option>Not contacted</option><option>Contacted</option><option>Hot</option><option>Follow-up</option><option>Won</option><option>Not interested</option><option>Inactive</option>
+        </select>
+      </div>
+      <div class="field"><label>Contacted</label>
+        <select id="f_contacted">
+          <option value="n">N</option>
+          <option value="y">Y</option>
+        </select>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="field"><label>Date Contacted</label><input id="f_dateContacted" type="date"></div>
+      <div class="field"><label>Sequence Step</label>
+        <select id="f_seqStep">
+          <option value="0">0 — Not started</option>
+          <option value="1">1 — Email #1 sent</option>
+          <option value="2">2 — Email #2 sent</option>
+          <option value="3">3 — Email #3 sent</option>
+        </select>
+      </div>
+    </div>
+    <div class="field"><label>Date Added</label><input id="f_dateAdded" type="date" disabled></div>
+    <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Anything else worth remembering..."></textarea></div>
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-  </script>
+    <div class="drawer-actions">
+      <button class="btn-danger" id="deleteBtn" style="display:none;">Move to Trash</button>
+      <div class="right">
+        <button class="btn-ghost" id="cancelBtn">Cancel</button>
+        <button class="btn-primary" id="saveBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <script src="/includes.js"></script>
+<!-- Delete confirmation modal: soft-delete only, so this is a lighter warning
+     than a true permanent-delete would need -->
+<div class="overlay center" id="deleteOverlay">
+  <div class="confirm-card">
+    <h2>Move to Trash?</h2>
+    <p><strong id="deleteBizName"></strong> will move to Trash and disappear from the main list. It's not permanently deleted — restore it any time from Trash.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="deleteCancelBtn">No, keep it</button>
+      <button class="btn-danger" id="deleteConfirmBtn">Move to Trash</button>
+    </div>
+  </div>
+</div>
+
+<!-- Trash panel: lists soft-deleted prospects with Restore / Delete Forever -->
+<div class="overlay center" id="trashOverlay">
+  <div class="confirm-card" style="max-width:640px; text-align:left;">
+    <h2>Trash</h2>
+    <p class="hint" style="margin:-4px 0 12px;">Moved here instead of the main list. Restore brings a prospect back exactly as it was. Delete Forever cannot be undone — there's no second trash behind this one.</p>
+    <div id="trashList" style="max-height:50vh; overflow-y:auto;"></div>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="trashCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Permanent-delete confirmation, one level below Trash -->
+<div class="overlay center" id="purgeOverlay">
+  <div class="confirm-card">
+    <h2>Delete forever?</h2>
+    <p>Permanently delete <strong id="purgeBizName"></strong>? This removes it from the database entirely and can't be undone or restored.</p>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="purgeCancelBtn">No, keep in Trash</button>
+      <button class="btn-danger" id="purgeConfirmBtn">Yes, delete forever</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let prospects = [];
+let editingId = null;
+let lastFiltered = [];
+let pendingDeleteId = null;
+let pendingPurgeId = null;
+let selectedIds = new Set();
+
+function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// ---- Auth ----
+
+function dbToApp(row) {
+  return {
+    id: row.id,
+    businessName: row.business_name,
+    city: row.city,
+    category: row.category,
+    website: row.website,
+    phone: row.phone,
+    contactName: row.contact_name,
+    email: row.email,
+    score: row.score,
+    status: row.status,
+    dateContacted: row.date_contacted || '',
+    dateAdded: row.date_added,
+    notes: row.notes,
+    opportunities: row.opportunities || [],
+    contacted: !!row.contacted,
+    seqStep: row.seq_step ?? 0,
+    sampleSite: row.sample_site || '',
+    deletedAt: row.deleted_at || null
+  };
+}
+
+function appToDb(p) {
+  return {
+    business_name: p.businessName,
+    city: p.city,
+    category: p.category,
+    website: p.website,
+    phone: p.phone,
+    contact_name: p.contactName,
+    email: p.email,
+    score: p.score,
+    status: p.status,
+    date_contacted: p.dateContacted || null,
+    date_added: p.dateAdded,
+    notes: p.notes,
+    opportunities: p.opportunities,
+    contacted: !!p.contacted,
+    seq_step: p.seqStep ?? 0,
+    sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null)
+  };
+}
+
+async function checkSession() {
+  const { data } = await sb.auth.getSession();
+  if (data.session) {
+    showApp();
+  } else {
+    showLogin();
+  }
+}
+
+function showLogin() {
+  document.getElementById('loginScreen').classList.remove('hidden');
+  document.getElementById('mainApp').classList.add('hidden');
+}
+
+async function showApp() {
+  document.getElementById('loginScreen').classList.add('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  await loadProspects();
+}
+
+document.getElementById('loginBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) { errEl.textContent = error.message; return; }
+  showApp();
+});
+
+document.getElementById('signupBtn').addEventListener('click', async () => {
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const errEl = document.getElementById('loginError');
+  errEl.textContent = '';
+  if (!email || password.length < 6) {
+    errEl.textContent = 'Enter an email and a password of at least 6 characters.';
+    return;
+  }
+  const { error } = await sb.auth.signUp({ email, password });
+  if (error) { errEl.textContent = error.message; return; }
+  errEl.style.color = 'var(--sage-dark)';
+  errEl.textContent = 'Account created. Check your email to confirm, then sign in.';
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+  await sb.auth.signOut();
+  prospects = [];
+  showLogin();
+});
+
+// ---- Data ----
+
+async function loadProspects() {
+  // Active view only ever shows non-deleted rows. Soft-deleted rows still
+  // exist in the table (deleted_at set) and are queried separately by
+  // loadTrash() for the Trash panel.
+  const { data, error } = await sb.from('prospects').select('*').is('deleted_at', null);
+  if (error) { showToast('Load failed: ' + error.message); return; }
+  prospects = (data || []).map(dbToApp);
+  render();
+}
+
+function letterGrade(score) {
+  if (score === null || score === undefined || score === '') return null;
+  if (score >= 90) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 55) return 'C';
+  if (score >= 35) return 'D';
+  return 'F';
+}
+
+function gradeBadge(score) {
+  const g = letterGrade(score);
+  if (!g) return `<div class="grade-none">—</div>`;
+  return `<div class="grade-pill grade-${g}">${g}</div>`;
+}
+
+function scoreColor(score) {
+  if (score === null || score === undefined || score === '') return null;
+  // inverted: low score (hot prospect) = red/hot, high score (skip) = sage/cool
+  if (score < 40) return getComputedStyle(document.documentElement).getPropertyValue('--hot');
+  if (score < 70) return getComputedStyle(document.documentElement).getPropertyValue('--warm');
+  return getComputedStyle(document.documentElement).getPropertyValue('--cool');
+}
+
+function ringSVG(score) {
+  if (score === null || score === undefined || score === '') {
+    return `<div class="no-score">n/a</div>`;
+  }
+  const r = 16, c = 2 * Math.PI * r;
+  const pct = Math.max(0, Math.min(100, score)) / 100;
+  const offset = c * (1 - pct);
+  const color = scoreColor(score);
+  return `
+    <div class="ring-wrap">
+      <svg width="40" height="40">
+        <circle cx="20" cy="20" r="${r}" fill="none" stroke="var(--border)" stroke-width="4"/>
+        <circle cx="20" cy="20" r="${r}" fill="none" stroke="${color}" stroke-width="4"
+          stroke-dasharray="${c}" stroke-dashoffset="${offset}" stroke-linecap="round"/>
+      </svg>
+      <div class="ring-score">${score}</div>
+    </div>`;
+}
+
+// ---- Contact-date age helpers ----
+
+// Parse 'YYYY-MM-DD' as LOCAL midnight. Using new Date('2026-07-23') would parse as
+// UTC and read back as the previous day in Pacific time — an off-by-one on every row.
+function parseLocalDate(str) {
+  if (!str) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(str).trim());
+  if (!m) return null;
+  const d = new Date(+m[1], +m[2] - 1, +m[3]);
+  return isNaN(d) ? null : d;
+}
+
+// Whole days between Date Contacted and today. Returns null if there's no date on record.
+function daysSinceContact(p) {
+  const d = parseLocalDate(p.dateContacted);
+  if (!d) return null;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.floor((today - d) / 86400000);
+}
+
+function seqBadge(step) {
+  const s = step ?? 0;
+  const labels = ['–', '#1', '#2', '#3'];
+  const label = labels[s] || `#${s}`;
+  return `<span class="seq-badge seq-${Math.min(s,3)}" title="Sequence step ${s}">${label}</span>`;
+}
+
+function contactAgeLabel(p) {
+  const days = daysSinceContact(p);
+  if (days === null) {
+    return p.contacted ? `<div class="contact-age">contacted · no date</div>` : '';
+  }
+  let cls = '';
+  if (days >= 21) cls = ' overdue';
+  else if (days >= 14) cls = ' due';
+  const when = days <= 0 ? 'today' : days === 1 ? 'yesterday' : `${days}d ago`;
+  return `<div class="contact-age${cls}">last contact ${when}</div>`;
+}
+
+function populateFilters() {
+  const cities = [...new Set(prospects.map(p => p.city).filter(Boolean))].sort();
+  const categories = [...new Set(prospects.map(p => p.category).filter(Boolean))].sort();
+  const blankCatCount = prospects.filter(p => !p.category).length;
+  const cityFilter = document.getElementById('filterCity');
+  const catFilter = document.getElementById('filterCategory');
+  const curCity = cityFilter.value, curCat = catFilter.value;
+  cityFilter.innerHTML = '<option value="">All cities</option>' + cities.map(c => `<option>${c}</option>`).join('');
+  // "__blank__" is a sentinel that can't collide with a real category name —
+  // used to filter down to rows with no Category set at all (pre-this-change
+  // saves, CSV imports missing the column, etc.) so they're easy to find and fix.
+  catFilter.innerHTML = '<option value="">All categories</option>' +
+    (blankCatCount ? `<option value="__blank__">No category (${blankCatCount})</option>` : '') +
+    categories.map(c => `<option>${c}</option>`).join('');
+  cityFilter.value = curCity; catFilter.value = curCat;
+}
+
+function render() {
+  populateFilters();
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cityF = document.getElementById('filterCity').value;
+  const catF = document.getElementById('filterCategory').value;
+  const statusF = document.getElementById('filterStatus').value;
+  const ageF = document.getElementById('filterContactAge').value;
+  const seqF = document.getElementById('filterSeqStep').value;
+  const emailF = document.getElementById('filterEmail').value;
+
+  let filtered = prospects.filter(p => {
+    if (cityF && p.city !== cityF) return false;
+    if (catF === '__blank__') { if (p.category) return false; }
+    else if (catF && p.category !== catF) return false;
+    if (statusF === '__active__') { if (p.status === 'Inactive' || p.status === 'Not interested') return false; }
+    else if (statusF && p.status !== statusF) return false;
+    if (ageF) {
+      const days = daysSinceContact(p);
+      if (ageF === 'never') {
+        // No date on record — never reached out, or reached out without logging a date.
+        if (days !== null) return false;
+      } else if (ageF === 'r7') {
+        if (days === null || days > 7) return false;
+      } else {
+        // Numeric options are a floor: "21" means 21 days or more since last contact.
+        const min = parseInt(ageF, 10);
+        if (days === null || days < min) return false;
+      }
+    }
+    if (search) {
+      const hay = [p.businessName, p.city, p.category, p.contactName, p.email, p.website, p.phone, p.sampleSite, p.notes].join(' ').toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    if (seqF !== '') {
+      if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
+    }
+    const hasEmail = !!(p.email && p.email.trim());
+    if (emailF === 'has' && !hasEmail) return false;
+    if (emailF === 'no' && hasEmail) return false;
+    const sampleF = document.getElementById('filterSample').value;
+    const hasSample = !!(p.sampleSite && p.sampleSite.trim());
+    if (sampleF === 'has' && !hasSample) return false;
+    if (sampleF === 'no' && hasSample) return false;
+    return true;
+  });
+
+  const sortBy = document.getElementById('sortBy').value;
+  if (sortBy === 'score_asc' || sortBy === 'score_desc') {
+    // Entries with no score always go last, regardless of direction.
+    const dir = sortBy === 'score_asc' ? 1 : -1;
+    filtered.sort((a, b) => {
+      const aNull = a.score === null || a.score === undefined;
+      const bNull = b.score === null || b.score === undefined;
+      if (aNull && bNull) return 0;
+      if (aNull) return 1;
+      if (bNull) return -1;
+      return (a.score - b.score) * dir;
+    });
+  } else if (sortBy === 'city') {
+    // A-Z by city, blanks last, name as tiebreaker
+    filtered.sort((a, b) => {
+      const ac = a.city || '', bc = b.city || '';
+      if (!ac && bc) return 1;
+      if (ac && !bc) return -1;
+      const cmp = ac.localeCompare(bc);
+      return cmp !== 0 ? cmp : (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'category') {
+    // A-Z by category, blanks last, name as tiebreaker
+    filtered.sort((a, b) => {
+      const ac = a.category || '', bc = b.category || '';
+      if (!ac && bc) return 1;
+      if (ac && !bc) return -1;
+      const cmp = ac.localeCompare(bc);
+      return cmp !== 0 ? cmp : (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'contactAge') {
+    // Stalest contact first. Prospects with no date go to the bottom.
+    filtered.sort((a, b) => {
+      const ad = daysSinceContact(a), bd = daysSinceContact(b);
+      const av = ad === null ? -Infinity : ad;
+      const bv = bd === null ? -Infinity : bd;
+      if (av !== bv) return bv - av;
+      return (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'sampleSite') {
+    // Prospects with a sample site first, then alphabetical within each group
+    filtered.sort((a, b) => {
+      const aHas = !!(a.sampleSite && a.sampleSite.trim());
+      const bHas = !!(b.sampleSite && b.sampleSite.trim());
+      if (aHas !== bHas) return aHas ? -1 : 1;
+      return (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'status') {
+    // Pipeline order: New -> Not contacted -> Contacted -> Hot -> Follow-up -> Won -> Not interested, blanks last
+    const statusOrder = { 'New': 0, 'Not contacted': 1, 'Contacted': 2, 'Hot': 3, 'Follow-up': 4, 'Won': 5, 'Not interested': 6, 'Inactive': 7 };
+    filtered.sort((a, b) => {
+      const ar = statusOrder[a.status] ?? 99;
+      const br = statusOrder[b.status] ?? 99;
+      return ar !== br ? ar - br : (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else {
+    filtered.sort((a, b) => (a.businessName || '').localeCompare(b.businessName || ''));
+  }
+
+  document.getElementById('countLabel').textContent =
+    `${prospects.length} prospect${prospects.length === 1 ? '' : 's'} tracked` +
+    (filtered.length !== prospects.length ? ` · ${filtered.length} shown` : '');
+
+  lastFiltered = filtered;
+
+  const listArea = document.getElementById('listArea');
+  if (prospects.length === 0) {
+    listArea.innerHTML = `<div class="empty"><h2>No prospects yet</h2><p>Add your first one, or import from a CSV.</p></div>`;
+    return;
+  }
+  if (filtered.length === 0) {
+    listArea.innerHTML = `<div class="empty"><p>Nothing matches those filters.</p></div>`;
+    return;
+  }
+
+  listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
+    <div class="row ${p.status === 'Hot' ? 'row-hot' : ''}" data-id="${p.id}">
+      <input type="checkbox" class="row-select" data-id="${p.id}" ${selectedIds.has(p.id) ? 'checked' : ''} style="margin-right:8px;">
+      <div class="row-num">${idx + 1}</div>
+      ${ringSVG(p.score)}
+      <div>
+        <div class="biz-name${p.status === 'Not interested' ? ' not-interested' : ''}">${escapeHtml(p.businessName || 'Untitled')}</div>
+        <div class="biz-meta">${escapeHtml(p.phone || '')}${p.phone && p.email ? ' · ' : ''}${escapeHtml(p.email || '')}</div>
+        ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a></div>` : ''}
+        ${contactAgeLabel(p)}
+      </div>
+      <div class="col-city">${escapeHtml(p.city || '')}</div>
+      <div class="col-category">${escapeHtml(p.category || '')}</div>
+      <div class="col-grade">${gradeBadge(p.score)}</div>
+      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span> ${seqBadge(p.seqStep)}</div>
+      <div class="row-actions">
+        <button class="contacted-toggle ${p.contacted ? 'is-yes' : 'is-no'}" data-id="${p.id}" data-contacted="${p.contacted ? '1' : '0'}" title="Contacted? Click to toggle">${p.contacted ? 'Y' : 'N'}</button>
+      </div>
+    </div>
+  `).join('') + `</div>`;
+
+  listArea.querySelectorAll('.row').forEach(row => {
+    row.addEventListener('click', () => openDrawer(row.dataset.id));
+  });
+
+  listArea.querySelectorAll('.row-select').forEach(cb => {
+    cb.addEventListener('click', (e) => e.stopPropagation());
+    cb.addEventListener('change', () => {
+      const id = cb.dataset.id;
+      if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
+      updateBulkActionBar();
+    });
+  });
+
+  listArea.querySelectorAll('.sample-link').forEach(a => {
+    a.addEventListener('click', (e) => e.stopPropagation());
+  });
+
+  listArea.querySelectorAll('.contacted-toggle').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.id;
+      const current = btn.dataset.contacted === '1';
+      toggleContacted(id, current);
+    });
+  });
+
+  updateBulkActionBar();
+}
+
+function updateBulkActionBar() {
+  const bar = document.getElementById('bulkActionBar');
+  const count = selectedIds.size;
+  bar.style.display = count > 0 ? 'block' : 'none';
+  document.getElementById('bulkSelectedCount').textContent = `${count} selected`;
+}
+
+async function bulkApplyStatus() {
+  if (!selectedIds.size) return;
+  const ids = [...selectedIds];
+  const status = document.getElementById('bulkStatusSelect').value;
+  const btn = document.getElementById('bulkApplyStatus');
+  btn.disabled = true;
+  btn.textContent = 'Updating…';
+  const { error } = await sb.from('prospects').update({ status }).in('id', ids);
+  btn.disabled = false;
+  btn.textContent = 'Set status';
+  if (error) {
+    showToast(`Failed to update: ${error.message}`);
+    return;
+  }
+  showToast(`Set ${ids.length} prospect${ids.length === 1 ? '' : 's'} to "${status}"`);
+  selectedIds.clear();
+  await loadProspects();
+}
+
+document.getElementById('bulkApplyStatus').addEventListener('click', bulkApplyStatus);
+document.getElementById('bulkClearSelection').addEventListener('click', () => {
+  selectedIds.clear();
+  render();
+});
+
+async function toggleContacted(id, current) {
+  const newVal = !current;
+  const { error } = await sb.from('prospects').update({ contacted: newVal }).eq('id', id);
+  if (error) { showToast('Update failed: ' + error.message); return; }
+  const p = prospects.find(x => x.id === id);
+  if (p) p.contacted = newVal;
+  render();
+  showToast(newVal ? 'Marked contacted' : 'Marked not contacted');
+}
+
+// Sample sites live in the sharpline-emergence/previews GitHub Pages repo, one folder per prospect.
+function sampleUrl(folder) {
+  return 'https://sharpline-emergence.github.io/previews/' + encodeURIComponent(folder.trim().replace(/^\/+|\/+$/g, '')) + '/';
+}
+
+function updateSampleLink() {
+  const v = document.getElementById('f_sampleSite').value.trim();
+  const a = document.getElementById('f_sampleLink');
+  a.style.display = v ? 'inline' : 'none';
+  if (v) a.href = sampleUrl(v);
+}
+
+function escapeHtml(str) {
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+// Keep in sync with the static markup above. "Other" always sorts last.
+// Renamed "Restaurant" -> "Bakery / Restaurant" per Peter's category list;
+// legacy rows already saved as "Restaurant" still display fine (see the
+// insert-if-unknown logic below), they just won't match this option going
+// forward — re-save them from the drawer to move them onto the new name.
+const BASE_CATEGORIES = ['Automotive', 'Bakery / Restaurant', 'Beauty Salons', 'Church / Religious Org', 'Education', 'Electricians', 'General Contractors', 'Gym / Fitness', 'HVAC', 'Medical', 'Non-profit', 'Retail', 'Roofing', 'Supplies'];
+
+// Rebuilds the category dropdown fresh each time. If the prospect's stored category
+// isn't one of the known options (legacy data, CSV import with different casing, etc.),
+// it gets inserted so it displays correctly instead of silently reading back as empty.
+// No default is selected when there's no existing value — Category is a required
+// field (see saveCurrent), so leaving it blank forces an actual choice instead of
+// everything silently landing in one category.
+function populateCategorySelect(selected) {
+  const sel = document.getElementById('f_category');
+  let opts = [...BASE_CATEGORIES];
+  if (selected && selected !== 'Other' && !opts.includes(selected)) opts.push(selected);
+  opts.sort((a, b) => a.localeCompare(b));
+  opts.push('Other');
+  sel.innerHTML = '<option value="">Select a category…</option>' +
+    opts.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join('');
+  sel.value = selected || '';
+}
+
+function openDrawer(id) {
+  editingId = id || null;
+  const p = id ? prospects.find(x => x.id === id) : null;
+  document.getElementById('drawerTitle').textContent = p ? 'Edit Prospect' : 'Add Prospect';
+  document.getElementById('deleteBtn').style.display = p ? 'inline-block' : 'none';
+
+  document.getElementById('f_businessName').value = p?.businessName || '';
+  const baseCities = ['Abbotsford', 'Aldergrove', 'Chilliwack', 'Hope', 'Langley', 'Maple Ridge', 'Mission'];
+  const knownCities = [...new Set([...baseCities, ...prospects.map(x => x.city).filter(Boolean)])].sort();
+  document.getElementById('cityList').innerHTML = knownCities.map(c => `<option value="${escapeHtml(c)}">`).join('');
+  document.getElementById('f_city').value = p?.city || '';
+  populateCategorySelect(p?.category);
+  document.getElementById('f_website').value = p?.website || '';
+  document.getElementById('f_phone').value = p?.phone || '';
+  document.getElementById('f_contactName').value = p?.contactName || '';
+  document.getElementById('f_email').value = p?.email || '';
+  document.getElementById('f_sampleSite').value = p?.sampleSite || '';
+  updateSampleLink();
+  document.getElementById('f_score').value = p?.score ?? '';
+  updateGradePreview();
+  document.getElementById('f_status').value = p?.status || 'New';
+  document.getElementById('f_contacted').value = p?.contacted ? 'y' : 'n';
+  document.getElementById('f_dateContacted').value = p?.dateContacted || '';
+  document.getElementById('f_seqStep').value = p?.seqStep ?? 0;
+  document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
+  document.getElementById('f_notes').value = p?.notes || '';
+
+  const opps = p?.opportunities || [];
+  document.querySelectorAll('.check-row input').forEach(cb => {
+    cb.checked = opps.includes(cb.value);
+  });
+
+  document.getElementById('overlay').classList.add('open');
+}
+
+function closeDrawer() {
+  document.getElementById('overlay').classList.remove('open');
+  editingId = null;
+}
+
+async function saveCurrent() {
+  const businessName = document.getElementById('f_businessName').value.trim();
+  if (!businessName) { showToast('Business name is required'); return; }
+
+  const category = document.getElementById('f_category').value;
+  if (!category) { showToast('Pick a category before saving'); return; }
+
+  const opportunities = [...document.querySelectorAll('.check-row input:checked')].map(cb => cb.value);
+  const scoreRaw = document.getElementById('f_score').value;
+
+  const data = {
+    businessName,
+    city: document.getElementById('f_city').value.trim(),
+    category,
+    website: document.getElementById('f_website').value.trim(),
+    phone: document.getElementById('f_phone').value.trim(),
+    contactName: document.getElementById('f_contactName').value.trim(),
+    email: document.getElementById('f_email').value.trim(),
+    sampleSite: document.getElementById('f_sampleSite').value.trim(),
+    score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
+    status: document.getElementById('f_status').value,
+    contacted: document.getElementById('f_contacted').value === 'y',
+    dateContacted: document.getElementById('f_dateContacted').value,
+    seqStep: parseInt(document.getElementById('f_seqStep').value, 10) || 0,
+    dateAdded: document.getElementById('f_dateAdded').value || new Date().toISOString().slice(0,10),
+    notes: document.getElementById('f_notes').value.trim(),
+    opportunities
+  };
+
+  if (editingId) {
+    const { error } = await sb.from('prospects').update(appToDb(data)).eq('id', editingId);
+    if (error) { showToast('Save failed: ' + error.message); return; }
+  } else {
+    const { error } = await sb.from('prospects').insert(appToDb(data));
+    if (error) { showToast('Save failed: ' + error.message); return; }
+  }
+  await loadProspects();
+  closeDrawer();
+  showToast(editingId ? 'Prospect updated' : 'Prospect added');
+}
+
+// ---- Delete with type-to-confirm safety check ----
+
+// ---- Delete = soft delete (moves to Trash, never removed from the table) ----
+
+function openDeleteConfirm() {
+  if (!editingId) return;
+  const p = prospects.find(x => x.id === editingId);
+  if (!p) return;
+  pendingDeleteId = editingId;
+  document.getElementById('deleteBizName').textContent = p.businessName || 'this prospect';
+  document.getElementById('deleteOverlay').classList.add('open');
+}
+
+function closeDeleteConfirm() {
+  document.getElementById('deleteOverlay').classList.remove('open');
+  pendingDeleteId = null;
+}
+
+async function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const { error } = await sb.from('prospects').update({ deleted_at: new Date().toISOString() }).eq('id', pendingDeleteId);
+  if (error) { showToast('Move to Trash failed: ' + error.message); return; }
+  await loadProspects();
+  closeDeleteConfirm();
+  closeDrawer();
+  showToast('Moved to Trash');
+}
+
+// ---- Trash: view, restore, or permanently delete soft-deleted prospects ----
+
+async function openTrash() {
+  document.getElementById('trashOverlay').classList.add('open');
+  await loadTrash();
+}
+
+function closeTrash() {
+  document.getElementById('trashOverlay').classList.remove('open');
+}
+
+async function loadTrash() {
+  const list = document.getElementById('trashList');
+  list.innerHTML = '<p class="hint">Loading…</p>';
+  const { data, error } = await sb.from('prospects').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false });
+  if (error) { list.innerHTML = `<p class="hint">Couldn't load Trash: ${escapeHtml(error.message)}</p>`; return; }
+  const rows = (data || []).map(dbToApp);
+  if (!rows.length) { list.innerHTML = '<p class="hint">Trash is empty.</p>'; return; }
+  list.innerHTML = rows.map(p => `
+    <div class="row" style="grid-template-columns: 1fr auto auto; align-items:center; margin-bottom:6px;">
+      <div>
+        <div class="biz-name">${escapeHtml(p.businessName || 'Untitled')}</div>
+        <div class="biz-meta">Deleted ${escapeHtml(new Date(p.deletedAt).toLocaleDateString())}</div>
+      </div>
+      <button class="btn-secondary" data-restore="${p.id}">Restore</button>
+      <button class="btn-danger" data-purge="${p.id}" data-name="${escapeHtml(p.businessName || 'this prospect')}">Delete Forever</button>
+    </div>
+  `).join('');
+}
+
+async function restoreProspect(id) {
+  const { error } = await sb.from('prospects').update({ deleted_at: null }).eq('id', id);
+  if (error) { showToast('Restore failed: ' + error.message); return; }
+  await loadProspects();
+  await loadTrash();
+  showToast('Restored');
+}
+
+function openPurgeConfirm(id, name) {
+  pendingPurgeId = id;
+  document.getElementById('purgeBizName').textContent = name;
+  document.getElementById('purgeOverlay').classList.add('open');
+}
+
+function closePurgeConfirm() {
+  document.getElementById('purgeOverlay').classList.remove('open');
+  pendingPurgeId = null;
+}
+
+async function confirmPurge() {
+  if (!pendingPurgeId) return;
+  const { error } = await sb.from('prospects').delete().eq('id', pendingPurgeId);
+  if (error) { showToast('Delete failed: ' + error.message); return; }
+  closePurgeConfirm();
+  await loadTrash();
+  showToast('Deleted forever');
+}
+
+const KNOWN_OPPORTUNITIES = ['No website', 'Facebook-only presence', 'Outdated / non-mobile site'];
+
+function matchOpportunity(token) {
+  const t = token.trim().toLowerCase();
+  if (!t) return null;
+  if (t.includes('no website')) return 'No website';
+  if (t.includes('facebook')) return 'Facebook-only presence';
+  if (t.includes('outdated') || t.includes('non-mobile') || t.includes('mobile')) return 'Outdated / non-mobile site';
+  return null;
+}
+
+function parseYN(val) {
+  const t = (val || '').trim().toLowerCase();
+  return t === 'y' || t === 'yes' || t === 'true' || t === '1';
+}
+
+// Loose name match — strips everything but letters/digits and lowercases, so
+// "Abbsry Tire", "abbsry  tire", and "ABBSRY TIRE!" all collapse to the same key.
+// Shared by both Log Outreach matching and the CSV import de-dupe check below.
+function normName(s) {
+  return (s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function parseCSV(text) {
+  const lines = text.trim().split(/\r?\n/);
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/"/g, ''));
+  const rows = [];
+  for (let i = 1; i < lines.length; i++) {
+    if (!lines[i].trim()) continue;
+    // simple CSV split respecting quoted commas
+    const cells = lines[i].match(/(".*?"|[^,]+|(?<=,)(?=,)|^(?=,))/g) || [];
+    const cleaned = cells.map(c => c.trim().replace(/^"|"$/g, ''));
+    const map = {};
+    headers.forEach((h, idx) => map[h] = cleaned[idx] || '');
+
+    // Score: accept "Score" or "Sharpline Score", strip non-digits
+    const scoreRaw = map['score'] || map['sharpline score'] || '';
+    const scoreNum = scoreRaw.replace(/[^\d]/g, '');
+    const score = scoreNum !== '' ? Math.max(0, Math.min(100, parseInt(scoreNum, 10))) : null;
+
+    // Status: only accept known values, default to New
+    const knownStatuses = ['New', 'Not contacted', 'Contacted', 'Hot', 'Follow-up', 'Won', 'Not interested', 'Inactive'];
+    const statusRaw = (map['status'] || '').trim();
+    const status = knownStatuses.find(s => s.toLowerCase() === statusRaw.toLowerCase()) || 'New';
+
+    // Contacted: accept y/yes/true/1, default to N (false) if missing or unrecognized
+    const contacted = parseYN(map['contacted']);
+
+    // Opportunities: split on ; or , and sort matches into checkboxes vs leftover notes
+    const oppRaw = map['opportunities'] || '';
+    const tokens = oppRaw.split(/[;,]/).map(t => t.trim()).filter(Boolean);
+    const opportunities = [];
+    const leftoverNotes = [];
+    tokens.forEach(tok => {
+      const match = matchOpportunity(tok);
+      if (match && !opportunities.includes(match)) opportunities.push(match);
+      else if (!match) leftoverNotes.push(tok);
+    });
+
+    const existingNotes = map['notes'] || '';
+    const combinedNotes = [existingNotes, ...leftoverNotes].filter(Boolean).join(' — ');
+
+    rows.push({
+      id: uid(),
+      businessName: map['business name'] || map['businessname'] || '',
+      city: map['city'] || '',
+      category: map['category'] || '',
+      website: map['website / url'] || map['website'] || map['url'] || '',
+      phone: map['phone'] || '',
+      contactName: map['contact name'] || '',
+      email: map['email'] || '',
+      score,
+      status,
+      contacted,
+      dateContacted: map['date contacted'] || '',
+      dateAdded: map['date added'] || new Date().toISOString().slice(0,10),
+      seqStep: parseInt(map['sequence step'] || map['seq step'] || '0', 10) || 0,
+      notes: combinedNotes,
+      opportunities
+    });
+  }
+  return rows.filter(r => r.businessName);
+}
+
+// Splits parsed CSV rows into ones that are new vs. ones that already match an
+// existing prospect by business name (loose match via normName). Used by both
+// the Import CSV preview and the actual insert, so what you see is what happens.
+function splitImportRows(rows) {
+  const existingNames = new Set(prospects.map(p => normName(p.businessName)));
+  const fresh = [], duplicates = [];
+  rows.forEach(r => {
+    if (existingNames.has(normName(r.businessName))) duplicates.push(r);
+    else fresh.push(r);
+  });
+  return { fresh, duplicates };
+}
+
+function csvEscape(val) {
+  const s = (val ?? '').toString();
+  if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+    return '"' + s.replace(/"/g, '""') + '"';
+  }
+  return s;
+}
+
+function exportCSV() {
+  if (prospects.length === 0) { showToast('No prospects to export'); return; }
+  const EXCLUDED_EXPORT_STATUSES = ['Won', 'Not interested'];
+  const rowsData = (lastFiltered.length > 0 ? lastFiltered : prospects)
+    .filter(p => !EXCLUDED_EXPORT_STATUSES.includes(p.status));
+  if (rowsData.length === 0) { showToast('Nothing to export — everything shown is Won or Not interested'); return; }
+  const headers = [
+    '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
+    'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
+    'Date Added', 'Date Contacted', 'Contacted', 'Sequence Step', 'Notes'
+  ];
+  const rows = rowsData.map((p, idx) => [
+    idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
+    p.contactName, p.email, p.score ?? '', p.status,
+    (p.opportunities || []).join('; '),
+    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.seqStep ?? 0, p.notes
+  ].map(csvEscape).join(','));
+
+  const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const today = new Date().toISOString().slice(0,10);
+  a.href = url;
+  a.download = `sharpline-prospects-${today}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  const excludedCount = (lastFiltered.length > 0 ? lastFiltered : prospects).length - rowsData.length;
+  let msg = `Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`;
+  if (excludedCount) msg += ` (${excludedCount} Won/Not interested excluded)`;
+  showToast(msg);
+}
+
+document.getElementById('exportBtn').addEventListener('click', exportCSV);
+document.getElementById('addBtn').addEventListener('click', () => openDrawer(null));
+
+function updateGradePreview() {
+  const raw = document.getElementById('f_score').value;
+  const score = raw === '' ? null : parseInt(raw, 10);
+  document.getElementById('f_gradePreview').innerHTML = gradeBadge(score);
+}
+document.getElementById('f_score').addEventListener('input', updateGradePreview);
+document.getElementById('cancelBtn').addEventListener('click', closeDrawer);
+document.getElementById('saveBtn').addEventListener('click', saveCurrent);
+document.getElementById('deleteBtn').addEventListener('click', openDeleteConfirm);
+document.getElementById('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') closeDrawer(); });
+
+// Delete-confirm modal wiring
+document.getElementById('deleteCancelBtn').addEventListener('click', closeDeleteConfirm);
+document.getElementById('deleteConfirmBtn').addEventListener('click', confirmDelete);
+document.getElementById('deleteOverlay').addEventListener('click', (e) => { if (e.target.id === 'deleteOverlay') closeDeleteConfirm(); });
+
+// Trash panel wiring
+document.getElementById('trashToggle').addEventListener('click', openTrash);
+document.getElementById('trashCloseBtn').addEventListener('click', closeTrash);
+document.getElementById('trashOverlay').addEventListener('click', (e) => { if (e.target.id === 'trashOverlay') closeTrash(); });
+// Event delegation: Restore/Delete Forever buttons are rebuilt every loadTrash()
+// call, so they're bound once here on the container rather than per-row.
+document.getElementById('trashList').addEventListener('click', (e) => {
+  const restoreId = e.target.dataset.restore;
+  const purgeId = e.target.dataset.purge;
+  if (restoreId) restoreProspect(restoreId);
+  else if (purgeId) openPurgeConfirm(purgeId, e.target.dataset.name);
+});
+document.getElementById('purgeCancelBtn').addEventListener('click', closePurgeConfirm);
+document.getElementById('purgeConfirmBtn').addEventListener('click', confirmPurge);
+document.getElementById('purgeOverlay').addEventListener('click', (e) => { if (e.target.id === 'purgeOverlay') closePurgeConfirm(); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('deleteOverlay').classList.contains('open')) closeDeleteConfirm();
+  if (e.key === 'Escape' && document.getElementById('trashOverlay').classList.contains('open')) closeTrash();
+  if (e.key === 'Escape' && document.getElementById('purgeOverlay').classList.contains('open')) closePurgeConfirm();
+});
+
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('filterCity').addEventListener('change', render);
+document.getElementById('filterCategory').addEventListener('change', render);
+// ---- Bulk outreach logging ----
+// After a send batch, stamp Date Contacted and append a dated note across many
+// rows at once. Writes straight to Supabase — no CSV round-trip, so the
+// category-mismatch import bug can't bite here.
+
+function todayISO() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+}
+
+function matchLoggedNames() {
+  const lines = document.getElementById('logNamesInput').value
+    .split('\n').map(s => s.trim()).filter(Boolean);
+  const matched = [], unmatched = [];
+  const seen = new Set();
+  for (const line of lines) {
+    // Only the business name matters for matching — ignore anything after
+    // a "|" (e.g. "Business Name | email@domain.com" from email_generator.py's log files).
+    const namePart = line.split('|')[0].trim();
+    const key = normName(namePart);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    const hit = prospects.find(p => normName(p.businessName) === key);
+    if (hit) matched.push(hit); else unmatched.push(line);
+  }
+  return { matched, unmatched };
+}
+
+function showLogPreview() {
+  const { matched, unmatched } = matchLoggedNames();
+  const box = document.getElementById('logPreview');
+  let msg = `<strong>${matched.length} matched</strong>`;
+  if (unmatched.length) {
+    msg += ` · <strong>${unmatched.length} not found:</strong> ${unmatched.map(escapeHtml).join(', ')}`;
+  }
+  if (!matched.length && !unmatched.length) msg = 'Paste some names above, then check.';
+  box.innerHTML = msg;
+  return matched;
+}
+
+async function applyOutreachLog() {
+  const { matched, unmatched } = matchLoggedNames();
+  if (!matched.length) {
+    showLogPreview();
+    return;
+  }
+  const seqStepRaw = document.getElementById('logSeqStep').value;
+  if (seqStepRaw === '') {
+    document.getElementById('logPreview').innerHTML =
+      '<strong style="color:var(--danger);">⚠ Please select a Sequence Step before applying.</strong>';
+    document.getElementById('logSeqStep').focus();
+    return;
+  }
+  const seqStep = parseInt(seqStepRaw, 10);
+  const date = document.getElementById('logDate').value || todayISO();
+  const status = document.getElementById('logStatus').value;
+  const noteText = document.getElementById('logNote').value.trim();
+
+  // Note prefix uses the same MM/DD/YY shorthand already in the Notes column.
+  const [y, m, d] = date.split('-');
+  const stamp = `${m}/${d}/${y.slice(2)}`;
+
+  const btn = document.getElementById('doLog');
+  btn.disabled = true;
+  btn.textContent = 'Updating…';
+
+  let ok = 0;
+  const failed = [];
+  for (const p of matched) {
+    const patch = { date_contacted: date, contacted: true };
+    if (status) patch.status = status;
+    if (seqStep !== null) patch.seq_step = seqStep;
+    if (noteText) {
+      const line = `${stamp} ${noteText}`;
+      patch.notes = p.notes ? `${p.notes}\n${line}` : line;
+    }
+    const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
+    if (error) failed.push(p.businessName); else ok++;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Apply Updates';
+
+  let msg = `<strong>Updated ${ok}.</strong>`;
+  if (failed.length) msg += ` Failed: ${failed.map(escapeHtml).join(', ')}`;
+  if (unmatched.length) msg += ` Not found: ${unmatched.map(escapeHtml).join(', ')}`;
+  document.getElementById('logPreview').innerHTML = msg;
+
+  if (ok) {
+    document.getElementById('logNamesInput').value = '';
+    await loadProspects();
+  }
+}
+
+document.getElementById('logOutreachToggle').addEventListener('click', () => {
+  const box = document.getElementById('logOutreachBox');
+  const showing = box.style.display !== 'none';
+  box.style.display = showing ? 'none' : 'block';
+  if (!showing) {
+    document.getElementById('logDate').value = todayISO();
+    document.getElementById('logPreview').innerHTML = '';
+    document.getElementById('logSeqStep').value = '';
+    document.getElementById('logSeqStep').style.borderColor = 'var(--danger)';
+  }
+});
+document.getElementById('logSeqStep').addEventListener('change', function() {
+  this.style.borderColor = this.value === '' ? 'var(--danger)' : 'var(--border)';
+});
+document.getElementById('cancelLog').addEventListener('click', () => {
+  document.getElementById('logOutreachBox').style.display = 'none';
+});
+document.getElementById('checkLog').addEventListener('click', showLogPreview);
+document.getElementById('doLog').addEventListener('click', applyOutreachLog);
+
+document.getElementById('filterStatus').addEventListener('change', render);
+document.getElementById('filterContactAge').addEventListener('change', render);
+document.getElementById('filterEmail').addEventListener('change', render);
+document.getElementById('filterSample').addEventListener('change', render);
+document.getElementById('f_sampleSite').addEventListener('input', updateSampleLink);
+document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('filterCity').value = '';
+  document.getElementById('filterCategory').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterContactAge').value = '';
+  document.getElementById('filterSeqStep').value = '';
+  document.getElementById('filterEmail').value = '';
+  document.getElementById('filterSample').value = '';
+  render();
+});
+document.getElementById('filterSeqStep').addEventListener('change', render);
+document.getElementById('sortBy').addEventListener('change', render);
+
+document.getElementById('importToggle').addEventListener('click', () => {
+  const box = document.getElementById('importBox');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
+  if (box.style.display === 'block') document.getElementById('importPreview').innerHTML = '';
+});
+document.getElementById('cancelImport').addEventListener('click', () => {
+  document.getElementById('importBox').style.display = 'none';
+  document.getElementById('csvInput').value = '';
+  document.getElementById('importPreview').innerHTML = '';
+});
+document.getElementById('doImport').addEventListener('click', async () => {
+  const text = document.getElementById('csvInput').value;
+  const rows = parseCSV(text);
+  if (rows.length === 0) { showToast('No valid rows found'); return; }
+
+  // Skip anything that already matches an existing prospect by business name
+  // (loose match — case/punctuation-insensitive) so re-pasting a spreadsheet
+  // you've already imported doesn't create duplicate rows.
+  const { fresh, duplicates } = splitImportRows(rows);
+
+  if (fresh.length === 0) {
+    document.getElementById('importPreview').innerHTML =
+      `<strong>All ${rows.length} row${rows.length === 1 ? '' : 's'} already exist</strong> — nothing to import. ` +
+      `Skipped: ${duplicates.map(d => escapeHtml(d.businessName)).join(', ')}`;
+    showToast('Nothing imported — all rows already exist');
+    return;
+  }
+
+  const { data: { user } } = await sb.auth.getUser();
+  const dbRows = fresh.map(r => ({ ...appToDb(r), user_id: user.id }));
+  const { error } = await sb.from('prospects').insert(dbRows);
+  if (error) { showToast('Import failed: ' + error.message); return; }
+  await loadProspects();
+  document.getElementById('importBox').style.display = 'none';
+  document.getElementById('csvInput').value = '';
+
+  let msg = `Imported ${fresh.length} prospect${fresh.length === 1 ? '' : 's'}`;
+  if (duplicates.length) msg += ` · skipped ${duplicates.length} duplicate${duplicates.length === 1 ? '' : 's'}`;
+  showToast(msg);
+  if (duplicates.length) {
+    document.getElementById('importPreview').innerHTML =
+      `Skipped as duplicates: ${duplicates.map(d => escapeHtml(d.businessName)).join(', ')}`;
+  } else {
+    document.getElementById('importPreview').innerHTML = '';
+  }
+});
+
+// ---- Outreach finding priority sort ----
+// Mirrors the four-tier model in email_generator.py so the strongest hook
+// always leads, regardless of which audit check fired first in the .md report.
+// Lower number = higher priority. Used wherever audit issues are written to Notes.
+const OUTREACH_PRIORITY = [
+  [10, ["didn't load", "returned an error", "http 4", "http 5", "site is down"]],
+  [11, ["took ", "seconds", "slow", "loading"]],
+  [12, ["mobile", "viewport", "phone"]],
+  [13, ["broken link", "dead end"]],
+  [20, ["privacy", "pipa", "personal information"]],
+  [21, ["oversized image", "image", "slowing"]],
+  [22, ["outbound link", "external link", "no longer exist"]],
+  [30, ["page title", "title tag", "truncated", "title is"]],
+  [31, ["meta description", "google is left guessing"]],
+  [40, ["alt text", "accessibility"]],
+  [41, ["render-blocking", "async", "defer", "first paint"]],
+];
+function outreachPriority(text) {
+  const lower = (text || '').toLowerCase();
+  for (const [priority, keywords] of OUTREACH_PRIORITY) {
+    if (keywords.some(kw => lower.includes(kw))) return priority;
+  }
+  return 99;
+}
+// Shared by both Merge Audits paths (matched-update and add-as-new) so the
+// Notes prefix format can't drift between them again. email_generator.py's
+// get_findings() only parses lines matching "<token> Audit: ..." — a line
+// missing this stamp is invisible to it, findings and all.
+function auditStamp(date = new Date()) {
+  return `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${String(date.getFullYear()).slice(2)}`;
+}
+
+function sortIssues(issues) {
+  return [...issues].sort((a, b) => outreachPriority(a) - outreachPriority(b));
+}
+
+// Builds the Notes lines for one audit: the outreach-safe "Audit:" line that
+// email_generator.py reads, then the full internal list on its own line.
+// The internal line deliberately does NOT contain "Audit:" so the generator
+// can't mistake it for sendable findings. Returns '' if there's nothing.
+function auditNoteText(a, stamp) {
+  const lines = [];
+  if (a.issues.length) lines.push(`${stamp} Audit: ${sortIssues(a.issues).join('; ')}`);
+  if (a.internalIssues && a.internalIssues.length) {
+    lines.push(`${stamp} Internal (not for outreach): ${sortIssues(a.internalIssues).join('; ')}`);
+  }
+  return lines.join('\n');
+}
+
+// ---- Merge Audit Reports ----
+// Reads one or more website_audit.py .md reports and patches matching
+// prospects (matched by domain, not business name — audits are keyed by
+// URL). This only ever UPDATEs existing rows, never INSERTs, so unlike
+// CSV Import there is no duplicate-row risk here by construction.
+
+// Strips protocol, www., path, and trailing slash so
+// "https://www.broadwaychurchlife.com/contact" and "broadwaychurchlife.com"
+// both collapse to "broadwaychurchlife.com".
+function normDomain(url) {
+  return (url || '')
+    .toLowerCase()
+    .trim()
+    .replace(/^https?:\/\//, '')
+    .replace(/^www\./, '')
+    .replace(/\/.*$/, '');
+}
+
+// Pulls the fields we care about out of one audit .md file's text.
+// Returns null if it doesn't look like a Sharpline audit report.
+function parseAuditMarkdown(text, filename) {
+  const urlMatch = text.match(/^#\s*Website Audit:\s*(\S+)/m);
+  const scoreMatch = text.match(/Sharpline Site Score:\s*(\d+)\s*\/\s*100/i);
+  if (!urlMatch && !scoreMatch) return null;
+
+  // website_audit.py refuses to guess from a bot-detection/challenge page
+  // (Cloudflare "Verifying your connection...", 429/403 rate-limit walls,
+  // etc.) and flags the whole report instead. Merge Audits must never treat
+  // a blocked report as real data — the score and every guess in it come
+  // from a challenge page, not the actual site.
+  const blocked = /SCRAPE BLOCKED/i.test(text);
+  const blockedReasonMatch = text.match(/\*\*Reason:\*\*\s*(.+)/i);
+  const blockedReason = blockedReasonMatch ? blockedReasonMatch[1].trim() : 'bot-detection page, not the real site';
+
+  // Fallback to filename (e.g. "broadwaychurchlife.com_audit.md") if the
+  // report itself doesn't have the URL line for some reason.
+  const domain = urlMatch
+    ? normDomain(urlMatch[1])
+    : normDomain(filename.replace(/_audit\.(md|txt)$/i, ''));
+
+  const score = scoreMatch ? Math.max(0, Math.min(100, parseInt(scoreMatch[1], 10))) : null;
+
+  const emailMatch = text.match(/Email\(s\):\s*(.+)/i);
+  const phoneMatch = text.match(/Phone\(s\):\s*(.+)/i);
+  const email = emailMatch && !/none found/i.test(emailMatch[1]) ? emailMatch[1].split(/[|,]/)[0].trim() : '';
+  const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? phoneMatch[1].split(/[|,]/)[0].trim() : '';
+
+  // Added by website_audit.py (og:site_name, falling back to the <title> tag)
+  // — still just a guess for review, so treat "(not found ...)" as no guess
+  // at all rather than literal text to display.
+  const nameMatch = text.match(/Business Name \(guess\):\s*(.+)/i);
+  const businessNameGuess = nameMatch && !/not found/i.test(nameMatch[1]) ? nameMatch[1].replace(/\*/g, '').trim() : '';
+
+  // Same "guess, review before trusting" treatment for City and Category
+  // (added by website_audit.py alongside the business name guess). Category
+  // is pre-mapped by the audit tool to one of our own BASE_CATEGORIES
+  // values, so it can be matched exactly against the <select> options below
+  // — no fuzzy matching needed.
+  const cityMatch = text.match(/City \(guess\):\s*(.+)/i);
+  const cityGuess = cityMatch && !/not found/i.test(cityMatch[1]) ? cityMatch[1].replace(/\*/g, '').trim() : '';
+  const categoryMatch = text.match(/Category \(guess\):\s*(.+)/i);
+  const categoryGuess = categoryMatch && !/not found/i.test(categoryMatch[1]) ? categoryMatch[1].replace(/\*/g, '').trim() : '';
+
+  // "## Outreach Findings — symptom-level, safe to send" bullets, up to 5 —
+  // curated by website_audit.py to be prospect-safe (no raw numbers/jargon),
+  // unlike the "## Issues Found" section which is internal-only technical
+  // detail. This is what goes into Notes for email_generator.py to use.
+  const findingsBlock = text.match(/## Outreach Findings[^\n]*\n([\s\S]*?)(\n##|\n---|\s*$)/);
+  const issues = findingsBlock
+    ? findingsBlock[1].split('\n').map(l => l.replace(/^-\s*/, '').trim())
+        .filter(l => l && !/^_/.test(l) && !/^none generated/i.test(l)).slice(0, 5)
+    : [];
+
+  // "## Issues Found (internal ...)" bullets — the full technical list, every
+  // check that fired. Goes into Notes on its own clearly labelled line
+  // ("Internal (not for outreach):") so Peter keeps the whole picture, while
+  // email_generator.py's get_findings() — which only reads "<stamp> Audit:"
+  // lines — never picks it up for a letter.
+  const internalBlock = text.match(/## Issues Found[^\n]*\n([\s\S]*?)(\n##|\n---|\s*$)/);
+  const internalIssues = internalBlock
+    ? internalBlock[1].split('\n').map(l => l.replace(/^-\s*/, '').replace(/^⚠️\s*/, '').replace(/"/g, "'").trim())
+        .filter(l => l && !/^_/.test(l) && !/^none detected/i.test(l))
+    : [];
+
+  return { domain, score, email, phone, issues, internalIssues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
+}
+
+async function readAuditFiles() {
+  const input = document.getElementById('auditFiles');
+  const files = Array.from(input.files || []);
+  const parsed = [];
+  for (const file of files) {
+    const text = await file.text();
+    const audit = parseAuditMarkdown(text, file.name);
+    if (audit) parsed.push(audit);
+  }
+  return parsed;
+}
+
+function matchAudits(audits) {
+  const matched = [], unmatched = [], blocked = [];
+  for (const a of audits) {
+    if (a.blocked) { blocked.push(a); continue; }
+    const hit = prospects.find(p => p.website && normDomain(p.website) === a.domain);
+    if (hit) matched.push({ prospect: hit, audit: a }); else unmatched.push(a);
+  }
+  return { matched, unmatched, blocked };
+}
+
+// Fallback-of-last-resort: a crude guess at a business name from a bare
+// domain, e.g. "broadwaychurchlife.com" -> "Broadwaychurchlife". Only used
+// when the audit report has no "Business Name (guess)" line at all (i.e. an
+// older report from before website_audit.py added that field). The field
+// stays editable either way — this is always a starting point, not a result.
+function guessNameFromDomain(domain) {
+  const base = (domain || '').split('.')[0] || '';
+  return base ? base.charAt(0).toUpperCase() + base.slice(1) : '';
+}
+
+// Same options as the Add/Edit Prospect drawer's Category dropdown (kept in
+// sync with BASE_CATEGORIES manually since this renders as a plain string,
+// not through populateCategorySelect) — Category is required here too, same
+// as the drawer, so a row with no category picked gets skipped on add.
+function categoryOptionsHtml(selected = '') {
+  const opts = [...BASE_CATEGORIES].sort((a, b) => a.localeCompare(b));
+  opts.push('Other');
+  return '<option value="">Select a category…</option>' +
+    opts.map(c => `<option value="${escapeHtml(c)}"${c === selected ? ' selected' : ''}>${escapeHtml(c)}</option>`).join('');
+}
+
+function renderUnmatchedAuditRows(unmatched) {
+  const wrap = document.getElementById('unmatchedAuditRows');
+  const addBtn = document.getElementById('doAddUnmatched');
+  if (!unmatched.length) { wrap.innerHTML = ''; addBtn.style.display = 'none'; return; }
+
+  wrap.innerHTML = unmatched.map((a, i) => `
+    <div class="row" style="grid-template-columns: 1fr 1fr 1fr auto; margin-bottom:6px;" data-domain="${escapeHtml(a.domain)}">
+      <input type="text" id="ua_name_${i}" placeholder="Business name" value="${escapeHtml(a.businessNameGuess || guessNameFromDomain(a.domain))}">
+      <input type="text" id="ua_city_${i}" placeholder="City" value="${escapeHtml(a.cityGuess || '')}">
+      <select id="ua_category_${i}">${categoryOptionsHtml(a.categoryGuess || '')}</select>
+      <label style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--ink-soft);">
+        <input type="checkbox" id="ua_include_${i}" checked> ${escapeHtml(a.domain)} · score ${a.score ?? 'n/a'}
+      </label>
+    </div>
+  `).join('');
+  addBtn.style.display = 'inline-block';
+}
+
+// Cache of the last Preview Matches result. Apply Merge and Add Unmatched
+// both read from this instead of re-parsing the file input, because the
+// file input gets cleared after a successful Apply Merge — re-reading it
+// at that point would silently find zero files and do nothing.
+let lastAuditPreview = null;
+
+async function showAuditPreview() {
+  const box = document.getElementById('auditPreview');
+  const audits = await readAuditFiles();
+  if (!audits.length) {
+    box.innerHTML = 'Select audit .md files above, then preview.';
+    document.getElementById('unmatchedAuditRows').innerHTML = '';
+    document.getElementById('doAddUnmatched').style.display = 'none';
+    lastAuditPreview = null;
+    return null;
+  }
+  const { matched, unmatched, blocked } = matchAudits(audits);
+  lastAuditPreview = { matched, unmatched, blocked };
+
+  let msg = `<strong>${matched.length} matched</strong>`;
+  if (matched.length) {
+    msg += '<ul style="margin:6px 0 0 18px; padding:0;">' + matched.map(m =>
+      `<li>${escapeHtml(m.prospect.businessName)} — score ${m.prospect.score ?? 'n/a'} → ${m.audit.score ?? 'n/a'}</li>`
+    ).join('') + '</ul>';
+  }
+  if (unmatched.length) {
+    msg += `<div style="margin-top:8px;"><strong>${unmatched.length} unmatched</strong> — no prospect's Website / URL matches these domains. Fill in a name below and add them as new prospects, or add the matching row first and re-run the merge.</div>`;
+  }
+  if (blocked.length) {
+    msg += `<div style="margin-top:8px; color:#b33;"><strong>⚠️ ${blocked.length} blocked</strong> — these reports look like a bot-detection page, not the real site, and are excluded entirely (not matched, not addable as new). Re-run the audit for: ${blocked.map(a => escapeHtml(a.domain) + ' (' + escapeHtml(a.blockedReason) + ')').join(', ')}</div>`;
+  }
+  box.innerHTML = msg;
+  renderUnmatchedAuditRows(unmatched);
+  return lastAuditPreview;
+}
+
+// Builds new-prospect rows from the unmatched audits using whatever's
+// currently in the editable Business Name / City / Category boxes, then
+// inserts — skipping any row left unchecked, blank-named, missing a
+// category (required, same as the drawer), or that already matches an
+// existing prospect by business name (same loose match CSV Import uses,
+// so this can't create a duplicate that way either).
+async function addUnmatchedAudits(unmatched) {
+  if (!unmatched || !unmatched.length) return;
+
+  const candidates = [];
+  const skippedNoCategory = [];
+  unmatched.forEach((a, i) => {
+    const include = document.getElementById(`ua_include_${i}`);
+    if (!include || !include.checked) return;
+    const businessName = (document.getElementById(`ua_name_${i}`).value || '').trim();
+    if (!businessName) return;
+    const category = document.getElementById(`ua_category_${i}`).value;
+    if (!category) { skippedNoCategory.push(businessName); return; }
+    candidates.push({
+      id: uid(),
+      businessName,
+      city: (document.getElementById(`ua_city_${i}`).value || '').trim(),
+      category,
+      website: a.domain,
+      phone: a.phone || '',
+      contactName: '',
+      email: a.email || '',
+      score: a.score,
+      status: 'New',
+      contacted: false,
+      dateContacted: '',
+      dateAdded: new Date().toISOString().slice(0, 10),
+      seqStep: 0,
+      notes: auditNoteText(a, auditStamp()),
+      opportunities: []
+    });
+  });
+
+  if (!candidates.length) {
+    if (skippedNoCategory.length) {
+      showToast(`Pick a category for: ${skippedNoCategory.join(', ')}`);
+    } else {
+      showToast('Nothing to add — check names are filled in and boxes are checked');
+    }
+    return;
+  }
+
+  // Re-fetch prospects right before the duplicate check rather than trusting
+  // whatever's already in memory — the in-browser `prospects` list can be
+  // stale if another tab/session added something since this page loaded,
+  // and a stale list here means a same-named row can silently slip through.
+  await loadProspects();
+
+  // Guard against two candidates in this same batch sharing a business name
+  // too — splitImportRows only checks against existing prospects, so two
+  // audit reports for the same business selected together would otherwise
+  // both sail through as "fresh."
+  const seenInBatch = new Set();
+  const batchDuplicates = [];
+  const batchUnique = candidates.filter(c => {
+    const key = normName(c.businessName);
+    if (seenInBatch.has(key)) { batchDuplicates.push(c); return false; }
+    seenInBatch.add(key);
+    return true;
+  });
+
+  const { fresh, duplicates } = splitImportRows(batchUnique);
+  if (!fresh.length) {
+    showToast('All of those already exist as prospects — nothing added');
+    return;
+  }
+
+  const btn = document.getElementById('doAddUnmatched');
+  btn.disabled = true;
+  btn.textContent = 'Adding…';
+
+  const { data: { user } } = await sb.auth.getUser();
+  const dbRows = fresh.map(r => ({ ...appToDb(r), user_id: user.id }));
+  const { error } = await sb.from('prospects').insert(dbRows);
+
+  btn.disabled = false;
+  btn.textContent = 'Add Unmatched as New Prospects';
+
+  if (error) { showToast('Add failed: ' + error.message); return; }
+
+  await loadProspects();
+  let msg = `Added ${fresh.length} new prospect${fresh.length === 1 ? '' : 's'}`;
+  if (duplicates.length) msg += ` · skipped ${duplicates.length} already-existing`;
+  if (batchDuplicates.length) msg += ` · skipped ${batchDuplicates.length} duplicate${batchDuplicates.length === 1 ? '' : 's'} within this batch`;
+  if (skippedNoCategory.length) msg += ` · ${skippedNoCategory.length} left out (no category picked) — re-run merge to retry them`;
+  showToast(msg);
+  document.getElementById('auditFiles').value = '';
+  document.getElementById('auditPreview').innerHTML = '';
+  document.getElementById('unmatchedAuditRows').innerHTML = '';
+  document.getElementById('doAddUnmatched').style.display = 'none';
+  lastAuditPreview = null;
+}
+
+async function applyAuditMerge() {
+  if (!lastAuditPreview) {
+    const result = await showAuditPreview();
+    if (!result) return;
+  }
+
+  // Re-fetch prospects and recompute matches right before applying, rather
+  // than trusting the split from whenever Preview Matches was last clicked.
+  // If a prospect's Website/URL got added or edited since then (in this tab
+  // or another), the stale preview would still call it "unmatched" and this
+  // audit would silently apply to nothing.
+  await loadProspects();
+  const allAudits = [...lastAuditPreview.matched.map(m => m.audit), ...lastAuditPreview.unmatched];
+  const { matched, unmatched } = matchAudits(allAudits);
+  lastAuditPreview = { matched, unmatched, blocked: lastAuditPreview.blocked || [] };
+
+  if (!matched.length) { showToast('No matched prospects to merge'); return; }
+
+  const btn = document.getElementById('doMergeAudits');
+  btn.disabled = true;
+  btn.textContent = 'Merging…';
+
+  const stamp = auditStamp();
+
+  let ok = 0;
+  const failed = [];
+  for (const { prospect: p, audit: a } of matched) {
+    const patch = {};
+    if (a.score !== null) patch.score = a.score;               // audit is the source of truth for Score — always refresh
+    if (a.email && !p.email) patch.email = a.email;             // augment only — never overwrite a value that's already there
+    if (a.phone && !p.phone) patch.phone = a.phone;
+    if (a.cityGuess && !p.city) patch.city = a.cityGuess;
+    if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
+    const auditNotes = auditNoteText(a, stamp);
+    if (auditNotes) {
+      // Replace, don't stack: drop any earlier "MM/DD/YY Audit:" and
+      // "MM/DD/YY Internal (not for outreach):" lines so Notes only ever
+      // holds the latest audit (and email_generator.py can't pick up a
+      // stale one). Every other line — Log Outreach entries, hand-typed
+      // notes — is kept exactly as it was.
+      const kept = (p.notes || '').split('\n')
+        .filter(l => !/^\d{2}\/\d{2}\/\d{2} (Audit|Internal \(not for outreach\)):/.test(l.trim()));
+      patch.notes = [...kept.filter(l => l.trim()), auditNotes].join('\n');
+    }
+    if (Object.keys(patch).length === 0) { ok++; continue; }    // nothing to add, not a failure
+    const { error } = await sb.from('prospects').update(patch).eq('id', p.id);
+    if (error) failed.push(p.businessName); else ok++;
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Apply Merge';
+
+  let msg = `<strong>Merged ${ok}.</strong>`;
+  if (failed.length) msg += ` Failed: ${failed.map(escapeHtml).join(', ')}`;
+  if (unmatched.length) msg += ` Unmatched: ${unmatched.map(a => escapeHtml(a.domain)).join(', ')}`;
+  document.getElementById('auditPreview').innerHTML = msg;
+
+  if (ok) {
+    if (!unmatched.length) {
+      document.getElementById('auditFiles').value = '';
+      lastAuditPreview = null;
+    }
+    await loadProspects();
+  }
+}
+
+document.getElementById('mergeAuditToggle').addEventListener('click', () => {
+  const box = document.getElementById('mergeAuditBox');
+  const showing = box.style.display !== 'none';
+  box.style.display = showing ? 'none' : 'block';
+  if (!showing) {
+    document.getElementById('auditPreview').innerHTML = '';
+    document.getElementById('unmatchedAuditRows').innerHTML = '';
+    document.getElementById('doAddUnmatched').style.display = 'none';
+    lastAuditPreview = null;
+  }
+});
+document.getElementById('cancelMergeAudits').addEventListener('click', () => {
+  document.getElementById('mergeAuditBox').style.display = 'none';
+  document.getElementById('auditFiles').value = '';
+  document.getElementById('auditPreview').innerHTML = '';
+  document.getElementById('unmatchedAuditRows').innerHTML = '';
+  document.getElementById('doAddUnmatched').style.display = 'none';
+  lastAuditPreview = null;
+});
+document.getElementById('checkAudits').addEventListener('click', showAuditPreview);
+document.getElementById('doMergeAudits').addEventListener('click', applyAuditMerge);
+document.getElementById('doAddUnmatched').addEventListener('click', async () => {
+  if (!lastAuditPreview) { showToast('Preview Matches first'); return; }
+  await addUnmatchedAudits(lastAuditPreview.unmatched);
+});
+
+checkSession();
+</script>
 </body>
 </html>
