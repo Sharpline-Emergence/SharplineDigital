@@ -135,6 +135,8 @@
   .seq-1 { color: #5a7a52; border-color: #b0c8a8; background: #eef4eb; }
   .seq-2 { color: #7a6530; border-color: #d4b870; background: #faf3dc; }
   .seq-3 { color: #8a3030; border-color: #d49898; background: #faeded; }
+  .seq-4 { color: #3d5a80; border-color: #a8bcd4; background: #eef2f7; }
+  .seq-5 { color: #6a4a8a; border-color: #c4b0d8; background: #f3eef8; }
 
   .status-pill {
     font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 100px;
@@ -292,6 +294,8 @@
           <option value="1">Set to 1 (Email #1 sent)</option>
           <option value="2">Set to 2 (Email #2 sent)</option>
           <option value="3">Set to 3 (Email #3 sent)</option>
+          <option value="4">Set to 4 (I phoned)</option>
+          <option value="5">Set to 5 (They phoned)</option>
         </select>
       </div>
     </div>
@@ -351,6 +355,8 @@
       <option value="1">Step 1 — #1 sent</option>
       <option value="2">Step 2 — #2 sent</option>
       <option value="3">Step 3 — #3 sent</option>
+      <option value="4">Step 4 — I phoned</option>
+      <option value="5">Step 5 — They phoned</option>
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
@@ -451,6 +457,8 @@
           <option value="1">1 — Email #1 sent</option>
           <option value="2">2 — Email #2 sent</option>
           <option value="3">3 — Email #3 sent</option>
+          <option value="4">4 — I phoned</option>
+          <option value="5">5 — They phoned</option>
         </select>
       </div>
     </div>
@@ -698,9 +706,10 @@ function daysSinceContact(p) {
 
 function seqBadge(step) {
   const s = step ?? 0;
-  const labels = ['–', '#1', '#2', '#3'];
+  const labels = ['–', '#1', '#2', '#3', '☎ out', '☎ in'];
+  const titles = ['Not started', 'Email #1 sent', 'Email #2 sent', 'Email #3 sent', 'I phoned', 'They phoned'];
   const label = labels[s] || `#${s}`;
-  return `<span class="seq-badge seq-${Math.min(s,3)}" title="Sequence step ${s}">${label}</span>`;
+  return `<span class="seq-badge seq-${Math.min(s,5)}" title="${titles[s] || 'Sequence step ' + s}">${label}</span>`;
 }
 
 function contactAgeLabel(p) {
