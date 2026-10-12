@@ -1650,6 +1650,18 @@ function parseAuditMarkdown(text, filename) {
   const emailMatch = text.match(/Email\(s\):\s*(.+)/i);
   const phoneMatch = text.match(/Phone\(s\):\s*(.+)/i);
   const email = emailMatch && !/none found/i.test(emailMatch[1]) ? emailMatch[1].split(/[|,]/)[0].trim() : '';
+
+  // Contact name from "- Possible name(s): Logan (owner)". Takes the first
+  // entry only, drops any "(owner)"-style note in brackets, and ignores the
+  // audit tool's junk guesses ("none found", "Skip to content", etc.) so a
+  // bad scrape never lands in Contact Name. Peter tidies this line by hand
+  // after verifying the decision-maker, so it's worth carrying across.
+  const contactMatch = text.match(/Possible name\(s\):\s*(.+)/i);
+  let contactName = '';
+  if (contactMatch) {
+    const first = contactMatch[1].split(/[|,;]/)[0].replace(/\([^)]*\)/g, '').replace(/\*/g, '').trim();
+    if (first && !/none found|not found|skip to content|^n\/?a$/i.test(first) && first.length <= 60) contactName = first;
+  }
   const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? phoneMatch[1].split(/[|,]/)[0].trim() : '';
 
   // Added by website_audit.py (og:site_name, falling back to the <title> tag)
@@ -1689,7 +1701,7 @@ function parseAuditMarkdown(text, filename) {
         .filter(l => l && !/^_/.test(l) && !/^none detected/i.test(l))
     : [];
 
-  return { domain, score, email, phone, issues, internalIssues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
+  return { domain, score, email, phone, contactName, issues, internalIssues, filename, businessNameGuess, cityGuess, categoryGuess, blocked, blockedReason };
 }
 
 async function readAuditFiles() {
@@ -1814,7 +1826,7 @@ async function addUnmatchedAudits(unmatched) {
       category,
       website: a.domain,
       phone: a.phone || '',
-      contactName: '',
+      contactName: a.contactName || '',
       email: a.email || '',
       score: a.score,
       status: 'New',
@@ -1918,6 +1930,7 @@ async function applyAuditMerge() {
     if (a.score !== null) patch.score = a.score;               // audit is the source of truth for Score — always refresh
     if (a.email && !p.email) patch.email = a.email;             // augment only — never overwrite a value that's already there
     if (a.phone && !p.phone) patch.phone = a.phone;
+    if (a.contactName && !p.contactName) patch.contact_name = a.contactName;  // augment only, same as email/phone
     if (a.cityGuess && !p.city) patch.city = a.cityGuess;
     if (a.categoryGuess && !p.category) patch.category = a.categoryGuess;
     const auditNotes = auditNoteText(a, stamp);
