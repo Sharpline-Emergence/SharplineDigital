@@ -741,8 +741,8 @@
               </select>
             </div>
             <div class="field">
-              <label for="lfEmail">Email <span class="opt">(optional)</span></label>
-              <input type="email" id="lfEmail" name="email" autocomplete="email">
+              <label for="lfEmail">Email</label>
+              <input type="email" id="lfEmail" name="email" autocomplete="email" required>
             </div>
           </div>
           <div class="field">
@@ -835,10 +835,11 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         err.style.display = 'none';
-        var required = ['lfName', 'lfPhone', 'lfBiz'];
+        var required = ['lfName', 'lfPhone', 'lfEmail', 'lfBiz'];
         var missing = required.filter(function (id) {
           var el = document.getElementById(id);
-          var empty = !el.value.trim();
+          var val = el.value.trim();
+          var empty = !val || (id === 'lfEmail' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
           el.style.borderColor = empty ? '#c0392b' : '';
           return empty;
         });
@@ -856,8 +857,7 @@
           notes: document.getElementById('lfNotes').value.trim() || 'None',
           _gotcha: form.querySelector('[name="_gotcha"]').value
         };
-        // Formspree rejects the request if "email" isn't a real address, so only send it when given.
-        if (email) payload.email = email; else payload.email_contact = 'Not given';
+        payload.email = email;
 
         btn.disabled = true;
         btn.textContent = 'Sending…';
