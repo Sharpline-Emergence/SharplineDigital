@@ -1,5 +1,14 @@
 [
   {
+    "slug": "blog-local-website",
+    "url": "/blog-local-website.html",
+    "title": "Why Your BC Business Needs More Than Social Media",
+    "desc": "We reviewed 83 Fraser Valley small business websites. What we found on speed and privacy, and why your website matters more than your social feed.",
+    "date": "2026-10-16",
+    "tags": ["ownership", "local-seo", "discovery", "performance"],
+    "pinnedRelated": "blog-bc-privacy-laws"
+  },
+  {
     "slug": "blog-agency-maintained",
     "url": "/blog-agency-maintained.html",
     "title": "A Website Isn't a Project. It's Upkeep.",
@@ -52,14 +61,6 @@
     "date": "2026-07-01",
     "tags": ["performance", "technical", "speed"],
     "pinnedRelated": "blog-static-vs-dynamic"
-  },
-  {
-    "slug": "blog-local-website",
-    "url": "/blog-local-website.html",
-    "title": "Why Your BC Business Needs More Than Social Media",
-    "desc": "How AI search is changing local discovery — and why your website is the only digital asset you truly own.",
-    "date": "2026-06-20",
-    "tags": ["ownership", "local-seo", "discovery"],
-    "pinnedRelated": "blog-bc-privacy-laws"
   }
+
 ]
