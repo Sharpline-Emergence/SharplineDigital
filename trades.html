@@ -9,6 +9,7 @@
     gtag('js', new Date());
 
     gtag('config', 'G-SN2ZMHV0FJ');
+    gtag('config', 'AW-18517455950');
   </script>
 
   <meta charset="UTF-8">
@@ -871,6 +872,8 @@
           if (!res.ok) throw new Error('Formspree ' + res.status);
           if (typeof gtag === 'function') {
             gtag('event', 'generate_lead', { form_name: 'trades_landing', trade: payload.trade });
+            // Google Ads: count a successful preview request as a lead conversion
+            gtag('event', 'conversion', { send_to: 'AW-18517455950/Cq9RCM7EuJ8dEM7o5_1E', value: 1.0, currency: 'CAD' });
           }
           form.style.display = 'none';
           document.getElementById('formSuccess').style.display = 'block';
