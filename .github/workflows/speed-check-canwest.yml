@@ -1,0 +1,26 @@
+# Daily speed check for canwestart.ca (client site — Canwest Art Services)
+# Lives in the Sharpline repo so alerts come to Sharpline, not the client.
+# If the typical mobile score drops below 70, this check fails and GitHub emails you.
+# To run it right now: GitHub.com → SharplineDigital → Actions → "Daily speed check – Canwest Art" → Run workflow.
+
+name: Daily speed check – Canwest Art
+
+on:
+  schedule:
+    - cron: "22 14 * * *"   # 7:22 a.m. Pacific in summer (6:22 a.m. in winter). GitHub uses UTC.
+  workflow_dispatch:
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test canwestart.ca homepage (3 runs, middle score counts)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://canwestart.ca/
+          runs: 3
+          configPath: ./.github/lighthouserc-canwest.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
