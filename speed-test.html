@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ"></script>
+  <!-- Google Analytics loads after the page finishes, so it never slows the first view -->
+  <script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ';document.head.appendChild(s);},1500);});</script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -16,9 +17,12 @@
 <title>Free Website Speed Test — Sharpline Digital</title>
   <link rel="canonical" href="https://sharplinedigital.com/speed-test.html">
 <meta name="description" content="Check your website's speed score in 30 seconds. Free tool from Sharpline Digital — Fraser Valley web design.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit.woff2" crossorigin>
+  <style>
+    @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 400 900; font-display: swap; src: url('/fonts/outfit.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 400 700; font-display: swap; src: url('/fonts/dm-sans.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 400; font-display: swap; src: url('/fonts/dm-sans-italic.woff2') format('woff2'); }
+  </style>
 <style>
   :root {
     --teal: #2ec4a9;
