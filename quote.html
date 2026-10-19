@@ -350,12 +350,11 @@
     <div class="step-card" id="step3">
       <div class="step-badge">Step 3</div>
       <h2>Which package interests you?</h2>
-      <p class="step-sub">Not sure? Pick your best guess — we can discuss during our call.</p>
+      <p class="step-sub">Not sure? Pick your best guess — we can discuss during our call. <a href="/fine-print.html" target="_blank" style="color:#106e5d;">Plan details &rarr;</a></p>
       <div class="options-grid single">
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-go')"><input type="radio" name="package" value="build-go"><span class="option-check"></span><div><strong>Build &amp; Go</strong> &mdash; One-time build, from $2,500<sup>+GST</sup></div></label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-host')"><input type="radio" name="package" value="build-host"><span class="option-check"></span><div><strong>Build &amp; Host</strong> &mdash; Build + year 1 hosting, from $2,750<sup>+GST</sup></div></label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-relax')"><input type="radio" name="package" value="build-relax"><span class="option-check"></span><div><strong>Build &amp; Relax</strong> &mdash; Build + hosting + 6 months revisions, from $3,200<sup>+GST</sup></div></label>
-        <label class="option-label radio" onclick="selectRadio(this,'package','build-maintain')"><input type="radio" name="package" value="build-maintain"><span class="option-check"></span><div><strong>Build &amp; Maintain</strong> &mdash; Fully managed, $200<sup>+GST</sup>/month</div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-go')"><input type="radio" name="package" value="build-go"><span class="option-check"></span><div><strong>Build &amp; Go</strong> &mdash; One-time build, $2,500<sup>+GST</sup></div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','build-maintain')"><input type="radio" name="package" value="build-maintain"><span class="option-check"></span><div><strong>Build &amp; Maintain</strong> &mdash; $1,000<sup>+GST</sup> to build, then $200<sup>+GST</sup>/month (12-month minimum)</div></label>
+        <label class="option-label radio" onclick="selectRadio(this,'package','care-plan')"><input type="radio" name="package" value="care-plan"><span class="option-check"></span><div><strong>Care Plan</strong> &mdash; Ongoing care for my existing site, $250<sup>+GST</sup>/month</div></label>
         <label class="option-label radio" onclick="selectRadio(this,'package','unsure')"><input type="radio" name="package" value="unsure"><span class="option-check"></span><div><strong>Not sure yet</strong> &mdash; I&rsquo;d like advice</div></label>
       </div>
       <div id="packageError" class="error-msg">Please select a package option.</div>

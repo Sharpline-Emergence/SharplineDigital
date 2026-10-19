@@ -44,7 +44,7 @@
     "url": "https://sharplinedigital.com/",
     "telephone": "+1-604-796-5557",
     "email": "hello@sharplinedigital.com",
-    "priceRange": "$150-$3200",
+    "priceRange": "$150-$2500",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Chilliwack",
@@ -414,7 +414,8 @@
 
     .pkg-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
+      align-items: start;
       gap: 1.2rem;
       margin-top: 3rem;
     }
@@ -450,51 +451,48 @@
       font-weight: 300;
       color: var(--muted);
     }
-    .discount-badge {
-      display: inline-block;
-      background: #e63946;
-      color: var(--white);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      padding: 0.25rem 0.6rem;
-      border-radius: 3px;
-      margin-bottom: 0.7rem;
-      text-transform: uppercase;
+    .pkg-price-sub {
+      font-size: 1.25rem;
+      margin-top: 0.1rem;
     }
-    .pkg-price-old {
-      position: relative;
-      display: inline-block;
-      font-size: 1.05rem;
-      font-weight: 500;
-      color: rgba(168,192,214,0.75);
-      margin-bottom: 0.1rem;
+    .pkg-tagline {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+      margin-bottom: 0.2rem;
     }
-    .pkg-price-old::after {
-      content: '';
+    .pkg-card { position: relative; }
+    .pkg-flag {
       position: absolute;
-      left: -6%;
-      right: -6%;
-      top: 48%;
-      height: 2px;
-      background: #e63946;
-      transform: rotate(-9deg);
+      top: -0.7rem;
+      left: 2rem;
+      background: var(--teal);
+      color: var(--navy);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 0.25rem 0.7rem;
+      border-radius: 3px;
     }
-    .pkg-price-new {
-      color: var(--teal);
+    .pkg-card.featured {
+      border-color: rgba(46,196,169,0.55);
     }
+    .pkg-fineprint-link {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .pkg-fineprint-link a { color: var(--teal); text-underline-offset: 2px; }
+    .pkg-fineprint-link a:hover { color: var(--white); }
     .pkg-gst {
       font-size: 0.72rem;
       color: rgba(168,192,214,0.75);
       margin-bottom: 1rem;
       line-height: 1.6;
     }
-    .pkg-gst em {
-      font-size: 0.68rem;
-      font-style: italic;
-      color: rgba(168,192,214,0.75);
-    }
-    .pkg-desc {
+        .pkg-desc {
       font-size: 0.85rem;
       color: var(--muted);
       line-height: 1.7;
@@ -674,6 +672,10 @@
     }
 
     /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .pkg-grid { grid-template-columns: 1fr; max-width: 520px; }
+      .pkg-card.featured { order: -1; }
+    }
     @media (max-width: 768px) {
       /* .nav / .nav-links / .nav-toggle responsive rules inlined below (was /nav-footer.css) */
       .hero { min-height: 85vh; padding-top: 5rem; padding-bottom: 4rem; align-items: flex-end; }
@@ -959,8 +961,8 @@
           <div class="stat-label">Base builds &mdash; Home, About, Services, Contact + one more of your choosing</div>
         </div>
         <div class="intro-stat">
-          <div class="stat-num">$200<small style="font-size:0.5em;font-weight:400">/mo +GST</small></div>
-          <div class="stat-label">Fully managed maintenance &mdash; cancel anytime, 30 days notice</div>
+          <div class="stat-num">$1,000<small style="font-size:0.5em;font-weight:400"> +GST</small></div>
+          <div class="stat-label">Gets your custom site built &mdash; then $200/mo +GST covers hosting, updates &amp; SEO upkeep</div>
         </div>
         <div class="intro-stat">
           <div class="stat-num">100%</div>
@@ -1015,60 +1017,48 @@
   <section class="packages-section" id="packages">
     <div class="container">
       <div class="section-label" style="color:var(--teal)">Packages</div>
-      <h2 class="section-title light">Choose your level of involvement</h2>
-      <p class="section-sub light">All packages include a custom 5-page site, clean code, and your GitHub repo. You provide copy and photography.</p>
+      <h2 class="section-title light">Three ways to work with us</h2>
+      <p class="section-sub light">Every build is a custom 5-page site in clean code, and the GitHub repo is yours. You provide copy and photography. All prices are in CAD, plus GST.</p>
       <div class="pkg-grid">
 
         <div class="pkg-card fade-up">
           <div class="pkg-name">Build &amp; Go</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $2,500 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,500 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">We build it, hand it off, you're done. Full GitHub repo delivered &mdash; take it anywhere you like.</p>
+          <div class="pkg-tagline">Pay once. Walk away.</div>
+          <div class="pkg-price">$2,500 <span>+GST one-time</span></div>
+          <div class="pkg-gst">Paid in two instalments</div>
+          <p class="pkg-desc">We build it and hand it off. You take the repo and host it wherever you like.</p>
           <ul class="pkg-features">
             <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
-            <li><span class="pkg-check">&#10003;</span> GitHub repo &mdash; yours outright</li>
             <li><span class="pkg-check">&#10003;</span> Mobile-first responsive design</li>
-            <li><span class="pkg-check">&#10003;</span> 30-day post-launch support</li>
+            <li><span class="pkg-check">&#10003;</span> GitHub repo &mdash; yours outright</li>
+            <li><span class="pkg-check">&#10003;</span> 30 days of post-launch fixes</li>
           </ul>
         </div>
 
         <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Relax</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $3,200 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,920 <span>one-time</span></div>
-          <div class="pkg-gst">+GST &mdash; our most popular choice<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">Build + hosting for year one + minor revisions for 6 months while your business finds its footing.</p>
+          <div class="pkg-flag">Recommended</div>
+          <div class="pkg-name">Build &amp; Maintain</div>
+          <div class="pkg-tagline">Low start-up cost. We handle the rest.</div>
+          <div class="pkg-price">$1,000 <span>+GST to build</span></div>
+          <div class="pkg-price pkg-price-sub">then $200 <span>+GST / month</span></div>
+          <div class="pkg-gst">12-month minimum &mdash; billed quarterly in advance ($600 +GST)</div>
+          <p class="pkg-desc">A custom site for a fraction of the up-front cost, then hosting, updates, reviews and SEO upkeep handled every month.</p>
           <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting included</li>
-            <li><span class="pkg-check">&#10003;</span> Revisions under 1hr for 6 months</li>
-            <li><span class="pkg-check">&#10003;</span> Ideal for new businesses</li>
+            <li><span class="pkg-check">&#10003;</span> 5-page custom website</li>
+            <li><span class="pkg-check">&#10003;</span> Hosting &amp; SSL included</li>
+            <li><span class="pkg-check">&#10003;</span> Up to 3 hours of updates per month</li>
+            <li><span class="pkg-check">&#10003;</span> Your latest Google reviews on your site, refreshed weekly</li>
+            <li><span class="pkg-check">&#10003;</span> Ongoing on-page SEO &amp; Google Business Profile upkeep</li>
+            <li><span class="pkg-check">&#10003;</span> You own the code from launch day</li>
           </ul>
         </div>
 
         <div class="pkg-card fade-up">
-          <div class="pkg-name">Build &amp; Host</div>
-          <div class="discount-badge">40% off &mdash; book by Oct. 18, 2026</div>
-          <div class="pkg-price-old">From $2,750 <span>one-time</span></div>
-          <div class="pkg-price pkg-price-new">From $1,650 <span>one-time</span></div>
-          <div class="pkg-gst">+GST<br><em>*or less, depending upon project &mdash; discount applies if deposit is received by Oct. 18, 2026</em></div>
-          <p class="pkg-desc">Custom build plus we handle hosting for year one &mdash; no server setup, no headaches.</p>
-          <ul class="pkg-features">
-            <li><span class="pkg-check">&#10003;</span> Everything in Build &amp; Go</li>
-            <li><span class="pkg-check">&#10003;</span> Year 1 hosting managed for you</li>
-            <li><span class="pkg-check">&#10003;</span> Domain setup assistance</li>
-            <li><span class="pkg-check">&#10003;</span> SSL certificate included</li>
-          </ul>
-        </div>
-
-        <div class="pkg-card featured fade-up">
-          <div class="pkg-name">Build &amp; Maintain</div>
-          <div class="pkg-price">$200 <span>/ month</span></div>
-          <div class="pkg-gst">+GST &mdash; cancel anytime, 30 days notice</div>
-          <p class="pkg-desc">We handle everything ongoing. Up to 3 hrs/month of updates, security, and priority support.</p>
+          <div class="pkg-name">Care Plan</div>
+          <div class="pkg-tagline">Already have a site?</div>
+          <div class="pkg-price">$250 <span>+GST / month</span></div>
+          <div class="pkg-gst">Billed quarterly in advance ($750 +GST) &mdash; no long-term contract</div>
+          <p class="pkg-desc">Ongoing care for a website we didn't build. We review your site first to make sure it's a good fit.</p>
           <ul class="pkg-features">
             <li><span class="pkg-check">&#10003;</span> Up to 3 hours of updates per month</li>
             <li><span class="pkg-check">&#10003;</span> Security &amp; backups managed</li>
@@ -1078,6 +1068,7 @@
         </div>
 
       </div>
+      <p class="pkg-fineprint-link">Plan details, terms and what's included: <a href="/fine-print.html">read the fine print &rarr;</a></p>
     </div>
   </section>
 
