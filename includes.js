@@ -98,7 +98,13 @@
   // blocking network round-trips and the nav/footer pop-in on every load.
   function init() {
     initNavBehavior();
-    loadChatWidget();
+    // Chat widget isn't needed for the first view — load it once the page
+    // has finished loading so it never competes with the important stuff.
+    if (document.readyState === 'complete') {
+      setTimeout(loadChatWidget, 1000);
+    } else {
+      window.addEventListener('load', function () { setTimeout(loadChatWidget, 1000); });
+    }
   }
 
   if (document.readyState === 'loading') {
