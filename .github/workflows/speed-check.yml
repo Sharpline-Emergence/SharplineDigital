@@ -1,0 +1,27 @@
+# Daily speed check for sharplinedigital.com
+# Runs Google's Lighthouse speed test (mobile) on the pages below every morning.
+# If the typical score drops below 85, this check fails and GitHub emails you.
+# To run it right now: GitHub.com → this repo → Actions → "Daily speed check" → Run workflow.
+
+name: Daily speed check
+
+on:
+  schedule:
+    - cron: "17 14 * * *"   # 7:17 a.m. Pacific in summer (6:17 a.m. in winter). GitHub uses UTC.
+  workflow_dispatch:         # adds a "Run workflow" button for an instant check
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test homepage and Chilliwack page (3 runs each, middle score counts)
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://sharplinedigital.com/
+            https://sharplinedigital.com/web-design-chilliwack.html
+          runs: 3
+          configPath: ./.github/lighthouserc.json
+          uploadArtifacts: true
+          temporaryPublicStorage: true
