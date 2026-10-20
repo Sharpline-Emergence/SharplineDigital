@@ -239,6 +239,45 @@
   .login-toggle { text-align: center; margin-top: 16px; font-size: 13px; color: var(--ink-soft); }
   .login-toggle a { color: var(--sage-dark); cursor: pointer; text-decoration: underline; }
   .login-error { color: var(--danger); font-size: 13px; margin-top: 8px; min-height: 16px; }
+  /* ---- Reminders diary ---- */
+  .rem-badge { display: inline-block; min-width: 18px; padding: 1px 6px; margin-left: 6px; border-radius: 99px;
+               font-size: 11px; font-family: 'DM Mono', monospace; background: var(--danger); color: #fff; }
+  .rem-badge:empty { display: none; }
+  .reminder-line { font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 3px; color: var(--sage-dark); }
+  .reminder-line.today { color: #9a6b1a; font-weight: 600; }
+  .reminder-line.overdue { color: var(--danger); font-weight: 600; }
+  .rem-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 4px; }
+  .rem-toolbar .hint { margin: 0; font-size: 13px; color: var(--ink-soft); }
+  .rem-toolbar label { font-size: 13px; color: var(--ink-soft); display: flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; }
+  .rem-group h3 { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+                  color: var(--ink-soft); margin: 16px 0 6px; }
+  .rem-group h3.overdue { color: var(--danger); }
+  .rem-group h3.today { color: #9a6b1a; }
+  .rem-item { display: grid; grid-template-columns: 62px 1fr auto; gap: 12px; align-items: start; padding: 10px 12px;
+              background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; }
+  .rem-item.done { opacity: 0.6; }
+  .rem-item.done .rem-note { text-decoration: line-through; }
+  .rem-date { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--ink-soft); padding-top: 2px; }
+  .rem-date.overdue { color: var(--danger); font-weight: 600; }
+  .rem-date.today { color: #9a6b1a; font-weight: 600; }
+  .rem-biz { font-weight: 600; font-size: 14px; color: var(--ink); cursor: pointer; text-decoration: underline;
+             text-decoration-color: var(--border); text-underline-offset: 3px; }
+  .rem-biz:hover { text-decoration-color: var(--sage); }
+  .rem-note { font-size: 13px; color: var(--ink-soft); margin-top: 2px; white-space: pre-wrap; word-break: break-word; }
+  .rem-done-on { font-size: 11px; color: var(--ink-soft); margin-top: 2px; font-family: 'DM Mono', monospace; }
+  .rem-actions { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .rem-actions button { padding: 5px 10px; font-size: 12px; }
+  .rem-add { display: grid; grid-template-columns: 150px 1fr; gap: 8px; margin-top: 8px; }
+  .rem-quick { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+  .rem-quick .btn-ghost { border: 1px solid var(--border); padding: 5px 10px; font-size: 12px; }
+  .rem-quick .btn-primary { margin-left: auto; }
+  .rem-empty { font-size: 13px; color: var(--ink-soft); padding: 4px 0; }
+  .rem-hint { font-size: 12px; color: var(--ink-soft); margin-top: 6px; }
+  @media (max-width: 520px) {
+    .rem-add { grid-template-columns: 1fr; }
+    .rem-item { grid-template-columns: 1fr; gap: 6px; }
+    .rem-actions { justify-content: flex-start; }
+  }
   .hidden { display: none !important; }
 </style>
 </head>
@@ -263,7 +302,8 @@
       <h1>Sharpline Prospects</h1>
       <div class="subtitle" id="countLabel">Loading…</div>
     </div>
-    <div style="display:flex; gap:8px;">
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn-secondary" id="remindersToggle">Reminders<span class="rem-badge" id="reminderBadge"></span></button>
       <button class="btn-secondary" id="logOutreachToggle">Log Outreach</button>
       <button class="btn-secondary" id="exportBtn">Export CSV</button>
       <button class="btn-secondary" id="importToggle">Import CSV</button>
@@ -363,6 +403,7 @@
       <option value="status">Status (pipeline order)</option>
       <option value="contactAge">Last contacted (oldest first)</option>
       <option value="sampleSite">Sample site (has one first)</option>
+      <option value="reminder">Next reminder (soonest first)</option>
     </select>
     <select id="filterEmail">
       <option value="">Any email</option>
@@ -373,6 +414,13 @@
       <option value="">Any sample site</option>
       <option value="has">Has sample site</option>
       <option value="no">No sample site</option>
+    </select>
+    <select id="filterReminder">
+      <option value="">Any reminder</option>
+      <option value="due">Reminder overdue or due today</option>
+      <option value="week">Reminder due within 7 days</option>
+      <option value="open">Has an open reminder</option>
+      <option value="none">No open reminder</option>
     </select>
     <button class="btn-secondary" id="clearFiltersBtn">Clear Filters</button>
   </div>
@@ -469,6 +517,26 @@
     <div class="field"><label>Date Added</label><input id="f_dateAdded" type="date" disabled></div>
     <div class="field"><label>Notes</label><textarea id="f_notes" placeholder="Anything else worth remembering..."></textarea></div>
 
+    <div class="field" id="remSection">
+      <label>Reminders</label>
+      <div id="remDrawerList"></div>
+      <div id="remAddWrap">
+        <div class="rem-add">
+          <input id="remDate" type="date">
+          <input id="remNote" placeholder="What to do, e.g. Call back about the quote">
+        </div>
+        <div class="rem-quick">
+          <button type="button" class="btn-ghost" data-quick="3">+3 days</button>
+          <button type="button" class="btn-ghost" data-quick="7">+1 week</button>
+          <button type="button" class="btn-ghost" data-quick="14">+2 weeks</button>
+          <button type="button" class="btn-ghost" data-quick="30">+1 month</button>
+          <button type="button" class="btn-primary" id="remAddBtn">Add Reminder</button>
+        </div>
+        <div class="rem-hint">Reminders save as soon as you add or tick them — no need to hit Save.</div>
+      </div>
+      <div class="rem-hint" id="remDrawerHint" style="display:none;"></div>
+    </div>
+
     <div class="drawer-actions">
       <button class="btn-danger" id="deleteBtn" style="display:none;">Move to Trash</button>
       <div class="right">
@@ -516,6 +584,21 @@
   </div>
 </div>
 
+<!-- Reminders panel: every open reminder across all active prospects -->
+<div class="overlay center" id="remindersOverlay">
+  <div class="confirm-card" style="width:min(680px, 94%); max-width:680px; text-align:left;">
+    <h2>Reminders</h2>
+    <div class="rem-toolbar">
+      <p class="hint">Click a business name to open it. Add reminders from any prospect's drawer.</p>
+      <label><input type="checkbox" id="remShowDone"> Show completed</label>
+    </div>
+    <div id="remindersList" style="max-height:60vh; overflow-y:auto;"></div>
+    <div class="confirm-actions">
+      <button class="btn-ghost" id="remindersCloseBtn">Close</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -526,6 +609,9 @@ let lastFiltered = [];
 let pendingDeleteId = null;
 let pendingPurgeId = null;
 let selectedIds = new Set();
+let reminders = [];            // every row in public.reminders for this user (open + done)
+let remindersReady = true;     // false if the reminders table doesn't exist / can't be read
+let remindersWarned = false;
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
@@ -646,6 +732,7 @@ async function loadProspects() {
   const { data, error } = await sb.from('prospects').select('*').is('deleted_at', null);
   if (error) { showToast('Load failed: ' + error.message); return; }
   prospects = (data || []).map(dbToApp);
+  await loadReminders();
   render();
 }
 
@@ -758,6 +845,7 @@ function populateFilters() {
 
 function render() {
   populateFilters();
+  updateReminderBadge();
   const search = document.getElementById('searchInput').value.toLowerCase();
   const cityF = document.getElementById('filterCity').value;
   const catF = document.getElementById('filterCategory').value;
@@ -799,6 +887,15 @@ function render() {
     const hasSample = !!(p.sampleSite && p.sampleSite.trim());
     if (sampleF === 'has' && !hasSample) return false;
     if (sampleF === 'no' && hasSample) return false;
+    const remF = document.getElementById('filterReminder').value;
+    if (remF) {
+      const nr = nextReminder(p.id);
+      const nd = nr ? remDaysUntil(nr) : null;
+      if (remF === 'due' && !(nd !== null && nd <= 0)) return false;
+      if (remF === 'week' && !(nd !== null && nd <= 7)) return false;   // includes overdue
+      if (remF === 'open' && !nr) return false;
+      if (remF === 'none' && nr) return false;
+    }
     return true;
   });
 
@@ -849,6 +946,15 @@ function render() {
       if (aHas !== bHas) return aHas ? -1 : 1;
       return (a.businessName || '').localeCompare(b.businessName || '');
     });
+  } else if (sortBy === 'reminder') {
+    // Soonest open reminder first (so overdue ones sit at the top); no reminder goes last.
+    filtered.sort((a, b) => {
+      const ar = nextReminder(a.id), br = nextReminder(b.id);
+      if (ar && !br) return -1;
+      if (!ar && br) return 1;
+      if (ar && br && ar.due_date !== br.due_date) return ar.due_date.localeCompare(br.due_date);
+      return (a.businessName || '').localeCompare(b.businessName || '');
+    });
   } else if (sortBy === 'status') {
     // Pipeline order: New -> Not contacted -> Contacted -> Hot -> Follow-up -> Won -> Not interested, blanks last
     const statusOrder = { 'New': 0, 'Not contacted': 1, 'Contacted': 2, 'Hot': 3, 'Follow-up': 4, 'Won': 5, 'Not interested': 6, 'Inactive': 7 };
@@ -888,6 +994,7 @@ function render() {
         ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a></div>` : ''}
         ${contactAgeLabel(p)}
         ${lastCallLabel(p)}
+        ${reminderLabel(p)}
       </div>
       <div class="col-city">${escapeHtml(p.city || '')}</div>
       <div class="col-category">${escapeHtml(p.category || '')}</div>
@@ -1038,13 +1145,16 @@ function openDrawer(id) {
   document.getElementById('f_seqStep').value = p?.seqStep ?? 0;
   document.getElementById('f_lastCallDate').value = p?.lastCallDate || '';
   document.getElementById('f_lastCallDir').value = p?.lastCallDir || '';
-  document.getElementById('f_dateAdded').value = p?.dateAdded || new Date().toISOString().slice(0,10);
+  document.getElementById('f_dateAdded').value = p?.dateAdded || todayISO();
   document.getElementById('f_notes').value = p?.notes || '';
 
   const opps = p?.opportunities || [];
   document.querySelectorAll('.check-row input').forEach(cb => {
     cb.checked = opps.includes(cb.value);
   });
+
+  resetReminderForm();
+  renderDrawerReminders();
 
   document.getElementById('overlay').classList.add('open');
 }
@@ -1080,7 +1190,7 @@ async function saveCurrent() {
     seqStep: parseInt(document.getElementById('f_seqStep').value, 10) || 0,
     lastCallDate: document.getElementById('f_lastCallDate').value,
     lastCallDir: document.getElementById('f_lastCallDir').value,
-    dateAdded: document.getElementById('f_dateAdded').value || new Date().toISOString().slice(0,10),
+    dateAdded: document.getElementById('f_dateAdded').value || todayISO(),
     notes: document.getElementById('f_notes').value.trim(),
     opportunities
   };
@@ -1268,7 +1378,7 @@ function parseCSV(text) {
       status,
       contacted,
       dateContacted: map['date contacted'] || '',
-      dateAdded: map['date added'] || new Date().toISOString().slice(0,10),
+      dateAdded: map['date added'] || todayISO(),
       seqStep: parseInt(map['sequence step'] || map['seq step'] || '0', 10) || 0,
       notes: combinedNotes,
       opportunities
@@ -1320,7 +1430,7 @@ function exportCSV() {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  const today = new Date().toISOString().slice(0,10);
+  const today = todayISO();
   a.href = url;
   a.download = `sharpline-prospects-${today}.csv`;
   document.body.appendChild(a);
@@ -1504,6 +1614,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('filterSeqStep').value = '';
   document.getElementById('filterEmail').value = '';
   document.getElementById('filterSample').value = '';
+  document.getElementById('filterReminder').value = '';
   render();
 });
 document.getElementById('filterSeqStep').addEventListener('change', render);
@@ -1832,7 +1943,7 @@ async function addUnmatchedAudits(unmatched) {
       status: 'New',
       contacted: false,
       dateContacted: '',
-      dateAdded: new Date().toISOString().slice(0, 10),
+      dateAdded: todayISO(),
       seqStep: 0,
       notes: auditNoteText(a, auditStamp()),
       opportunities: []
@@ -1990,6 +2101,278 @@ document.getElementById('doMergeAudits').addEventListener('click', applyAuditMer
 document.getElementById('doAddUnmatched').addEventListener('click', async () => {
   if (!lastAuditPreview) { showToast('Preview Matches first'); return; }
   await addUnmatchedAudits(lastAuditPreview.unmatched);
+});
+
+// ---- Reminders diary ----
+// Lives in its own Supabase table (public.reminders — see reminders.sql),
+// one row per reminder, linked to a prospect by prospect_id. Reminders save
+// the moment you add / tick / snooze them. They never write to the prospect
+// row itself, so they can't clobber unsaved edits sitting in the drawer.
+// Trashed prospects' reminders are hidden (they come back on Restore);
+// Delete Forever removes them with the prospect (ON DELETE CASCADE).
+
+async function loadReminders() {
+  const { data, error } = await sb.from('reminders').select('*').order('due_date', { ascending: true });
+  if (error) {
+    reminders = [];
+    remindersReady = false;
+    if (!remindersWarned) {
+      remindersWarned = true;
+      console.warn('Reminders unavailable:', error.message);
+      showToast('Reminders not set up yet — run reminders.sql in Supabase');
+    }
+    return;
+  }
+  remindersReady = true;
+  reminders = data || [];
+}
+
+function addDaysISO(n, fromISO) {
+  const base = parseLocalDate(fromISO) || new Date();
+  base.setHours(0, 0, 0, 0);
+  base.setDate(base.getDate() + n);
+  return `${base.getFullYear()}-${String(base.getMonth() + 1).padStart(2, '0')}-${String(base.getDate()).padStart(2, '0')}`;
+}
+
+// Days from today until the reminder is due: 0 = today, negative = overdue.
+function remDaysUntil(r) {
+  const d = parseLocalDate(r.due_date);
+  if (!d) return null;
+  const t = new Date();
+  t.setHours(0, 0, 0, 0);
+  return Math.round((d - t) / 86400000);
+}
+
+function fmtShortDate(d) {
+  if (!d || isNaN(d)) return '';
+  const opts = { month: 'short', day: 'numeric' };
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
+  return d.toLocaleDateString('en-US', opts);
+}
+function fmtRemDate(iso) { return fmtShortDate(parseLocalDate(iso)); }
+
+function remState(days) {
+  if (days === null) return '';
+  return days < 0 ? 'overdue' : days === 0 ? 'today' : '';
+}
+
+function openRemindersFor(pid) {
+  const key = String(pid);
+  return reminders
+    .filter(r => String(r.prospect_id) === key && !r.done_at)
+    .sort((a, b) => (a.due_date || '').localeCompare(b.due_date || ''));
+}
+function nextReminder(pid) { return openRemindersFor(pid)[0] || null; }
+
+function reminderWhen(days, iso) {
+  if (days === null) return '';
+  if (days < -1) return `overdue ${-days}d`;
+  if (days === -1) return 'overdue since yesterday';
+  if (days === 0) return 'due today';
+  if (days === 1) return 'due tomorrow';
+  return `due ${fmtRemDate(iso)}`;
+}
+
+// "⏰ due Oct 22 · Call back about quote" under the business name.
+function reminderLabel(p) {
+  const list = openRemindersFor(p.id);
+  if (!list.length) return '';
+  const r = list[0];
+  const days = remDaysUntil(r);
+  const note = (r.note || '').trim();
+  const short = note.length > 60 ? note.slice(0, 57) + '…' : note;
+  const more = list.length > 1 ? ` (+${list.length - 1} more)` : '';
+  return `<div class="reminder-line ${remState(days)}">⏰ ${reminderWhen(days, r.due_date)}${short ? ' · ' + escapeHtml(short) : ''}${more}</div>`;
+}
+
+// Open reminders whose prospect is in the active list (i.e. not in Trash).
+function activeOpenReminders() {
+  const ids = new Set(prospects.map(p => String(p.id)));
+  return reminders.filter(r => !r.done_at && ids.has(String(r.prospect_id)));
+}
+
+// Red count on the header button = overdue + due today. Nothing due, no badge.
+function updateReminderBadge() {
+  const badge = document.getElementById('reminderBadge');
+  if (!remindersReady) {
+    badge.textContent = '!';
+    badge.title = 'Reminders table not set up — run reminders.sql in Supabase';
+    return;
+  }
+  const due = activeOpenReminders().filter(r => { const d = remDaysUntil(r); return d !== null && d <= 0; }).length;
+  badge.textContent = due ? String(due) : '';
+  badge.title = due ? `${due} overdue or due today` : '';
+}
+
+function remItemHtml(r, p, showBiz) {
+  const days = remDaysUntil(r);
+  const done = !!r.done_at;
+  const state = done ? '' : remState(days);
+  const id = escapeHtml(String(r.id));
+  const biz = showBiz
+    ? `<div class="rem-biz" data-open="${escapeHtml(String(r.prospect_id))}">${escapeHtml(p?.businessName || 'Unknown prospect')}</div>`
+    : '';
+  const note = r.note
+    ? `<div class="rem-note">${escapeHtml(r.note)}</div>`
+    : (showBiz ? '' : '<div class="rem-note">(no note)</div>');
+  const doneOn = done ? `<div class="rem-done-on">done ${escapeHtml(fmtShortDate(new Date(r.done_at)))}</div>` : '';
+  const actions = done
+    ? `<button class="btn-ghost" data-undo="${id}">Undo</button>
+       <button class="btn-ghost" data-del="${id}" title="Delete reminder">✕</button>`
+    : `<button class="btn-secondary" data-done="${id}">Done</button>
+       <button class="btn-ghost" data-snooze="${id}" title="Push back one week">+1 wk</button>
+       <button class="btn-ghost" data-del="${id}" title="Delete reminder">✕</button>`;
+  return `<div class="rem-item${done ? ' done' : ''}">
+      <div class="rem-date ${state}">${escapeHtml(fmtRemDate(r.due_date))}</div>
+      <div>${biz}${note}${doneOn}</div>
+      <div class="rem-actions">${actions}</div>
+    </div>`;
+}
+
+function renderRemindersPanel() {
+  const list = document.getElementById('remindersList');
+  if (!remindersReady) {
+    list.innerHTML = `<p class="rem-empty">The reminders table isn't set up yet. In Supabase, open SQL Editor → New query, paste in <strong>reminders.sql</strong>, click Run, then reload this page.</p>`;
+    return;
+  }
+  const byId = new Map(prospects.map(p => [String(p.id), p]));
+  const open = activeOpenReminders().sort((a, b) => a.due_date.localeCompare(b.due_date));
+  const groups = [
+    ['Overdue', 'overdue', d => d < 0],
+    ['Today', 'today', d => d === 0],
+    ['Next 7 days', '', d => d >= 1 && d <= 7],
+    ['Later', '', d => d > 7],
+  ];
+  let html = '';
+  for (const [title, cls, test] of groups) {
+    const items = open.filter(r => test(remDaysUntil(r)));
+    if (!items.length) continue;
+    html += `<div class="rem-group"><h3 class="${cls}">${title} · ${items.length}</h3>` +
+      items.map(r => remItemHtml(r, byId.get(String(r.prospect_id)), true)).join('') + `</div>`;
+  }
+  if (document.getElementById('remShowDone').checked) {
+    const done = reminders
+      .filter(r => r.done_at && byId.has(String(r.prospect_id)))
+      .sort((a, b) => (b.done_at || '').localeCompare(a.done_at || ''))
+      .slice(0, 50);
+    if (done.length) {
+      html += `<div class="rem-group"><h3>Completed · latest ${done.length}</h3>` +
+        done.map(r => remItemHtml(r, byId.get(String(r.prospect_id)), true)).join('') + `</div>`;
+    }
+  }
+  list.innerHTML = html || `<p class="rem-empty">Nothing on the list. Open any prospect and add a reminder at the bottom of its drawer.</p>`;
+}
+
+// Reminders section at the bottom of the prospect drawer.
+function renderDrawerReminders() {
+  const listEl = document.getElementById('remDrawerList');
+  const addWrap = document.getElementById('remAddWrap');
+  const hint = document.getElementById('remDrawerHint');
+  const showHint = (msg) => { listEl.innerHTML = ''; addWrap.style.display = 'none'; hint.style.display = 'block'; hint.textContent = msg; };
+  if (!remindersReady) return showHint("Reminders aren't set up yet — run reminders.sql in Supabase first.");
+  if (!editingId) return showHint('Save this prospect first, then you can add reminders to it.');
+  hint.style.display = 'none';
+  addWrap.style.display = 'block';
+  const key = String(editingId);
+  const open = openRemindersFor(editingId);
+  const done = reminders
+    .filter(r => String(r.prospect_id) === key && r.done_at)
+    .sort((a, b) => (b.done_at || '').localeCompare(a.done_at || ''))
+    .slice(0, 3);
+  listEl.innerHTML =
+    (open.length ? open.map(r => remItemHtml(r, null, false)).join('') : `<div class="rem-empty">No open reminders.</div>`) +
+    done.map(r => remItemHtml(r, null, false)).join('');
+}
+
+function resetReminderForm() {
+  document.getElementById('remDate').value = addDaysISO(7);
+  document.getElementById('remNote').value = '';
+}
+
+function refreshReminderViews() {
+  render();
+  if (document.getElementById('overlay').classList.contains('open')) renderDrawerReminders();
+  if (document.getElementById('remindersOverlay').classList.contains('open')) renderRemindersPanel();
+}
+
+// Runs one Supabase write, then reloads reminders and redraws everything that shows them.
+async function remAction(write, okMsg) {
+  const { error } = await write();
+  if (error) { showToast('Reminder update failed: ' + error.message); return false; }
+  await loadReminders();
+  refreshReminderViews();
+  if (okMsg) showToast(okMsg);
+  return true;
+}
+
+async function addReminder() {
+  if (!editingId) return;
+  const due = document.getElementById('remDate').value;
+  const note = document.getElementById('remNote').value.trim();
+  if (!due) { showToast('Pick a date for the reminder'); return; }
+  const p = prospects.find(x => String(x.id) === String(editingId));
+  const btn = document.getElementById('remAddBtn');
+  btn.disabled = true;
+  const ok = await remAction(
+    () => sb.from('reminders').insert({ prospect_id: p ? p.id : editingId, due_date: due, note: note || null }),
+    `Reminder set for ${fmtRemDate(due)}`
+  );
+  btn.disabled = false;
+  if (ok) resetReminderForm();
+}
+
+// One click handler for both the panel and the drawer list.
+function handleReminderClick(e) {
+  const t = e.target.closest('[data-done],[data-undo],[data-snooze],[data-del],[data-open]');
+  if (!t) return;
+  e.stopPropagation();
+  const d = t.dataset;
+  if (d.open) {
+    const p = prospects.find(x => String(x.id) === d.open);
+    if (!p) { showToast("That prospect isn't in the active list"); return; }
+    closeReminders();
+    openDrawer(p.id);
+  } else if (d.done) {
+    remAction(() => sb.from('reminders').update({ done_at: new Date().toISOString() }).eq('id', d.done), 'Reminder done');
+  } else if (d.undo) {
+    remAction(() => sb.from('reminders').update({ done_at: null }).eq('id', d.undo), 'Reminder reopened');
+  } else if (d.snooze) {
+    const r = reminders.find(x => String(x.id) === d.snooze);
+    if (!r) return;
+    // Overdue reminders snooze from today, not from the stale due date.
+    const base = remDaysUntil(r) < 0 ? todayISO() : r.due_date;
+    const nd = addDaysISO(7, base);
+    remAction(() => sb.from('reminders').update({ due_date: nd }).eq('id', d.snooze), `Moved to ${fmtRemDate(nd)}`);
+  } else if (d.del) {
+    if (!confirm("Delete this reminder? This can't be undone.")) return;
+    remAction(() => sb.from('reminders').delete().eq('id', d.del), 'Reminder deleted');
+  }
+}
+
+async function openReminders() {
+  document.getElementById('remindersOverlay').classList.add('open');
+  renderRemindersPanel();
+  await loadReminders();     // pick up anything changed in another tab
+  refreshReminderViews();
+}
+function closeReminders() {
+  document.getElementById('remindersOverlay').classList.remove('open');
+}
+
+document.getElementById('remindersToggle').addEventListener('click', openReminders);
+document.getElementById('remindersCloseBtn').addEventListener('click', closeReminders);
+document.getElementById('remindersOverlay').addEventListener('click', (e) => { if (e.target.id === 'remindersOverlay') closeReminders(); });
+document.getElementById('remShowDone').addEventListener('change', renderRemindersPanel);
+document.getElementById('remindersList').addEventListener('click', handleReminderClick);
+document.getElementById('remDrawerList').addEventListener('click', handleReminderClick);
+document.getElementById('remAddBtn').addEventListener('click', addReminder);
+document.getElementById('remNote').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addReminder(); } });
+document.querySelectorAll('[data-quick]').forEach(b => b.addEventListener('click', () => {
+  document.getElementById('remDate').value = addDaysISO(parseInt(b.dataset.quick, 10));
+}));
+document.getElementById('filterReminder').addEventListener('change', render);
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && document.getElementById('remindersOverlay').classList.contains('open')) closeReminders();
 });
 
 checkSession();
