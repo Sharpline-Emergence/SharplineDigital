@@ -829,7 +829,11 @@
       // GA4: count phone taps as a conversion signal
       document.querySelectorAll('.js-call').forEach(function (a) {
         a.addEventListener('click', function () {
-          if (typeof gtag === 'function') gtag('event', 'phone_click', { page: 'trades_landing' });
+          if (typeof gtag === 'function') {
+            gtag('event', 'phone_click', { page: 'trades_landing' });
+            // Google Ads: count a phone tap as a lead conversion
+            gtag('event', 'conversion', { send_to: 'AW-18517455950/efPLCND1taYdEM7o5_1E' });
+          }
         });
       });
 
