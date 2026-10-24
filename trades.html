@@ -826,6 +826,28 @@
 
   <script>
     (function () {
+      // Where did this visitor come from? Google Ads adds gclid/gbraid/wbraid to the URL on an ad click.
+      var leadSource = (function () {
+        var params = new URLSearchParams(window.location.search);
+        var label;
+        if (params.get('gclid') || params.get('gbraid') || params.get('wbraid')) {
+          label = 'Google Ads';
+        } else if (params.get('utm_source')) {
+          label = params.get('utm_source');
+        } else if (document.referrer && document.referrer.indexOf(window.location.hostname) === -1) {
+          try { label = 'from ' + new URL(document.referrer).hostname; } catch (e) { label = 'referral'; }
+        } else {
+          label = 'direct link';
+        }
+        // Remember it for this visit, so it isn't lost if the page reloads
+        try {
+          var saved = sessionStorage.getItem('trades_lead_source');
+          if (saved && label === 'direct link') return saved;
+          sessionStorage.setItem('trades_lead_source', label);
+        } catch (e) {}
+        return label;
+      })();
+
       // GA4: count phone taps as a conversion signal
       document.querySelectorAll('.js-call').forEach(function (a) {
         a.addEventListener('click', function () {
@@ -856,8 +878,8 @@
 
         var email = document.getElementById('lfEmail').value.trim();
         var payload = {
-          _subject: 'Trades landing page: free preview request',
-          source: 'Trades landing page (Google Ads)',
+          _subject: 'Trades landing page: free preview request (' + leadSource + ')',
+          source: 'Trades landing page (' + leadSource + ')',
           name: document.getElementById('lfName').value.trim(),
           phone: document.getElementById('lfPhone').value.trim(),
           business: document.getElementById('lfBiz').value.trim(),
