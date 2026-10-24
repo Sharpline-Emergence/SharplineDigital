@@ -752,7 +752,7 @@
       <div class="lead-aside">
         <div class="section-label">Free preview</div>
         <h2 class="section-title">Let's see what your site could look like.</h2>
-        <p>Three quick details, that's it. I'll call you within one business day, usually sooner.</p>
+        <p>Three quick details, plus your website if you have one. I'll call you within one business day, usually sooner.</p>
         <p>Rather talk? Call or text me:<br><a href="tel:+16047965557" class="phone-big js-call">604-796-5557</a></p>
       </div>
 
@@ -770,6 +770,10 @@
           <div class="field">
             <label for="lfBiz">Business name</label>
             <input type="text" id="lfBiz" name="business" autocomplete="organization" required>
+          </div>
+          <div class="field">
+            <label for="lfSite">Current website <span class="opt">(optional)</span></label>
+            <input type="text" id="lfSite" name="website" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbusiness.ca">
           </div>
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" id="lfSubmit">Get my free preview</button>
@@ -895,6 +899,7 @@
           name: document.getElementById('lfName').value.trim(),
           phone: document.getElementById('lfPhone').value.trim(),
           business: document.getElementById('lfBiz').value.trim(),
+          website: document.getElementById('lfSite').value.trim() || 'None given',
           _gotcha: form.querySelector('[name="_gotcha"]').value
         };
 
