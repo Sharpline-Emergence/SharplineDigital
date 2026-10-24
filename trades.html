@@ -518,6 +518,18 @@
     }
     .about-facts li strong { color: var(--text-dark); font-weight: 600; font-family: 'Outfit', sans-serif; margin-right: 0.4rem; }
 
+    /* Recent work */
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .work-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: border-color 0.25s, box-shadow 0.25s; }
+    .work-card:hover { border-color: var(--teal); box-shadow: 0 4px 20px rgba(46,196,169,0.08); }
+    .work-card img { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top; border-bottom: 1px solid var(--border); background: var(--off-white); }
+    .work-body { padding: 1.3rem 1.4rem 1.5rem; }
+    .work-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #0a4035; background: var(--teal-light); padding: 3px 10px; border-radius: 20px; }
+    .work-body h3 { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin: 0.8rem 0 0.4rem; }
+    .work-body p { font-size: 0.86rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+    .work-more { font-size: 0.88rem; margin-top: 1.4rem; color: var(--text-mid); }
+    .work-more a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+
     /* Form */
     .lead-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; }
     .lead-aside p { font-size: 0.98rem; color: rgba(255,255,255,0.8); line-height: 1.75; font-weight: 300; margin-bottom: 1.2rem; }
@@ -563,7 +575,7 @@
     .faq details p { margin-top: 0.7rem; font-size: 0.95rem; color: #2a3a4a; line-height: 1.75; font-weight: 300; }
 
     @media (max-width: 820px) {
-      .stat-grid, .steps, .about-card, .lead-wrap { grid-template-columns: 1fr; }
+      .stat-grid, .steps, .about-card, .lead-wrap, .work-grid { grid-template-columns: 1fr; }
       .lead-form .row2 { grid-template-columns: 1fr; }
       .nav-phone { padding: 0.45rem 0.8rem; font-size: 0.82rem; }
     }
@@ -683,8 +695,35 @@
     </div>
   </section>
 
-  <!-- ABOUT -->
+  <!-- RECENT WORK -->
   <section class="section alt">
+    <div class="container">
+      <div class="section-label">Recent work</div>
+      <h2 class="section-title">Built here in the Fraser Valley.</h2>
+      <div class="work-grid">
+        <a class="work-card" href="https://canwestart.ca/" target="_blank" rel="noopener">
+          <img src="/images/work-canwest.webp" alt="Canwest Art Services website homepage" width="800" height="450" loading="lazy">
+          <div class="work-body">
+            <span class="work-tag">Client site</span>
+            <h3>Canwest Art Services</h3>
+            <p>A Chilliwack art supplier and painter. Product catalogue, paintings gallery and online order forms, built to grow as new product lines are added.</p>
+          </div>
+        </a>
+        <a class="work-card" href="https://www.503020.ca" target="_blank" rel="noopener">
+          <img src="/images/work-503020.webp" alt="503020.ca budget calculator website" width="800" height="450" loading="lazy">
+          <div class="work-body">
+            <span class="work-tag">Our own site</span>
+            <h3>503020.ca</h3>
+            <p>A free budgeting calculator we built and run ourselves, with an article library. Fast on a phone and found on Google.</p>
+          </div>
+        </a>
+      </div>
+      <p class="work-more">Tap any site to see it live on your phone, then compare it with yours. More in <a href="/portfolio.html">our work</a>.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section">
     <div class="container about-card">
       <div class="prose">
         <div class="section-label">Who you'll deal with</div>
@@ -713,54 +752,28 @@
       <div class="lead-aside">
         <div class="section-label">Free preview</div>
         <h2 class="section-title">Let's see what your site could look like.</h2>
-        <p>Takes about a minute. I'll get back to you within one business day, usually sooner.</p>
+        <p>Three quick details, that's it. I'll call you within one business day, usually sooner.</p>
         <p>Rather talk? Call or text me:<br><a href="tel:+16047965557" class="phone-big js-call">604-796-5557</a></p>
       </div>
 
       <div class="lead-form">
         <form id="leadForm" novalidate>
           <div class="form-error" id="formError">Something went wrong sending that. Please try again, or call 604-796-5557.</div>
-          <div class="row2">
-            <div class="field">
-              <label for="lfName">Your name</label>
-              <input type="text" id="lfName" name="name" autocomplete="name" required>
-            </div>
-            <div class="field">
-              <label for="lfPhone">Phone</label>
-              <input type="tel" id="lfPhone" name="phone" autocomplete="tel" required>
-            </div>
+          <div class="field">
+            <label for="lfName">Your name</label>
+            <input type="text" id="lfName" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="lfPhone">Phone</label>
+            <input type="tel" id="lfPhone" name="phone" autocomplete="tel" required>
           </div>
           <div class="field">
             <label for="lfBiz">Business name</label>
             <input type="text" id="lfBiz" name="business" autocomplete="organization" required>
           </div>
-          <div class="row2">
-            <div class="field">
-              <label for="lfTrade">Your trade</label>
-              <select id="lfTrade" name="trade">
-                <option value="">Choose one</option>
-                <option>Plumbing</option><option>Electrical</option><option>HVAC</option>
-                <option>Roofing</option><option>Landscaping</option><option>Painting</option>
-                <option>Fencing</option><option>Flooring</option><option>Renovations / contracting</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="lfEmail">Email</label>
-              <input type="email" id="lfEmail" name="email" autocomplete="email" required>
-            </div>
-          </div>
-          <div class="field">
-            <label for="lfSite">Current website <span class="opt">(if you have one)</span></label>
-            <input type="text" id="lfSite" name="website" placeholder="yourbusiness.ca">
-          </div>
-          <div class="field">
-            <label for="lfNotes">Anything else? <span class="opt">(optional)</span></label>
-            <textarea id="lfNotes" name="notes" placeholder="e.g. Best time to call, what you don't like about your current site"></textarea>
-          </div>
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" id="lfSubmit">Get my free preview</button>
-          <p class="form-note">No charge and no obligation. I'll only use your details to contact you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
+          <p class="form-note">No charge and no obligation. I'll only use your details to call you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
         </form>
         <div class="form-success" id="formSuccess">
           <h3>Thanks, got it.</h3>
@@ -866,29 +879,24 @@
       form.addEventListener('submit', function (e) {
         e.preventDefault();
         err.style.display = 'none';
-        var required = ['lfName', 'lfPhone', 'lfEmail', 'lfBiz'];
+        var required = ['lfName', 'lfPhone', 'lfBiz'];
         var missing = required.filter(function (id) {
           var el = document.getElementById(id);
           var val = el.value.trim();
-          var empty = !val || (id === 'lfEmail' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val));
+          var empty = !val;
           el.style.borderColor = empty ? '#c0392b' : '';
           return empty;
         });
         if (missing.length) { document.getElementById(missing[0]).focus(); return; }
 
-        var email = document.getElementById('lfEmail').value.trim();
         var payload = {
           _subject: 'Trades landing page: free preview request (' + leadSource + ')',
           source: 'Trades landing page (' + leadSource + ')',
           name: document.getElementById('lfName').value.trim(),
           phone: document.getElementById('lfPhone').value.trim(),
           business: document.getElementById('lfBiz').value.trim(),
-          trade: document.getElementById('lfTrade').value || 'Not given',
-          website: document.getElementById('lfSite').value.trim() || 'None given',
-          notes: document.getElementById('lfNotes').value.trim() || 'None',
           _gotcha: form.querySelector('[name="_gotcha"]').value
         };
-        payload.email = email;
 
         btn.disabled = true;
         btn.textContent = 'Sending…';
@@ -901,7 +909,7 @@
         .then(function (res) {
           if (!res.ok) throw new Error('Formspree ' + res.status);
           if (typeof gtag === 'function') {
-            gtag('event', 'generate_lead', { form_name: 'trades_landing', trade: payload.trade });
+            gtag('event', 'generate_lead', { form_name: 'trades_landing' });
             // Google Ads: count a successful preview request as a lead conversion
             gtag('event', 'conversion', { send_to: 'AW-18517455950/Cq9RCM7EuJ8dEM7o5_1E', value: 1.0, currency: 'CAD' });
           }
