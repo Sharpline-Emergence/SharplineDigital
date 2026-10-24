@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics loads after the page finishes, so it never slows the first view -->
+  <script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ';document.head.appendChild(s);},1500);});</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SN2ZMHV0FJ');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How a complete Google Business Profile and a steady flow of genuine Google reviews bring more local customers to your website, and how to get both the right way.">
+  <title>Your Google Business Profile Is Your Website's Front Door | Sharpline Digital</title>
+  <link rel="canonical" href="https://sharplinedigital.com/blog-google-business-profile.html">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit.woff2" crossorigin>
+  <style>
+    @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('/fonts/outfit.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 500; font-display: swap; src: url('/fonts/dm-sans.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 300; font-display: swap; src: url('/fonts/dm-sans-italic.woff2') format('woff2'); }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* Nav styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+
+    /* Data table + sample note */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.92rem;
+    }
+    .data-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      text-align: left;
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 1rem;
+    }
+    .data-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: #2a3a4a;
+      font-weight: 300;
+      vertical-align: top;
+    }
+    .data-table td:last-child {
+      font-weight: 500;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+    .data-table tbody tr:nth-child(even) td { background: var(--off-white); }
+    .article-body .article-list { margin: 0 0 1.4rem 1.2rem; }
+    .article-body .article-list li { font-size: 1rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 0.7rem; padding-left: 0.3rem; }
+    .article-body .article-list li::marker { color: var(--teal); }
+    .article-body .article-list strong { color: var(--text-dark); font-weight: 500; }
+    .share-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 2.4rem; }
+    .share-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--off-white); border: 1px solid var(--border); color: var(--text-dark); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; padding: 0.55rem 1.1rem; border-radius: 8px; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .share-btn:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .share-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .share-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--navy); color: var(--white); padding: 0.7rem 1.3rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 999; }
+    .share-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .article-body .sample-note {
+      font-size: 0.92rem;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+    }
+    .article-body a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(46,196,169,0.2);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* Footer styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .data-table td:last-child { white-space: normal; }
+    }
+
+    /* ── Inlined from nav-footer.css (matches homepage) ── */
+    :root { --flag-red: #D52B1E; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      row-gap: 0.6rem;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
+    .flag-ca {
+      width: 20px;
+      height: 10px;
+      vertical-align: -1px;
+      margin-right: 0.5rem;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    .areas-serve {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+    }
+    .areas-serve p {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .areas-serve a {
+      color: var(--teal);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .areas-serve a:hover { color: var(--white); }
+
+    .labs-strip {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: -0.6rem;
+      padding-top: 0.8rem;
+    }
+    .labs-strip p {
+      font-size: 0.72rem;
+      color: #7f9bb3;
+      margin: 0;
+    }
+    .labs-strip a {
+      color: #7f9bb3;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+    .labs-strip a:hover { color: var(--teal); }
+
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .nav-links.open { justify-content: flex-start; }
+      .nav-toggle { position: relative; z-index: 101; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (baked in from /nav.html — matches homepage) -->
+  <nav class="nav" id="mainNav">
+  <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#services">Why Sharpline</a></li>
+    <li><a href="/#packages">Packages</a></li>
+    <li><a href="/portfolio.html">Our Work</a></li>
+    <li><a href="/insights.html">Insights</a></li>
+    <li><a href="/labs/north-wire">North Wire beta</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/quote.html" class="nav-cta">Let's talk</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+</nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">October 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">7 min read</span>
+      </div>
+      <h1>Your Google Business Profile Is Your<br><em>Website&rsquo;s Front Door</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>For local searches, most customers see your Google Business Profile before they ever see your website.</li>
+        <li>Google says more reviews and better ratings can help your local ranking. Local SEO experts rank rating and review count among the top 10 factors for the map results.</li>
+        <li>97% of consumers read reviews for local businesses, and after reading positive ones, 54% go on to visit the business&rsquo;s website.</li>
+        <li>Recency matters: 74% only care about reviews from the last three months. A steady trickle beats a one-time push.</li>
+        <li>Ask every customer, reply to every review, and never offer rewards for reviews. That breaks Google&rsquo;s rules.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+
+    <div class="share-row">
+      <button class="share-btn" onclick="shareArticle()" aria-label="Share this article">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg>
+        Share this article
+      </button>
+    </div>
+
+    <div class="article-body">
+
+      <p class="intro-p">
+        When someone in Chilliwack searches &ldquo;roofer near me&rdquo; or &ldquo;physio Abbotsford,&rdquo; Google usually doesn&rsquo;t show them websites first. It shows a map with three businesses, each with a star rating, a review count, and buttons to call, get directions or visit the website. That box is built from Google Business Profiles. For a lot of local customers, it&rsquo;s the first impression of your business, and it decides whether they ever click through to your website.
+      </p>
+
+      <h2><span class="h2-num">01 /</span> Customers Meet You on Google Before Your Website</h2>
+      <p>
+        Your website is where you make the case for your business. But for local searches, your Google Business Profile is the doorway to it. A searcher sees your name, your rating, how many reviews you have, your hours and a few photos, all before deciding whether you&rsquo;re worth a click.
+      </p>
+      <p>
+        That&rsquo;s why a great website alone isn&rsquo;t enough. If your profile is incomplete, or shows three reviews from 2021, people pick one of the other two businesses in the map and never see the site you paid for.
+      </p>
+
+      <div class="pull-quote">
+        <p>&ldquo;Your profile earns the click. Your website earns the call.&rdquo;</p>
+      </div>
+
+      <h2><span class="h2-num">02 /</span> What Google Actually Looks At</h2>
+      <p>
+        Google is open about how it ranks local results. It names three things: <strong>relevance</strong> (how well your profile matches the search), <strong>distance</strong> (how close you are to the searcher) and <strong>prominence</strong> (how well-known your business is). On prominence, Google says plainly that &ldquo;more reviews and positive ratings can help your business&rsquo;s local ranking.&rdquo;<sup>1</sup>
+      </p>
+      <p>
+        Whitespark&rsquo;s 2026 Local Search Ranking Factors survey asks local SEO specialists what drives the map results. Most of their top 10 factors are about the profile itself: your primary category, your business name, your address and whether you&rsquo;re open at the time of the search. Two review factors also make the top 10: a high star rating and the number of Google reviews with written comments.<sup>2</sup>
+      </p>
+      <p>
+        You can&rsquo;t change how far you are from a customer. You <em>can</em> control how complete your profile is and how many genuine reviews you collect. Those are the levers worth pulling.
+      </p>
+
+      <h2><span class="h2-num">03 /</span> Reviews Decide Who Gets the Click</h2>
+      <p>
+        BrightLocal surveys consumers every year about how they use reviews. The 2026 results are hard to ignore:<sup>3</sup>
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">97%</div>
+          <div class="stat-label">read reviews for local businesses</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">68%</div>
+          <div class="stat-label">will only use a business rated 4 stars or higher</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">54%</div>
+          <div class="stat-label">visit the business&rsquo;s website after reading positive reviews</div>
+        </div>
+      </div>
+
+      <p>
+        That last number is the one that matters for your website. Good reviews don&rsquo;t just help you rank; they send people to your site, already leaning toward hiring you. The bar is also rising: in 2026, 31% of consumers said they&rsquo;d only use a business rated 4.5 stars or higher, up from 17% the year before.<sup>3</sup>
+      </p>
+      <p>
+        <strong>Old reviews don&rsquo;t count for much.</strong> 74% of consumers only care about reviews from the last three months.<sup>3</sup> Twenty great reviews from three years ago and nothing since looks like a business that&rsquo;s slowed down. A steady flow of new reviews matters more than a big pile of old ones.
+      </p>
+      <p class="sample-note">
+        A note on the numbers: BrightLocal surveys US consumers. We haven&rsquo;t seen a Canadian equivalent, but there&rsquo;s little reason to think Fraser Valley homeowners shop very differently.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> Set Up a Profile That Works</h2>
+      <p>
+        A Google Business Profile is free. Most of the work is filling it in completely and keeping it accurate:
+      </p>
+      <ul class="article-list">
+        <li><strong>Pick the right primary category.</strong> It&rsquo;s one of the strongest ranking signals. Choose what you actually are (&ldquo;Plumber,&rdquo; not &ldquo;Contractor&rdquo;), then add secondary categories for other services.</li>
+        <li><strong>Use your real business name.</strong> Adding keywords like &ldquo;Best Plumber Chilliwack&rdquo; to your name breaks Google&rsquo;s guidelines and can get your profile suspended.</li>
+        <li><strong>Set your service area.</strong> If you go to customers rather than having them come to you, list the towns you serve and hide your home address. Don&rsquo;t invent an office address to rank better; that&rsquo;s also against the rules.</li>
+        <li><strong>Keep hours, phone and website current.</strong> Being open at the time of a search is a ranking factor, and wrong hours are a fast way to annoy a customer.</li>
+        <li><strong>Add real photos.</strong> Your truck, your team, your finished jobs. Stock photos tell customers nothing.</li>
+        <li><strong>List your services.</strong> Spell out what you do, in plain words, so Google can match you to more searches.</li>
+      </ul>
+
+      <h2><span class="h2-num">05 /</span> How to Get More Reviews (the Right Way)</h2>
+      <p>
+        Most happy customers will leave a review if you ask, make it easy and ask at the right time. Most businesses simply never ask.
+      </p>
+      <ul class="article-list">
+        <li><strong>Ask every customer.</strong> Make it part of how you finish a job, not something you remember now and then.</li>
+        <li><strong>Ask right away.</strong> The best moment is when the work is done and the customer is happy, not three weeks later with the invoice.</li>
+        <li><strong>Make it one tap.</strong> Google gives you a short review link in your profile. Text it, put it on your invoice and email signature, or print it as a QR code on a card you leave behind.</li>
+        <li><strong>Follow up once.</strong> A friendly reminder a few days later is fine. More than that starts to feel pushy.</li>
+      </ul>
+      <p>
+        <strong>What not to do.</strong> Google doesn&rsquo;t allow offering discounts, gifts or anything else in exchange for reviews. It also doesn&rsquo;t allow asking only your happy customers (sometimes called &ldquo;review gating&rdquo;), or having employees and family review you.<sup>4</sup> Breaking these rules can get reviews removed, or worse. Ask everyone, and let the reviews be honest.
+      </p>
+
+      <div class="pull-quote">
+        <p>&ldquo;Most happy customers will leave a review. Most businesses just never ask.&rdquo;</p>
+      </div>
+
+      <h2><span class="h2-num">06 /</span> Reply to Every Review, Including the Bad Ones</h2>
+      <p>
+        Replies are read by the next customer, not just the reviewer. BrightLocal found that 89% of consumers expect businesses to respond to reviews, and 80% are likely to choose a business that responds to all of them. 42% say they&rsquo;re unlikely to use one that never replies.<sup>3</sup>
+      </p>
+      <p>
+        Keep replies short and personal. Half of consumers are put off by copy-and-paste responses.<sup>3</sup> Thank people by name and mention the job. For a negative review, stay calm, don&rsquo;t argue, and offer to sort it out offline. A fair reply to a bad review often builds more trust than another five-star review would.
+      </p>
+      <p>
+        Timing matters too: 81% expect a reply within a week.<sup>3</sup> Five minutes once a week covers it.
+      </p>
+
+      <h2><span class="h2-num">07 /</span> Connect Your Profile to Your Website</h2>
+      <p>
+        Your profile and website work best as a pair. The profile wins the click; the website closes the deal. A few things tie them together:
+      </p>
+      <ul class="article-list">
+        <li><strong>Link to your best page.</strong> If you&rsquo;re a plumber, the website button can go straight to your plumbing services page instead of the homepage.</li>
+        <li><strong>Match your details everywhere.</strong> Business name, phone and service area should read the same on your profile, your website and anywhere else you&rsquo;re listed.</li>
+        <li><strong>Show your reviews on your website.</strong> Visitors who arrive some other way should see the same proof that convinced the Google searchers.</li>
+        <li><strong>Make sure the site delivers.</strong> If someone taps through from a 4.9-star profile to a website that takes eight seconds to load, you&rsquo;ve lost them anyway. Check yours with our <a href="/speed-test.html">free speed test</a>.</li>
+      </ul>
+
+      <h2><span class="h2-num">08 /</span> The Bottom Line</h2>
+      <p>
+        A Google Business Profile costs nothing, and reviews cost nothing but the habit of asking. Together they decide whether local customers ever reach your website. Fill in your profile completely, ask every customer for a review, reply to all of them, and make sure the website they land on is fast and clear.
+      </p>
+      <p>
+        Do that consistently for a few months and you&rsquo;ll be ahead of most local businesses in your trade. Most of them set up a profile once and never looked at it again.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>Google Business Profile Help. <em>Tips to improve your local ranking on Google.</em> <a href="https://support.google.com/business/answer/7091" target="_blank" rel="noopener">support.google.com</a></li>
+          <li>Whitespark. (2025). <em>2026 Local Search Ranking Factors.</em> <a href="https://whitespark.ca/local-search-ranking-factors/" target="_blank" rel="noopener">whitespark.ca</a></li>
+          <li>BrightLocal. (2026). <em>Local Consumer Review Survey 2026.</em> US panel of 1,002 adults. <a href="https://www.brightlocal.com/learn/local-consumer-review-survey/" target="_blank" rel="noopener">brightlocal.com</a></li>
+          <li>Google. <em>Maps user-generated content policy: Fake engagement.</em> <a href="https://support.google.com/contributionpolicy/answer/7400114" target="_blank" rel="noopener">support.google.com</a></li>
+        </ol>
+      </div>
+
+      <!-- ALSO READ (auto-populated by related-articles.js) -->
+      <div id="also-read-placeholder"></div>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio" style="color:#ffffff;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Is your website ready for the clicks?</h3>
+        <p>A fast, custom-coded website that turns Google searchers into calls &mdash; and you own the code outright.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER (baked in from /footer.html — matches homepage) -->
+  <footer class="footer">
+  <div class="footer-logo">Sharpline<span>Digital</span></div>
+  <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com &nbsp;&middot;&nbsp; 604-796-5557</p>
+  <div class="footer-links">
+    <a href="/#services">Why Sharpline</a>
+    <a href="/#packages">Packages</a>
+    <a href="/speed-test.html">Speed Test</a>
+    <a href="/#contact">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+</footer>
+
+<div class="areas-serve">
+  <p>
+    Web Design Areas We Serve:&nbsp;
+    <a href="/web-design-abbotsford.html">Abbotsford</a> &middot;
+    <a href="/web-design-aldergrove.html">Aldergrove</a> &middot;
+    <a href="/web-design-chilliwack.html">Chilliwack</a> &middot;
+    <a href="/web-design-hope.html">Hope</a> &middot;
+    <a href="/web-design-langley.html">Langley</a> &middot;
+    <a href="/web-design-maple-ridge.html">Maple Ridge</a> &middot;
+    <a href="/web-design-mission.html">Mission</a>
+  </p>
+</div>
+
+<div class="labs-strip">
+  <p>Also from Sharpline Labs: <a href="/labs/north-wire/">North Wire</a> — a Canadian news reader, in beta</p>
+</div>
+
+  <div class="share-toast" id="share-toast">Link copied!</div>
+
+  <script>
+    function shareArticle() {
+      const data = { title: document.title, url: window.location.href };
+      if (navigator.share) {
+        navigator.share(data).catch(() => {});
+        return;
+      }
+      const fallbackCopy = () => {
+        const temp = document.createElement('textarea');
+        temp.value = data.url;
+        document.body.appendChild(temp);
+        temp.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(temp);
+        showToast();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(data.url).then(showToast).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+    function showToast() {
+      const t = document.getElementById('share-toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+  </script>
+  <script src="/related-articles.js"></script>
+  <script src="/includes.js"></script>
+</body>
+</html>

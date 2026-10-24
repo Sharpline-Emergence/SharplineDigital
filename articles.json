@@ -1,11 +1,33 @@
 [
   {
+    "slug": "blog-google-business-profile",
+    "url": "/blog-google-business-profile.html",
+    "title": "Your Google Business Profile Is Your Website's Front Door",
+    "desc": "How a complete Google profile and a steady flow of genuine reviews bring local customers to your website, and how to get both the right way.",
+    "date": "2026-10-23",
+    "readTime": "7 min read",
+    "summary": "Most local customers see your Google profile before your website. How a complete profile and a steady flow of genuine reviews earn the click — and how to get them without breaking Google’s rules.",
+    "tags": [
+      "local-seo",
+      "discovery",
+      "reviews"
+    ],
+    "pinnedRelated": "blog-local-website"
+  },
+  {
     "slug": "blog-local-website",
     "url": "/blog-local-website.html",
     "title": "Why Your BC Business Needs More Than Social Media",
     "desc": "We reviewed 83 Fraser Valley small business websites. What we found on speed and privacy, and why your website matters more than your social feed.",
     "date": "2026-10-16",
-    "tags": ["ownership", "local-seo", "discovery", "performance"],
+    "readTime": "8 min read",
+    "summary": "We reviewed 83 Fraser Valley small business websites. What we found on speed and privacy, and why your website matters more than your social feed.",
+    "tags": [
+      "ownership",
+      "local-seo",
+      "discovery",
+      "performance"
+    ],
     "pinnedRelated": "blog-bc-privacy-laws"
   },
   {
@@ -14,7 +36,13 @@
     "title": "A Website Isn't a Project. It's Upkeep.",
     "desc": "The honest case for agency-maintained websites over a one-time build — time, cost, SEO, and speed.",
     "date": "2026-09-01",
-    "tags": ["maintenance", "seo", "cost"],
+    "readTime": "7 min read",
+    "summary": "The honest case for an agency-maintained website over a one-time build — what it actually saves you in time, cost, SEO, and speed, and when you don't need it.",
+    "tags": [
+      "maintenance",
+      "seo",
+      "cost"
+    ],
     "pinnedRelated": "blog-website-speed"
   },
   {
@@ -23,7 +51,13 @@
     "title": "What Happens When You Stop Paying Your Web Designer",
     "desc": "Most small business websites are rented, not owned — the three things that actually determine control of your site.",
     "date": "2026-08-01",
-    "tags": ["ownership", "cost", "lock-in"],
+    "readTime": "6 min read",
+    "summary": "Most small business websites are rented, not owned. The three things that actually determine whether you control your site — and what happens if you don't.",
+    "tags": [
+      "ownership",
+      "cost",
+      "lock-in"
+    ],
     "pinnedRelated": "blog-cheap-websites"
   },
   {
@@ -32,7 +66,13 @@
     "title": "BC Privacy Laws and Your Website: What You're Already Required to Do",
     "desc": "British Columbia's PIPA applies to almost every small business site — including yours.",
     "date": "2026-07-20",
-    "tags": ["compliance", "legal", "ownership"],
+    "readTime": "7 min read",
+    "summary": "British Columbia's PIPA applies to almost every small business site — including yours. What it actually requires, in plain language, and why your contact form counts.",
+    "tags": [
+      "compliance",
+      "legal",
+      "ownership"
+    ],
     "pinnedRelated": "blog-local-website"
   },
   {
@@ -41,7 +81,13 @@
     "title": "Static vs. Dynamic Websites: What Actually Powers Your Site",
     "desc": "Why fewer moving parts often means a faster, safer, and easier-to-trust website.",
     "date": "2026-07-15",
-    "tags": ["technical", "performance", "architecture"],
+    "readTime": "6 min read",
+    "summary": "A plain-language breakdown of what happens when someone visits a WordPress site vs. a static site — and why the difference shows up in your speed, security, and maintenance bill.",
+    "tags": [
+      "technical",
+      "performance",
+      "architecture"
+    ],
     "pinnedRelated": "blog-website-speed"
   },
   {
@@ -50,7 +96,13 @@
     "title": "Why a $500 Website Costs BC Businesses Thousands",
     "desc": "The hidden costs of page builders, poor SEO, slow load times, and platform lock-in.",
     "date": "2026-07-10",
-    "tags": ["cost", "lock-in", "budget"],
+    "readTime": "8 min read",
+    "summary": "The hidden costs of page builders, poor SEO, slow load times, and platform lock-in — and an honest 5-year cost comparison.",
+    "tags": [
+      "cost",
+      "lock-in",
+      "budget"
+    ],
     "pinnedRelated": "blog-website-ownership"
   },
   {
@@ -59,8 +111,13 @@
     "title": "The 3-Second Rule: Why Your Website Might Be Losing Customers",
     "desc": "Google's own research shows over half of mobile visitors abandon a slow site. What's actually causing it — and how to fix it.",
     "date": "2026-07-01",
-    "tags": ["performance", "technical", "speed"],
+    "readTime": "5 min read",
+    "summary": "Google's own research shows over half of mobile visitors abandon a site that takes more than 3 seconds to load. Here's what's actually slowing sites down — and how we found out our own site wasn't immune.",
+    "tags": [
+      "performance",
+      "technical",
+      "speed"
+    ],
     "pinnedRelated": "blog-static-vs-dynamic"
   }
-
 ]
