@@ -1,5 +1,20 @@
 [
   {
+    "slug": "blog-website-checkup",
+    "url": "/blog-website-checkup.html",
+    "title": "Check Your Own Website in 10 Minutes",
+    "desc": "A 10-minute, no-technical-skills checklist to find out whether your website is losing you customers — and what to fix first.",
+    "date": "2026-10-24",
+    "readTime": "7 min read",
+    "summary": "Eight quick checks any owner can run with a phone and a laptop: mobile, speed, the padlock, your contact form, Google visibility, broken links and who holds the keys to your domain.",
+    "tags": [
+      "performance",
+      "local-seo",
+      "ownership"
+    ],
+    "pinnedRelated": "blog-website-speed"
+  },
+  {
     "slug": "blog-google-business-profile",
     "url": "/blog-google-business-profile.html",
     "title": "Your Google Business Profile Is Your Website's Front Door",

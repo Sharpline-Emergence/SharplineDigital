@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics loads after the page finishes, so it never slows the first view -->
+  <script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ';document.head.appendChild(s);},1500);});</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SN2ZMHV0FJ');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A 10-minute, no-technical-skills checklist for BC small business owners: test your website on a phone, check speed, the padlock, your contact form, Google visibility and who owns your domain.">
+  <title>Check Your Own Website in 10 Minutes | Sharpline Digital</title>
+  <link rel="canonical" href="https://sharplinedigital.com/blog-website-checkup.html">
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit.woff2" crossorigin>
+  <style>
+    @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('/fonts/outfit.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 500; font-display: swap; src: url('/fonts/dm-sans.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 300; font-display: swap; src: url('/fonts/dm-sans-italic.woff2') format('woff2'); }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:       #2ec4a9;
+      --teal-dark:  #1a9e87;
+      --teal-light: #e1f7f3;
+      --navy:       #0a1628;
+      --navy-mid:   #152238;
+      --navy-deep:  #06101e;
+      --white:      #ffffff;
+      --off-white:  #f7fafc;
+      --muted:      #a8c0d6;
+      --text-dark:  #0a1628;
+      --text-mid:   #5a7a8a;
+      --border:     #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    /* Nav styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── HERO STRIP ─── */
+    .hero-strip {
+      background: var(--navy);
+      padding: 3.5rem 2.5rem 4rem;
+    }
+    .hero-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.4rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: rgba(46,196,169,0.15);
+      color: var(--teal);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+    .meta-date {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-read {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .meta-dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: var(--muted);
+      opacity: 0.5;
+    }
+    .hero-strip h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.15;
+      letter-spacing: -0.5px;
+      margin-bottom: 1.2rem;
+    }
+    .hero-strip h1 em {
+      color: var(--teal);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .hero-byline {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 300;
+    }
+    .hero-byline strong {
+      color: rgba(255,255,255,0.75);
+      font-weight: 400;
+    }
+
+    /* ─── QUICK READ SUMMARY ─── */
+    .summary-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      transform: translateY(-1.5rem);
+    }
+    .summary-card {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-left: 4px solid var(--teal);
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+    }
+    .summary-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .summary-label::before {
+      content: '⚡';
+      font-size: 0.85rem;
+    }
+    .summary-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .summary-points li {
+      font-size: 0.9rem;
+      color: #0a4035;
+      padding-left: 1.2rem;
+      position: relative;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .summary-points li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--teal-dark);
+      font-weight: 600;
+    }
+
+    /* ─── ARTICLE BODY ─── */
+    .article-wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1rem 2rem 5rem;
+    }
+
+    .article-body h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.3px;
+      margin: 3rem 0 1rem;
+      line-height: 1.25;
+    }
+    .article-body h2 .h2-num {
+      color: var(--teal);
+      font-weight: 300;
+      margin-right: 0.4rem;
+    }
+
+    .article-body p {
+      font-size: 1rem;
+      color: #2a3a4a;
+      line-height: 1.85;
+      margin-bottom: 1.3rem;
+      font-weight: 300;
+    }
+    .article-body p strong {
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .article-body .intro-p {
+      font-size: 1.08rem;
+      color: var(--text-dark);
+      font-weight: 400;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Pull quote */
+    .pull-quote {
+      border-left: 3px solid var(--teal);
+      margin: 2.5rem 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+    }
+    .pull-quote p {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy);
+      line-height: 1.5;
+      margin-bottom: 0 !important;
+      font-style: italic;
+    }
+
+    /* Stat callout */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2.5rem 0;
+    }
+    .stat-box {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+    }
+    .stat-box .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--teal-dark);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-box .stat-label {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.4;
+      font-weight: 300;
+    }
+
+
+    /* Data table + sample note */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.92rem;
+    }
+    .data-table th {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      text-align: left;
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 1rem;
+    }
+    .data-table td {
+      padding: 0.7rem 1rem;
+      border-bottom: 1px solid var(--border);
+      color: #2a3a4a;
+      font-weight: 300;
+      vertical-align: top;
+    }
+    .data-table td:last-child {
+      font-weight: 500;
+      color: var(--text-dark);
+      white-space: nowrap;
+    }
+    .data-table tbody tr:nth-child(even) td { background: var(--off-white); }
+    .article-body .article-list { margin: 0 0 1.4rem 1.2rem; }
+    .article-body .article-list li { font-size: 1rem; line-height: 1.8; color: var(--text-mid); margin-bottom: 0.7rem; padding-left: 0.3rem; }
+    .article-body .article-list li::marker { color: var(--teal); }
+    .article-body .article-list strong { color: var(--text-dark); font-weight: 500; }
+    .share-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 2.4rem; }
+    .share-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--off-white); border: 1px solid var(--border); color: var(--text-dark); font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 600; padding: 0.55rem 1.1rem; border-radius: 8px; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .share-btn:hover { border-color: var(--teal); color: var(--teal-dark); }
+    .share-btn svg { width: 15px; height: 15px; flex-shrink: 0; }
+    .share-toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(16px); background: var(--navy); color: var(--white); padding: 0.7rem 1.3rem; border-radius: 8px; font-size: 0.85rem; font-weight: 500; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; z-index: 999; }
+    .share-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .article-body .sample-note {
+      font-size: 0.92rem;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.2rem;
+    }
+    .article-body code { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.9em; background: var(--off-white); border: 1px solid var(--border); border-radius: 4px; padding: 1px 5px; }
+    .article-body a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+
+    /* Section divider */
+    .section-rule {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2.5rem 0 0;
+    }
+
+    /* References */
+    .references {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .references h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      margin-bottom: 1rem;
+    }
+    .references ol {
+      padding-left: 1.2rem;
+    }
+    .references li {
+      font-size: 0.78rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+      font-weight: 300;
+    }
+    .references a {
+      color: var(--teal-dark);
+      text-decoration: none;
+    }
+    .references a:hover { text-decoration: underline; }
+
+    /* Author card */
+    .author-card {
+      background: var(--navy-mid);
+      border: 1px solid rgba(46,196,169,0.2);
+      border-radius: 10px;
+      padding: 1.8rem 2rem;
+      margin-top: 3rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+    .author-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(46,196,169,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .author-bio {
+      font-size: 0.83rem;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* CTA */
+    .article-cta {
+      background: var(--teal-light);
+      border: 1px solid rgba(46,196,169,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+    .article-cta h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.5rem;
+    }
+    .article-cta p {
+      font-size: 0.88rem;
+      color: #0a4035;
+      margin-bottom: 1.2rem;
+      font-weight: 300;
+    }
+    .article-cta a {
+      background: var(--navy);
+      color: var(--white);
+      padding: 0.75rem 2rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+    }
+    .article-cta a:hover { background: var(--navy-mid); }
+
+    /* Footer styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .hero-strip { padding: 2.5rem 1.5rem 3rem; }
+      .summary-wrap { padding: 0 1.2rem; }
+      .article-wrap { padding: 1rem 1.2rem 4rem; }
+      .stat-row { grid-template-columns: 1fr; }
+      .author-card { flex-direction: column; gap: 1rem; }
+      .data-table td:last-child { white-space: normal; }
+    }
+
+    /* ── Inlined from nav-footer.css (matches homepage) ── */
+    :root { --flag-red: #D52B1E; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      row-gap: 0.6rem;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
+    .flag-ca {
+      width: 20px;
+      height: 10px;
+      vertical-align: -1px;
+      margin-right: 0.5rem;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    .areas-serve {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+    }
+    .areas-serve p {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .areas-serve a {
+      color: var(--teal);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .areas-serve a:hover { color: var(--white); }
+
+    .labs-strip {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: -0.6rem;
+      padding-top: 0.8rem;
+    }
+    .labs-strip p {
+      font-size: 0.72rem;
+      color: #7f9bb3;
+      margin: 0;
+    }
+    .labs-strip a {
+      color: #7f9bb3;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+    .labs-strip a:hover { color: var(--teal); }
+
+    .nav-back {
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--teal); }
+
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .nav-links.open { justify-content: flex-start; }
+      .nav-toggle { position: relative; z-index: 101; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (baked in from /nav.html — matches homepage) -->
+  <nav class="nav" id="mainNav">
+  <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#services">Why Sharpline</a></li>
+    <li><a href="/#packages">Packages</a></li>
+    <li><a href="/portfolio.html">Our Work</a></li>
+    <li><a href="/insights.html">Insights</a></li>
+    <li><a href="/labs/north-wire">North Wire beta</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/quote.html" class="nav-cta">Let's talk</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+</nav>
+
+  <!-- HERO -->
+  <div class="hero-strip">
+    <div class="hero-inner">
+      <div class="article-meta">
+        <span class="meta-tag">Insight</span>
+        <span class="meta-dot"></span>
+        <span class="meta-date">October 2026</span>
+        <span class="meta-dot"></span>
+        <span class="meta-read">7 min read</span>
+      </div>
+      <h1>Check Your Own Website<br><em>in 10 Minutes</em></h1>
+      <p class="hero-byline">By <strong>P. Beal</strong> &mdash; 28 years in banking &amp; financial planning, 19 years as a small business owner, Fraser Valley, BC</p>
+    </div>
+  </div>
+
+  <!-- QUICK READ SUMMARY -->
+  <div class="summary-wrap">
+    <div class="summary-card">
+      <div class="summary-label">Quick Read &mdash; Key Takeaways</div>
+      <ul class="summary-points">
+        <li>You don&rsquo;t need to be technical to check your website. You need a phone, a laptop and 10 minutes.</li>
+        <li>Start on your phone. Nearly half of Canadian web traffic is mobile, and local customers in a hurry are almost always on one.</li>
+        <li>The most expensive problem is the quiet one: a contact form that doesn&rsquo;t deliver. Send yourself a test message.</li>
+        <li>Check that Google can find you, that your hours and phone number are right, and that nothing is broken.</li>
+        <li>Make sure you know who controls your domain and hosting. Many owners don&rsquo;t, until the day it matters.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ARTICLE BODY -->
+  <div class="article-wrap">
+
+    <div class="share-row">
+      <button class="share-btn" onclick="shareArticle()" aria-label="Share this article">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"></line><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"></line></svg>
+        Share this article
+      </button>
+    </div>
+
+    <div class="article-body">
+
+      <p class="intro-p">
+        Most small business owners haven&rsquo;t looked at their own website properly since the day it launched. That&rsquo;s understandable. You&rsquo;re busy running the business, and the site seems to be &ldquo;up.&rdquo; But a website can look fine on your office computer while quietly losing customers on a phone, missing messages, or showing last year&rsquo;s hours. This checklist takes about 10 minutes, needs no technical knowledge, and tells you whether your site is doing its job.
+      </p>
+
+      <p>
+        Grab your phone and a laptop. Work through the eight checks in order, and note anything that fails. There&rsquo;s a summary table at the end to help you decide what to fix first.
+      </p>
+
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-num">47.7%</div>
+          <div class="stat-label">of Canadian web traffic came from mobile in September 2026</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">2.5s</div>
+          <div class="stat-label">Google&rsquo;s target for your main content to appear</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">8</div>
+          <div class="stat-label">checks, about 10 minutes, no technical skills needed</div>
+        </div>
+      </div>
+
+      <h2><span class="h2-num">01 /</span> The Phone Test <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(2 minutes)</span></h2>
+      <p>
+        Nearly half of all web visits in Canada now happen on a phone.<sup>1</sup> For a local service business, the share is often higher: someone with a leaking tap isn&rsquo;t walking to a desktop. So start where your customers are.
+      </p>
+      <p>
+        Open your website on your phone, the way a stranger would: search your business name on Google and tap through. Then ask yourself:
+      </p>
+      <ul class="article-list">
+        <li><strong>Can you tell what the business does and where, without scrolling?</strong> &ldquo;Plumbing repairs in Chilliwack&rdquo; should be obvious on the first screen, not buried three swipes down.</li>
+        <li><strong>Can you read it without pinching and zooming?</strong> Tiny text or a page that slides sideways means the site wasn&rsquo;t built for phones.</li>
+        <li><strong>Tap your phone number.</strong> Does your phone offer to dial it? If the number is part of an image, or nothing happens, you&rsquo;re asking customers to memorize it.</li>
+        <li><strong>Open the menu.</strong> Does it open, and can you reach every page?</li>
+      </ul>
+
+      <h2><span class="h2-num">02 /</span> The Speed Test <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(2 minutes)</span></h2>
+      <p>
+        Slow sites lose visitors before they see anything. Google&rsquo;s own target is for the main content of a page to appear within <strong>2.5 seconds</strong>.<sup>2</sup> Your office Wi-Fi will flatter your site, so don&rsquo;t judge by feel.
+      </p>
+      <p>
+        Run your address through our <a href="/speed-test.html">free speed test</a> (it uses Google&rsquo;s own measuring tool) and look at the mobile score. As a rough guide: 90 or above is good, 50 to 89 needs work, and below 50 is costing you customers. If you want the full story on why this matters, see <a href="/blog-website-speed.html">The 3-Second Rule</a>.
+      </p>
+
+      <h2><span class="h2-num">03 /</span> The Padlock <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(30 seconds)</span></h2>
+      <p>
+        Look at the address bar. Your site should start with <strong>https://</strong> and show a padlock or similar icon. Since 2018, Google Chrome has labelled sites without it &ldquo;Not secure&rdquo;<sup>3</sup>, which is not what you want a customer to see right before they type their phone number into your contact form.
+      </p>
+      <p>
+        Then try typing your address with <strong>http://</strong> at the front. It should jump to the https version on its own. If it doesn&rsquo;t, or you get a warning page, that&rsquo;s a fix for your web person, and usually a quick one.
+      </p>
+
+      <h2><span class="h2-num">04 /</span> The Contact Form <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(2 minutes)</span></h2>
+      <p>
+        This is the most important check on the list, because when it fails, nobody tells you. A customer fills in your form, gets a polite &ldquo;Thank you,&rdquo; and the message goes nowhere. They assume you weren&rsquo;t interested and call someone else.
+      </p>
+      <ul class="article-list">
+        <li><strong>Send yourself a test.</strong> Fill in your own form with &ldquo;TEST, please ignore&rdquo; and submit it.</li>
+        <li><strong>Check that it arrived.</strong> Look in your inbox and your spam folder. Note how long it took.</li>
+        <li><strong>Check where it went.</strong> Forms are often set up to email an old address, an ex-employee, or the designer who built the site.</li>
+        <li><strong>Check the email links too.</strong> If your site lists an email address, tap it on your phone and make sure it opens a new message to the right address.</li>
+      </ul>
+
+      <div class="pull-quote">
+        <p>&ldquo;A broken contact form doesn&rsquo;t send you an error message. It just sends your customers to someone else.&rdquo;</p>
+      </div>
+
+      <h2><span class="h2-num">05 /</span> Is the Information Right? <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(1 minute)</span></h2>
+      <p>
+        Read your site the way a new customer would, and compare it against your <a href="/blog-google-business-profile.html">Google Business Profile</a>. Look at:
+      </p>
+      <ul class="article-list">
+        <li><strong>Hours, phone number and address.</strong> They should match your Google profile exactly. Mismatched details confuse customers and Google alike.</li>
+        <li><strong>Services and prices.</strong> Anything you no longer offer, or prices that went up two years ago, sets up an awkward phone call.</li>
+        <li><strong>Staff and photos.</strong> People who left, a storefront you moved out of, a truck you sold.</li>
+        <li><strong>The copyright year in the footer.</strong> It&rsquo;s a small thing, but &ldquo;&copy; 2021&rdquo; quietly tells visitors nobody is minding the site.</li>
+      </ul>
+
+      <h2><span class="h2-num">06 /</span> Can Google Find You? <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(1 minute)</span></h2>
+      <p>
+        Two quick searches on Google:
+      </p>
+      <ul class="article-list">
+        <li><strong>Type <code>site:yourbusiness.ca</code></strong> (with your own address, no spaces). This shows pages from your site that Google knows about. Google notes the list isn&rsquo;t complete,<sup>4</sup> but if you get <em>nothing</em> back, or only one page out of ten, something is wrong.</li>
+        <li><strong>Search your business name plus your town.</strong> Your website should come up near the top. If a directory listing or an old Facebook page beats it, your site isn&rsquo;t doing its job.</li>
+      </ul>
+      <p>
+        If you want to go one step further, try searching what a customer would actually type, like &ldquo;electrician Abbotsford.&rdquo; Don&rsquo;t panic if you&rsquo;re not on page one; that takes ongoing work. But it&rsquo;s useful to know where you stand.
+      </p>
+
+      <h2><span class="h2-num">07 /</span> Look for Broken Things <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(1 minute)</span></h2>
+      <p>
+        Click every link in your main menu and footer, on your laptop this time. You&rsquo;re looking for:
+      </p>
+      <ul class="article-list">
+        <li><strong>&ldquo;Page not found&rdquo; errors</strong> on pages that used to exist.</li>
+        <li><strong>Images that don&rsquo;t load</strong> and show a blank box or broken icon.</li>
+        <li><strong>Dead social links.</strong> A Facebook icon pointing to a page you deleted, or a Twitter link to an account you haven&rsquo;t touched since 2019.</li>
+        <li><strong>Leftovers.</strong> &ldquo;Lorem ipsum&rdquo; placeholder text, a &ldquo;Coming soon&rdquo; page that never came, or a holiday notice from last December.</li>
+      </ul>
+
+      <h2><span class="h2-num">08 /</span> Who Holds the Keys? <span style="color:var(--text-mid);font-weight:300;font-size:1rem;">(1 minute)</span></h2>
+      <p>
+        This one isn&rsquo;t on the screen, but it&rsquo;s the check that causes the most grief when it fails. Answer these honestly:
+      </p>
+      <ul class="article-list">
+        <li><strong>Who is your domain name registered to?</strong> It should be you or your business, not your designer, a former partner or a relative who &ldquo;set it up.&rdquo;</li>
+        <li><strong>Do you have the login</strong> for your domain registrar and your hosting? Not &ldquo;my web guy has it.&rdquo; You.</li>
+        <li><strong>When does the domain renew,</strong> and is the card on file still valid? Domains that lapse can go offline, and occasionally get bought by someone else.</li>
+      </ul>
+      <p>
+        If you can&rsquo;t answer all three, fix that before anything else on this list. We explain why in <a href="/blog-website-ownership.html">What Happens When You Stop Paying Your Web Designer</a>.
+      </p>
+
+      <h2><span class="h2-num">09 /</span> What to Fix First</h2>
+      <p>
+        Not every failure is equally urgent. Here&rsquo;s how we&rsquo;d rank them:
+      </p>
+
+      <table class="data-table">
+        <thead>
+          <tr><th>Check</th><th>If it fails</th><th>Priority</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Contact form</td><td>You&rsquo;re losing leads right now, silently</td><td>Fix today</td></tr>
+          <tr><td>Who holds the keys</td><td>One lapsed renewal or falling-out can take the site down</td><td>Fix today</td></tr>
+          <tr><td>Information is right</td><td>Wrong hours or phone number turn customers away</td><td>Fix this week</td></tr>
+          <tr><td>Phone test</td><td>Most local visitors struggle to use the site</td><td>Fix this month</td></tr>
+          <tr><td>Padlock</td><td>Browsers warn visitors your site isn&rsquo;t secure</td><td>Fix this month</td></tr>
+          <tr><td>Speed test</td><td>Visitors leave before the page loads</td><td>Fix this month</td></tr>
+          <tr><td>Can Google find you</td><td>Customers searching for you can&rsquo;t find you</td><td>Fix this month</td></tr>
+          <tr><td>Broken things</td><td>The site looks neglected, and so does the business</td><td>Fix when you can</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Several of these are five-minute fixes you can do yourself, like updating hours or replacing a dead link. Others, like speed or a site that doesn&rsquo;t work on phones, usually mean the site needs real work.
+      </p>
+
+      <h2><span class="h2-num">10 /</span> The Bottom Line</h2>
+      <p>
+        A website rarely fails all at once. It drifts: a form stops sending, the hours change, a page breaks, and nobody notices because nobody is looking. Ten minutes of checking twice a year catches most of it.
+      </p>
+      <p>
+        Put a reminder in your calendar, run through this list, and fix the urgent items first. If you&rsquo;d rather have someone do it for you, or you&rsquo;d like a second opinion on what you found, we&rsquo;re happy to take a look.
+      </p>
+
+      <hr class="section-rule">
+
+      <!-- REFERENCES -->
+      <div class="references">
+        <h3>References</h3>
+        <ol>
+          <li>StatCounter Global Stats. <em>Desktop vs Mobile Market Share, Canada,</em> September 2026. <a href="https://gs.statcounter.com/platform-market-share/mobile-vs-desktop/canada" target="_blank" rel="noopener">gs.statcounter.com</a></li>
+          <li>Google. <em>Web Vitals.</em> web.dev. <a href="https://web.dev/articles/vitals" target="_blank" rel="noopener">web.dev</a></li>
+          <li>Chromium Blog. (2018). <em>A secure web is here to stay.</em> <a href="https://blog.chromium.org/2018/02/a-secure-web-is-here-to-stay.html" target="_blank" rel="noopener">blog.chromium.org</a></li>
+          <li>Google Search Central. <em>site: search operator.</em> <a href="https://developers.google.com/search/docs/monitor-debug/search-operators/all-search-site" target="_blank" rel="noopener">developers.google.com</a></li>
+        </ol>
+      </div>
+
+      <!-- ALSO READ (auto-populated by related-articles.js) -->
+      <div id="also-read-placeholder"></div>
+
+      <!-- AUTHOR CARD -->
+      <div class="author-card">
+        <div class="author-icon">&#128188;</div>
+        <div>
+          <div class="author-name">P. Beal &mdash; Sharpline Digital</div>
+          <p class="author-bio" style="color:#ffffff;">P. Beal brings 28 years of banking and financial planning experience and 19 years of direct small business ownership to every website project. Sharpline Digital builds custom-coded websites for Fraser Valley and BC small businesses — clean code, GitHub delivery, no lock-in.</p>
+        </div>
+      </div>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Found a few problems?</h3>
+        <p>Tell us what you found and we&rsquo;ll give you a straight answer on what&rsquo;s worth fixing &mdash; and what isn&rsquo;t.</p>
+        <a href="/quote.html">Let's talk &rarr;</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER (baked in from /footer.html — matches homepage) -->
+  <footer class="footer">
+  <div class="footer-logo">Sharpline<span>Digital</span></div>
+  <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com &nbsp;&middot;&nbsp; 604-796-5557</p>
+  <div class="footer-links">
+    <a href="/#services">Why Sharpline</a>
+    <a href="/#packages">Packages</a>
+    <a href="/speed-test.html">Speed Test</a>
+    <a href="/#contact">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+</footer>
+
+<div class="areas-serve">
+  <p>
+    Web Design Areas We Serve:&nbsp;
+    <a href="/web-design-abbotsford.html">Abbotsford</a> &middot;
+    <a href="/web-design-aldergrove.html">Aldergrove</a> &middot;
+    <a href="/web-design-chilliwack.html">Chilliwack</a> &middot;
+    <a href="/web-design-hope.html">Hope</a> &middot;
+    <a href="/web-design-langley.html">Langley</a> &middot;
+    <a href="/web-design-maple-ridge.html">Maple Ridge</a> &middot;
+    <a href="/web-design-mission.html">Mission</a>
+  </p>
+</div>
+
+<div class="labs-strip">
+  <p>Also from Sharpline Labs: <a href="/labs/north-wire/">North Wire</a> — a Canadian news reader, in beta</p>
+</div>
+
+  <div class="share-toast" id="share-toast">Link copied!</div>
+
+  <script>
+    function shareArticle() {
+      const data = { title: document.title, url: window.location.href };
+      if (navigator.share) {
+        navigator.share(data).catch(() => {});
+        return;
+      }
+      const fallbackCopy = () => {
+        const temp = document.createElement('textarea');
+        temp.value = data.url;
+        document.body.appendChild(temp);
+        temp.select();
+        try { document.execCommand('copy'); } catch (e) {}
+        document.body.removeChild(temp);
+        showToast();
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(data.url).then(showToast).catch(fallbackCopy);
+      } else {
+        fallbackCopy();
+      }
+    }
+    function showToast() {
+      const t = document.getElementById('share-toast');
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+  </script>
+  <script src="/related-articles.js"></script>
+  <script src="/includes.js"></script>
+</body>
+</html>
