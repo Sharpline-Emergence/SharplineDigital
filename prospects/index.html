@@ -135,6 +135,13 @@
   .seq-1 { color: #5a7a52; border-color: #b0c8a8; background: #eef4eb; }
   .seq-2 { color: #7a6530; border-color: #d4b870; background: #faf3dc; }
   .seq-3 { color: #8a3030; border-color: #d49898; background: #faeded; }
+  /* Preview reply badge — shown beside the sample-site link */
+  .preview-reply { font-size: 11px; font-family: 'DM Mono', monospace; font-weight: 600;
+                   padding: 1px 7px; border-radius: 99px; border: 1px solid; margin-left: 6px;
+                   display: inline-block; vertical-align: middle; white-space: nowrap; }
+  .preview-reply.pr-none { color: #a0a090; border-color: #d8d4c8; background: transparent; }
+  .preview-reply.pr-yes  { color: #2f6b2a; border-color: #9cc792; background: #e6f2e2; }
+  .preview-reply.pr-no   { color: #8a3030; border-color: #d49898; background: #faeded; }
   /* Last call line under the business name */
   .last-call { font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 3px; color: #3d5a80; }
 
@@ -415,6 +422,12 @@
       <option value="has">Has sample site</option>
       <option value="no">No sample site</option>
     </select>
+    <select id="filterPreviewReply">
+      <option value="">Any preview reply</option>
+      <option value="pending">Preview: no reply yet</option>
+      <option value="yes">Preview: said yes</option>
+      <option value="no">Preview: said no</option>
+    </select>
     <select id="filterReminder">
       <option value="">Any reminder</option>
       <option value="due">Reminder overdue or due today</option>
@@ -468,6 +481,13 @@
         <input id="f_sampleSite" placeholder="e.g. fehr-property" style="flex:1;">
         <a id="f_sampleLink" href="#" target="_blank" rel="noopener" style="display:none; font-size:13px; white-space:nowrap;">Open ↗</a>
       </div>
+    </div>
+    <div class="field" id="f_previewReplyField" style="display:none;"><label>Preview Reply (did they want the PDF?)</label>
+      <select id="f_previewReply">
+        <option value="">No reply yet</option>
+        <option value="yes">Yes — send the PDF</option>
+        <option value="no">No thanks</option>
+      </select>
     </div>
     <div class="two-col">
       <div class="field"><label>Phone</label><input id="f_phone"></div>
@@ -645,6 +665,7 @@ function dbToApp(row) {
     lastCallDate: row.last_call_date || '',
     lastCallDir: row.last_call_dir || '',
     sampleSite: row.sample_site || '',
+    previewReply: row.preview_reply || '',
     deletedAt: row.deleted_at || null
   };
 }
@@ -668,7 +689,8 @@ function appToDb(p) {
     seq_step: p.seqStep ?? 0,
     last_call_date: p.lastCallDate === undefined ? undefined : (p.lastCallDate || null),
     last_call_dir: p.lastCallDir === undefined ? undefined : (p.lastCallDir || null),
-    sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null)
+    sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null),
+    preview_reply: p.previewReply === undefined ? undefined : (p.previewReply || null)
   };
 }
 
@@ -887,6 +909,13 @@ function render() {
     const hasSample = !!(p.sampleSite && p.sampleSite.trim());
     if (sampleF === 'has' && !hasSample) return false;
     if (sampleF === 'no' && hasSample) return false;
+    const prF = document.getElementById('filterPreviewReply').value;
+    if (prF) {
+      if (!hasSample) return false;   // reply only applies to prospects with a sample site
+      const pr = p.previewReply || '';
+      if (prF === 'pending' && pr) return false;
+      if ((prF === 'yes' || prF === 'no') && pr !== prF) return false;
+    }
     const remF = document.getElementById('filterReminder').value;
     if (remF) {
       const nr = nextReminder(p.id);
@@ -991,7 +1020,7 @@ function render() {
       <div>
         <div class="biz-name${p.status === 'Not interested' ? ' not-interested' : ''}">${escapeHtml(p.businessName || 'Untitled')}</div>
         <div class="biz-meta">${escapeHtml(p.phone || '')}${p.phone && p.email ? ' · ' : ''}${escapeHtml(p.email || '')}</div>
-        ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a></div>` : ''}
+        ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a>${previewReplyBadge(p.previewReply)}</div>` : ''}
         ${contactAgeLabel(p)}
         ${lastCallLabel(p)}
         ${reminderLabel(p)}
@@ -1087,6 +1116,14 @@ function updateSampleLink() {
   const a = document.getElementById('f_sampleLink');
   a.style.display = v ? 'inline' : 'none';
   if (v) a.href = sampleUrl(v);
+  // The Yes/No reply only makes sense once there's a sample site to offer.
+  document.getElementById('f_previewReplyField').style.display = v ? 'block' : 'none';
+}
+
+function previewReplyBadge(reply) {
+  if (reply === 'yes') return '<span class="preview-reply pr-yes" title="Said yes to the preview PDF">Reply: Yes</span>';
+  if (reply === 'no')  return '<span class="preview-reply pr-no" title="Said no to the preview PDF">Reply: No</span>';
+  return '<span class="preview-reply pr-none" title="No reply to the preview offer yet">No reply</span>';
 }
 
 function escapeHtml(str) {
@@ -1136,6 +1173,7 @@ function openDrawer(id) {
   document.getElementById('f_contactName').value = p?.contactName || '';
   document.getElementById('f_email').value = p?.email || '';
   document.getElementById('f_sampleSite').value = p?.sampleSite || '';
+  document.getElementById('f_previewReply').value = p?.previewReply || '';
   updateSampleLink();
   document.getElementById('f_score').value = p?.score ?? '';
   updateGradePreview();
@@ -1183,6 +1221,7 @@ async function saveCurrent() {
     contactName: document.getElementById('f_contactName').value.trim(),
     email: document.getElementById('f_email').value.trim(),
     sampleSite: document.getElementById('f_sampleSite').value.trim(),
+    previewReply: document.getElementById('f_sampleSite').value.trim() ? document.getElementById('f_previewReply').value : '',
     score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
     status: document.getElementById('f_status').value,
     contacted: document.getElementById('f_contacted').value === 'y',
@@ -1604,6 +1643,14 @@ document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
 document.getElementById('filterEmail').addEventListener('change', render);
 document.getElementById('filterSample').addEventListener('change', render);
+document.getElementById('filterPreviewReply').addEventListener('change', render);
+// A "No thanks" reply should stop the email sequence, so move Status to Not interested.
+document.getElementById('f_previewReply').addEventListener('change', (e) => {
+  if (e.target.value === 'no') {
+    const st = document.getElementById('f_status');
+    if (st.value !== 'Not interested') { st.value = 'Not interested'; showToast('Status set to Not interested — save to keep it'); }
+  }
+});
 document.getElementById('f_sampleSite').addEventListener('input', updateSampleLink);
 document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('searchInput').value = '';
@@ -1614,6 +1661,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('filterSeqStep').value = '';
   document.getElementById('filterEmail').value = '';
   document.getElementById('filterSample').value = '';
+  document.getElementById('filterPreviewReply').value = '';
   document.getElementById('filterReminder').value = '';
   render();
 });
