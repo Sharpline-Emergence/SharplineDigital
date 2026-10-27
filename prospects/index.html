@@ -1456,13 +1456,15 @@ function exportCSV() {
   const headers = [
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
-    'Date Added', 'Date Contacted', 'Contacted', 'Sequence Step', 'Notes'
+    'Date Added', 'Date Contacted', 'Contacted', 'Sequence Step',
+    'Sample Site', 'Preview Reply', 'Notes'
   ];
   const rows = rowsData.map((p, idx) => [
     idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
     p.contactName, p.email, p.score ?? '', p.status,
     (p.opportunities || []).join('; '),
-    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.seqStep ?? 0, p.notes
+    p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.seqStep ?? 0,
+    p.sampleSite || '', p.previewReply || '', p.notes
   ].map(csvEscape).join(','));
 
   const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
