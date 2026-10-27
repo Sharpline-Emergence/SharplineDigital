@@ -338,9 +338,16 @@
       <div class="field"><label style="color:var(--danger);">Sequence Step ★ required</label>
         <select id="logSeqStep" style="border-color:var(--danger);">
           <option value="">— select a step —</option>
-          <option value="1">Set to 1 (Email #1 sent)</option>
-          <option value="2">Set to 2 (Email #2 sent)</option>
-          <option value="3">Set to 3 (Email #3 sent)</option>
+          <optgroup label="Cold email sequence">
+            <option value="1">Set to 1 (Email #1 sent)</option>
+            <option value="2">Set to 2 (Email #2 sent)</option>
+            <option value="3">Set to 3 (Email #3 sent)</option>
+          </optgroup>
+          <optgroup label="Preview sequence">
+            <option value="p1">Preview #1 sent</option>
+            <option value="p2">Preview #2 sent</option>
+            <option value="p3">Preview #3 sent</option>
+          </optgroup>
         </select>
       </div>
     </div>
@@ -400,6 +407,10 @@
       <option value="1">Step 1 — #1 sent</option>
       <option value="2">Step 2 — #2 sent</option>
       <option value="3">Step 3 — #3 sent</option>
+      <option value="p0">Preview 0 — not started (has sample)</option>
+      <option value="p1">Preview 1 — #1 sent</option>
+      <option value="p2">Preview 2 — #2 sent</option>
+      <option value="p3">Preview 3 — #3 sent</option>
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
@@ -482,12 +493,22 @@
         <a id="f_sampleLink" href="#" target="_blank" rel="noopener" style="display:none; font-size:13px; white-space:nowrap;">Open ↗</a>
       </div>
     </div>
-    <div class="field" id="f_previewReplyField" style="display:none;"><label>Preview Reply (did they want the PDF?)</label>
-      <select id="f_previewReply">
-        <option value="">No reply yet</option>
-        <option value="yes">Yes — send the PDF</option>
-        <option value="no">No thanks</option>
-      </select>
+    <div class="two-col" id="f_previewReplyField" style="display:none;">
+      <div class="field"><label>Preview Step</label>
+        <select id="f_previewStep">
+          <option value="0">0 — Not started</option>
+          <option value="1">1 — Preview #1 sent</option>
+          <option value="2">2 — Preview #2 sent</option>
+          <option value="3">3 — Preview #3 sent</option>
+        </select>
+      </div>
+      <div class="field"><label>Preview Reply</label>
+        <select id="f_previewReply">
+          <option value="">No reply yet</option>
+          <option value="yes">Yes — send the PDF</option>
+          <option value="no">No thanks</option>
+        </select>
+      </div>
     </div>
     <div class="two-col">
       <div class="field"><label>Phone</label><input id="f_phone"></div>
@@ -666,6 +687,7 @@ function dbToApp(row) {
     lastCallDir: row.last_call_dir || '',
     sampleSite: row.sample_site || '',
     previewReply: row.preview_reply || '',
+    previewStep: row.preview_step ?? 0,
     deletedAt: row.deleted_at || null
   };
 }
@@ -690,7 +712,8 @@ function appToDb(p) {
     last_call_date: p.lastCallDate === undefined ? undefined : (p.lastCallDate || null),
     last_call_dir: p.lastCallDir === undefined ? undefined : (p.lastCallDir || null),
     sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null),
-    preview_reply: p.previewReply === undefined ? undefined : (p.previewReply || null)
+    preview_reply: p.previewReply === undefined ? undefined : (p.previewReply || null),
+    preview_step: p.previewStep === undefined ? undefined : (p.previewStep || 0)
   };
 }
 
@@ -829,6 +852,14 @@ function lastCallLabel(p) {
   return `<div class="last-call">☎ ${who} · ${m}/${d}/${y.slice(2)}</div>`;
 }
 
+// Preview sequence badge — "P1".."P3", same colours as the cold sequence badge.
+// Hidden until the first preview email is logged.
+function previewStepBadge(step) {
+  const s = step ?? 0;
+  if (!s) return '';
+  return `<span class="seq-badge seq-${Math.min(s,3)}" title="Preview step ${s}">P${s}</span>`;
+}
+
 function seqBadge(step) {
   const s = step ?? 0;
   const labels = ['–', '#1', '#2', '#3'];
@@ -900,7 +931,11 @@ function render() {
       if (!hay.includes(search)) return false;
     }
     if (seqF !== '') {
-      if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
+      if (seqF.startsWith('p')) {
+        // Preview steps only apply to prospects with a sample site.
+        if (!(p.sampleSite && p.sampleSite.trim())) return false;
+        if ((p.previewStep ?? 0) !== parseInt(seqF.slice(1), 10)) return false;
+      } else if ((p.seqStep ?? 0) !== parseInt(seqF, 10)) return false;
     }
     const hasEmail = !!(p.email && p.email.trim());
     if (emailF === 'has' && !hasEmail) return false;
@@ -1028,7 +1063,7 @@ function render() {
       <div class="col-city">${escapeHtml(p.city || '')}</div>
       <div class="col-category">${escapeHtml(p.category || '')}</div>
       <div class="col-grade">${gradeBadge(p.score)}</div>
-      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span> ${seqBadge(p.seqStep)}</div>
+      <div class="col-status"><span class="status-pill status-${(p.status||'New').replace(' ','.')}">${p.status || 'New'}</span> ${seqBadge(p.seqStep)} ${previewStepBadge(p.previewStep)}</div>
       <div class="row-actions">
         <button class="contacted-toggle ${p.contacted ? 'is-yes' : 'is-no'}" data-id="${p.id}" data-contacted="${p.contacted ? '1' : '0'}" title="Contacted? Click to toggle">${p.contacted ? 'Y' : 'N'}</button>
       </div>
@@ -1117,7 +1152,7 @@ function updateSampleLink() {
   a.style.display = v ? 'inline' : 'none';
   if (v) a.href = sampleUrl(v);
   // The Yes/No reply only makes sense once there's a sample site to offer.
-  document.getElementById('f_previewReplyField').style.display = v ? 'block' : 'none';
+  document.getElementById('f_previewReplyField').style.display = v ? 'grid' : 'none';
 }
 
 function previewReplyBadge(reply) {
@@ -1174,6 +1209,7 @@ function openDrawer(id) {
   document.getElementById('f_email').value = p?.email || '';
   document.getElementById('f_sampleSite').value = p?.sampleSite || '';
   document.getElementById('f_previewReply').value = p?.previewReply || '';
+  document.getElementById('f_previewStep').value = p?.previewStep ?? 0;
   updateSampleLink();
   document.getElementById('f_score').value = p?.score ?? '';
   updateGradePreview();
@@ -1222,6 +1258,7 @@ async function saveCurrent() {
     email: document.getElementById('f_email').value.trim(),
     sampleSite: document.getElementById('f_sampleSite').value.trim(),
     previewReply: document.getElementById('f_sampleSite').value.trim() ? document.getElementById('f_previewReply').value : '',
+    previewStep: parseInt(document.getElementById('f_previewStep').value, 10) || 0,
     score: scoreRaw === '' ? null : Math.max(0, Math.min(100, parseInt(scoreRaw, 10))),
     status: document.getElementById('f_status').value,
     contacted: document.getElementById('f_contacted').value === 'y',
@@ -1457,14 +1494,14 @@ function exportCSV() {
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
     'Date Added', 'Date Contacted', 'Contacted', 'Sequence Step',
-    'Sample Site', 'Preview Reply', 'Notes'
+    'Sample Site', 'Preview Reply', 'Preview Step', 'Notes'
   ];
   const rows = rowsData.map((p, idx) => [
     idx + 1, p.businessName, p.city, p.category, p.website, p.phone,
     p.contactName, p.email, p.score ?? '', p.status,
     (p.opportunities || []).join('; '),
     p.dateAdded, p.dateContacted, p.contacted ? 'Y' : 'N', p.seqStep ?? 0,
-    p.sampleSite || '', p.previewReply || '', p.notes
+    p.sampleSite || '', p.previewReply || '', p.previewStep ?? 0, p.notes
   ].map(csvEscape).join(','));
 
   const csv = [headers.map(csvEscape).join(','), ...rows].join('\n');
@@ -1580,7 +1617,11 @@ async function applyOutreachLog() {
     document.getElementById('logSeqStep').focus();
     return;
   }
-  const seqStep = parseInt(seqStepRaw, 10);
+  // "p1"–"p3" log the Preview sequence; "1"–"3" log the cold email sequence.
+  // Each only touches its own step, so the two sequences never overwrite each other.
+  const isPreviewStep = seqStepRaw.startsWith('p');
+  const seqStep = isPreviewStep ? null : parseInt(seqStepRaw, 10);
+  const previewStep = isPreviewStep ? parseInt(seqStepRaw.slice(1), 10) : null;
   const date = document.getElementById('logDate').value || todayISO();
   const status = document.getElementById('logStatus').value;
   const noteText = document.getElementById('logNote').value.trim();
@@ -1599,6 +1640,7 @@ async function applyOutreachLog() {
     const patch = { date_contacted: date, contacted: true };
     if (status) patch.status = status;
     if (seqStep !== null) patch.seq_step = seqStep;
+    if (previewStep !== null) patch.preview_step = previewStep;
     if (noteText) {
       const line = `${stamp} ${noteText}`;
       patch.notes = p.notes ? `${p.notes}\n${line}` : line;
