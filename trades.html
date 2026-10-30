@@ -768,6 +768,10 @@
             <input type="tel" id="lfPhone" name="phone" autocomplete="tel" required>
           </div>
           <div class="field">
+            <label for="lfEmail">Email <span class="opt">(optional)</span></label>
+            <input type="email" id="lfEmail" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbusiness.ca">
+          </div>
+          <div class="field">
             <label for="lfBiz">Business name</label>
             <input type="text" id="lfBiz" name="business" autocomplete="organization" required>
           </div>
@@ -777,7 +781,7 @@
           </div>
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" id="lfSubmit">Get my free preview</button>
-          <p class="form-note">No charge and no obligation. I'll only use your details to call you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
+          <p class="form-note">No charge and no obligation. I'll only use your details to contact you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
         </form>
         <div class="form-success" id="formSuccess">
           <h3>Thanks, got it.</h3>
@@ -893,11 +897,21 @@
         });
         if (missing.length) { document.getElementById(missing[0]).focus(); return; }
 
+        // Email is optional, but if they typed one, make sure it looks like an email
+        var emailEl = document.getElementById('lfEmail');
+        var email = emailEl.value.trim();
+        var emailBad = email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        emailEl.style.borderColor = emailBad ? '#c0392b' : '';
+        if (emailBad) { emailEl.focus(); return; }
+
         var payload = {
           _subject: 'Trades landing page: free preview request (' + leadSource + ')',
           source: 'Trades landing page (' + leadSource + ')',
           name: document.getElementById('lfName').value.trim(),
           phone: document.getElementById('lfPhone').value.trim(),
+          // Only sent when given (undefined is dropped): Formspree uses "email" as the Reply-To,
+          // so a placeholder like "None given" here could get the submission rejected
+          email: email || undefined,
           business: document.getElementById('lfBiz').value.trim(),
           website: document.getElementById('lfSite').value.trim() || 'None given',
           _gotcha: form.querySelector('[name="_gotcha"]').value
