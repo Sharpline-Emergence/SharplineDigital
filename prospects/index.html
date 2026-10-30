@@ -1047,7 +1047,14 @@ function render() {
     return;
   }
 
-  listArea.innerHTML = `<div class="list">` + filtered.map((p, idx) => `
+  const shownSelected = filtered.filter(p => selectedIds.has(p.id)).length;
+  const selectAllRow = `
+    <label class="select-all-row" style="display:flex; align-items:center; gap:8px; font-size:13px; color:var(--ink-soft); margin:0 0 8px 2px; cursor:pointer; user-select:none;">
+      <input type="checkbox" id="selectAllShown" ${shownSelected === filtered.length ? 'checked' : ''}>
+      Select all shown (${filtered.length})
+    </label>`;
+
+  listArea.innerHTML = selectAllRow + `<div class="list">` + filtered.map((p, idx) => `
     <div class="row ${p.status === 'Hot' ? 'row-hot' : ''}" data-id="${p.id}">
       <input type="checkbox" class="row-select" data-id="${p.id}" ${selectedIds.has(p.id) ? 'checked' : ''} style="margin-right:8px;">
       <div class="row-num">${idx + 1}</div>
@@ -1080,8 +1087,26 @@ function render() {
       const id = cb.dataset.id;
       if (cb.checked) selectedIds.add(id); else selectedIds.delete(id);
       updateBulkActionBar();
+      const all = document.getElementById('selectAllShown');
+      if (all) {
+        const n = filtered.filter(p => selectedIds.has(p.id)).length;
+        all.checked = n === filtered.length;
+        all.indeterminate = n > 0 && n < filtered.length;
+      }
     });
   });
+
+  // "Select all shown" ticks (or clears) only the rows the current filters show,
+  // so filter first (e.g. City = Coquitlam, Status = New), then tick this box.
+  const selectAllBox = document.getElementById('selectAllShown');
+  if (selectAllBox) {
+    selectAllBox.indeterminate = shownSelected > 0 && shownSelected < filtered.length;
+    selectAllBox.addEventListener('change', () => {
+      if (selectAllBox.checked) filtered.forEach(p => selectedIds.add(p.id));
+      else filtered.forEach(p => selectedIds.delete(p.id));
+      render();
+    });
+  }
 
   listArea.querySelectorAll('.sample-link').forEach(a => {
     a.addEventListener('click', (e) => e.stopPropagation());
