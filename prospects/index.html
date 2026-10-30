@@ -713,7 +713,7 @@ function appToDb(p) {
     last_call_dir: p.lastCallDir === undefined ? undefined : (p.lastCallDir || null),
     sample_site: p.sampleSite === undefined ? undefined : (p.sampleSite || null),
     preview_reply: p.previewReply === undefined ? undefined : (p.previewReply || null),
-    preview_step: p.previewStep === undefined ? undefined : (p.previewStep || 0)
+    preview_step: p.previewStep || 0
   };
 }
 
