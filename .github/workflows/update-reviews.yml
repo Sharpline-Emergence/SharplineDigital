@@ -1,0 +1,37 @@
+# Daily Google reviews refresh for sharplinedigital.com
+# Pulls the rating, review count and latest reviews from Google and updates reviews.json.
+# The homepage and city pages read reviews.json, so new reviews appear on their own.
+# If it fails (bad key, Google error), reviews.json is left alone and GitHub emails you.
+# To run it right now: GitHub.com → this repo → Actions → "Update Google reviews" → Run workflow.
+
+name: Update Google reviews
+
+on:
+  schedule:
+    - cron: "7 13 * * *"   # 6:07 a.m. Pacific in summer (5:07 a.m. in winter). GitHub uses UTC.
+  workflow_dispatch:        # adds a "Run workflow" button
+
+permissions:
+  contents: write           # lets the job save the updated reviews.json
+
+jobs:
+  reviews:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch reviews from Google
+        env:
+          GOOGLE_PLACES_API_KEY: ${{ secrets.GOOGLE_PLACES_API_KEY }}
+          PLACE_ID: ${{ secrets.PLACE_ID }}
+        run: python3 .github/scripts/update_reviews.py
+      - name: Save changes (only if something changed)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898299+github-actions[bot]@users.noreply.github.com"
+          git add reviews.json
+          if git diff --cached --quiet; then
+            echo "Reviews unchanged."
+          else
+            git commit -m "Update Google reviews"
+            git push
+          fi

@@ -57,7 +57,7 @@
             '<div class="review-stars" aria-label="' + rv.rating + ' out of 5 stars">' + stars(rv.rating) + '</div>' +
             '<blockquote class="review-text">“' + esc(rv.text) + '”</blockquote>' +
             '<figcaption class="review-who"><span class="review-avatar" aria-hidden="true">' + esc((rv.author || '?').charAt(0)) + '</span>' +
-            '<span><span class="review-name">' + esc(rv.author) + '</span><br><span class="review-meta">' + esc(meta) + '</span></span></figcaption>' +
+            '<span><span class="review-name">' + (rv.authorUrl ? '<a href="' + esc(rv.authorUrl) + '" target="_blank" rel="noopener nofollow" style="color:inherit;text-decoration:none">' + esc(rv.author) + '</a>' : esc(rv.author)) + '</span><br><span class="review-meta">' + esc(meta) + '</span></span></figcaption>' +
             '</figure>';
         }).join('');
       }
