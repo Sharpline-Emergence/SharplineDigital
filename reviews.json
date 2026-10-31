@@ -1,0 +1,22 @@
+{
+  "_note": "Shown on the homepage and city pages by /reviews.js. To add a review: copy one entry in 'reviews', paste it at the TOP of the list, edit it, then update 'rating' and 'count' to match Google.",
+  "rating": 5.0,
+  "count": 2,
+  "googleUrl": "https://www.google.com/maps?cid=3508191358222198699",
+  "reviews": [
+    {
+      "author": "Errol Brimacombe",
+      "business": "Canwest Art Services",
+      "rating": 5,
+      "date": "2026-10-31",
+      "text": "Sharpline just completed a new website for Canwest Art Services. The service was fabulous! Peter double checked everything, offered suggestions, and made change requests very quickly. I would HIGHLY recommend Sharpline Digital. Canwest will also continue to have Sharpline complete updates, as the quarterly fees for that service are very reasonable."
+    },
+    {
+      "author": "Irineu Oliveira",
+      "business": "",
+      "rating": 5,
+      "date": "2026-09-30",
+      "text": "I found the services of Sharpline Digital extremely helpful and effective. My new website required dual languages which helps me reach an international audience. I would highly recommend the services of Sharpline Digital."
+    }
+  ]
+}

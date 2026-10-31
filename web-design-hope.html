@@ -444,6 +444,11 @@
       .nav-toggle { position: relative; z-index: 101; }
       .footer { flex-direction: column; text-align: center; }
     }
+      /* Google rating badge (numbers kept current by /reviews.js) */
+    .review-badge{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.6rem;color:rgba(255,255,255,.85);font-size:.88rem;text-decoration:none;padding:.45rem .95rem;border:1px solid rgba(255,255,255,.2);border-radius:100px;background:rgba(6,16,30,.35);transition:border-color .2s,color .2s}
+    .review-badge:hover{border-color:rgba(255,255,255,.45);color:#fff}
+    .review-badge .rb-stars{color:#f5b82e;letter-spacing:1px}
+    .review-badge strong{color:#fff;font-weight:500}
   </style>
 </head>
 <body>
@@ -477,6 +482,7 @@
         <a href="/quote.html" class="btn-primary">Book a free consultation</a>
         <a href="/#packages" class="btn-ghost">See packages</a>
       </div>
+      <a href="#reviews" class="review-badge" data-review-badge aria-label="5.0 out of 5 stars on Google from 2 reviews"><span class="rb-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span><strong data-rb-rating>5.0</strong> on Google &middot; <span data-rb-count>2 reviews</span></span></a>
     </div>
   </section>
 
@@ -574,6 +580,16 @@
     </div>
   </section>
 
+  <!-- GOOGLE REVIEWS (cards filled by /reviews.js from /reviews.json) -->
+  <section class="reviews-section" id="reviews">
+    <div class="container">
+      <div class="section-label">Google reviews</div>
+      <h2 class="section-title">What our clients say.</h2>
+      <div id="google-reviews" class="reviews-grid"></div>
+      <p class="reviews-more"><a href="https://www.google.com/maps?cid=3508191358222198699" data-google-reviews-link target="_blank" rel="noopener">Read all reviews on Google &rarr;</a></p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-section">
     <h2>Let's talk about your Hope business.</h2>
@@ -612,6 +628,7 @@
 </div>
 
   <script src="/latest-insights.js" defer></script>
+  <script src="/reviews.js" defer></script>
   <script src="/includes.js"></script>
 </body>
 </html>
