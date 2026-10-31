@@ -82,6 +82,17 @@ def main():
             "date": (r.get("publishTime") or "")[:10],
             "text": text,
         })
+    # Google's feed lags behind brand-new reviews (often a day or more) and
+    # returns at most 5. If it sends fewer than the real total, keep reviews
+    # already on the site that it left out, up to the total (max 5).
+    target = min(int(d["userRatingCount"]), 5)
+    have = {r["author"] for r in reviews}
+    for r in sorted(old.get("reviews", []), key=lambda r: r.get("date", ""), reverse=True):
+        if len(reviews) >= target:
+            break
+        if r.get("author") not in have:
+            reviews.append(r)
+            have.add(r.get("author"))
     reviews.sort(key=lambda r: r["date"], reverse=True)
 
     new = {
