@@ -1511,10 +1511,11 @@ function csvEscape(val) {
 
 function exportCSV() {
   if (prospects.length === 0) { showToast('No prospects to export'); return; }
-  const EXCLUDED_EXPORT_STATUSES = ['Won', 'Not interested'];
+  // Hot leads are in live conversation — never let them slip into a cold-email batch.
+  const EXCLUDED_EXPORT_STATUSES = ['Won', 'Not interested', 'Hot'];
   const rowsData = (lastFiltered.length > 0 ? lastFiltered : prospects)
     .filter(p => !EXCLUDED_EXPORT_STATUSES.includes(p.status));
-  if (rowsData.length === 0) { showToast('Nothing to export — everything shown is Won or Not interested'); return; }
+  if (rowsData.length === 0) { showToast('Nothing to export — everything shown is Won, Not interested or Hot'); return; }
   const headers = [
     '#', 'Business Name', 'City', 'Category', 'Website / URL', 'Phone',
     'Contact Name', 'Email', 'Score', 'Status', 'Opportunities',
@@ -1542,7 +1543,7 @@ function exportCSV() {
   URL.revokeObjectURL(url);
   const excludedCount = (lastFiltered.length > 0 ? lastFiltered : prospects).length - rowsData.length;
   let msg = `Exported ${rowsData.length} prospect${rowsData.length === 1 ? '' : 's'}`;
-  if (excludedCount) msg += ` (${excludedCount} Won/Not interested excluded)`;
+  if (excludedCount) msg += ` (${excludedCount} Won/Not interested/Hot excluded)`;
   showToast(msg);
 }
 
