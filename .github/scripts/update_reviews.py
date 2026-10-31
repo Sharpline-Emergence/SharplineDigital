@@ -40,7 +40,11 @@ def main():
     if not place_id:
         # IDs-only search is free and unlimited.
         found = call("https://places.googleapis.com/v1/places:searchText",
-                     "places.id", {"textQuery": SEARCH})
+                     "places.id", {"textQuery": SEARCH,
+                                   # Sharpline has no storefront, so it is a
+                                   # "service-area business" that Google hides
+                                   # from search unless asked.
+                                   "includePureServiceAreaBusinesses": True})
         places = found.get("places") or []
         if not places:
             sys.exit(f"No Google listing found for '{SEARCH}'.")
