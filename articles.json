@@ -1,5 +1,20 @@
 [
   {
+    "slug": "blog-lost-domain",
+    "url": "/blog-lost-domain.html",
+    "title": "I Lost a Domain to a Pirate Movie Site. Don't Let It Happen to You.",
+    "desc": "A missed renewal, a scooped-up domain and a ransom demand. How domain expiry works and how to protect yours.",
+    "date": "2026-11-02",
+    "readTime": "6 min read",
+    "summary": "I let one of my own domains lapse, and an overseas pirated-movie site grabbed it. How domain expiry really works, why the warnings get missed, and the 10-minute checkup that keeps your business name safe.",
+    "tags": [
+      "ownership",
+      "security",
+      "maintenance"
+    ],
+    "pinnedRelated": "blog-website-ownership"
+  },
+  {
     "slug": "blog-website-checkup",
     "url": "/blog-website-checkup.html",
     "title": "Check Your Own Website in 10 Minutes",

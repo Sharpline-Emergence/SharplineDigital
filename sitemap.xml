@@ -98,6 +98,18 @@
   </url>
 
   <url>
+    <loc>https://sharplinedigital.com/blog-lost-domain.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://sharplinedigital.com/blog-website-checkup.html</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
     <loc>https://sharplinedigital.com/blog-google-business-profile.html</loc>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
