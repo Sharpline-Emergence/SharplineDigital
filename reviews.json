@@ -1,12 +1,20 @@
 {
   "_note": "Updated automatically every morning from Google by .github/workflows/update-reviews.yml. Hand edits to review text will be overwritten; the 'business' field is kept.",
   "rating": 5.0,
-  "count": 2,
+  "count": 3,
   "googleUrl": "https://maps.google.com/?cid=3508191358222198699&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
   "reviews": [
     {
+      "author": "Yann M",
+      "authorUrl": "https://www.google.com/maps/contrib/101218517601581222110/reviews",
+      "business": "",
+      "rating": 5,
+      "date": "2026-11-01",
+      "text": "Working with Sharpline Digital has been a great experience. They provide a simple and reliable way to take care of my website’s administration and technical management, allowing me to focus on my work with complete peace of mind. The support has been really good too, with clear explanations and helpful guidance whenever needed."
+    },
+    {
       "author": "Errol Brimacombe",
-      "authorUrl": "",
+      "authorUrl": "https://www.google.com/maps/contrib/113062038594785475714/reviews",
       "business": "Canwest Art Services",
       "rating": 5,
       "date": "2026-10-31",
