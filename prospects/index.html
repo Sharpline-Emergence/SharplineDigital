@@ -896,6 +896,29 @@ function populateFilters() {
   cityFilter.value = curCity; catFilter.value = curCat;
 }
 
+// Fields checked by the search box, in priority order. The first field that
+// matches is the one shown in the "found in" label.
+const SEARCH_FIELDS = [
+  ['businessName', 'Name'], ['contactName', 'Contact'], ['website', 'Website'],
+  ['email', 'Email'], ['phone', 'Phone'], ['sampleSite', 'Sample site'],
+  ['city', 'City'], ['category', 'Category'], ['notes', 'Notes'],
+];
+const squashText = t => (t || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+function searchHitField(p, search) {
+  const q = search.trim();
+  const qs = squashText(q);
+  for (const [key, label] of SEARCH_FIELDS) {
+    const v = (p[key] || '').toString().toLowerCase();
+    if (!v) continue;
+    if (v.includes(q)) return label;
+    if (qs.length >= 4 && squashText(v).includes(qs)) return label;
+  }
+  return null;
+}
+// Name, contact, website and email matches are "about this business";
+// anything else (city, notes...) is only a mention.
+const STRONG_HIT = new Set(['Name', 'Contact', 'Website', 'Email', 'Phone', 'Sample site']);
+
 function render() {
   populateFilters();
   updateReminderBadge();
@@ -927,8 +950,13 @@ function render() {
       }
     }
     if (search) {
-      const hay = [p.businessName, p.city, p.category, p.contactName, p.email, p.website, p.phone, p.sampleSite, p.notes].join(' ').toLowerCase();
-      if (!hay.includes(search)) return false;
+      // Nov 2026: searches match with or without spaces ("fraser valley" also
+      // finds fraservalleyofficesystems.com), and each hit remembers WHERE it
+      // matched so name matches can be listed first and the rest labelled.
+      p._hitIn = searchHitField(p, search);
+      if (!p._hitIn) return false;
+    } else {
+      p._hitIn = null;
     }
     if (seqF !== '') {
       if (seqF.startsWith('p')) {
@@ -1031,6 +1059,12 @@ function render() {
     filtered.sort((a, b) => (a.businessName || '').localeCompare(b.businessName || ''));
   }
 
+  if (search) {
+    const strong = filtered.filter(p => STRONG_HIT.has(p._hitIn));
+    const weak = filtered.filter(p => !STRONG_HIT.has(p._hitIn));
+    filtered = strong.concat(weak);
+  }
+
   document.getElementById('countLabel').textContent =
     `${prospects.length} prospect${prospects.length === 1 ? '' : 's'} tracked` +
     (filtered.length !== prospects.length ? ` · ${filtered.length} shown` : '');
@@ -1061,6 +1095,7 @@ function render() {
       ${ringSVG(p.score)}
       <div>
         <div class="biz-name${p.status === 'Not interested' ? ' not-interested' : ''}">${escapeHtml(p.businessName || 'Untitled')}</div>
+        ${p._hitIn && !STRONG_HIT.has(p._hitIn) ? `<div class="biz-meta" style="color:var(--ink-soft); font-style:italic;">search found in ${escapeHtml(p._hitIn)}</div>` : ''}
         <div class="biz-meta">${escapeHtml(p.phone || '')}${p.phone && p.email ? ' · ' : ''}${escapeHtml(p.email || '')}</div>
         ${p.sampleSite ? `<div class="biz-meta"><a class="sample-link" href="${sampleUrl(p.sampleSite)}" target="_blank" rel="noopener">Sample: ${escapeHtml(p.sampleSite)} ↗</a>${previewReplyBadge(p.previewReply)}</div>` : ''}
         ${contactAgeLabel(p)}
@@ -1854,6 +1889,22 @@ function normDomain(url) {
 
 // Pulls the fields we care about out of one audit .md file's text.
 // Returns null if it doesn't look like a Sharpline audit report.
+function firstCleanEmail(line) {
+  for (const raw of line.split(/[|,;\s]+/)) {
+    const e = raw.replace(/^(mailto:)+/i, '').replace(/^[^a-z0-9]+|[^a-z0-9]+$/gi, '').toLowerCase();
+    if (/^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$/.test(e)) return e;
+  }
+  return '';
+}
+function firstCleanPhone(line) {
+  for (const raw of line.split(/[|,;/]/)) {
+    let d = raw.replace(/\([^)]*[a-z][^)]*\)/gi, '').replace(/\D/g, '');   // drop "(site footer)"-style notes first
+    if (d.length === 11 && d.startsWith('1')) d = d.slice(1);
+    if (d.length === 10) return `${d.slice(0, 3)}-${d.slice(3, 6)}-${d.slice(6)}`;
+  }
+  return '';
+}
+
 function parseAuditMarkdown(text, filename) {
   const urlMatch = text.match(/^#\s*Website Audit:\s*(\S+)/m);
   const scoreMatch = text.match(/Sharpline Site Score:\s*(\d+)\s*\/\s*100/i);
@@ -1878,7 +1929,10 @@ function parseAuditMarkdown(text, filename) {
 
   const emailMatch = text.match(/Email\(s\):\s*(.+)/i);
   const phoneMatch = text.match(/Phone\(s\):\s*(.+)/i);
-  const email = emailMatch && !/none found/i.test(emailMatch[1]) ? emailMatch[1].split(/[|,]/)[0].trim() : '';
+  // Nov 2026: take the first entry that is actually an email / a 10-digit
+  // phone, so junk like ":cwkrc@shaw.ca" or a "2022-2026" copyright range
+  // (from older audit reports) never lands in the tracker.
+  const email = emailMatch && !/none found/i.test(emailMatch[1]) ? firstCleanEmail(emailMatch[1]) : '';
 
   // Contact name from "- Possible name(s): Logan (owner)". Takes the first
   // entry only, drops any "(owner)"-style note in brackets, and ignores the
@@ -1891,7 +1945,7 @@ function parseAuditMarkdown(text, filename) {
     const first = contactMatch[1].split(/[|,;]/)[0].replace(/\([^)]*\)/g, '').replace(/\*/g, '').trim();
     if (first && !/none found|not found|skip to content|^n\/?a$/i.test(first) && first.length <= 60) contactName = first;
   }
-  const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? phoneMatch[1].split(/[|,]/)[0].trim() : '';
+  const phone = phoneMatch && !/none found/i.test(phoneMatch[1]) ? firstCleanPhone(phoneMatch[1]) : '';
 
   // Added by website_audit.py (og:site_name, falling back to the <title> tag)
   // — still just a guess for review, so treat "(not found ...)" as no guess
