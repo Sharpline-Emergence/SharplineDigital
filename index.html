@@ -947,6 +947,15 @@
     .review-badge:hover{border-color:rgba(255,255,255,.45);color:#fff}
     .review-badge .rb-stars{color:#f5b82e;letter-spacing:1px}
     .review-badge strong{color:#fff;font-weight:500}
+    /* Latest Insights cards (same styles /latest-insights.js uses) */
+    .li-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:2rem;}
+    .li-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--border,#dde8f0);border-radius:10px;padding:1.5rem;text-decoration:none;transition:border-color .2s,transform .2s;}
+    .li-card:hover{border-color:var(--teal,#2ec4a9);transform:translateY(-2px);}
+    .li-date{font-size:.75rem;color:var(--text-mid,#5a7a8a);margin-bottom:.6rem;}
+    .li-title{font-family:"Outfit",sans-serif;font-weight:700;font-size:1.05rem;line-height:1.3;color:var(--navy,#0a1628);margin-bottom:.6rem;}
+    .li-desc{font-size:.88rem;line-height:1.55;color:#2a3a4a;font-weight:300;flex:1;}
+    .li-more{margin-top:1rem;font-size:.85rem;font-weight:500;color:var(--navy,#0a1628);}
+    @media (max-width:820px){.li-grid{grid-template-columns:1fr;}}
   </style>
 </head>
 <body class="has-hero">
@@ -1208,6 +1217,37 @@
     </div>
   </section>
 
+  <!-- LATEST INSIGHTS (plain-HTML links so Google can find the articles; /latest-insights.js refreshes them from /articles.json) -->
+  <section class="process-section" id="insights">
+    <div class="container">
+      <div class="section-label">Insights</div>
+      <h2 class="section-title">Plain-language advice for small business websites.</h2>
+      <div id="latest-insights">
+        <div class="li-grid">
+          <a class="li-card" href="/blog-lost-domain.html">
+            <div class="li-date">November 2026</div>
+            <div class="li-title">I Lost a Domain to a Pirate Movie Site. Don&#x27;t Let It Happen to You.</div>
+            <div class="li-desc">A missed renewal, a scooped-up domain and a ransom demand. How domain expiry works and how to protect yours.</div>
+            <div class="li-more">Read the article &rarr;</div>
+          </a>
+          <a class="li-card" href="/blog-website-checkup.html">
+            <div class="li-date">October 2026</div>
+            <div class="li-title">Check Your Own Website in 10 Minutes</div>
+            <div class="li-desc">A 10-minute, no-technical-skills checklist to find out whether your website is losing you customers — and what to fix first.</div>
+            <div class="li-more">Read the article &rarr;</div>
+          </a>
+          <a class="li-card" href="/blog-google-business-profile.html">
+            <div class="li-date">October 2026</div>
+            <div class="li-title">Your Google Business Profile Is Your Website&#x27;s Front Door</div>
+            <div class="li-desc">How a complete Google profile and a steady flow of genuine reviews bring local customers to your website, and how to get both the right way.</div>
+            <div class="li-more">Read the article &rarr;</div>
+          </a>
+        </div>
+      </div>
+      <p style="margin-top:2rem;"><a href="/insights.html" style="color:var(--navy);font-weight:500;text-underline-offset:3px;text-decoration-color:var(--teal);">Browse all Insights &rarr;</a></p>
+    </div>
+  </section>
+
   <!-- CTA -->
   <section class="cta-section" id="contact">
     <h2>Ready when you are.</h2>
@@ -1262,6 +1302,7 @@
   </script>
 
   <script src="/reviews.js" defer></script>
+  <script src="/latest-insights.js" defer></script>
   <script src="/includes.js"></script>
 </body>
 </html>
