@@ -574,7 +574,23 @@
     .faq details[open] summary::after { content: '\2212'; }
     .faq details p { margin-top: 0.7rem; font-size: 0.95rem; color: #2a3a4a; line-height: 1.75; font-weight: 300; }
 
+    /* Hero with the form beside the pitch (desktop) or straight under it (phone) */
+    .hero-inner.hero-split { max-width: 1080px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-split .hero-body { margin-bottom: 1.6rem; }
+    .hero-call { font-size: 0.95rem; color: rgba(255,255,255,0.75); }
+    .hero-call a { color: var(--white); font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--teal); }
+    .hero-form { box-shadow: 0 12px 40px rgba(0,0,0,0.35); scroll-margin-top: 80px; }
+    .hero-form h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .hero-form .form-sub { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 1.2rem; line-height: 1.5; }
+    .hero-form .field { margin-bottom: 0.85rem; }
+
     @media (max-width: 820px) {
+      .hero-inner.hero-split { grid-template-columns: 1fr; gap: 1.6rem; }
+      .hero { padding: 2rem 1.25rem 2.5rem; }
+      .hero h1 { font-size: 1.85rem; margin-bottom: 0.9rem; }
+      .hero-eyebrow { margin-bottom: 0.9rem; letter-spacing: 1.5px; font-size: 0.68rem; }
+      .hero-split .hero-body { font-size: 0.98rem; line-height: 1.65; margin-bottom: 0.9rem; }
+      .hero-form { padding: 1.4rem 1.2rem; }
       .stat-grid, .steps, .about-card, .lead-wrap, .work-grid { grid-template-columns: 1fr; }
       .lead-form .row2 { grid-template-columns: 1fr; }
       .nav-phone { padding: 0.45rem 0.8rem; font-size: 0.82rem; }
@@ -591,17 +607,51 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">Websites for Fraser Valley trades</div>
-      <h1>Your work is good.<br><em>Is your website costing you calls?</em></h1>
-      <p class="hero-body">
-        Most homeowners check your website before they pick up the phone. If it's slow, dated or hard to use
-        on a phone, they call the next guy. I build <strong>fast, simple websites for plumbers, electricians,
-        roofers and contractors</strong> &mdash; and I'll show you a free preview of yours before you spend a dollar.
-      </p>
-      <div class="hero-btns">
-        <a href="#preview" class="btn-primary">Get my free preview</a>
-        <a href="tel:+16047965557" class="btn-ghost js-call">Call 604-796-5557</a>
+    <div class="hero-inner hero-split">
+      <div>
+        <div class="hero-eyebrow">Websites for Fraser Valley trades</div>
+        <h1>Your work is good.<br><em>Is your website costing you calls?</em></h1>
+        <p class="hero-body">
+          If your site is slow or hard to use on a phone, homeowners call the next guy. I build
+          <strong>fast, simple websites for plumbers, electricians, roofers and contractors</strong>,
+          and I'll show you a free preview of yours before you spend a dollar.
+        </p>
+        <p class="hero-call">Rather talk? Call or text <a href="tel:+16047965557" class="js-call">604-796-5557</a></p>
+      </div>
+
+      <div class="lead-form hero-form" id="preview">
+        <form id="leadForm" novalidate>
+          <h2>Get your free preview</h2>
+          <p class="form-sub">No charge, no obligation. I'll call you within one business day.</p>
+          <div class="form-error" id="formError">Something went wrong sending that. Please try again, or call 604-796-5557.</div>
+          <div class="field">
+            <label for="lfName">Your name</label>
+            <input type="text" id="lfName" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="lfPhone">Phone</label>
+            <input type="tel" id="lfPhone" name="phone" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="lfBiz">Business name</label>
+            <input type="text" id="lfBiz" name="business" autocomplete="organization" required>
+          </div>
+          <div class="field">
+            <label for="lfSite">Current website <span class="opt">(optional)</span></label>
+            <input type="text" id="lfSite" name="website" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbusiness.ca">
+          </div>
+          <div class="field">
+            <label for="lfEmail">Email <span class="opt">(optional)</span></label>
+            <input type="email" id="lfEmail" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbusiness.ca">
+          </div>
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" id="lfSubmit">Get my free preview</button>
+          <p class="form-note">I'll only use your details to contact you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <h3>Thanks, got it.</h3>
+          <p>I'll be in touch within one business day. If it's urgent, call or text 604-796-5557.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -637,7 +687,7 @@
       <ol class="steps">
         <li>
           <h3>Tell me about your business</h3>
-          <p>Fill in the short form below or call me. Send your current website if you have one; if you don't, that's fine too.</p>
+          <p>Fill in the short form at the top of this page or call me. Send your current website if you have one; if you don't, that's fine too.</p>
         </li>
         <li>
           <h3>I build a preview</h3>
@@ -746,48 +796,13 @@
     </div>
   </section>
 
-  <!-- FORM -->
-  <section class="lead-section" id="preview">
-    <div class="container lead-wrap">
-      <div class="lead-aside">
-        <div class="section-label">Free preview</div>
-        <h2 class="section-title">Let's see what your site could look like.</h2>
-        <p>Three quick details, plus your website if you have one. I'll call you within one business day, usually sooner.</p>
-        <p>Rather talk? Call or text me:<br><a href="tel:+16047965557" class="phone-big js-call">604-796-5557</a></p>
-      </div>
-
-      <div class="lead-form">
-        <form id="leadForm" novalidate>
-          <div class="form-error" id="formError">Something went wrong sending that. Please try again, or call 604-796-5557.</div>
-          <div class="field">
-            <label for="lfName">Your name</label>
-            <input type="text" id="lfName" name="name" autocomplete="name" required>
-          </div>
-          <div class="field">
-            <label for="lfPhone">Phone</label>
-            <input type="tel" id="lfPhone" name="phone" autocomplete="tel" required>
-          </div>
-          <div class="field">
-            <label for="lfEmail">Email <span class="opt">(optional)</span></label>
-            <input type="email" id="lfEmail" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbusiness.ca">
-          </div>
-          <div class="field">
-            <label for="lfBiz">Business name</label>
-            <input type="text" id="lfBiz" name="business" autocomplete="organization" required>
-          </div>
-          <div class="field">
-            <label for="lfSite">Current website <span class="opt">(optional)</span></label>
-            <input type="text" id="lfSite" name="website" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbusiness.ca">
-          </div>
-          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-          <button type="submit" id="lfSubmit">Get my free preview</button>
-          <p class="form-note">No charge and no obligation. I'll only use your details to contact you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
-        </form>
-        <div class="form-success" id="formSuccess">
-          <h3>Thanks, got it.</h3>
-          <p>I'll be in touch within one business day. If it's urgent, call or text 604-796-5557.</p>
-        </div>
-      </div>
+  <!-- CLOSING CTA (form now lives in the hero) -->
+  <section class="cta-section">
+    <h2>Let's see what your site could look like.</h2>
+    <p>Free preview, no obligation. Takes 30 seconds to ask.</p>
+    <div class="hero-btns" style="justify-content:center; position:relative;">
+      <a href="#preview" class="cta-btn">Get my free preview</a>
+      <a href="tel:+16047965557" class="btn-ghost js-call">Call 604-796-5557</a>
     </div>
   </section>
 
