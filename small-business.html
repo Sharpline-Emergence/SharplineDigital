@@ -644,6 +644,20 @@
             <label for="lfEmail">Email <span class="opt">(optional)</span></label>
             <input type="email" id="lfEmail" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbusiness.ca">
           </div>
+          <div class="field">
+            <label for="lfHeard">How did you hear about us? <span class="opt">(optional)</span></label>
+            <select id="lfHeard" name="heard_about">
+              <option value="">Choose one</option>
+              <option>Google search</option>
+              <option>Google ad</option>
+              <option>Google Maps</option>
+              <option>Facebook</option>
+              <option>Referral from someone</option>
+              <option>Coffee News</option>
+              <option>Email from Sharpline</option>
+              <option>Other</option>
+            </select>
+          </div>
           <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit" id="lfSubmit">Get my free preview</button>
           <p class="form-note">I'll only use your details to contact you about your website. See our <a href="/privacy.html">privacy policy</a>.</p>
@@ -929,6 +943,7 @@
           email: email || undefined,
           business: document.getElementById('lfBiz').value.trim(),
           website: document.getElementById('lfSite').value.trim() || 'None given',
+          heard_about: document.getElementById('lfHeard').value || 'Not answered',
           _gotcha: form.querySelector('[name="_gotcha"]').value
         };
 
