@@ -656,11 +656,12 @@ let remindersWarned = false;
 
 function uid() { return 'p_' + Math.random().toString(36).slice(2, 10) + Date.now().toString(36); }
 
-function showToast(msg) {
+function showToast(msg, ms = 1800) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 1800);
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => t.classList.remove('show'), ms);
 }
 
 // ---- Auth ----
@@ -1727,7 +1728,7 @@ async function applyOutreachLog() {
   // names stays visible — the Close button takes you back once you've read it.
   if (ok && !failed.length && !unmatched.length) {
     closeLogOutreach();
-    showToast(`Logged outreach for ${ok} prospect${ok === 1 ? '' : 's'}`);
+    showToast(`✓ Logged outreach for ${ok} prospect${ok === 1 ? '' : 's'}`, 5000);
   }
 }
 
