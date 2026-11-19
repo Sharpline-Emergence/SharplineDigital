@@ -355,7 +355,7 @@
     <div style="margin-top:10px; display:flex; gap:8px;">
       <button class="btn-secondary" id="checkLog">Check Names</button>
       <button class="btn-primary" id="doLog">Apply Updates</button>
-      <button class="btn-ghost" id="cancelLog">Cancel</button>
+      <button class="btn-secondary" id="cancelLog">Close</button>
     </div>
   </div>
 
@@ -1722,6 +1722,19 @@ async function applyOutreachLog() {
     document.getElementById('logNamesInput').value = '';
     await loadProspects();
   }
+  // Clean run: close the panel and go back to the main list automatically.
+  // If anything failed or didn't match, stay open so the list of problem
+  // names stays visible — the Close button takes you back once you've read it.
+  if (ok && !failed.length && !unmatched.length) {
+    closeLogOutreach();
+    showToast(`Logged outreach for ${ok} prospect${ok === 1 ? '' : 's'}`);
+  }
+}
+
+function closeLogOutreach() {
+  document.getElementById('logOutreachBox').style.display = 'none';
+  document.getElementById('logPreview').innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 document.getElementById('logOutreachToggle').addEventListener('click', () => {
@@ -1738,8 +1751,13 @@ document.getElementById('logOutreachToggle').addEventListener('click', () => {
 document.getElementById('logSeqStep').addEventListener('change', function() {
   this.style.borderColor = this.value === '' ? 'var(--danger)' : 'var(--border)';
 });
-document.getElementById('cancelLog').addEventListener('click', () => {
-  document.getElementById('logOutreachBox').style.display = 'none';
+document.getElementById('cancelLog').addEventListener('click', closeLogOutreach);
+// Escape also closes the panel (unless a drawer or pop-up is open on top).
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Escape') return;
+  if (document.getElementById('logOutreachBox').style.display === 'none') return;
+  if (document.querySelector('.overlay.open')) return;
+  closeLogOutreach();
 });
 document.getElementById('checkLog').addEventListener('click', showLogPreview);
 document.getElementById('doLog').addEventListener('click', applyOutreachLog);
