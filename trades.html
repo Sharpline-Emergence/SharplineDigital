@@ -510,6 +510,7 @@
     .about-card {
       display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start;
     }
+    .about-photo { display: block; width: 140px; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(10,22,40,0.08); margin-bottom: 1.4rem; }
     .about-facts { list-style: none; }
     .about-facts li {
       padding: 0.9rem 0;
@@ -776,6 +777,7 @@
   <section class="section">
     <div class="container about-card">
       <div class="prose">
+        <img class="about-photo" src="/images/peter-beal.jpg" alt="Peter, founder of Sharpline Digital" width="140" height="140" loading="lazy">
         <div class="section-label">Who you'll deal with</div>
         <h2 class="section-title">One local person, start to finish.</h2>
         <p>
