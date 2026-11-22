@@ -771,11 +771,23 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
 
 // ---- Data ----
 
+// Supabase returns at most 1,000 rows per request, so read in pages until we have everything.
+async function fetchAll(makeQuery) {
+  const PAGE = 1000;
+  let all = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await makeQuery().range(from, from + PAGE - 1);
+    if (error) return { data: null, error };
+    all = all.concat(data || []);
+    if (!data || data.length < PAGE) return { data: all, error: null };
+  }
+}
+
 async function loadProspects() {
   // Active view only ever shows non-deleted rows. Soft-deleted rows still
   // exist in the table (deleted_at set) and are queried separately by
   // loadTrash() for the Trash panel.
-  const { data, error } = await sb.from('prospects').select('*').is('deleted_at', null);
+  const { data, error } = await fetchAll(() => sb.from('prospects').select('*').is('deleted_at', null).order('id'));
   if (error) { showToast('Load failed: ' + error.message); return; }
   prospects = (data || []).map(dbToApp);
   await loadReminders();
@@ -1395,7 +1407,7 @@ function closeTrash() {
 async function loadTrash() {
   const list = document.getElementById('trashList');
   list.innerHTML = '<p class="hint">Loading…</p>';
-  const { data, error } = await sb.from('prospects').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false });
+  const { data, error } = await fetchAll(() => sb.from('prospects').select('*').not('deleted_at', 'is', null).order('deleted_at', { ascending: false }).order('id'));
   if (error) { list.innerHTML = `<p class="hint">Couldn't load Trash: ${escapeHtml(error.message)}</p>`; return; }
   const rows = (data || []).map(dbToApp);
   if (!rows.length) { list.innerHTML = '<p class="hint">Trash is empty.</p>'; return; }
@@ -2303,7 +2315,7 @@ document.getElementById('doAddUnmatched').addEventListener('click', async () => 
 // Delete Forever removes them with the prospect (ON DELETE CASCADE).
 
 async function loadReminders() {
-  const { data, error } = await sb.from('reminders').select('*').order('due_date', { ascending: true });
+  const { data, error } = await fetchAll(() => sb.from('reminders').select('*').order('due_date', { ascending: true }).order('id'));
   if (error) {
     reminders = [];
     remindersReady = false;
