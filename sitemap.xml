@@ -149,4 +149,10 @@
     - /labs/north-wire/          (North Wire beta — referenced in your memory/dev notes, but no live page turned up in search)
   -->
 
+  <url>
+    <loc>https://sharplinedigital.com/blog-privacy-security.html</loc>
+    <lastmod>2026-11-24</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
 </urlset>

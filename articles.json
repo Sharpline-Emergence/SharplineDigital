@@ -1,5 +1,20 @@
 [
   {
+    "slug": "blog-privacy-security",
+    "url": "/blog-privacy-security.html",
+    "title": "Your Privacy Is Not an Afterthought: How We Protect Sensitive Information",
+    "desc": "A former banker's approach to website privacy: less to break into, less data collected, no shared passwords and full ownership.",
+    "date": "2026-11-24",
+    "readTime": "5 min read",
+    "summary": "Twenty-eight years in banking taught me to ask who could see a client's information before anything else. Six practical ways Sharpline Digital protects your clients' data, and the habits that protect it on your side.",
+    "tags": [
+      "security",
+      "compliance",
+      "ownership"
+    ],
+    "pinnedRelated": "blog-bc-privacy-laws"
+  },
+  {
     "slug": "blog-lost-domain",
     "url": "/blog-lost-domain.html",
     "title": "I Lost a Domain to a Pirate Movie Site. Don't Let It Happen to You.",
