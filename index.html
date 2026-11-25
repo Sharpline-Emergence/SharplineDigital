@@ -943,6 +943,18 @@
       .footer { flex-direction: column; text-align: center; }
     }
       /* Google rating badge (numbers kept current by /reviews.js) */
+    /* Free health report line in the hero */
+    .hero-report{display:flex;align-items:center;gap:.75rem;width:fit-content;max-width:100%;margin-top:1.5rem;padding:.7rem 1.1rem .7rem .8rem;border:1px solid rgba(46,196,169,.6);border-radius:10px;background:rgba(46,196,169,.12);color:#fff;font-size:.95rem;line-height:1.4;text-decoration:none;transition:background .2s,border-color .2s}
+    .hero-report:hover{background:rgba(46,196,169,.2);border-color:#2ec4a9}
+    .hero-report .hr-tag{flex-shrink:0;background:#2ec4a9;color:#0a1628;font-family:'Outfit',sans-serif;font-weight:800;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .55rem;border-radius:5px;position:relative}
+    .hero-report .hr-tag::after{content:'';position:absolute;inset:-3px;border-radius:7px;border:2px solid #2ec4a9;opacity:0;animation:hrPulse 2.4s ease-out 1s 3}
+    @keyframes hrPulse{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+    .hero-report .hr-text{color:rgba(255,255,255,.85)}
+    .hero-report .hr-text strong{color:#2ec4a9;font-weight:600;white-space:nowrap}
+    .hero-report .hr-arrow{display:inline-block;transition:transform .2s}
+    .hero-report:hover .hr-arrow{transform:translateX(4px)}
+    @media (prefers-reduced-motion: reduce){.hero-report .hr-tag::after{animation:none}}
+    @media (max-width:480px){.hero-report{font-size:.9rem}.hero-report .hr-text strong{white-space:normal}}
     .review-badge{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.6rem;color:rgba(255,255,255,.85);font-size:.88rem;text-decoration:none;padding:.45rem .95rem;border:1px solid rgba(255,255,255,.2);border-radius:100px;background:rgba(6,16,30,.35);transition:border-color .2s,color .2s}
     .review-badge:hover{border-color:rgba(255,255,255,.45);color:#fff}
     .review-badge .rb-stars{color:#f5b82e;letter-spacing:1px}
@@ -989,6 +1001,10 @@
         <a href="#packages" class="btn-primary">See our packages</a>
         <a href="/quote.html" class="btn-ghost">Let's talk</a>
       </div>
+      <a href="/free-website-report.html?utm_source=home-hero" class="hero-report">
+        <span class="hr-tag">Free</span>
+        <span class="hr-text">Not sure how your current site stacks up? <strong>Get a free website health report&nbsp;<span class="hr-arrow">&rarr;</span></strong></span>
+      </a>
       <a href="#reviews" class="review-badge" data-review-badge aria-label="5.0 out of 5 stars on Google from 2 reviews"><span class="rb-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span><strong data-rb-rating>5.0</strong> on Google &middot; <span data-rb-count>2 reviews</span></span></a>
     </div>
     <div class="scroll-hint">
