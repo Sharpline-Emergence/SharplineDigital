@@ -551,8 +551,8 @@
       </div>
 
       <div class="cta-block">
-        <a href="https://sharplinedigital.com/#contact" class="cta-btn" id="ctaBtn" target="_blank" rel="noopener">Book a free 15-minute audit call</a>
-        <p class="cta-sub">We'll walk through exactly what's slowing you down and what it's costing you.</p>
+        <a href="/free-website-report.html" class="cta-btn" id="ctaBtn">Get your free full website report</a>
+        <p class="cta-sub">Speed is just one part of it. I'll check your Google listing, broken links, image sizes and privacy gaps too, and email you a plain-English report with the fixes in order.</p>
       </div>
     </div>
 
@@ -764,6 +764,13 @@
     if (!normalized) {
       formError.style.display = 'block';
       return;
+    }
+    // Carry the tested site over to the free report form so it's pre-filled
+    const ctaBtn = document.getElementById('ctaBtn');
+    if (ctaBtn) {
+      ctaBtn.href = '/free-website-report.html?site=' +
+        encodeURIComponent(normalized.replace(/^https?:\/\//, '').replace(/\/$/, '')) +
+        '&utm_source=speed-test';
     }
     runCheck(normalized);
   });

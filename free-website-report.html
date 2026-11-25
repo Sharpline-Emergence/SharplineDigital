@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <!-- Google Analytics loads after the page finishes, so it never slows the first view -->
+  <script>window.addEventListener('load',function(){setTimeout(function(){var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-SN2ZMHV0FJ';document.head.appendChild(s);},1500);});</script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-SN2ZMHV0FJ');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Get a free, plain-English health report on your business website: phone speed, Google visibility, broken links and privacy gaps. Checked by a local Chilliwack web designer.">
+  <title>Free Website Health Report | Sharpline Digital</title>
+  <link rel="canonical" href="https://sharplinedigital.com/free-website-report.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Free Website Health Report | Sharpline Digital">
+  <meta property="og:description" content="Find out what your website is really doing for you. Phone speed, Google visibility, broken links and privacy gaps, explained in plain English.">
+  <meta property="og:url" content="https://sharplinedigital.com/free-website-report.html">
+  <meta name="twitter:card" content="summary">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "Free Website Health Report",
+    "serviceType": "Website audit",
+    "description": "A free, plain-English report on a business website's phone speed, Google visibility, broken links, image weight and privacy gaps.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+    "areaServed": "CA",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Sharpline Digital",
+      "url": "https://sharplinedigital.com/",
+      "telephone": "+1-604-796-5557",
+      "email": "hello@sharplinedigital.com",
+      "address": { "@type": "PostalAddress", "addressLocality": "Chilliwack", "addressRegion": "BC", "addressCountry": "CA" }
+    }
+  }
+  </script>
+  <link rel="preload" as="font" type="font/woff2" href="/fonts/outfit.woff2" crossorigin>
+  <style>
+    @font-face { font-family: 'Outfit'; font-style: normal; font-weight: 300 900; font-display: swap; src: url('/fonts/outfit.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: normal; font-weight: 300 500; font-display: swap; src: url('/fonts/dm-sans.woff2') format('woff2'); }
+    @font-face { font-family: 'DM Sans'; font-style: italic; font-weight: 300; font-display: swap; src: url('/fonts/dm-sans-italic.woff2') format('woff2'); }
+  </style>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:        #2ec4a9;
+      --teal-dark:   #1a9e87;
+      --teal-light:  #e1f7f3;
+      --navy:        #0a1628;
+      --navy-mid:    #152238;
+      --navy-deep:   #06101e;
+      --white:       #ffffff;
+      --off-white:   #f7fafc;
+      --muted:       #a8c0d6;
+      --text-dark:   #0a1628;
+      --text-mid:    #5a7a8a;
+      --border:      #dde8f0;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text-dark);
+      background: var(--white);
+      line-height: 1.6;
+    }
+
+    .container { max-width: 960px; margin: 0 auto; padding: 0 2rem; }
+
+    /* Nav styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--navy);
+      padding: 5rem 2.5rem 5.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50%;
+      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { max-width: 960px; margin: 0 auto; position: relative; z-index: 2; }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--teal);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--teal);
+      opacity: 0.7;
+    }
+    .hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.12;
+      letter-spacing: -1px;
+      margin-bottom: 1.4rem;
+      max-width: 720px;
+    }
+    .hero h1 em { color: var(--teal); font-style: normal; font-weight: 300; }
+    .hero-body {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.8;
+      max-width: 600px;
+      margin-bottom: 2.4rem;
+      font-weight: 300;
+    }
+    .hero-body strong { color: rgba(255,255,255,0.9); font-weight: 400; }
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--teal-dark); }
+    .btn-ghost {
+      background: transparent;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 0.85rem 2rem;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      font-weight: 400;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: var(--white); }
+
+    /* ─── INTRO ─── */
+    .section { padding: 5rem 0; }
+    .section.alt { background: var(--off-white); }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--teal-dark);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      letter-spacing: -0.5px;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+    .prose p {
+      font-size: 0.98rem;
+      color: var(--text-mid);
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+      max-width: 680px;
+    }
+    .prose strong { color: var(--text-dark); font-weight: 500; }
+
+    /* ─── FEATURE GRID ─── */
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.2rem;
+      margin-top: 2.5rem;
+    }
+    .feat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 1.6rem;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .feat-card:hover {
+      border-color: var(--teal);
+      box-shadow: 0 4px 20px rgba(46,196,169,0.08);
+    }
+    .feat-icon {
+      font-size: 1.3rem;
+      width: 40px;
+      height: 40px;
+      background: var(--teal-light);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+    }
+    .feat-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+    .feat-card p {
+      font-size: 0.84rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* ─── LOCAL LIST ─── */
+    .local-list { list-style: none; margin-top: 1.5rem; max-width: 680px; }
+    .local-list li {
+      font-size: 0.95rem;
+      color: var(--text-mid);
+      padding: 0.6rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      line-height: 1.7;
+    }
+    .local-list .check { color: var(--teal); flex-shrink: 0; font-weight: 700; }
+
+    /* ─── CTA ─── */
+    .cta-section {
+      background: var(--navy);
+      padding: 5rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center bottom, rgba(46,196,169,0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .cta-section h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+      letter-spacing: -0.5px;
+      position: relative;
+    }
+    .cta-section p {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.2rem;
+      font-weight: 300;
+      position: relative;
+    }
+    .cta-btn {
+      background: var(--teal);
+      color: var(--navy);
+      padding: 0.9rem 2.4rem;
+      border-radius: 4px;
+      font-size: 0.92rem;
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s;
+      position: relative;
+    }
+    .cta-btn:hover { background: var(--teal-dark); }
+
+    /* Footer styles now live in /nav-footer.css (shared across the site) */
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .hero { padding: 3.5rem 1.5rem 4rem; }
+      .feat-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 1.6rem; }
+    }
+
+    /* ── Inlined from nav-footer.css (matches homepage) ── */
+    :root { --flag-red: #D52B1E; }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.1rem 2.5rem;
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: var(--teal);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--white); }
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      row-gap: 0.6rem;
+      gap: 2rem;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.88rem;
+      text-decoration: none;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.3rem;
+      border-radius: 4px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { border-color: var(--teal); color: var(--teal); }
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    .footer {
+      background: var(--navy-deep);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--teal);
+    }
+    .footer-logo span { color: var(--white); }
+    .footer p { font-size: 0.78rem; color: #8aa5bd; margin: 0; }
+    .flag-ca {
+      width: 20px;
+      height: 10px;
+      vertical-align: -1px;
+      margin-right: 0.5rem;
+      border-radius: 1px;
+      flex-shrink: 0;
+    }
+    .footer-links { display: flex; gap: 1.5rem; }
+    .footer-links a {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--teal); }
+
+    .areas-serve {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+    }
+    .areas-serve p {
+      font-size: 0.78rem;
+      color: #8aa5bd;
+      letter-spacing: 0.5px;
+      margin: 0;
+    }
+    .areas-serve a {
+      color: var(--teal);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .areas-serve a:hover { color: var(--white); }
+
+    .labs-strip {
+      background: var(--navy-deep);
+      padding: 0 2.5rem 1.8rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin-top: -0.6rem;
+      padding-top: 0.8rem;
+    }
+    .labs-strip p {
+      font-size: 0.72rem;
+      color: #7f9bb3;
+      margin: 0;
+    }
+    .labs-strip a {
+      color: #7f9bb3;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: color 0.2s;
+    }
+    .labs-strip a:hover { color: var(--teal); }
+
+    @media (max-width: 768px) {
+      .nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-links.open {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: var(--navy-deep);
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.open a { font-size: 1.2rem; }
+      .nav-links.open { justify-content: flex-start; }
+      .nav-toggle { position: relative; z-index: 101; }
+      .footer { flex-direction: column; text-align: center; }
+    }
+
+    /* ─── SMALL BUSINESS LANDING PAGE ─── */
+    .nav-phone {
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.4);
+      padding: 0.5rem 1.1rem;
+      border-radius: 4px;
+      font-size: 0.88rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-phone:hover { border-color: var(--teal); color: var(--teal); }
+
+    .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .stat-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 1.6rem;
+    }
+    .stat-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+    .stat-num span { color: var(--teal); }
+    .stat-card p { font-size: 0.9rem; color: #2a3a4a; line-height: 1.6; font-weight: 300; }
+    .stat-source { font-size: 0.8rem; color: var(--text-mid); margin-top: 1.2rem; }
+    .stat-source a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+
+    .steps { list-style: none; counter-reset: step; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .steps li {
+      counter-increment: step;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.8rem 1.6rem;
+    }
+    .steps li::before {
+      content: counter(step);
+      display: flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--navy); color: var(--teal);
+      font-family: 'Outfit', sans-serif; font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    .steps h3 { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.5rem; }
+    .steps p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; font-weight: 300; }
+
+    .trade-tags { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; }
+    .trade-tags span {
+      background: var(--teal-light);
+      color: #0a4035;
+      font-size: 0.85rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 20px;
+    }
+
+    .about-card {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start;
+    }
+    .about-photo { display: block; width: 140px; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); box-shadow: 0 4px 16px rgba(10,22,40,0.08); margin-bottom: 1.4rem; }
+    .about-facts { list-style: none; }
+    .about-facts li {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem; color: #2a3a4a; font-weight: 300;
+    }
+    .about-facts li strong { color: var(--text-dark); font-weight: 600; font-family: 'Outfit', sans-serif; margin-right: 0.4rem; }
+
+    /* Recent work */
+    .work-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 2.5rem; }
+    .work-card { background: var(--white); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: border-color 0.25s, box-shadow 0.25s; }
+    .work-card:hover { border-color: var(--teal); box-shadow: 0 4px 20px rgba(46,196,169,0.08); }
+    .work-card img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 698; border-bottom: 1px solid var(--border); background: var(--off-white); }
+    .work-body { padding: 1.3rem 1.4rem 1.5rem; }
+    .work-tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #0a4035; background: var(--teal-light); padding: 3px 10px; border-radius: 20px; }
+    .work-body h3 { font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 600; color: var(--text-dark); margin: 0.8rem 0 0.4rem; }
+    .work-body p { font-size: 0.86rem; color: var(--text-mid); line-height: 1.65; font-weight: 300; }
+    .work-more { font-size: 0.88rem; margin-top: 1.4rem; color: var(--text-mid); }
+    .work-more a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+
+    /* Form */
+    .lead-wrap { display: grid; grid-template-columns: 1fr 1.2fr; gap: 3rem; align-items: start; }
+    .lead-aside p { font-size: 0.98rem; color: rgba(255,255,255,0.8); line-height: 1.75; font-weight: 300; margin-bottom: 1.2rem; }
+    .lead-aside .phone-big {
+      display: inline-block; font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 700;
+      color: var(--white); text-decoration: none; border-bottom: 2px solid var(--teal); margin-top: 0.4rem;
+    }
+    .lead-section { background: var(--navy); padding: 5rem 0; }
+    .lead-section .section-label { color: var(--teal); }
+    .lead-section .section-title { color: var(--white); }
+    .lead-form { background: var(--white); border-radius: 10px; padding: 2rem; }
+    .lead-form .field { margin-bottom: 1.1rem; }
+    .lead-form label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--text-dark); margin-bottom: 0.35rem; }
+    .lead-form label .opt { font-weight: 300; color: var(--text-mid); }
+    .lead-form input, .lead-form select, .lead-form textarea {
+      width: 100%; font-family: 'DM Sans', sans-serif; font-size: 1rem;
+      padding: 0.75rem 0.9rem; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--white); color: var(--text-dark);
+    }
+    .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus { outline: 2px solid var(--teal); border-color: var(--teal); }
+    .lead-form textarea { min-height: 90px; resize: vertical; }
+    .lead-form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .lead-form button {
+      width: 100%; background: var(--teal); color: var(--navy); border: none; border-radius: 6px;
+      padding: 0.95rem; font-family: 'Outfit', sans-serif; font-size: 1.05rem; font-weight: 700; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .lead-form button:hover { background: #4fd4bc; }
+    .lead-form button:disabled { opacity: 0.6; cursor: wait; }
+    .form-note { font-size: 0.78rem; color: var(--text-mid); margin-top: 0.9rem; line-height: 1.5; }
+    .form-note a { color: var(--text-dark); }
+    .form-error { display: none; background: #fdecea; color: #8a1c12; font-size: 0.88rem; padding: 0.8rem 1rem; border-radius: 6px; margin-bottom: 1rem; }
+    .form-success { display: none; text-align: center; padding: 2rem 1rem; }
+    .form-success h3 { font-family: 'Outfit', sans-serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 0.6rem; }
+    .form-success p { font-size: 0.95rem; color: #2a3a4a; font-weight: 300; }
+    .hp { position: absolute; left: -9999px; }
+
+    .faq details { border-bottom: 1px solid var(--border); padding: 1.1rem 0; max-width: 760px; }
+    .faq summary { cursor: pointer; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 1.02rem; color: var(--text-dark); list-style: none; }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after { content: '+'; float: right; color: var(--teal); font-weight: 400; font-size: 1.3rem; line-height: 1; }
+    .faq details[open] summary::after { content: '\2212'; }
+    .faq details p { margin-top: 0.7rem; font-size: 0.95rem; color: #2a3a4a; line-height: 1.75; font-weight: 300; }
+
+    /* Hero with the form beside the pitch (desktop) or straight under it (phone) */
+    .hero-inner.hero-split { max-width: 1080px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-split .hero-body { margin-bottom: 1.6rem; }
+    .hero-call { font-size: 0.95rem; color: rgba(255,255,255,0.75); }
+    .hero-call a { color: var(--white); font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--teal); }
+    .hero-form { box-shadow: 0 12px 40px rgba(0,0,0,0.35); scroll-margin-top: 80px; }
+    .hero-form h2 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .hero-form .form-sub { font-size: 0.88rem; color: var(--text-mid); margin-bottom: 1.2rem; line-height: 1.5; }
+    .hero-form .field { margin-bottom: 0.85rem; }
+
+    @media (max-width: 820px) {
+      .hero-inner.hero-split { grid-template-columns: 1fr; gap: 1.6rem; }
+      .hero { padding: 2rem 1.25rem 2.5rem; }
+      .hero h1 { font-size: 1.85rem; margin-bottom: 0.9rem; }
+      .hero-eyebrow { margin-bottom: 0.9rem; letter-spacing: 1.5px; font-size: 0.68rem; }
+      .hero-split .hero-body { font-size: 0.98rem; line-height: 1.65; margin-bottom: 0.9rem; }
+      .hero-form { padding: 1.4rem 1.2rem; }
+      .stat-grid, .steps, .about-card, .lead-wrap, .work-grid { grid-template-columns: 1fr; }
+      .lead-form .row2 { grid-template-columns: 1fr; }
+      .nav-phone { padding: 0.45rem 0.8rem; font-size: 0.82rem; }
+    }
+  
+    /* ─── FREE REPORT PAGE ─── */
+    .section-intro { font-size: 0.98rem; color: var(--text-mid); line-height: 1.8; max-width: 640px; font-weight: 300; }
+    .hero-points { list-style: none; margin: 0 0 1.6rem; }
+    .hero-points li { color: rgba(255,255,255,0.85); font-size: 0.95rem; padding: 0.3rem 0; display: flex; gap: 0.6rem; font-weight: 300; }
+    .hero-points .check { color: var(--teal); font-weight: 700; }
+    .sample-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .sample-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; padding: 1.8rem; box-shadow: 0 8px 30px rgba(10,22,40,0.08); }
+    .sample-top { display: flex; align-items: center; gap: 1.1rem; padding-bottom: 1.2rem; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    .sample-score { width: 84px; height: 84px; border-radius: 50%; border: 6px solid #f0b429; display: flex; align-items: baseline; justify-content: center; padding-top: 1.3rem; flex-shrink: 0; }
+    .sample-score span { font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 1.7rem; color: var(--navy); line-height: 1; }
+    .sample-score small { font-size: 0.7rem; color: var(--text-mid); }
+    .sample-label { font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--text-mid); }
+    .sample-verdict { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1.2rem; color: var(--navy); }
+    .sample-list { list-style: none; }
+    .sample-list li { display: flex; align-items: center; gap: 0.7rem; padding: 0.55rem 0; font-size: 0.9rem; color: #2a3a4a; }
+    .pill { font-size: 0.66rem; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; padding: 3px 9px; border-radius: 20px; min-width: 62px; text-align: center; }
+    .pill.high { background: #fdecea; color: #8a1c12; }
+    .pill.med { background: #fff4d6; color: #7a5300; }
+    .pill.low { background: #e8eef5; color: #2a3a4a; }
+    .pill.ok { background: var(--teal-light); color: #0a4035; }
+    .sample-note { font-size: 0.75rem; color: var(--text-mid); margin-top: 0.9rem; }
+    .faq details p a { color: var(--text-dark); text-decoration-color: var(--teal); text-underline-offset: 3px; }
+    @media (max-width: 820px) {
+      .sample-wrap { grid-template-columns: 1fr; gap: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV (baked in from /nav.html — matches homepage) -->
+  <nav class="nav" id="mainNav">
+  <a href="/" class="nav-logo">Sharpline<span>Digital</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#services">Why Sharpline</a></li>
+    <li><a href="/#packages">Packages</a></li>
+    <li><a href="/portfolio.html">Our Work</a></li>
+    <li><a href="/insights.html">Insights</a></li>
+    <li><a href="/labs/north-wire">North Wire beta</a></li>
+    <li><a href="/#contact">Contact</a></li>
+  </ul>
+  <a href="/quote.html" class="nav-cta">Let's talk</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">&#9776;</button>
+</nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner hero-split">
+      <div>
+        <div class="hero-eyebrow">Free website health report</div>
+        <h1>Find out what your website<br><em>is really doing for you.</em></h1>
+        <p class="hero-body">
+          Send me your website address and I'll check it the way your customers and Google see it:
+          <strong>speed on a phone, how it shows up in Google, broken links, privacy gaps</strong> and more.
+          You get a plain-English report by email, with the fixes listed in order of importance.
+        </p>
+        <ul class="hero-points">
+          <li><span class="check">&#10003;</span> Checked by a person, not just a robot</li>
+          <li><span class="check">&#10003;</span> In your inbox within 2 business days</li>
+          <li><span class="check">&#10003;</span> Free, with no obligation and no sales pitch</li>
+        </ul>
+        <p class="hero-call">Questions? Call or text <a href="tel:+16047965557" class="js-call">604-796-5557</a></p>
+      </div>
+
+      <div class="lead-form hero-form" id="request">
+        <form id="reportForm" novalidate>
+          <h2>Get your free report</h2>
+          <p class="form-sub">Takes 30 seconds. Your report comes to the email below.</p>
+          <div class="form-error" id="formError">Something went wrong sending that. Please try again, or email hello@sharplinedigital.com.</div>
+          <div class="field">
+            <label for="rfSite">Website address</label>
+            <input type="text" id="rfSite" name="website" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbusiness.ca" required>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="rfName">Your name</label>
+              <input type="text" id="rfName" name="name" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="rfBiz">Business name</label>
+              <input type="text" id="rfBiz" name="business" autocomplete="organization" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="rfEmail">Email</label>
+            <input type="email" id="rfEmail" name="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbusiness.ca" required>
+          </div>
+          <div class="field">
+            <label for="rfPhone">Phone <span class="opt">(optional)</span></label>
+            <input type="tel" id="rfPhone" name="phone" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="rfConcern">What bugs you most about your site? <span class="opt">(optional)</span></label>
+            <select id="rfConcern" name="concern">
+              <option value="">Choose one</option>
+              <option>It feels slow</option>
+              <option>Customers can't find me on Google</option>
+              <option>It looks dated</option>
+              <option>It doesn't bring in enquiries</option>
+              <option>It's hard to update</option>
+              <option>Nothing in particular, just curious</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="rfHeard">How did you hear about us? <span class="opt">(optional)</span></label>
+            <select id="rfHeard" name="heard_about">
+              <option value="">Choose one</option>
+              <option>Google search</option>
+              <option>Google Maps</option>
+              <option>Facebook</option>
+              <option>Referral from someone</option>
+              <option>Coffee News</option>
+              <option>Email from Sharpline</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <button type="submit" id="rfSubmit">Send me my free report</button>
+          <p class="form-note">I'll email your report, then check in once to see if you have questions. That's it. See our <a href="/privacy.html">privacy policy</a>.</p>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <h3>Thanks, request received.</h3>
+          <p>I'll check your site and email your report within 2 business days. Keep an eye out for an email from <strong>hello@sharplinedigital.com</strong> (check your junk folder too).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT'S IN THE REPORT -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">What I check</div>
+      <h2 class="section-title">The things that quietly cost you customers.</h2>
+      <p class="section-intro">Most business owners never see their site the way a stranger on a phone does. This report shows you.</p>
+      <div class="feat-grid">
+        <div class="feat-card">
+          <div class="feat-icon">&#9889;</div>
+          <h3>Speed on a phone</h3>
+          <p>How long a real phone waits before your page is usable, using Google's own speed test. Over half of mobile visitors leave after 3 seconds.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128269;</div>
+          <h3>How you show up in Google</h3>
+          <p>Your page title and the description under your listing, and whether Google can read your photos.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128241;</div>
+          <h3>Works properly on mobile</h3>
+          <p>Whether your site is set up to fit a phone screen, or makes people pinch and zoom.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128279;</div>
+          <h3>Broken links</h3>
+          <p>Links and buttons on your site that go nowhere. Customers hit a dead end, and Google notices.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128444;&#65039;</div>
+          <h3>Heavy images and code</h3>
+          <p>Oversized photos and scripts that make your page slow to appear, especially on mobile data.</p>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">&#128274;</div>
+          <h3>Privacy gaps</h3>
+          <p>If your site collects visitor information without a privacy policy, that's a gap under BC's privacy law.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE -->
+  <section class="section alt">
+    <div class="container sample-wrap">
+      <div class="prose">
+        <div class="section-label">What you'll get</div>
+        <h2 class="section-title">A short report you can actually use.</h2>
+        <p>
+          No 40-page printout full of jargon. You get a <strong>health score out of 100</strong>,
+          your <strong>phone speed results</strong>, and each problem explained in plain English:
+          what it is, why it matters, and how to fix it.
+        </p>
+        <p>
+          The fixes are ranked, so you know where to start. You can fix them yourself, hand the
+          report to your current web person, or ask me. <strong>Whatever suits you.</strong>
+        </p>
+      </div>
+      <div class="sample-card" aria-label="Example of a report summary">
+        <div class="sample-top">
+          <div class="sample-score"><span>61</span><small>/100</small></div>
+          <div>
+            <div class="sample-label">Website health score</div>
+            <div class="sample-verdict">Needs attention</div>
+          </div>
+        </div>
+        <ul class="sample-list">
+          <li><span class="pill high">High</span> Slow to load on phones (9.2s)</li>
+          <li><span class="pill med">Medium</span> Photos are much larger than needed</li>
+          <li><span class="pill low">Low</span> Google cuts off your description</li>
+          <li><span class="pill ok">Good</span> Privacy policy in place</li>
+        </ul>
+        <p class="sample-note">Example only. Your report is based on your own site.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">Three steps, no strings.</h2>
+      <ol class="steps">
+        <li>
+          <h3>Send your website</h3>
+          <p>Fill in the short form above. It takes about 30 seconds.</p>
+        </li>
+        <li>
+          <h3>I check it</h3>
+          <p>I run the tests, then look over the results myself so you only get the issues that actually matter.</p>
+        </li>
+        <li>
+          <h3>Your report arrives</h3>
+          <p>A PDF in your inbox within 2 business days. Happy to walk you through it by phone if you'd like, but there's no pressure.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section alt">
+    <div class="container about-card">
+      <div class="prose">
+        <img class="about-photo" src="/images/peter-beal.jpg" alt="Peter, founder of Sharpline Digital" width="140" height="140" loading="lazy">
+        <div class="section-label">Who's checking your site</div>
+        <h2 class="section-title">A local person, not a software company.</h2>
+        <p>
+          I'm Peter, and I run Sharpline Digital out of Chilliwack. I build fast, custom-coded websites
+          for small businesses and organizations, and I've checked well over a hundred Fraser Valley sites this year.
+        </p>
+        <p>
+          I offer this report because most owners have no idea their site is slow or invisible to Google
+          until someone shows them. If it turns out your site is in great shape, I'll tell you that too.
+        </p>
+      </div>
+      <ul class="about-facts">
+        <li><strong>28 years</strong> in banking and financial planning</li>
+        <li><strong>19 years</strong> as a small business owner</li>
+        <li><strong>Chilliwack-based,</strong> working across Canada</li>
+        <li><strong>Plain English,</strong> no jargon</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container faq">
+      <div class="section-label">Common questions</div>
+      <h2 class="section-title">Straight answers.</h2>
+      <details>
+        <summary>Is it really free?</summary>
+        <p>Yes. There's no cost and nothing to sign. I'd rather show you something useful than send you a sales pitch.</p>
+      </details>
+      <details>
+        <summary>Will you keep emailing me afterwards?</summary>
+        <p>No. You'll get your report, plus one follow-up a few days later to see if you have questions. If you want help after that, you know where to find me.</p>
+      </details>
+      <details>
+        <summary>Can I give the report to my current web designer?</summary>
+        <p>Of course. It's yours. Every fix is explained so that whoever looks after your site can act on it.</p>
+      </details>
+      <details>
+        <summary>Do you need my passwords or admin access?</summary>
+        <p>No. I only look at what any visitor can see. I never need a login for this report.</p>
+      </details>
+      <details>
+        <summary>I'm not in the Fraser Valley. Can I still ask?</summary>
+        <p>Yes. The checks work for any website, and I work remotely with small businesses and organizations across Canada.</p>
+      </details>
+      <details>
+        <summary>I don't have a website yet. What then?</summary>
+        <p>Then there's nothing to test, but I can show you a <a href="/small-business.html">free preview of what your first site could look like</a>.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="cta-section">
+    <h2>Find out how your site stacks up.</h2>
+    <p>Free, checked by a person, in your inbox within 2 business days.</p>
+    <div class="hero-btns" style="justify-content:center; position:relative;">
+      <a href="#request" class="cta-btn">Get my free report</a>
+      <a href="tel:+16047965557" class="btn-ghost js-call">Call 604-796-5557</a>
+    </div>
+  </section>
+
+  <!-- FOOTER (baked in from /footer.html — matches homepage) -->
+  <footer class="footer">
+  <div class="footer-logo">Sharpline<span>Digital</span></div>
+  <p><svg class="flag-ca" viewBox="0 0 128 64" role="img" aria-label="Canadian owned and operated"><rect width="128" height="64" fill="#fff"/><rect width="32" height="64" fill="var(--flag-red)"/><rect x="96" width="32" height="64" fill="var(--flag-red)"/><path transform="translate(64,32) scale(0.62)" d="M 0,-33.8 l 6.4,12.4 c 0.7,1.4 2.1,1.2 3.5,0.5 l 4.6,-2.4 -3.3,17.7 c -0.7,3.2 1.5,3.2 2.6,1.8 l 8.1,-9.1 2.6,6.2 c 0.3,0.7 1.1,1.4 2.4,1.2 l 10.3,-2.1 -3.3,12.2 c -0.4,1.7 -0.6,2.2 0.7,2.7 l 3.7,1.7 -18,14.6 c -1.8,1.4 -1.2,1.8 -0.6,4.3 l 1.6,5.2 -16.9,-2 c -0.5,0 -1.2,0.2 -1.2,1 l 0.7,19.9 -3.9,0 0.7,-19.9 c 0,-0.8 -0.7,-1 -1.2,-1 l -16.9,2 1.6,-5.2 c 0.6,-2.5 1.2,-2.9 -0.6,-4.3 l -18,-14.6 3.7,-1.7 c 1.3,-0.5 1.1,-1 0.7,-2.7 l -3.3,-12.2 10.3,2.1 c 1.3,0.2 2.1,-0.5 2.4,-1.2 l 2.6,-6.2 8.1,9.1 c 1.1,1.4 3.3,1.4 2.6,-1.8 l -3.3,-17.7 4.6,2.4 c 1.4,0.7 2.8,0.9 3.5,-0.5 z" fill="var(--flag-red)"/></svg>Chilliwack, BC &nbsp;&middot;&nbsp; Serving the Fraser Valley &nbsp;&middot;&nbsp; hello@sharplinedigital.com &nbsp;&middot;&nbsp; 604-796-5557</p>
+  <div class="footer-links">
+    <a href="/#services">Why Sharpline</a>
+    <a href="/#packages">Packages</a>
+    <a href="/speed-test.html">Speed Test</a>
+    <a href="/#contact">Contact</a>
+    <a href="/privacy.html">Privacy</a>
+  </div>
+</footer>
+
+<div class="areas-serve">
+  <p>
+    Web Design Areas We Serve:&nbsp;
+    <a href="/web-design-abbotsford.html">Abbotsford</a> &middot;
+    <a href="/web-design-aldergrove.html">Aldergrove</a> &middot;
+    <a href="/web-design-chilliwack.html">Chilliwack</a> &middot;
+    <a href="/web-design-hope.html">Hope</a> &middot;
+    <a href="/web-design-langley.html">Langley</a> &middot;
+    <a href="/web-design-maple-ridge.html">Maple Ridge</a> &middot;
+    <a href="/web-design-mission.html">Mission</a>
+  </p>
+</div>
+
+<div class="labs-strip">
+  <p>Also from Sharpline Labs: <a href="/labs/north-wire/">North Wire</a> — a Canadian news reader, in beta</p>
+</div>
+
+
+  <script>
+    (function () {
+      // Where did this visitor come from? (utm_source, another site, or a direct link)
+      var leadSource = (function () {
+        var params = new URLSearchParams(window.location.search);
+        var label;
+        if (params.get('gclid') || params.get('gbraid') || params.get('wbraid')) {
+          label = 'Google Ads';
+        } else if (params.get('utm_source')) {
+          label = params.get('utm_source');
+        } else if (document.referrer && document.referrer.indexOf(window.location.hostname) === -1) {
+          try { label = 'from ' + new URL(document.referrer).hostname; } catch (e) { label = 'referral'; }
+        } else if (document.referrer) {
+          try { label = 'from our page ' + new URL(document.referrer).pathname; } catch (e) { label = 'direct link'; }
+        } else {
+          label = 'direct link';
+        }
+        try {
+          var saved = sessionStorage.getItem('fr_lead_source');
+          if (saved && label === 'direct link') return saved;
+          sessionStorage.setItem('fr_lead_source', label);
+        } catch (e) {}
+        return label;
+      })();
+
+      // Pre-fill the website box if a link carries ?site=example.ca (e.g. from the speed test)
+      try {
+        var pre = new URLSearchParams(window.location.search).get('site');
+        if (pre) document.getElementById('rfSite').value = pre;
+      } catch (e) {}
+
+      document.querySelectorAll('.js-call').forEach(function (a) {
+        a.addEventListener('click', function () {
+          if (typeof gtag === 'function') gtag('event', 'phone_click', { page: 'free_report' });
+        });
+      });
+
+      var form = document.getElementById('reportForm');
+      var btn = document.getElementById('rfSubmit');
+      var err = document.getElementById('formError');
+
+      function mark(el, bad) { el.style.borderColor = bad ? '#c0392b' : ''; return bad; }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        err.style.display = 'none';
+
+        var siteEl = document.getElementById('rfSite');
+        var nameEl = document.getElementById('rfName');
+        var bizEl = document.getElementById('rfBiz');
+        var emailEl = document.getElementById('rfEmail');
+
+        var site = siteEl.value.trim().replace(/\s+/g, '');
+        var email = emailEl.value.trim();
+
+        // Check each field in order and stop at the first problem
+        var firstBad = null;
+        if (mark(siteEl, !/^[^\s.]+\.[^\s]{2,}$/.test(site.replace(/^https?:\/\//i, '')))) firstBad = firstBad || siteEl;
+        if (mark(nameEl, !nameEl.value.trim())) firstBad = firstBad || nameEl;
+        if (mark(bizEl, !bizEl.value.trim())) firstBad = firstBad || bizEl;
+        if (mark(emailEl, !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))) firstBad = firstBad || emailEl;
+        if (firstBad) { firstBad.focus(); return; }
+
+        var payload = {
+          _subject: 'Free report request: ' + bizEl.value.trim() + ' (' + site + ')',
+          source: 'Free website report page (' + leadSource + ')',
+          website: site,
+          name: nameEl.value.trim(),
+          business: bizEl.value.trim(),
+          email: email,
+          phone: document.getElementById('rfPhone').value.trim() || 'None given',
+          concern: document.getElementById('rfConcern').value || 'Not answered',
+          heard_about: document.getElementById('rfHeard').value || 'Not answered',
+          _gotcha: form.querySelector('[name="_gotcha"]').value
+        };
+
+        btn.disabled = true;
+        btn.textContent = 'Sending…';
+
+        fetch('https://formspree.io/f/xaqgygpo', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(function (res) {
+          if (!res.ok) throw new Error('Formspree ' + res.status);
+          if (typeof gtag === 'function') gtag('event', 'generate_lead', { form_name: 'free_report' });
+          form.style.display = 'none';
+          document.getElementById('formSuccess').style.display = 'block';
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = 'Send me my free report';
+          err.style.display = 'block';
+        });
+      });
+    })();
+  </script>
+  <script src="/includes.js"></script>
+</body>
+</html>
