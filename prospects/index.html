@@ -430,6 +430,11 @@
       <option value="7">Added last 7 days</option>
       <option value="30">Added last 30 days</option>
     </select>
+    <select id="filterWebsite">
+      <option value="">Any website</option>
+      <option value="has">Has website</option>
+      <option value="no">No website</option>
+    </select>
     <select id="filterEmail">
       <option value="">Any email</option>
       <option value="has">Has email</option>
@@ -950,8 +955,16 @@ function render() {
   const seqF = document.getElementById('filterSeqStep').value;
   const emailF = document.getElementById('filterEmail').value;
   const addedF = document.getElementById('filterAdded').value;
+  const websiteF = document.getElementById('filterWebsite').value;
 
   let filtered = prospects.filter(p => {
+    if (websiteF) {
+      // "No website" = blank, or only a Facebook / Instagram / YellowPages page
+      const w = String(p.website || '').trim().toLowerCase();
+      const noSite = !w || /(^|\/\/|\.)(facebook|fb|instagram|yp|yellowpages)\.(com|ca|me)/.test(w);
+      if (websiteF === 'no' && !noSite) return false;
+      if (websiteF === 'has' && noSite) return false;
+    }
     if (addedF !== '') {
       // Days between today and Date Added (local dates; blank/unreadable dates are hidden)
       const m = String(p.dateAdded || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -1803,6 +1816,7 @@ document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
 document.getElementById('filterEmail').addEventListener('change', render);
 document.getElementById('filterAdded').addEventListener('change', render);
+document.getElementById('filterWebsite').addEventListener('change', render);
 document.getElementById('filterSample').addEventListener('change', render);
 document.getElementById('filterPreviewReply').addEventListener('change', render);
 // A "No thanks" reply should stop the email sequence, so move Status to Not interested.
@@ -1822,6 +1836,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('filterSeqStep').value = '';
   document.getElementById('filterEmail').value = '';
   document.getElementById('filterAdded').value = '';
+  document.getElementById('filterWebsite').value = '';
   document.getElementById('filterSample').value = '';
   document.getElementById('filterPreviewReply').value = '';
   document.getElementById('filterReminder').value = '';
