@@ -414,6 +414,7 @@
     </select>
     <select id="sortBy">
       <option value="name">Name (A–Z)</option>
+      <option value="dateAdded">Date added (newest first)</option>
       <option value="score_asc">Sharpline Score (low to high)</option>
       <option value="score_desc">Sharpline Score (high to low)</option>
       <option value="city">City (A–Z)</option>
@@ -1059,6 +1060,13 @@ function render() {
       if (!ar && br) return 1;
       if (ar && br && ar.due_date !== br.due_date) return ar.due_date.localeCompare(br.due_date);
       return (a.businessName || '').localeCompare(b.businessName || '');
+    });
+  } else if (sortBy === 'dateAdded') {
+    // Newest first; blank or unreadable dates last, ties by name
+    const t = p => { const v = Date.parse(p.dateAdded || ''); return isNaN(v) ? -Infinity : v; };
+    filtered.sort((a, b) => {
+      const d = t(b) - t(a);
+      return d ? d : (a.businessName || '').localeCompare(b.businessName || '');
     });
   } else if (sortBy === 'status') {
     // Pipeline order: New -> Not contacted -> Contacted -> Hot -> Follow-up -> Won -> Not interested, blanks last
