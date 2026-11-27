@@ -424,6 +424,12 @@
       <option value="sampleSite">Sample site (has one first)</option>
       <option value="reminder">Next reminder (soonest first)</option>
     </select>
+    <select id="filterAdded">
+      <option value="">Any date added</option>
+      <option value="0">Added today</option>
+      <option value="7">Added last 7 days</option>
+      <option value="30">Added last 30 days</option>
+    </select>
     <select id="filterEmail">
       <option value="">Any email</option>
       <option value="has">Has email</option>
@@ -943,8 +949,18 @@ function render() {
   const ageF = document.getElementById('filterContactAge').value;
   const seqF = document.getElementById('filterSeqStep').value;
   const emailF = document.getElementById('filterEmail').value;
+  const addedF = document.getElementById('filterAdded').value;
 
   let filtered = prospects.filter(p => {
+    if (addedF !== '') {
+      // Days between today and Date Added (local dates; blank/unreadable dates are hidden)
+      const m = String(p.dateAdded || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+      const added = m ? new Date(+m[1], +m[2] - 1, +m[3]) : new Date(p.dateAdded || '');
+      if (isNaN(added)) return false;
+      const now = new Date(); now.setHours(0, 0, 0, 0); added.setHours(0, 0, 0, 0);
+      const ago = Math.round((now - added) / 86400000);
+      if (ago < 0 || ago > parseInt(addedF, 10)) return false;
+    }
     if (cityF && p.city !== cityF) return false;
     if (catF === '__blank__') { if (p.category) return false; }
     else if (catF && p.category !== catF) return false;
@@ -1786,6 +1802,7 @@ document.getElementById('doLog').addEventListener('click', applyOutreachLog);
 document.getElementById('filterStatus').addEventListener('change', render);
 document.getElementById('filterContactAge').addEventListener('change', render);
 document.getElementById('filterEmail').addEventListener('change', render);
+document.getElementById('filterAdded').addEventListener('change', render);
 document.getElementById('filterSample').addEventListener('change', render);
 document.getElementById('filterPreviewReply').addEventListener('change', render);
 // A "No thanks" reply should stop the email sequence, so move Status to Not interested.
@@ -1804,6 +1821,7 @@ document.getElementById('clearFiltersBtn').addEventListener('click', () => {
   document.getElementById('filterContactAge').value = '';
   document.getElementById('filterSeqStep').value = '';
   document.getElementById('filterEmail').value = '';
+  document.getElementById('filterAdded').value = '';
   document.getElementById('filterSample').value = '';
   document.getElementById('filterPreviewReply').value = '';
   document.getElementById('filterReminder').value = '';
